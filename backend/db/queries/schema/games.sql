@@ -1,0 +1,9 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE games (
+    id INTEGER PRIMARY KEY,
+    time_start DATETIME DEFAULT CURRENT_TIMESTAMP,
+    time_end DATETIME DEFAULT NULL,
+    is_timed BOOLEAN DEFAULT FALSE,
+    time_limit INTEGER DEFAULT NULL
+);

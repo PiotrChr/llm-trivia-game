@@ -1,0 +1,28 @@
+# .gitignore
+# Ignore node modules
+frontend/node_modules/
+# Ignore .env files
+**/.env
+# Ignore Python virtualenv
+venv/
+# Ignore Python compiled files
+**/__pycache__/
+*.py[cod]
+# Ignore logs
+logs
+*.log
+# Ignore the npm debug log
+npm-debug.log
+# Ignore the build folder 
+frontend/dist
+# Ignore IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.bak
+*~
+# Ignore database files
+*.db
+*.sqlite3
