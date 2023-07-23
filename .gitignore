@@ -14,7 +14,7 @@ logs
 # Ignore the npm debug log
 npm-debug.log
 # Ignore the build folder 
-frontend/public/dist
+frontend/public/static/dist
 frontend/public/index.html
 # Ignore IDE files
 .idea/
