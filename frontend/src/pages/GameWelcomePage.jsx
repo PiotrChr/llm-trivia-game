@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function GameWelcomePage() {
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleHostGame = () => {
     // logic to host a game goes here

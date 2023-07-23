@@ -4,17 +4,22 @@ default: help
 
 install_all: install_backend install_frontend
 
+setup: install_all setup_db setup_env
+
+setup_env:
+	python3 scripts/setup_env.py
+
+setup_db:
+	python3 scripts/setup_db.py
+
 install_backend:
-	pip install -r backend/requirements.txt
+	pip3 install -r backend/requirements.txt
 
 install_frontend:
 	cd frontend && npm install
 
-create_db:
-	python backend/db/create_tables.py
-
 clear_db:
-	python backend/db/clear_tables.py
+	python3 backend/db/clear_tables.py
 
 build_frontend:
 	cd frontend && npm run build
@@ -23,20 +28,21 @@ build_frontend_dev:
 	cd frontend && npm run build_dev
 
 start_backend_server:
-	cd backend && python app.py
+	cd backend && python3 app.py
 
 start_frontend_server_dev:
 	cd frontend && npm start
 
 start_frontend_server:
-	cd frontend/dist && python3 ../server.py
+	cd frontend/public && python3 ../server.py
 
 help:
 	@echo "Available recipes:"
 	@echo "make install_all                 - install backend and frontend dependencies"
 	@echo "make install_backend             - install backend dependencies"
 	@echo "make install_frontend            - install frontend dependencies"
-	@echo "make create_db                   - create database tables"
+	@echo "make setup_db                    - create database tables"
+	@echo "make setup_env                   - seutp environment variables"
 	@echo "make clear_db                    - clear database tables"
 	@echo "make build_frontend_dev          - build frontend for production"
 	@echo "make build_frontend_dev          - build frontend for development"

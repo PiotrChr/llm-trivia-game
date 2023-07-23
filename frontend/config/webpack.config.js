@@ -1,5 +1,8 @@
 const path = require('path');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, argv) => {
     const isDevMode = argv.mode === 'development';
@@ -7,7 +10,7 @@ module.exports = (env, argv) => {
     return {
         entry: path.resolve(__dirname, '../src/index.jsx'),
         output: {
-            path: path.resolve(__dirname, '../dist'),
+            path: path.resolve(__dirname, '../public/static/dist/'),
             filename: isDevMode ? 'bundle.[contenthash].js' : 'bundle.[contenthash].js'
         },
         module: {
@@ -25,13 +28,28 @@ module.exports = (env, argv) => {
                 {
                     test: /\.scss$/,
                     use: ['style-loader', 'css-loader', 'sass-loader']
-                }
+                },
+                {
+                    test: /\.css$/,
+                    use: ['style-loader', 'css-loader']
+                },
+                {
+                    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                    type: 'asset/resource',
+                },
             ]
         },
         plugins: [
+            new Dotenv(),
             new HtmlWebpackPlugin({
+                filename: '../../index.html',
                 template: path.resolve(__dirname, '../src', 'index.html'),
             }),
+            // new CopyPlugin({
+            //     patterns: [
+            //         { from: path.resolve(__dirname, '../resources/img/'), to: path.resolve('../dist/img/') },
+            //     ],
+            // }),
         ],
         resolve: {
             extensions: ['.js', '.jsx']

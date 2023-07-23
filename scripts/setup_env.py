@@ -1,5 +1,6 @@
 # File: scripts/setup_project.py
 import os
+import secrets
 
 def prompt_for_data(prompt_message, default_value):
     data = input(prompt_message)
@@ -19,17 +20,19 @@ backend_port = prompt_for_data("Enter backend server port (default 9000): ", "90
 
 # Write frontend .env data
 write_to_env_file("frontend/.env", {
-    "REACT_APP_FRONTEND_PORT": frontend_port,
-    "REACT_APP_BACKEND_HOST": backend_host,
-    "REACT_APP_BACKEND_PORT": backend_port,
+    "FRONTEND_PORT": frontend_port,
+    "BACKEND_HOST": backend_host,
+    "BACKEND_PORT": backend_port,
 })
 
 # Prompt for backend .env data
-backend_port = prompt_for_data("Enter backend server port (default 9000): ", "9000")
 open_ai_key = prompt_for_data("Enter OpenAI key (default xxx): ", "xxx")
+random_default_secret = secrets.token_urlsafe(16)
+flask_secret_key = prompt_for_data("Enter Flask application secret key: (default: " + random_default_secret + ")", random_default_secret)
 
 # Write backend .env data
 write_to_env_file("backend/.env", {
     "BACKEND_PORT": backend_port,
     "OPENAI_KEY": open_ai_key,
+    "SECRET_KEY": flask_secret_key,
 })

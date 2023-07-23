@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { Route, Navigate } from 'react-router-dom';
+import { checkAuth } from '../services/api';
 
 const AuthContext = React.createContext();
 
@@ -9,13 +9,13 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   async function checkAuthenticated() {
     try {
-      const response = await axios.get("/api/auth/check"); // replace with your api endpoint
-      setCurrentUser(response.data.user);
+      const response = await checkAuth();
+      setUser(response.data.name);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
-    currentUser,
+    user,
   };
 
   return (
@@ -37,19 +37,10 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function PrivateRoute({ component: Component, ...rest }) {
-  const { currentUser } = useAuth();
+export function PrivateRoute({ children }) {
+  let { user } = useAuth();
 
   return (
-    <Route
-      {...rest}
-      render={props =>
-        currentUser ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
+    user ? children : <Navigate to="/login" />
   );
 }

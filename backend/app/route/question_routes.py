@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from backend.app.repository.TriviaRepository import TriviaRepository
+from app.repository.TriviaRepository import TriviaRepository
 
 question_routes = Blueprint('question_routes', __name__)
 

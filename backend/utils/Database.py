@@ -1,43 +1,54 @@
 import sqlite3
 from sqlite3 import Error
+import os
+from flask import g
 
 class Database:
-    _conn = None
-    _cursor = None
-
     @staticmethod
     def get_conn():
-        if Database._conn is None:
+        if 'db_conn' not in g:
             try:
-                Database._conn = sqlite3.connect('backend/db/db.sqlite')
+                g.db_conn = sqlite3.connect('db/db.sqlite')
+                g.db_conn.row_factory = sqlite3.Row
                 print(f'successful connection with sqlite version {sqlite3.version}')
             except Error as e:
                 print(f'Error occurred during connection: {e}')
-        return Database._conn
+        return g.db_conn
 
     @staticmethod
     def get_cursor():
-        if Database._cursor is None:
-            if Database.get_conn() is not None:
-                Database._cursor = Database._conn.cursor()
-        return Database._cursor
+        if 'db_cursor' not in g:
+            g.db_cursor = Database.get_conn().cursor()
+        return g.db_cursor
     
     @staticmethod
-    def execute(query, params=None):
+    def execute(query, params=None, commit=True):
         cursor = Database.get_cursor()
         if params:
             cursor.execute(query, params)
         else:
             cursor.execute(query)
-        Database._conn.commit()
+        if commit:
+            Database.get_conn().commit()
 
     @staticmethod
-    def insert(query, params):
-        Database.execute(query, params)
-        return Database._cursor.lastrowid
+    def insert(query, params, commit=True):
+        Database.execute(query, params, commit)
+        return Database.get_cursor().lastrowid
 
     @staticmethod
     def fetchall(query, params=None):
         Database.execute(query, params)
-        return Database._cursor.fetchall()
+        return Database.get_cursor().fetchall()
     
+    @staticmethod
+    def close():
+        db_cursor = g.pop('db_cursor', None)
+
+        if db_cursor is not None:
+            db_cursor.close()
+
+        db_conn = g.pop('db_conn', None)
+
+        if db_conn is not None:
+            db_conn.close()

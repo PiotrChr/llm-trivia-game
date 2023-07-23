@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { UserContext } from './UserContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -13,26 +12,22 @@ import Layout from './components/shared/Layout';
 import { PrivateRoute, AuthProvider } from './routing/AuthProvider';
 
 function App() {
-  const [user, setUser] = useState(null);
-
   return (
     <Router>
-      <UserContext.Provider value={{ user, setUser }}>
         <AuthProvider>
           <Layout>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/signup" component={SignupPage} />
-              <Route exact path="/game/welcome" component={PrivateRoute(GameWelcomePage)} />
-              <Route path="/game" component={PrivateRoute(GamePage)} />
-              <Route path="/score" component={PrivateRoute(ScorePage)} />
-              <Route path="/stats" component={PrivateRoute(StatsPage)} />
-              <Route component={ErrorPage} />
-            </Switch>
+            <Routes>
+              <Route exact path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/game/welcome" exact element={<PrivateRoute><GameWelcomePage /></PrivateRoute>} />
+              <Route path="/game/:gameId" element={<PrivateRoute><GamePage /></PrivateRoute>} />
+              <Route path="/game/:gameId/score" element={<PrivateRoute><ScorePage /></PrivateRoute>} />
+              <Route path="/game/:gameId/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />
+              <Route path="*" element={ErrorPage} />
+            </Routes>
           </Layout>
         </AuthProvider>
-      </UserContext.Provider>
     </Router>
   );
 }

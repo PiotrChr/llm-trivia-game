@@ -1,11 +1,18 @@
 import sqlite3
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from backend.utils.Database import Database
+from utils.Database import Database
 
 class TriviaRepository:
     def __init__(self):
         pass
+
+    @staticmethod    
+    def row_to_dict(row):
+        if row:
+            return dict(zip(row.keys(), row))
+        else:
+            return None
 
     @staticmethod
     def check_hash(hashed_password: str, password: str) -> bool:
@@ -20,28 +27,44 @@ class TriviaRepository:
         try:
             Database.get_cursor().execute(query, params)
             player = Database.get_cursor().fetchone()
-            return player
+            return TriviaRepository.row_to_dict(player)
         except sqlite3.Error as error:
             print(f"Failed to read data from table players: {error}")
             return None
 
     @staticmethod
+    def get_player_by_id(player_id):
+        query = """
+            SELECT * FROM players WHERE id = ?
+        """
+        params = (player_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            player = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(player)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
+        
+        
+
+    @staticmethod
     def create_game(player_ids, is_timed=False, time_limit=None):
         try:
-            Database.execute("BEGIN TRANSACTION")
+            Database.execute("BEGIN TRANSACTION", commit=False)
 
             game_sql = """
                 INSERT INTO games (is_timed, time_limit)
                 VALUES (?, ?)
             """
-            game_id = Database.insert(game_sql, (is_timed, time_limit))
+            game_id = Database.insert(game_sql, (is_timed, time_limit), False)
 
             player_game_sql = """
                 INSERT INTO player_games (player_id, game_id)
                 VALUES (?, ?)
             """
             for player_id in player_ids:
-                Database.insert(player_game_sql, (player_id, game_id))
+                Database.insert(player_game_sql, (player_id, game_id), False)
 
             Database.execute("COMMIT")
 
@@ -50,18 +73,19 @@ class TriviaRepository:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
             return None
+        
 
     @staticmethod        
-    def create_player(player_name, player_password):
+    def create_player(player_name, player_email, player_password):
         try:
-            Database.execute("BEGIN TRANSACTION")
+            Database.execute("BEGIN TRANSACTION", commit=False)
 
             player_sql = """
-                INSERT INTO players (name, password)
-                VALUES (?, ?)
+                INSERT INTO players (name, email, password)
+                VALUES (?, ?, ?)
             """
             
-            player_id = Database.insert(player_sql, (player_name, player_password))
+            player_id = Database.insert(player_sql, (player_name, player_email, player_password), False)
 
             Database.execute("COMMIT")
 
@@ -70,103 +94,138 @@ class TriviaRepository:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
             return None
+        
     
     def end_game(self, game_id, player_id):
-        cursor = Database.get_cursor()
+        try:
+            cursor = Database.get_cursor()
 
-        # Calculate total score for this game by the player
-        cursor.execute(
-            """
-            SELECT SUM(answers.is_correct) as score 
-            FROM player_answers 
-            JOIN answers ON player_answers.answer_id = answers.id
-            WHERE player_answers.game_id = ? AND player_answers.player_id = ?
-            """,
-            (game_id, player_id)
-        )
+            cursor.execute("BEGIN TRANSACTION", commit=False)
 
-        score = cursor.fetchone()[0] or 0
+            # Calculate total score for this game by the player
+            cursor.execute(
+                """
+                SELECT SUM(answers.is_correct) as score 
+                FROM player_answers 
+                JOIN answers ON player_answers.answer_id = answers.id
+                WHERE player_answers.game_id = ? AND player_answers.player_id = ?
+                """,
+                (game_id, player_id),
+                False
+            )
 
-        # End the game by setting the end time
-        cursor.execute(
-            "UPDATE games SET time_end = datetime('now') WHERE id = ?",
-            (game_id,)
-        )
+            score = cursor.fetchone()[0] or 0
+
+            # End the game by setting the end time
+            cursor.execute(
+                "UPDATE games SET time_end = datetime('now') WHERE id = ?",
+                (game_id,),
+                False
+            )
+            
+            # Update the player's total score
+            cursor.execute(
+                "UPDATE players SET total_score = total_score + ? WHERE id = ?",
+                (score, player_id),
+                False
+            )
+
+            Database.commit()
+            return cursor.rowcount > 0
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
         
-        # Update the player's total score
-        cursor.execute(
-            "UPDATE players SET total_score = total_score + ? WHERE id = ?",
-            (score, player_id)
-        )
-
-        Database.commit()
-
-        return cursor.rowcount > 0
     
     def get_game_stats(self, game_id):
-        cursor = Database.get_cursor()
+        try:
+            cursor = Database.get_cursor()
 
-        # Fetch game details
-        cursor.execute(
-            "SELECT * FROM games WHERE id = ?",
-            (game_id,)
-        )
-        game = cursor.fetchone()
+            cursor.execute("BEGIN TRANSACTION", commit=False)
 
-        if not game:
-            return None
+            # Fetch game details
+            cursor.execute(
+                "SELECT * FROM games WHERE id = ?",
+                (game_id,)
+            )
+            game = cursor.fetchone()
 
-        # Fetch players of the game and their total score in the game
-        cursor.execute(
-            """
-            SELECT players.name, SUM(answers.is_correct) as score 
-            FROM player_answers
-            JOIN players ON player_answers.player_id = players.id
-            JOIN answers ON player_answers.answer_id = answers.id
-            WHERE player_answers.game_id = ?
-            GROUP BY players.name
-            """,
-            (game_id,)
-        )
-        player_scores = cursor.fetchall()
+            if not game:
+                return None
 
-        # Fetch number of correct and incorrect answers per player in the game
-        cursor.execute(
-            """
-            SELECT players.name, answers.is_correct, COUNT(answers.is_correct) as count 
-            FROM player_answers
-            JOIN players ON player_answers.player_id = players.id
-            JOIN answers ON player_answers.answer_id = answers.id
-            WHERE player_answers.game_id = ?
-            GROUP BY players.name, answers.is_correct
-            """,
-            (game_id,)
-        )
-        answer_counts = cursor.fetchall()
+            # Fetch players of the game and their total score in the game
+            cursor.execute(
+                """
+                SELECT players.name, SUM(answers.is_correct) as score 
+                FROM player_answers
+                JOIN players ON player_answers.player_id = players.id
+                JOIN answers ON player_answers.answer_id = answers.id
+                WHERE player_answers.game_id = ?
+                GROUP BY players.name
+                """,
+                (game_id,)
+            )
+            player_scores = cursor.fetchall()
+            player_scores = [dict(row) for row in player_scores]
 
-        # Convert the results into a more usable format
-        game_stats = {
-            "game_id": game_id,
-            "time_start": game["time_start"],
-            "time_end": game["time_end"],
-            "players": {},
-        }
+            # Fetch number of correct and incorrect answers per player in the game
+            cursor.execute(
+                """
+                SELECT players.name, answers.is_correct, COUNT(answers.is_correct) as count 
+                FROM player_answers
+                JOIN players ON player_answers.player_id = players.id
+                JOIN answers ON player_answers.answer_id = answers.id
+                WHERE player_answers.game_id = ?
+                GROUP BY players.name, answers.is_correct
+                """,
+                (game_id,)
+            )
+            answer_counts = cursor.fetchall()
+            answer_counts = [dict(row) for row in answer_counts]
 
-        for player in player_scores:
-            game_stats["players"][player["name"]] = {
-                "total_score": player["score"],
-                "correct_answers": 0,
-                "incorrect_answers": 0,
+            # Convert the results into a more usable format
+            game_stats = {
+                "game_id": game_id,
+                "time_start": game["time_start"],
+                "time_end": game["time_end"],
+                "players": {},
             }
 
-        for player in answer_counts:
-            if player["is_correct"]:
-                game_stats["players"][player["name"]]["correct_answers"] = player["count"]
-            else:
-                game_stats["players"][player["name"]]["incorrect_answers"] = player["count"]
+            for player in player_scores:
+                game_stats["players"][player["name"]] = {
+                    "total_score": player["score"],
+                    "correct_answers": 0,
+                    "incorrect_answers": 0,
+                }
 
-        return game_stats
+            for player in answer_counts:
+                if player["is_correct"]:
+                    game_stats["players"][player["name"]]["correct_answers"] = player["count"]
+                else:
+                    game_stats["players"][player["name"]]["incorrect_answers"] = player["count"]
+
+            return game_stats
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return None
+        
     
+    @staticmethod
+    def get_players():
+        query = """
+            SELECT * FROM players
+        """
+        try:
+            Database.get_cursor().execute(query)
+            players = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(player) for player in players]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
+        
+
     @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)
