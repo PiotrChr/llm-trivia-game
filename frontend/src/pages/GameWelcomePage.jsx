@@ -3,12 +3,12 @@ import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 function GameWelcomePage() {
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleHostGame = () => {
     // logic to host a game goes here
     // for now it just redirects to /game
-    history.push('/game');
+    navigate('/game');
   };
 
   const handleJoinGame = () => {

@@ -40,8 +40,8 @@ start_frontend_server:
 	cd frontend/public && python3 ../server.py
 
 generate_sll_certs:
-	openssl req -x509 -newkey rsa:4096 -nodes -out frontend/cert_front.pem -keyout key.pem -days 365 \
-	&& openssl req -x509 -newkey rsa:4096 -nodes -out backend/cert_backend.pem -keyout key.pem -days 365 \
+	openssl req -x509 -newkey rsa:4096 -nodes -out frontend/cert.pem -keyout frontend/key.pem -days 365 \
+	&& openssl req -x509 -newkey rsa:4096 -nodes -out backend/cert.pem -keyout backend/key.pem -days 365 \
 
 help:
 	@echo "Available recipes:"

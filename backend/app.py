@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_login import LoginManager
 from dotenv import load_dotenv
 import os
+from flask_jwt_extended import JWTManager
 
 from app.repository.TriviaRepository import TriviaRepository
 from app.models.User import User
@@ -16,22 +16,16 @@ from utils.Database import Database
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
 app.config['SESSION_COOKIE_SECURE'] = False
+app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Where to look for the JWT
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400  # Access token expires after one day
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
+
+jwt = JWTManager(app)  # Initialize the JWT manager
 CORS(app, supports_credentials=True)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    print(f"Loading user with id: {user_id}")
-    trivia_repository = TriviaRepository()
-    player = trivia_repository.get_player_by_id(user_id)
-    if player is not None:
-        return User(player['id'], player['name'])
-    return None
 
 @app.teardown_appcontext
 def close_db(e=None):
@@ -48,4 +42,8 @@ if __name__ == '__main__':
     for rule in app.url_map.iter_rules():
         print(f"Endpoint: {rule.endpoint}, Route: {rule.rule}")
 
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(
+        host='0.0.0.0',
+        port=port,
+        debug=True
+    )

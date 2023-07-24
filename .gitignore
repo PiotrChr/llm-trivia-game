@@ -17,8 +17,10 @@ npm-debug.log
 frontend/public/static/dist
 frontend/public/index.html
 # Certs
-frontend/cert_front.pem
-backend/cert_backend.pem
+frontend/cert.pem
+backend/cert.pem
+frontend/key.pem
+backend/key.pem
 # Ignore IDE files
 .idea/
 .vscode/

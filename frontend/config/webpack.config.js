@@ -11,7 +11,8 @@ module.exports = (env, argv) => {
         entry: path.resolve(__dirname, '../src/index.jsx'),
         output: {
             path: path.resolve(__dirname, '../public/static/dist/'),
-            filename: isDevMode ? 'bundle.[contenthash].js' : 'bundle.[contenthash].js'
+            filename: isDevMode ? 'bundle.[contenthash].js' : 'bundle.[contenthash].js',
+            publicPath: '/static/dist/'
         },
         module: {
             rules: [

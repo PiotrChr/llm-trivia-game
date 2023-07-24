@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { UserContext } from '../UserContext';
+import { useAuth } from '../routing/AuthProvider';
 import { login } from '../services/api';
 
 
@@ -12,7 +12,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [validated, setValidated] = useState(false); // add validated state
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {

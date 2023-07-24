@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
+import jwt_decode from "jwt-decode";
 import { Route, Navigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { checkAuth } from '../services/api';
+import { checkJWT } from '../utils';
 
 const AuthContext = React.createContext();
 
@@ -13,13 +16,13 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   async function checkAuthenticated() {
-    try {
-      const response = await checkAuth();
-      setUser(response.data.name);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
+    const token = checkJWT();
+    
+    if (token) {
+      setUser(token.sub.name);
     }
+
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -28,6 +31,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
+    setUser
   };
 
   return (
@@ -38,7 +42,7 @@ export function AuthProvider({ children }) {
 }
 
 export function PrivateRoute({ children }) {
-  let { user } = useAuth();
+  const { user } = useAuth();
 
   return (
     user ? children : <Navigate to="/login" />

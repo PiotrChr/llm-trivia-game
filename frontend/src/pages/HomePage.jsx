@@ -29,7 +29,7 @@ const HomePage = () => {
                 </>
               )}
               {user && (
-                <Button variant="primary" href="/game" size="lg">Play Now!</Button>
+                <Button variant="primary" href="/game/welcome" size="lg">Play Now!</Button>
               )}
             </p>
           </div>

@@ -22,21 +22,32 @@ const Layout = ({ children }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/" active={location.pathname === "/"}>Home</Nav.Link>
-              <Nav.Link href="/game" active={location.pathname === "/game/welcome"}>Game</Nav.Link>
               <Nav.Link href="/score" active={location.pathname === "/score"}>Score</Nav.Link>
               <Nav.Link href="/stats" active={location.pathname === "/stats"}>Stats</Nav.Link>
             </Nav>
-            <Nav className="mw-auto">
+            <Nav className="ms-auto">
               {user ? (
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    <i className="bi-alarm"></i> { user }
-                  </Dropdown.Toggle>
-            
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="/logout">Logout</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <>
+                  <Dropdown className="me-5">
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      <i className="bi-alarm"></i> Play
+                    </Dropdown.Toggle>
+              
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="/game/host">Join</Dropdown.Item>
+                      <Dropdown.Item href="/game/join">Host</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      <i className="bi-alarm"></i> { user }
+                    </Dropdown.Toggle>
+              
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </>
               ) : (
                 <>
                   <Nav.Link href="/login">Login</Nav.Link>
