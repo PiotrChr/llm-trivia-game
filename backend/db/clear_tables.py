@@ -6,6 +6,8 @@ def clear_tables():
     c = conn.cursor()
 
     c.execute('DELETE FROM player_answers; ALTER TABLE player_answers AUTOINCREMENT = 1')
+    c.execute('DELETE FROM player_games; ALTER TABLE player_answers AUTOINCREMENT = 1')
+    c.execute('DELETE FROM game_questions; ALTER TABLE player_answers AUTOINCREMENT = 1')
     c.execute('DELETE FROM answers; ALTER TABLE answers AUTOINCREMENT = 1')
     c.execute('DELETE FROM questions; ALTER TABLE questions AUTOINCREMENT = 1')
     c.execute('DELETE FROM players; ALTER TABLE players AUTOINCREMENT = 1')

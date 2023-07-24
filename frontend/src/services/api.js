@@ -1,7 +1,7 @@
 // api.js
 import axios from 'axios';
 
-const API_HOST = process.env.BACKEND_HOST_URL || 'localhost';
+const API_HOST = process.env.BACKEND_HOST || 'localhost';
 const API_PORT = process.env.BACKEND_SERVER_PORT || 9000;
 const BASE_URL = `http://${API_HOST}:${API_PORT}/api`;
 

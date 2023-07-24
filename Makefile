@@ -4,7 +4,7 @@ default: help
 
 install_all: install_backend install_frontend
 
-setup: install_all setup_db setup_env
+setup: install_all remove_tables setup_db setup_env build_frontend_dev
 
 setup_env:
 	python3 scripts/setup_env.py
@@ -20,6 +20,9 @@ install_frontend:
 
 clear_db:
 	python3 backend/db/clear_tables.py
+
+remove_tables:
+	python3 backend/db/remove_tables.py
 
 build_frontend:
 	cd frontend && npm run build
