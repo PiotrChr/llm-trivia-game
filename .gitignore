@@ -16,6 +16,9 @@ npm-debug.log
 # Ignore the build folder 
 frontend/public/static/dist
 frontend/public/index.html
+# Certs
+frontend/cert_front.pem
+backend/cert_backend.pem
 # Ignore IDE files
 .idea/
 .vscode/

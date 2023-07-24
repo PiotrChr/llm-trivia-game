@@ -30,7 +30,7 @@ const Layout = ({ children }) => {
               {user ? (
                 <Dropdown>
                   <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    <i class="bi-alarm"></i> { user }
+                    <i className="bi-alarm"></i> { user }
                   </Dropdown.Toggle>
             
                   <Dropdown.Menu>
