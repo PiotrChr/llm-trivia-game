@@ -30,21 +30,27 @@ const Layout = ({ children }) => {
                 <>
                   <Dropdown className="me-5">
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                      <i className="bi-alarm"></i> Play
+                      <i className="bi-joystick me-2"></i> Play
                     </Dropdown.Toggle>
               
                     <Dropdown.Menu>
-                      <Dropdown.Item href="/game/host">Join</Dropdown.Item>
-                      <Dropdown.Item href="/game/join">Host</Dropdown.Item>
+                      <Dropdown.Item href="/game/join">
+                        <i className="bi-person-fill-add me-2"></i> Join
+                      </Dropdown.Item>
+                      <Dropdown.Item href="/game/host">
+                      <i className="bi-file-plus-fill me-2"></i> Host
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                   <Dropdown>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      <i className="bi-alarm"></i> { user }
+                      <i className="bi-person-circle me-2"></i> { user }
                     </Dropdown.Toggle>
               
                     <Dropdown.Menu>
-                      <Dropdown.Item href="/logout">Logout</Dropdown.Item>
+                      <Dropdown.Item href="/logout">
+                        <i className="bi-door-closed me-2"></i> Logout
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </>

@@ -7,6 +7,7 @@ import GamePage from './pages/GamePage';
 import GameWelcomePage from './pages/GameWelcomePage';
 import GameHostPage from './pages/GameHostPage';
 import GameJoinPage from './pages/GameJoinPage';
+import GameListPage from './pages/GameListPage';
 import ScorePage from './pages/ScorePage';
 import StatsPage from './pages/StatsPage';
 import ErrorPage from './pages/ErrorPage';
@@ -27,6 +28,7 @@ function App() {
               <Route path="/game/welcome" exact element={<PrivateRoute><GameWelcomePage /></PrivateRoute>} />
               <Route path="/game/host" exact element={<PrivateRoute><GameHostPage /></PrivateRoute>} />
               <Route path="/game/join" exact element={<PrivateRoute><GameJoinPage /></PrivateRoute>} />
+              <Route path="/game/list" exact element={<PrivateRoute><GameListPage /></PrivateRoute>} />
               <Route path="/game/:gameId" element={<PrivateRoute><GamePage /></PrivateRoute>} />
               <Route path="/game/:gameId/score" element={<PrivateRoute><ScorePage /></PrivateRoute>} />
               <Route path="/game/:gameId/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />

@@ -49,22 +49,27 @@ class TriviaRepository:
         
 
     @staticmethod
-    def create_game(player_ids, is_timed=False, time_limit=None):
+    def create_game(
+        password,
+        max_questions,
+        host,
+        current_category,
+        time_limit
+    ):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
             game_sql = """
-                INSERT INTO games (is_timed, time_limit)
-                VALUES (?, ?)
+                INSERT INTO games (password, max_questions, host, current_category, time_limit)
+                VALUES (?, ?, ?, ?, ?)
             """
-            game_id = Database.insert(game_sql, (is_timed, time_limit), False)
+            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit), False)
 
             player_game_sql = """
                 INSERT INTO player_games (player_id, game_id)
                 VALUES (?, ?)
             """
-            for player_id in player_ids:
-                Database.insert(player_game_sql, (player_id, game_id), False)
+            Database.insert(player_game_sql, (host, game_id), False)
 
             Database.execute("COMMIT")
 
@@ -73,7 +78,42 @@ class TriviaRepository:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
             return None
-        
+   
+
+    @staticmethod
+    def start_game(game_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            game_sql = """
+                UPDATE games SET time_start = datetime('now') WHERE id = ?
+            """
+            Database.execute(game_sql, (game_id,), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False   
+
+    @staticmethod
+    def player_join(player_id, game_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            player_game_sql = """
+                INSERT INTO player_games (player_id, game_id)
+                VALUES (?, ?)
+            """
+            Database.insert(player_game_sql, (player_id, game_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
 
     @staticmethod        
     def create_player(player_name, player_email, player_password):

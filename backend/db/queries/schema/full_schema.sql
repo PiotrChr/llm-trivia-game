@@ -7,12 +7,24 @@ CREATE TABLE answers (
     is_correct BOOLEAN NOT NULL
 );
 
+CREATE TABLE language (
+    id INTEGER PRIMARY KEY,
+    iso_code TEXT NOT NULL,
+    name TEXT NOT NULL
+);
+
 CREATE TABLE games (
     id INTEGER PRIMARY KEY,
     time_start DATETIME DEFAULT CURRENT_TIMESTAMP,
     time_end DATETIME DEFAULT NULL,
     is_timed BOOLEAN DEFAULT FALSE,
     time_limit INTEGER DEFAULT NULL,
+    host INTEGER NOT NULL,
+    current_category INTEGER DEFAULT NULL,
+    max_questions INTEGER DEFAULT NULL,
+    password TEXT NOT NULL,
+    FOREIGN KEY (host) REFERENCES users(id),
+    FOREIGN KEY (current_category) REFERENCES category(id)
 );
 
 CREATE TABLE players (
@@ -24,10 +36,16 @@ CREATE TABLE players (
     password TEXT NOT NULL
 );
 
+CREATE TABLE category (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
 CREATE TABLE questions (
     id INTEGER PRIMARY KEY,
     question TEXT NOT NULL,
-    category TEXT NOT NULL
+    category INTEGER NOT NULL,
+    FOREIGN KEY (category) REFERENCES category(id)
 );
 
 CREATE TABLE game_questions (

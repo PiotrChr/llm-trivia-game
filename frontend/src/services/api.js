@@ -68,3 +68,8 @@ export const getGame = async (id) => {
     const response = await api.get(`${BASE_URL}/games/${id}`);
     return response;
 }
+
+export const createGame = async (password, currentCategory, timeLimit, maxQuestions) => {
+    const response = await api.post(`${BASE_URL}/games/create`, { password, currentCategory, timeLimit, maxQuestions });
+    return response;
+}
