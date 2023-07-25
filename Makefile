@@ -9,20 +9,23 @@ setup: install_all remove_tables setup_db setup_env build_frontend_dev
 setup_env:
 	python3 scripts/setup_env.py
 
-setup_db:
-	python3 scripts/setup_db.py
-
 install_backend:
 	pip3 install -r backend/requirements.txt
 
 install_frontend:
 	cd frontend && npm install
 
+setup_db:
+	python3 scripts/setup_db.py
+
 clear_db:
 	python3 backend/db/clear_tables.py
 
 remove_tables:
 	python3 backend/db/remove_tables.py
+
+load_fixtures:
+	python3 backend/db/load_fixtures.py
 
 build_frontend:
 	cd frontend && npm run build

@@ -347,5 +347,18 @@ class TriviaRepository:
         
 
     @staticmethod
+    def get_languages():
+        query = """
+            SELECT * FROM language
+        """
+        try:
+            Database.get_cursor().execute(query)
+            languages = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(language) for language in languages]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table languages: {error}")
+            return None
+
+    @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)
