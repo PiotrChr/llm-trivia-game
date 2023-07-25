@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Card, Container, Row, Col } from 'react-bootstrap';
+import { createGame } from '../services/api';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState("");
@@ -32,8 +33,19 @@ const GameHostPage = () => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      // logic to host game
-      navigate('/game'); // replace with actual game route
+      const game = await createGame(
+        gamePassword,
+        category.value,
+        timeLimit,
+        maxQuestions,
+      );
+
+      if (!game) {
+        alert('Failed to create game');
+        return;
+      }
+
+      navigate('/game/' + game.data.id);
     }
 
     setValidated(true);

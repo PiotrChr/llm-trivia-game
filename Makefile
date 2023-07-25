@@ -4,7 +4,7 @@ default: help
 
 install_all: install_backend install_frontend
 
-setup: install_all generate_sll_certs remove_tables setup_db setup_env build_frontend_dev
+setup: install_all remove_tables setup_db setup_env build_frontend_dev
 
 setup_env:
 	python3 scripts/setup_env.py
@@ -38,10 +38,6 @@ start_frontend_server_dev:
 
 start_frontend_server:
 	cd frontend/public && python3 ../server.py
-
-generate_sll_certs:
-	openssl req -x509 -newkey rsa:4096 -nodes -out frontend/cert.pem -keyout frontend/key.pem -days 365 \
-	&& openssl req -x509 -newkey rsa:4096 -nodes -out backend/cert.pem -keyout backend/key.pem -days 365 \
 
 help:
 	@echo "Available recipes:"

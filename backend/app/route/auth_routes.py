@@ -72,7 +72,7 @@ def signup():
 @auth_routes.route('/check', methods=['GET'])
 def check():
     verify_jwt_in_request()
-    user_id = get_jwt_identity()
+    user_id = get_jwt_identity().id
     user = TriviaRepository.get_player_by_id(user_id)
     if user is None:
         return jsonify({"msg": "User not found"}), 404

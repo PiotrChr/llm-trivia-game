@@ -60,16 +60,26 @@ export const getUser = async (id) => {
 // Games
 
 export const getGames = async () => {
-    const response = await api.get(`${BASE_URL}/games`);
+    const response = await api.get(`${BASE_URL}/game/`);
     return response;
 }
 
 export const getGame = async (id) => {
-    const response = await api.get(`${BASE_URL}/games/${id}`);
+    const response = await api.get(`${BASE_URL}/game/${id}`);
     return response;
 }
 
 export const createGame = async (password, currentCategory, timeLimit, maxQuestions) => {
-    const response = await api.post(`${BASE_URL}/games/create`, { password, currentCategory, timeLimit, maxQuestions });
+    const response = await api.post(`${BASE_URL}/game/create`, { password, currentCategory, timeLimit, maxQuestions });
+    return response;
+}
+
+export const joinGame = async (gameId, password) => {
+    const response = await api.post(`${BASE_URL}/game/join`, { gameId, password });
+    return response;
+}
+
+export const endGame = async (gameId) => {
+    const response = await api.post(`${BASE_URL}/game/end`, { gameId });
     return response;
 }

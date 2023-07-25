@@ -16,8 +16,7 @@ function GameJoinPage() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      // logic to join game
-      navigate('/game'); // replace with actual game route
+      navigate('/game/' + gameId);
     }
 
     setValidated(true);

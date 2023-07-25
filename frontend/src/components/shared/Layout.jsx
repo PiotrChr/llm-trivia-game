@@ -34,11 +34,14 @@ const Layout = ({ children }) => {
                     </Dropdown.Toggle>
               
                     <Dropdown.Menu>
+                      <Dropdown.Item href="/game/list">
+                        <i className="bi-person-fill-add me-2"></i> List
+                      </Dropdown.Item>
                       <Dropdown.Item href="/game/join">
                         <i className="bi-person-fill-add me-2"></i> Join
                       </Dropdown.Item>
                       <Dropdown.Item href="/game/host">
-                      <i className="bi-file-plus-fill me-2"></i> Host
+                        <i className="bi-file-plus-fill me-2"></i> Host
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>

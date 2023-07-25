@@ -7,6 +7,7 @@ class TriviaRepository:
     def __init__(self):
         pass
 
+
     @staticmethod    
     def row_to_dict(row):
         if row:
@@ -14,9 +15,11 @@ class TriviaRepository:
         else:
             return None
 
+
     @staticmethod
     def check_hash(hashed_password: str, password: str) -> bool:
         return check_password_hash(hashed_password, password)
+
 
     @staticmethod
     def get_player_by_name(username):
@@ -32,6 +35,7 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
 
+
     @staticmethod
     def get_player_by_id(player_id):
         query = """
@@ -46,7 +50,23 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
         
-        
+    @staticmethod
+    def answer_question(game_id, player_id, answer_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            player_answer_sql = """
+                INSERT INTO player_answers (player_id, game_id, answer_id)
+                VALUES (?, ?, ?)
+            """
+            Database.insert(player_answer_sql, (player_id, game_id, answer_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
 
     @staticmethod
     def create_game(
@@ -59,11 +79,15 @@ class TriviaRepository:
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
+            print(f"Creating game with password: {password}, max_questions: {max_questions}, host: {host}, current_category: {current_category}, time_limit: {time_limit}")
+
             game_sql = """
                 INSERT INTO games (password, max_questions, host, current_category, time_limit)
                 VALUES (?, ?, ?, ?, ?)
             """
             game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit), False)
+
+            print(f"Game ID: {game_id}")
 
             player_game_sql = """
                 INSERT INTO player_games (player_id, game_id)
@@ -79,6 +103,35 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return None
    
+
+    @staticmethod
+    def get_games():
+        query = """
+            SELECT * FROM games
+        """
+        try:
+            Database.get_cursor().execute(query)
+            games = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(game) for game in games]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table games: {error}")
+            return None
+
+
+    @staticmethod
+    def get_game_by_id(game_id):
+        query = """
+            SELECT * FROM games WHERE id = ?
+        """
+        params = (game_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            game = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(game)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table games: {error}")
+            return None
+        
 
     @staticmethod
     def start_game(game_id):
@@ -115,6 +168,7 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return False
 
+
     @staticmethod        
     def create_player(player_name, player_email, player_password):
         try:
@@ -135,7 +189,7 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return None
         
-    
+    @staticmethod
     def end_game(self, game_id, player_id):
         try:
             cursor = Database.get_cursor()
@@ -177,7 +231,7 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return False
         
-    
+    @staticmethod
     def get_game_stats(self, game_id):
         try:
             cursor = Database.get_cursor()
