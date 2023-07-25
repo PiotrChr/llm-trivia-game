@@ -32,7 +32,8 @@ function App() {
               <Route path="/game/:gameId" element={<PrivateRoute><GamePage /></PrivateRoute>} />
               <Route path="/game/:gameId/score" element={<PrivateRoute><ScorePage /></PrivateRoute>} />
               <Route path="/game/:gameId/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />
-              <Route path="*" element={ErrorPage} />
+              <Route path="*" element={<ErrorPage />} />
+              <Route path="/error/:errorId" element={<ErrorPage />} />
             </Routes>
           </Layout>
         </AuthProvider>

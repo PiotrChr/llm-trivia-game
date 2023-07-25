@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Container, Row, Col, ProgressBar } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { useAuth } from '../routing/AuthProvider';
-import { getGame } from '../services/api';
+import { getGame, isPlaying } from '../services/api';
 import { socket } from '../services/socket';
 
 // This is a placeholder component for the sidebar
@@ -18,6 +18,7 @@ const Sidebar = ({ players }) => (
 
 const GamePage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [category, setCategory] = useState(null);
   const [difficulty, setDifficulty] = useState(1);
@@ -70,6 +71,12 @@ const GamePage = () => {
 
   useEffect(() => {
     const fetchGame = async () => {
+      const playing = await isPlaying(gameId);
+      if (!playing) {
+        navigate('/error/unable-to-join-game');
+        return;
+      }
+
       const game = await getGame(gameId);
       if (!game) {
         alert('Failed to fetch game');

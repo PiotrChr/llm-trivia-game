@@ -74,12 +74,12 @@ def start_server():
     game_id = request.args.get('game_id')
 
 @jwt_required()
-@game_routes.route('/player_join', methods=['POST'])
+@game_routes.route('/join', methods=['POST'])
 def player_join():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
-    player_id = request.json.get('player_id', None)
+    player_id = get_jwt_identity()['id']
     game_id = request.json.get('game_id', None)
     password = request.json.get('password', None)
 
@@ -102,6 +102,19 @@ def player_join():
     else:
         return jsonify({"msg": "Error joining player", "player_id": player_id, "game_id": game_id}), 500
 
+@jwt_required()
+@game_routes.route('/is_playing', methods=['GET'])
+def is_playing():
+    game_id = request.args.get('game_id')
+    player_id = get_jwt_identity()['id']
+
+    if game_id is None:
+        return jsonify({"msg": "Missing game_id parameter"}), 400
+
+    is_playing = TriviaRepository.is_playing(game_id, player_id)
+
+    return jsonify({"msg": "Player is playing", "player_id": player_id, "game_id": game_id, "playing": is_playing}), 200
+    
 
 @game_routes.route('/end', methods=['POST'])
 def end_game():

@@ -24,14 +24,11 @@ export const signup = async (username, email, password) => {
   const response = await api.post(`${BASE_URL}/auth/signup`, { username, email, password });
   Cookies.set('token', response.data.access_token);
   Cookies.set('refresh_token', response.data.refresh_token)
-  Cookies.set('username', response.data.refresh_token)
   return response;
 };
 
 export const login = async (username, password) => {
     const response = await api.post(`${BASE_URL}/auth/login`, { username, password });
-    Cookies.set('token', response.data.access_token);
-    Cookies.set('refresh_token', response.data.refresh_token)
     return response;
 }
 
@@ -75,11 +72,16 @@ export const createGame = async (password, currentCategory, timeLimit, maxQuesti
 }
 
 export const joinGame = async (gameId, password) => {
-    const response = await api.post(`${BASE_URL}/game/join`, { gameId, password });
+    const response = await api.post(`${BASE_URL}/game/join`, { "game_id":gameId, password });
     return response;
 }
 
 export const endGame = async (gameId) => {
     const response = await api.post(`${BASE_URL}/game/end`, { gameId });
+    return response;
+}
+
+export const isPlaying = async (gameId) => {
+    const response = await api.get(`${BASE_URL}/game/${gameId}/is_playing`);
     return response;
 }

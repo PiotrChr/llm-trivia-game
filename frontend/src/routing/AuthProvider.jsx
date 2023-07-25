@@ -19,7 +19,11 @@ export function AuthProvider({ children }) {
     const token = checkJWT();
     
     if (token) {
-      setUser(token.sub.name);
+      
+      setUser({
+        id: token.sub.id,
+        name: token.sub.name
+      });
     }
 
     setLoading(false);

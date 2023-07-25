@@ -1,4 +1,5 @@
 import sqlite3
+import json
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from utils.Database import Database
@@ -107,12 +108,24 @@ class TriviaRepository:
     @staticmethod
     def get_games():
         query = """
-            SELECT * FROM games
+            SELECT games.*, 
+            json_group_array(
+                json_object('player_id', players.id, 'name', players.name)
+            ) as players
+            FROM games
+            LEFT JOIN player_games ON games.id = player_games.game_id
+            LEFT JOIN players ON player_games.player_id = players.id
+            GROUP BY games.id
         """
         try:
             Database.get_cursor().execute(query)
             games = Database.get_cursor().fetchall()
-            return [TriviaRepository.row_to_dict(game) for game in games]
+            parsed_games = []
+            for game in games:
+                game_dict = TriviaRepository.row_to_dict(game)
+                game_dict["players"] = json.loads(game_dict["players"])
+                parsed_games.append(game_dict)
+            return parsed_games
         except sqlite3.Error as error:
             print(f"Failed to read data from table games: {error}")
             return None
@@ -132,6 +145,19 @@ class TriviaRepository:
             print(f"Failed to read data from table games: {error}")
             return None
         
+    @staticmethod
+    def is_playing(game_id, player_id):
+        query = """
+            SELECT * FROM player_games WHERE game_id = ? AND player_id = ?
+        """
+        params = (game_id, player_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            player_game = Database.get_cursor().fetchone()
+            return player_game is not None
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table player_games: {error}")
+            return None
 
     @staticmethod
     def start_game(game_id):

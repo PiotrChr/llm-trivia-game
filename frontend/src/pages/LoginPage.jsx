@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Cookies from 'js-cookie';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../routing/AuthProvider';
 import { login } from '../services/api';
+import { decode } from '../utils';
 
 
 function LoginPage() {
@@ -26,7 +27,16 @@ function LoginPage() {
         const response = await login(username, password);
 
         if (response.status === 200) {
-          setUser(username);
+          Cookies.set('token', response.data.access_token);
+          Cookies.set('refresh_token', response.data.refresh_token)
+
+          const token = decode(response.data.access_token);
+
+          setUser({
+            id: token.sub.id,
+            name: token.sub.name
+          });
+          
           navigate('/');
         } else {
           setError("Invalid credentials.");

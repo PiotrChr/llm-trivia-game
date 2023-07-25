@@ -47,7 +47,7 @@ const Layout = ({ children }) => {
                   </Dropdown>
                   <Dropdown>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      <i className="bi-person-circle me-2"></i> { user }
+                      <i className="bi-person-circle me-2"></i> { user.name }
                     </Dropdown.Toggle>
               
                     <Dropdown.Menu>
