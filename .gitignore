@@ -31,4 +31,5 @@ backend/key.pem
 *~
 # Ignore database files
 *.db
+*.sqlite
 *.sqlite3
