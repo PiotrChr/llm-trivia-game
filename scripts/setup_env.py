@@ -29,10 +29,12 @@ write_to_env_file("frontend/.env", {
 open_ai_key = prompt_for_data("Enter OpenAI key (default xxx): ", "xxx")
 random_default_secret = secrets.token_urlsafe(16)
 flask_secret_key = prompt_for_data("Enter Flask application secret key: (default: " + random_default_secret + ")", random_default_secret)
+open_ai_org_id = prompt_for_data("Enter OpenAI organization ID (default xxx): ", "xxx")
 
 # Write backend .env data
 write_to_env_file("backend/.env", {
     "BACKEND_PORT": backend_port,
     "OPENAI_KEY": open_ai_key,
     "SECRET_KEY": flask_secret_key,
+    "OPENAI_ORG_ID": open_ai_org_id,
 })
