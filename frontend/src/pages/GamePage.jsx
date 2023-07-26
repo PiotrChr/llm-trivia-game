@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, Row, Col, ProgressBar } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Button, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { useAuth } from '../routing/AuthProvider';
-import { getGame, isPlaying } from '../services/api';
+import { getGame, isPlaying, startGame } from '../services/api';
 import { socket } from '../services/socket';
 
 // This is a placeholder component for the sidebar
@@ -11,10 +11,28 @@ const Sidebar = ({ players }) => (
   <div className="sidebar">
     <h2>Players</h2>
     {players.map(player => (
-      <p key={player.id}>{player.name}</p>
+      <p key={player.id}>{player.name} 
+        {
+          player.ready && (<span><i className='bi-check' /></span>)
+        }
+      </p>
     ))}
   </div>
 );
+
+const Countdown = ({ secondsLeft }) => {
+  
+  return (
+    <div>
+      <h2>Countdown</h2>
+      <p>Question will start in {secondsLeft} seconds</p>
+      <ProgressBar now={secondsLeft} max={10} />
+    </div>
+    
+  );
+};
+
+// { id: 1, name: 'Player 1', ready: false, points: 0 },
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -23,10 +41,9 @@ const GamePage = () => {
   const [category, setCategory] = useState(null);
   const [difficulty, setDifficulty] = useState(1);
   const [question, setQuestion] = useState();
-  const [players, setPlayers] = useState([
-    { id: 1, name: 'Player 1', ready: false, points: 0 },
-  ]);
+  const [players, setPlayers] = useState([]);
   const [allReady, setAllReady] = useState(false);
+  const [allAnswered, setAllAnswered] = useState(false);
   const [questionReady, setQuestionReady] = useState(false);
   const [isTimed, setIsTimed] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
@@ -34,13 +51,13 @@ const GamePage = () => {
   const [isHost, setIsHost] = useState(false);
   const [game, setGame] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
-  const [serverStarted, setServerStarted] = useState(false);
+  // const [serverStarted, setServerStarted] = useState(false);
+  const [countdown, setCountdown] = useState(0);
 
   const gameId = useParams().gameId;
 
   const categoryOptions = [{ label: "Sports", value: "sports" }, { label: "History", value: "history" }];
   const difficultyOptions = Array.from({length: 5}, (_, i) => ({ label: `Level ${i+1}`, value: i+1 }));
-
   // This is a placeholder for the possible answers
   const answers = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
 
@@ -49,10 +66,30 @@ const GamePage = () => {
   };
 
   const addPlayer = (player) => {
-    setPlayers([...players, player]);
+    setPlayers(players => {
+      if (players.some(existingPlayer => existingPlayer.id === player.id)) {
+        return players;
+      } else {
+        return [
+          ...players, 
+          {
+            id: player.id,
+            name: player.name,
+            ready: false,
+            points: 0
+          }
+        ];
+      }
+    });
+  };
+
+  const isReady = (player) => {
+    return players.some(existingPlayer => existingPlayer.id === player.id && existingPlayer.ready);
   };
 
   const removePlayer = (player) => {
+    console.log('remove', player)
+    console.log(players)
     setPlayers(players.filter(p => p.id !== player.id));
   };
 
@@ -61,12 +98,14 @@ const GamePage = () => {
   };
 
   const handleReady = () => {
-  };
-
-  const handleStartServer = () => {
+    console.log('ready');
+    socket.emit('ready', { player: user, game_id: gameId });
   };
 
   const handleStartGame = () => {
+    console.log('start');
+
+    socket.emit('start', { game_id: gameId, player: user });
   };
 
   useEffect(() => {
@@ -84,43 +123,100 @@ const GamePage = () => {
       }
 
       setGame(game.data);
-      setCategory(game.data.category);
-      setIsHost(game.data.host === user);
+      setCategory(game.data.current_category);
+      setIsHost(game.data.host === user.id);
     };
 
     fetchGame();
 
-    socket.on('joined', (data) => {
-      addPlayer(data.player_id);
-    });
+    socket.emit('ping', {game_id: gameId});
+    socket.emit('join', { player: user, game_id: gameId });
 
-    socket.on('left', (data) => {
-      removePlayer(data.player_id);
-    });
+    return () => {
+      socket.emit('leave', { player: user, game_id: gameId });
+    }
+  }, []);
 
-    socket.on('started', () => {
+  useEffect(() => {
+    const onStarted = () => {
       setGameStarted(true);
-    });
-
-    socket.on('stop', () => {
+    };
+    const onStop = () => {
       setGameStarted(false);
-    });
+    };
+    const onPing = () => {
+      console.log('got ping');
+      socket.emit('pong', { player: user, game_id: gameId });
+    };
+    const onCountdown = (data) => {
+      console.log('got countdown', data);
+      setCountdown(data.remaining_time);
+    };
+    
+    socket.on('countdown', onCountdown);
+    socket.on('ping', onPing);
+    socket.on('started', onStarted);
+    socket.on('stop', onStop);
+    
+    return () => {  
+      socket.off('countdown', onCountdown);
+      socket.off('ping', onPing);
+      socket.off('started', onStarted);
+      socket.off('stop', onStop);
+    };
+  }, []);
 
-    socket.on('is_ready', (data) => {
-      setPlayers(players.map(player => {
-        if (player.id === data.player_id) {
-          player.ready = true;
+  useEffect(() => { 
+    const onIsReady = (data) => {
+      console.log('got is_ready', data);
+
+      setPlayers(players => players.map(player => {
+        if (player.id === data.player.id) {
+          return {
+            ...player,
+            ready: true
+          };
         }
-
+  
         return player;
-      }
-      ));
+      }));
+    };
+    const onJoined = (data) => {
+      console.log('got joined', data);
+      addPlayer(data.player);
+    };
+    const onLeft = (data) => {
+      console.log('got left', data);
+      removePlayer(data.player);
+    };
+    const onPong = (data) => {
+      console.log('got pong', data);
+      addPlayer(data.player);
+    };
 
-      setAllReady(players.every(player => player.ready));
-    });
 
-    socket.emit('join', { player_id: user, game_id: gameId });
-  }, [gameId]);
+    socket.on('joined', onJoined);
+    socket.on('left', onLeft);
+    socket.on('is_ready', onIsReady);
+    socket.on('pong', onPong);
+    socket.on('is_ready', onIsReady);
+
+    return () => {
+      socket.off('joined', onJoined);
+      socket.off('left', onLeft);
+      socket.off('is_ready', onIsReady);
+      socket.off('pong', onPong);
+      socket.off('is_ready', onIsReady);
+    }
+  }, [players]);
+
+
+  useEffect(() => {
+    setAllReady(players.every(player => player.ready));
+  }, [players]);
+
+  console.log('Is host', isHost);
+  console.log('countdown', countdown);
 
   return (
     <Container>
@@ -137,14 +233,21 @@ const GamePage = () => {
               ))}
             </>
           )}
-          {!questionReady && (
+          { !questionReady && countdown > 0 && <Countdown secondsLeft={countdown}/> }
+          { !questionReady && !isReady(user) && (
             <Button onClick={handleReady}>Ready</Button>
           )}
-          {!questionReady && !isHost && !serverStarted && (
+          {/* { !questionReady && !isHost && !serverStarted && (
             <Button onClick={handleStartServer}>Start Server</Button>
-          )}
-          {!questionReady && isHost && !gameStarted && allReady && (
+          )} */}
+          { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
             <Button onClick={handleStartGame}>Start Game</Button>
+          )}
+          { gameStarted && isHost && (
+            <Button>Stop Game</Button>
+          )}
+          { gameStarted && allAnswered && (
+            <Button>Next question</Button>
           )}
         </Col>
         <Col xs={4}>

@@ -21,14 +21,7 @@ function GameListPage() {
   }, []);
 
   const handleJoin = async (gameId) => {
-    const response = await joinGame(gameId);
-
-    if (!response) {
-      alert('Failed to join game');
-      return;
-    }
-    
-    navigate('/game/' + gameId);
+    navigate('/game/join/' + gameId);
   };
 
   const handleConnect = (gameId) => {
@@ -37,8 +30,6 @@ function GameListPage() {
 
   // Check if the current user has joined a specific game
   const hasJoined = (game) => {
-    console.log(user);
-    console.log(game.players)
     return game.players.some(player => player.player_id === user.id);
   }
 

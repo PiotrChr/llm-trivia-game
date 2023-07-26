@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 from flask_jwt_extended import JWTManager
 from flask_socketio import SocketIO
+from gevent.pywsgi import WSGIServer
+from geventwebsocket.handler import WebSocketHandler
 
 from app.repository.TriviaRepository import TriviaRepository
 from app.models.User import User
@@ -19,15 +21,13 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-# app.config['SESSION_COOKIE_SAMESITE'] = "Lax"
-# app.config['SESSION_COOKIE_SECURE'] = False
 app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Where to look for the JWT
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400  # Access token expires after one day
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
 jwt = JWTManager(app)  # Initialize the JWT manager
 CORS(app, supports_credentials=True)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
 
 @app.teardown_appcontext
 def close_db(e=None):
@@ -43,15 +43,11 @@ app.register_blueprint(question_routes, url_prefix='/api/questions')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(language_routes, url_prefix='/api/language')
 
-port = os.getenv('BACKEND_PORT', 9000)
+port = int(os.getenv('BACKEND_PORT', 9000))
 
 if __name__ == '__main__':
     for rule in app.url_map.iter_rules():
         print(f"Endpoint: {rule.endpoint}, Route: {rule.rule}")
 
-    socketio.run(
-        app,
-        host='0.0.0.0',
-        port=port,
-        debug=True
-    )
+    http_server = WSGIServer(('0.0.0.0', port), app, handler_class=WebSocketHandler)
+    http_server.serve_forever()

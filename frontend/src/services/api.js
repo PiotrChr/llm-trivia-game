@@ -76,6 +76,11 @@ export const joinGame = async (gameId, password) => {
     return response;
 }
 
+export const startGame = async (gameId) => {
+    const response = await api.post(`${BASE_URL}/game/start`, { "game_id": gameId });
+    return response;
+}
+
 export const endGame = async (gameId) => {
     const response = await api.post(`${BASE_URL}/game/end`, { gameId });
     return response;

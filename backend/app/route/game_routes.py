@@ -73,8 +73,8 @@ def start_game():
 def start_server():
     game_id = request.args.get('game_id')
 
-@jwt_required()
 @game_routes.route('/join', methods=['POST'])
+@jwt_required()
 def player_join():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400

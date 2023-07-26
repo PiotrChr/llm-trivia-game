@@ -1,5 +1,5 @@
 from app.repository.TriviaRepository import TriviaRepository
-from app.repository.OpenAIRepository import OpenAIRepository
+from app.repository.OpenAIRepository import get_question
 
 class QuestionManager:
     def __init__(self):

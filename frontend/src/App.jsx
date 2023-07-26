@@ -27,7 +27,7 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/game/welcome" exact element={<PrivateRoute><GameWelcomePage /></PrivateRoute>} />
               <Route path="/game/host" exact element={<PrivateRoute><GameHostPage /></PrivateRoute>} />
-              <Route path="/game/join" exact element={<PrivateRoute><GameJoinPage /></PrivateRoute>} />
+              <Route path="/game/join/:gameId" element={<PrivateRoute><GameJoinPage /></PrivateRoute>} />
               <Route path="/game/list" exact element={<PrivateRoute><GameListPage /></PrivateRoute>} />
               <Route path="/game/:gameId" element={<PrivateRoute><GamePage /></PrivateRoute>} />
               <Route path="/game/:gameId/score" element={<PrivateRoute><ScorePage /></PrivateRoute>} />
