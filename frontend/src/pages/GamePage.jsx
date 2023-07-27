@@ -20,16 +20,19 @@ const Sidebar = ({ players }) => (
   </div>
 );
 
-const Countdown = ({ secondsLeft }) => {
+const Countdown = ({ secondsLeft, title, showProgressBar }) => {
   
   return (
     <div>
-      <h2>Countdown</h2>
-      <p>Question will start in {secondsLeft} seconds</p>
-      <ProgressBar now={secondsLeft} max={10} />
+      <h2>{ title }</h2>
+      { secondsLeft > 0 && <p>Question will start in {secondsLeft} seconds</p> }
+      { showProgressBar && <ProgressBar now={secondsLeft} max={10} /> }
     </div>
     
   );
+};
+Countdown.defaultProps = {
+  title: 'Loading...'
 };
 
 // { id: 1, name: 'Player 1', ready: false, points: 0 },
@@ -49,18 +52,17 @@ const GamePage = () => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [timeLimit, setTimeLimit] = useState(0);
   const [isHost, setIsHost] = useState(false);
+  const [drawing, setDrawing] = useState(false);
   const [game, setGame] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
-  // const [serverStarted, setServerStarted] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [answers, setAnswers] = useState([]);
 
   const gameId = useParams().gameId;
 
   const categoryOptions = [{ label: "Sports", value: "sports" }, { label: "History", value: "history" }];
   const difficultyOptions = Array.from({length: 5}, (_, i) => ({ label: `Level ${i+1}`, value: i+1 }));
-  // This is a placeholder for the possible answers
-  const answers = ['Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
-
+  
   const handleCategoryChange = (selectedOption) => {
     setCategory(selectedOption);
   };
@@ -140,6 +142,7 @@ const GamePage = () => {
   useEffect(() => {
     const onStarted = () => {
       setGameStarted(true);
+      socket.emit('next', {game_id: gameId, player: user, category, difficulty});
     };
     const onStop = () => {
       setGameStarted(false);
@@ -152,13 +155,32 @@ const GamePage = () => {
       console.log('got countdown', data);
       setCountdown(data.remaining_time);
     };
-    
+    const onDrawing = (data) => {
+      console.log('got drawing', data);
+      setDrawing(true);
+    };
+    const onDrawn = (data) => {
+      console.log('got drawn', data);
+      setDrawing(false);
+    };
+    const onQuestionReady = (data) => {
+      setQuestionReady(true);
+      setQuestion(data.question);
+      setAnswers(data.answers);
+    };
+
+    socket.on('question_ready', onQuestionReady)
+    socket.on('drawn', onDrawn)
+    socket.on('drawing', onDrawing)
     socket.on('countdown', onCountdown);
     socket.on('ping', onPing);
     socket.on('started', onStarted);
     socket.on('stop', onStop);
     
     return () => {  
+      socket.off('question_ready', onQuestionReady)
+      socket.off('drawn', onDrawn)
+      socket.off('drawing', onDrawing)
       socket.off('countdown', onCountdown);
       socket.off('ping', onPing);
       socket.off('started', onStarted);
@@ -215,25 +237,29 @@ const GamePage = () => {
     setAllReady(players.every(player => player.ready));
   }, [players]);
 
-  console.log('Is host', isHost);
-  console.log('countdown', countdown);
-
   return (
     <Container>
       <Row>
         <Col xs={8}>
           <h1>Category: {category}</h1>
-          {questionReady && (
+          { questionReady && (
             <>
               <Card>
                 <Card.Body>{game.question.text}</Card.Body>
               </Card>
-              {answers.map((answer, index) => (
+              { answers.map((answer, index) => (
                 <Button key={index}>{answer}</Button>
               ))}
             </>
           )}
-          { !questionReady && countdown > 0 && <Countdown secondsLeft={countdown}/> }
+          { 
+            !questionReady && (countdown > 0 || drawing) &&
+              <Countdown
+                secondsLeft={countdown}
+                title={ drawing ? 'Drawing a question' : 'Countdown' }
+                showProgressBar={!drawing}
+              /> 
+          }
           { !questionReady && !isReady(user) && (
             <Button onClick={handleReady}>Ready</Button>
           )}

@@ -52,8 +52,6 @@ def register_handlers(socketio):
             emit('countdown', {'remaining_time': i}, room=room, broadcast=True)
             socketio.sleep(1)
         
-        emit('countdown_end', room=room, broadcast=True)
-
         TriviaRepository.start_game(data['game_id'])
 
         emit('started', {"player": data['player'], "game_id": data['game_id']}, room=room, broadcast=True)
@@ -65,11 +63,28 @@ def register_handlers(socketio):
         if game['host'] != data['player']['id']:
             return
 
+        emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
+
         question = QuestionManager.next_question(
             data['game_id'],
+            data['category'],
+            data['difficulty']
         )
 
-        emit('next_question', {"player": data['player'], "game_id": data['game_id'], "next_question": question}, room=room, broadcast=True)
+        emit('drawn', {"game_id": data['game_id']}, room=room, broadcast=True)
+
+        countdown = 3
+        for i in range(countdown, -1, -1):
+            # Send a message with the remaining time
+            emit('countdown', {'remaining_time': i}, room=room, broadcast=True)
+            socketio.sleep(1)
+
+        emit(
+            'question_ready',
+            {"player": data['player'], "game_id": data['game_id'], "next_question": question},
+            room=room,
+            broadcast=True
+        )
 
     @socketio.on('ping')
     def handle_ping(data):

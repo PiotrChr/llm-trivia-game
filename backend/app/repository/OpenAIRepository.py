@@ -78,7 +78,7 @@ Example of a correct reply:
 Important! If you do not reply with a valid JSON array, the system will not be able to process your response and you will not be able to continue.
 """
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = os.getenv('OPENAI_KEY')
 openai.organization = os.getenv('OPENAI_ORG_ID')
 
 def chat_completion(messages):
