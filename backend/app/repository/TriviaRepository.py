@@ -23,6 +23,139 @@ class TriviaRepository:
 
 
     @staticmethod
+    def draw_question(game_id, category, difficulty):
+        query = """
+            SELECT questions.*, answers.id as answer_id, answers.text as answer_text, answers.is_correct as answer_is_correct
+            FROM questions
+            JOIN answers ON questions.id = answers.question_id
+            WHERE questions.category = ? AND questions.difficulty = ? AND questions.id NOT IN (
+                SELECT questions.id
+                FROM questions
+                JOIN answers ON questions.id = answers.question_id
+                JOIN player_answers ON answers.id = player_answers.answer_id
+                WHERE player_answers.game_id = ?
+            )
+            GROUP BY questions.id
+            ORDER BY RANDOM()
+            LIMIT 1
+        """
+        params = (category, difficulty, game_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            return Database.get_cursor().fetchone()
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table questions: {error}")
+            return None
+
+    @staticmethod
+    def get_questions_texts(category, difficulty, limit=None):
+        query = """
+            SELECT questions.text
+            FROM questions
+            WHERE questions.category = ? AND questions.difficulty = ?
+            ORDER BY RANDOM()
+        """
+        params = (category, difficulty)
+        if limit:
+            query += " LIMIT ?"
+            params += (limit,)
+        try:
+            Database.get_cursor().execute(query, params)
+            return Database.get_cursor().fetchall()
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table questions: {error}")
+            return None
+
+
+    @staticmethod
+    def set_current_category(game_id, category):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            game_sql = """
+                UPDATE games SET current_category = ? WHERE id = ?
+            """
+            Database.execute(game_sql, (category, game_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def add_questions(questions, category_id, difficulty):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            for question in questions:
+                question_sql = """
+                    INSERT INTO questions (text, category, difficulty)
+                    VALUES (?, ?, ?)
+                """
+                question_id = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
+
+                for answer in question["answers"]:
+                    answer_sql = """
+                        INSERT INTO answers (text, is_correct, question_id)
+                        VALUES (?, ?, ?)
+                    """
+                    Database.insert(answer_sql, (answer, answer == question["correct_answer"], question_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def create_category(category_name):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            category_sql = """
+                INSERT INTO categories (name)
+                VALUES (?)
+            """
+            cat_id = Database.insert(category_sql, (category_name,), False)
+
+            Database.execute("COMMIT")
+            return cat_id
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def get_categories():
+        query = """
+            SELECT * FROM categories
+        """
+        try:
+            Database.get_cursor().execute(query)
+            categories = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(category) for category in categories]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table categories: {error}")
+            return None
+
+    @staticmethod
+    def get_category_by_name(category):
+        query = """
+            SELECT * FROM categories WHERE name = ?
+        """
+        params = (category,)
+        try:
+            Database.get_cursor().execute(query, params)
+            category = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(category)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table categories: {error}")
+            return None
+
+    @staticmethod
     def get_player_by_name(username):
         query = """
             SELECT * FROM players WHERE name = ?

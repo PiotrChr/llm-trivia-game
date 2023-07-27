@@ -14,6 +14,7 @@ from app.route.game_routes import game_routes
 from app.route.question_routes import question_routes
 from app.route.auth_routes import auth_routes
 from app.route.language_routes import language_routes
+from app.route.category_routes import category_routes
 from app.route.game_socket import register_handlers
 from utils.Database import Database
 
@@ -42,6 +43,7 @@ app.register_blueprint(game_routes, url_prefix='/api/game')
 app.register_blueprint(question_routes, url_prefix='/api/questions')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(language_routes, url_prefix='/api/language')
+app.register_blueprint(category_routes, url_prefix='/api/category')
 
 port = int(os.getenv('BACKEND_PORT', 9000))
 
