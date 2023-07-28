@@ -27,13 +27,21 @@ def create_game():
     max_questions = request.json.get('maxQuestions', None)
     host = get_jwt_identity()['id']
     current_category = request.json.get('currentCategory', None)
+    
+    if not isinstance(current_category, str):
+        cat_id = current_category
+    else:
+        cat_id = TriviaRepository.create_category(current_category)
+
+    # Handle category
+
     password = request.json.get('password', None)
     
     game_id = TriviaRepository.create_game(
         password,
         max_questions,
         host,
-        current_category,
+        cat_id,
         time_limit
     )
 

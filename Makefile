@@ -15,6 +15,8 @@ install_backend:
 install_frontend:
 	cd frontend && npm install
 
+recreate_db: remove_tables setup_db load_fixtures
+
 setup_db:
 	python3 scripts/setup_db.py
 

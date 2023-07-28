@@ -3,11 +3,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router-dom';
-import { getGames, joinGame } from '../services/api';
+import { getGames } from '../services/api';
 import { useAuth } from '../routing/AuthProvider';  // import AuthContext to access current user information
 
 function GameListPage() {
   const [games, setGames] = useState([]);
+  
   const navigate = useNavigate();
   const { user } = useAuth(); // get current user from AuthContext
 

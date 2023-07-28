@@ -1,0 +1,2 @@
+INSERT INTO players (id, name, email, google_id, total_score, password) VALUES (1, 'piotr', 'chrusciel.piotr.87@gmail.com', NULL, 0, 'pbkdf2:sha256:600000$AjzZxobDg0hO05O8$59e94b9fef31cce6381a82ec6064d599f83853ab11cebe1bb3c575b73f611d0a');
+INSERT INTO players (id, name, email, google_id, total_score, password) VALUES (2, 'test', 'chrusciel.piotr.87@gmail.com', NULL, 0, 'pbkdf2:sha256:600000$AjzZxobDg0hO05O8$59e94b9fef31cce6381a82ec6064d599f83853ab11cebe1bb3c575b73f611d0a');

@@ -35,13 +35,41 @@ Countdown.defaultProps = {
   title: 'Loading...'
 };
 
+
+const QuestionCard = ({ question, answers, handleAnswerClicked }) => (
+  <Card className="mb-4">
+      <Card.Body>
+          <Card.Title className="mb-3">{question.question}</Card.Title>
+
+          <Container>
+              <Row className="justify-content-md-center">
+                  {answers.map((answer, index) => (
+                      <Col xs={12} sm={6} key={index} className="mb-2">
+                          <Button 
+                              variant="outline-primary" 
+                              block
+                              onClick={() => handleAnswerClicked(answer.id)}
+                          >
+                              {answer.text}
+                          </Button>
+                      </Col>
+                  ))}
+              </Row>
+          </Container>
+      </Card.Body>
+  </Card>
+);
+
 // { id: 1, name: 'Player 1', ready: false, points: 0 },
 
 const GamePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState({
+    id: 0,
+    name: 'None'
+  });
   const [difficulty, setDifficulty] = useState(1);
   const [question, setQuestion] = useState();
   const [players, setPlayers] = useState([]);
@@ -57,6 +85,7 @@ const GamePage = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [selectedAnswerId, setSelectedAnswerId] = useState(null);
 
   const gameId = useParams().gameId;
 
@@ -110,6 +139,12 @@ const GamePage = () => {
     socket.emit('start', { game_id: gameId, player: user });
   };
 
+  const handleAnswerClicked = (answerId) => () => {
+    console.log('answer', answerId);
+    setSelectedAnswerId(answerId);
+    socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId });
+  };
+
   useEffect(() => {
     const fetchGame = async () => {
       const playing = await isPlaying(gameId);
@@ -140,10 +175,6 @@ const GamePage = () => {
   }, []);
 
   useEffect(() => {
-    const onStarted = () => {
-      setGameStarted(true);
-      socket.emit('next', {game_id: gameId, player: user, category, difficulty});
-    };
     const onStop = () => {
       setGameStarted(false);
     };
@@ -164,9 +195,10 @@ const GamePage = () => {
       setDrawing(false);
     };
     const onQuestionReady = (data) => {
+      console.log('got question_ready', data);
+      setQuestion(data.next_question);
+      setAnswers(data.next_question.answers);
       setQuestionReady(true);
-      setQuestion(data.question);
-      setAnswers(data.answers);
     };
 
     socket.on('question_ready', onQuestionReady)
@@ -174,7 +206,6 @@ const GamePage = () => {
     socket.on('drawing', onDrawing)
     socket.on('countdown', onCountdown);
     socket.on('ping', onPing);
-    socket.on('started', onStarted);
     socket.on('stop', onStop);
     
     return () => {  
@@ -183,10 +214,22 @@ const GamePage = () => {
       socket.off('drawing', onDrawing)
       socket.off('countdown', onCountdown);
       socket.off('ping', onPing);
-      socket.off('started', onStarted);
       socket.off('stop', onStop);
     };
   }, []);
+
+  useEffect(() => {
+    const onStarted = () => {
+      setGameStarted(true);
+      socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
+    };
+
+    socket.on('started', onStarted);
+
+    return () => {
+      socket.off('started', onStarted);
+    }
+  }, [difficulty, category]);
 
   useEffect(() => { 
     const onIsReady = (data) => {
@@ -241,17 +284,14 @@ const GamePage = () => {
     <Container>
       <Row>
         <Col xs={8}>
-          <h1>Category: {category}</h1>
-          { questionReady && (
-            <>
-              <Card>
-                <Card.Body>{game.question.text}</Card.Body>
-              </Card>
-              { answers.map((answer, index) => (
-                <Button key={index}>{answer}</Button>
-              ))}
-            </>
-          )}
+          <h1>Category: {category.name}</h1>
+          { questionReady && 
+            <QuestionCard
+              question={question}
+              answers={answers}
+              handleAnswerClicked={handleAnswerClicked}
+            />
+          }
           { 
             !questionReady && (countdown > 0 || drawing) &&
               <Countdown
@@ -280,7 +320,7 @@ const GamePage = () => {
           <Sidebar players={players} />
           <Select
             options={categoryOptions}
-            value={category}
+            value={category.name}
             onChange={handleCategoryChange}
             isSearchable
             placeholder="Select a category..."

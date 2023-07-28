@@ -10,14 +10,46 @@ question_json_structure = """
 [
     {
         "question": "Some example question",
-        "answers": ["answer1", "answer2", "answer3", "answer4"],
-        "correct_answer": "answer1"
+        "answers": [
+            {
+                "text": "answer1"
+                "is_correct": "true"
+            },
+            {
+                "text": "answer2"
+                "is_correct": "false"
+            },
+            {
+                "text": "answer3"
+                "is_correct": "false"
+            },
+            {
+                "text": "answer4"
+                "is_correct": "false"
+            },
+        ],
     }, 
     {
         "question": "Some other example question",
-        "answers": ["answer1", "answer2", "answer3", "answer4"],
-        "correct_answer": "answer2"
-    }
+        "answers": [
+            {
+                "text": "answer1"
+                "is_correct": "false"
+            },
+            {
+                "text": "answer2"
+                "is_correct": "false"
+            },
+            {
+                "text": "answer3"
+                "is_correct": "true"
+            },
+            {
+                "text": "answer4"
+                "is_correct": "false"
+            },
+        ],
+    },
 ]
 """
 
@@ -27,11 +59,9 @@ user_prompt_json_structure = """
     "difficulty": difficulty,
     "num_questions": num_questions,
     "existing_questions": [
-        {
-            "question": "Some other example question",
-            "answers": ["answer1", "answer2", "answer3", "answer4"],
-            "correct_answer": "answer2"
-        }
+        "Some other example question",
+        "Some example question",
+        "Some different example question",
     ]
 }
 """
@@ -79,7 +109,7 @@ Important! If you do not reply with a valid JSON array, the system will not be a
 """
 
 openai.api_key = os.getenv('OPENAI_KEY')
-openai.organization = os.getenv('OPENAI_ORG_ID')
+# openai.organization = os.getenv('OPENAI_ORG_ID')
 
 def chat_completion(messages):
     data = {
@@ -102,20 +132,23 @@ def chat_completion(messages):
         raise error
 
 def get_question(category, difficulty, existing_questions=[], num_questions=1):
-    # initial system message
     init_system_prompt = {
         "role": "system",
         "content": default_system_prompt
     }
 
-    user_message = {
-        "role": "user",
-        "content": json.dumps({
+    message_content = json.dumps({
             "category": category, 
             "difficulty": difficulty,
             "num_questions": num_questions,
             "existing_questions": existing_questions
         })
+
+    print('message_content', message_content)
+
+    user_message = {
+        "role": "user",
+        "content": message_content
     }
 
     messages = [init_system_prompt, user_message]

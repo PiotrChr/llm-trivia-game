@@ -8,12 +8,13 @@ class QuestionManager:
 
     @staticmethod
     def next_question(game_id, category, difficulty):
-        res = TriviaRepository.get_category_by_name(category)
-
-        if res is None:
+        print(f'Next question: {game_id}, {category}, {difficulty}')
+        if isinstance(category, str):
             cat_id = TriviaRepository.create_category(category)
         else:
+            res = TriviaRepository.get_category_by_id(category)
             cat_id = res['id']
+            category = res['name']
 
         if not TriviaRepository.set_current_category(game_id, cat_id):
             return False
@@ -24,7 +25,7 @@ class QuestionManager:
             existing_questions = TriviaRepository.get_questions_texts(game_id, cat_id, difficulty)
 
             questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 20)
-            TriviaRepository.add_questions(game_id, questions, cat_id, difficulty)
+            TriviaRepository.add_questions(questions, cat_id, difficulty)
 
             question = QuestionManager.draw_one(questions)
 
@@ -34,9 +35,9 @@ class QuestionManager:
     def generate_new_batch(category, difficulty, existing_questions, num_questions):
         questions = get_question(category, difficulty, existing_questions, num_questions)
 
-        verified_questions = verify_question(questions)
+        # questions = verify_question(questions)
 
-        return verified_questions
+        return questions
 
     @staticmethod
     def draw_one(questions):

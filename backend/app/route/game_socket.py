@@ -21,9 +21,17 @@ def register_handlers(socketio):
         print(f'Player {data["player"]["id"]} is ready')
         emit('is_ready', data, broadcast=True, room=data['game_id'])
 
+    @socketio.on('check_answers')
+    def handle_check_answers(data):
+        player_answers = TriviaRepository.get_player_answers(data['game_id'], data['player_id'])
+
+        emit('answers_checked', {"player_answers": player_answers}, broadcast=True, room=data['game_id'])
+
     @socketio.on('answer')
     def handle_answer(data):
         TriviaRepository.answer_question(data['game_id'], data['player_id'], data['answer_id'])
+
+        emit('answered', data, broadcast=True, room=data['game_id'])
 
     @socketio.on('join')
     def on_join(data):
@@ -64,6 +72,7 @@ def register_handlers(socketio):
             return
 
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
+        socketio.sleep(1)
 
         question = QuestionManager.next_question(
             data['game_id'],
@@ -71,6 +80,7 @@ def register_handlers(socketio):
             data['difficulty']
         )
 
+        print('done drawing')
         emit('drawn', {"game_id": data['game_id']}, room=room, broadcast=True)
 
         countdown = 3
@@ -79,6 +89,7 @@ def register_handlers(socketio):
             emit('countdown', {'remaining_time': i}, room=room, broadcast=True)
             socketio.sleep(1)
 
+        print('Question is ready')
         emit(
             'question_ready',
             {"player": data['player'], "game_id": data['game_id'], "next_question": question},

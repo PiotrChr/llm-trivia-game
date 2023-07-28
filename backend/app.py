@@ -28,9 +28,17 @@ app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after
 
 jwt = JWTManager(app)  # Initialize the JWT manager
 CORS(app, supports_credentials=True)
-socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
+socketio = SocketIO(
+    app,
+    async_mode='gevent',
+    cors_allowed_origins="*",
+    engineio_logger=True,
+    logger=True,
+    ping_timeout=600,
+    ping_interval=15
+)
 
-@app.teardown_appcontext
+@app.teardown_appcontext    
 def close_db(e=None):
     Database.close()
 

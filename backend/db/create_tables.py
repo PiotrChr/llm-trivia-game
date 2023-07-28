@@ -11,7 +11,9 @@ def run_sql_script(filename):
             print(f"Script file {filename} does not exist")
 
 def create_tables():
+    run_sql_script('backend/db/queries/schema/language.sql')
     run_sql_script('backend/db/queries/schema/players.sql')
+    run_sql_script('backend/db/queries/schema/category.sql')
     run_sql_script('backend/db/queries/schema/questions.sql')
     run_sql_script('backend/db/queries/schema/answers.sql')
     run_sql_script('backend/db/queries/schema/game_questions.sql')

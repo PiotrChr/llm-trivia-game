@@ -25,7 +25,10 @@ class TriviaRepository:
     @staticmethod
     def draw_question(game_id, category, difficulty):
         query = """
-            SELECT questions.*, answers.id as answer_id, answers.text as answer_text, answers.is_correct as answer_is_correct
+            SELECT questions.*,
+            json_group_array(
+                json_object('id', answers.id, 'text', answers.answer_text, 'is_correct', answers.is_correct)
+            ) as answers
             FROM questions
             JOIN answers ON questions.id = answers.question_id
             WHERE questions.category = ? AND questions.difficulty = ? AND questions.id NOT IN (
@@ -42,7 +45,57 @@ class TriviaRepository:
         params = (category, difficulty, game_id)
         try:
             Database.get_cursor().execute(query, params)
-            return Database.get_cursor().fetchone()
+            question = Database.get_cursor().fetchone()
+            
+            questionDict = TriviaRepository.row_to_dict(question)
+            questionDict["answers"] = json.loads(questionDict['answers'])
+
+            return questionDict
+            
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table questions: {error}")
+            return None
+
+    @staticmethod
+    def get_questions():
+        query = """
+            SELECT questions.*,
+            json_group_array(
+                json_object('id', answers.id, 'text', answers.answer_text, 'is_correct', answers.is_correct)
+            ) as answers
+            FROM questions
+            JOIN answers ON questions.id = answers.question_id
+            GROUP BY questions.id
+        """
+        try:
+            Database.get_cursor().execute(query)
+            questions = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(question) for question in questions]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table questions: {error}")
+            return None
+
+        
+    @staticmethod
+    def get_question_by_id(game_id):
+        query = """
+            SELECT questions.*, answers.id as answer_id, answers.answer_text as answer_text, answers.is_correct as answer_is_correct
+            FROM questions
+            JOIN answers ON questions.id = answers.question_id
+            WHERE questions.id IN (
+                SELECT questions.id
+                FROM questions
+                JOIN answers ON questions.id = answers.question_id
+                JOIN player_answers ON answers.id = player_answers.answer_id
+                WHERE player_answers.game_id = ?
+            )
+            GROUP BY questions.id
+            ORDER BY RANDOM()
+        """
+        params = (game_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            return Database.get_cursor().fetchall()
         except sqlite3.Error as error:
             print(f"Failed to read data from table questions: {error}")
             return None
@@ -50,7 +103,7 @@ class TriviaRepository:
     @staticmethod
     def get_questions_texts(category, difficulty, limit=None):
         query = """
-            SELECT questions.text
+            SELECT questions.question
             FROM questions
             WHERE questions.category = ? AND questions.difficulty = ?
             ORDER BY RANDOM()
@@ -91,14 +144,14 @@ class TriviaRepository:
 
             for question in questions:
                 question_sql = """
-                    INSERT INTO questions (text, category, difficulty)
+                    INSERT INTO questions (question, category, difficulty)
                     VALUES (?, ?, ?)
                 """
                 question_id = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
 
                 for answer in question["answers"]:
                     answer_sql = """
-                        INSERT INTO answers (text, is_correct, question_id)
+                        INSERT INTO answers (answer_text, is_correct, question_id)
                         VALUES (?, ?, ?)
                     """
                     Database.insert(answer_sql, (answer, answer == question["correct_answer"], question_id), False)
@@ -116,7 +169,7 @@ class TriviaRepository:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
             category_sql = """
-                INSERT INTO categories (name)
+                INSERT INTO category (name)
                 VALUES (?)
             """
             cat_id = Database.insert(category_sql, (category_name,), False)
@@ -131,20 +184,20 @@ class TriviaRepository:
     @staticmethod
     def get_categories():
         query = """
-            SELECT * FROM categories
+            SELECT * FROM category
         """
         try:
             Database.get_cursor().execute(query)
             categories = Database.get_cursor().fetchall()
             return [TriviaRepository.row_to_dict(category) for category in categories]
         except sqlite3.Error as error:
-            print(f"Failed to read data from table categories: {error}")
+            print(f"Failed to read data from table category: {error}")
             return None
 
     @staticmethod
     def get_category_by_name(category):
         query = """
-            SELECT * FROM categories WHERE name = ?
+            SELECT * FROM category WHERE name = ?
         """
         params = (category,)
         try:
@@ -152,7 +205,21 @@ class TriviaRepository:
             category = Database.get_cursor().fetchone()
             return TriviaRepository.row_to_dict(category)
         except sqlite3.Error as error:
-            print(f"Failed to read data from table categories: {error}")
+            print(f"Failed to read data from table category: {error}")
+            return None
+        
+    @staticmethod
+    def get_category_by_id(category_id):
+        query = """
+            SELECT * FROM category WHERE id = ?
+        """
+        params = (category_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            category = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(category)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table category: {error}")
             return None
 
     @staticmethod
@@ -169,7 +236,7 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
 
-
+    
     @staticmethod
     def get_player_by_id(player_id):
         query = """
@@ -183,7 +250,25 @@ class TriviaRepository:
         except sqlite3.Error as error:
             print(f"Failed to read data from table players: {error}")
             return None
+
         
+    @staticmethod
+    def get_player_answers(game_id, player_id):
+        query = """
+            SELECT answers.id, answers.answer_text, answers.is_correct
+            FROM player_answers
+            JOIN answers ON player_answers.answer_id = answers.id
+            WHERE player_answers.game_id = ? AND player_answers.player_id = ?
+        """
+        params = (game_id, player_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            answers = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(answer) for answer in answers]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table player_answers: {error}")
+            return None
+
     @staticmethod
     def answer_question(game_id, player_id, answer_id):
         try:
@@ -267,13 +352,30 @@ class TriviaRepository:
     @staticmethod
     def get_game_by_id(game_id):
         query = """
-            SELECT * FROM games WHERE id = ?
+            SELECT games.*,
+            json_group_array(
+                json_object('player_id', players.id, 'name', players.name)
+            ) as players,
+            json_object('id', category.id, 'name', category.name) as current_category
+            FROM games
+            LEFT JOIN player_games ON games.id = player_games.game_id
+            LEFT JOIN players ON player_games.player_id = players.id
+            LEFT JOIN category ON games.current_category = category.id
+            WHERE games.id = ?
         """
         params = (game_id,)
+
         try:
             Database.get_cursor().execute(query, params)
             game = Database.get_cursor().fetchone()
-            return TriviaRepository.row_to_dict(game)
+            if game:
+                game_dict = TriviaRepository.row_to_dict(game)
+                game_dict["players"] = json.loads(game_dict["players"])
+                game_dict["current_category"] = json.loads(game_dict["current_category"])
+                return game_dict
+            else:
+                return None
+            
         except sqlite3.Error as error:
             print(f"Failed to read data from table games: {error}")
             return None

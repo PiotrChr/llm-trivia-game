@@ -90,3 +90,17 @@ export const isPlaying = async (gameId) => {
     const response = await api.get(`${BASE_URL}/game/${gameId}/is_playing`);
     return response;
 }
+
+// Categories
+
+export const getCategories = async () => {
+    const response = await api.get(`${BASE_URL}/category/`);
+    return response;
+}
+
+// Languages
+
+export const getLanguages = async () => {
+    const response = await api.get(`${BASE_URL}/language/`);
+    return response;
+}

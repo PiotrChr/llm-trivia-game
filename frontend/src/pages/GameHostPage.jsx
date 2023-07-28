@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Card, Container, Row, Col } from 'react-bootstrap';
-import { createGame } from '../services/api';
+import { createGame, getCategories, getLanguages } from '../services/api';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState("");
@@ -15,9 +15,24 @@ const GameHostPage = () => {
     { label: "Sports", value: "sports" },
     { label: "History", value: "history" },
   ]);
+  const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const result = await getCategories();
+      setCategories(result.data.map(category => ({ label: category.name, value: category.id })));
+    };
+    const fetchLanguages = async () => {
+      const result = await getLanguages();
+      setLanguages(result.data.map(language => ({ label: language.name, value: language.id })));
+    };
+
+    fetchCategories();
+    fetchLanguages();
+  }, []);
 
   const handleCategoryChange = (newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
@@ -61,7 +76,7 @@ const GameHostPage = () => {
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formGamePassword">
                   <Form.Label>Game Password</Form.Label>
-                  <Form.Control type="password" value={gamePassword} onChange={e => setGamePassword(e.target.value)} required />
+                  <Form.Control type="password" value={gamePassword} onChange={e => setGamePassword(e.target.value)} />
                   <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback>
                 </Form.Group>
 
@@ -78,10 +93,8 @@ const GameHostPage = () => {
                 <Form.Group controlId="formLanguage">
                   <Form.Label>Language</Form.Label>
                   <Form.Control as="select" value={language} onChange={e => setLanguage(e.target.value)} required>
-                    <option value="">Select language</option>
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    // Add more languages here
+                    {/* <option value="" disabled>Select a language</option> */}
+                    {languages.map(language => <option key={language.value} value={language.value}>{language.label}</option>)}
                   </Form.Control>
                   <Form.Control.Feedback type="invalid">Please select a language.</Form.Control.Feedback>
                 </Form.Group>
