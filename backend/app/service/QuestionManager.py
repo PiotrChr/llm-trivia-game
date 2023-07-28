@@ -1,6 +1,7 @@
 from app.repository.TriviaRepository import TriviaRepository
 from app.repository.OpenAIRepository import get_question, verify_question
 import random
+import json
 
 class QuestionManager:
     def __init__(self):
@@ -33,7 +34,10 @@ class QuestionManager:
         
     @staticmethod
     def generate_new_batch(category, difficulty, existing_questions, num_questions):
-        questions = get_question(category, difficulty, existing_questions, num_questions)
+        try:
+            questions = get_question(category, difficulty, existing_questions, num_questions)
+        except json.decoder.JSONDecodeError as decodeError:
+            questions = get_question(category, difficulty, existing_questions, num_questions)
 
         # questions = verify_question(questions)
 

@@ -1,64 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { useAuth } from '../routing/AuthProvider';
-import { getGame, isPlaying, startGame } from '../services/api';
+import { getGame, isPlaying, getCategories, getLanguages } from '../services/api';
 import { socket } from '../services/socket';
-
-// This is a placeholder component for the sidebar
-const Sidebar = ({ players }) => (
-  <div className="sidebar">
-    <h2>Players</h2>
-    {players.map(player => (
-      <p key={player.id}>{player.name} 
-        {
-          player.ready && (<span><i className='bi-check' /></span>)
-        }
-      </p>
-    ))}
-  </div>
-);
-
-const Countdown = ({ secondsLeft, title, showProgressBar }) => {
-  
-  return (
-    <div>
-      <h2>{ title }</h2>
-      { secondsLeft > 0 && <p>Question will start in {secondsLeft} seconds</p> }
-      { showProgressBar && <ProgressBar now={secondsLeft} max={10} /> }
-    </div>
-    
-  );
-};
-Countdown.defaultProps = {
-  title: 'Loading...'
-};
-
-
-const QuestionCard = ({ question, answers, handleAnswerClicked }) => (
-  <Card className="mb-4">
-      <Card.Body>
-          <Card.Title className="mb-3">{question.question}</Card.Title>
-
-          <Container>
-              <Row className="justify-content-md-center">
-                  {answers.map((answer, index) => (
-                      <Col xs={12} sm={6} key={index} className="mb-2">
-                          <Button 
-                              variant="outline-primary" 
-                              block
-                              onClick={() => handleAnswerClicked(answer.id)}
-                          >
-                              {answer.text}
-                          </Button>
-                      </Col>
-                  ))}
-              </Row>
-          </Container>
-      </Card.Body>
-  </Card>
-);
+import QuestionCard from '../components/Game/QuestionCard';
+import Sidebar from '../components/Game/SideBar';
+import Countdown from '../components/Game/Countdown';
 
 // { id: 1, name: 'Player 1', ready: false, points: 0 },
 
@@ -72,10 +21,18 @@ const GamePage = () => {
   });
   const [difficulty, setDifficulty] = useState(1);
   const [question, setQuestion] = useState();
+  const [categories, setCategories] = useState(
+    [
+      { label: "Sports", value: "sports" },
+      { label: "History", value: "history" },
+    ]
+  );
   const [players, setPlayers] = useState([]);
   const [allReady, setAllReady] = useState(false);
   const [allAnswered, setAllAnswered] = useState(false);
   const [questionReady, setQuestionReady] = useState(false);
+  const [languages, setLanguages] = useState([]);
+  const [language, setLanguage] = useState(null);
   const [isTimed, setIsTimed] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [timeLimit, setTimeLimit] = useState(0);
@@ -86,14 +43,21 @@ const GamePage = () => {
   const [countdown, setCountdown] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
+  const [correctAnswerId, setCorrectAnswerId] = useState(null);
 
   const gameId = useParams().gameId;
 
-  const categoryOptions = [{ label: "Sports", value: "sports" }, { label: "History", value: "history" }];
   const difficultyOptions = Array.from({length: 5}, (_, i) => ({ label: `Level ${i+1}`, value: i+1 }));
   
-  const handleCategoryChange = (selectedOption) => {
-    setCategory(selectedOption);
+  const handleCategoryChange = (newValue, actionMeta) => {
+    if (actionMeta.action === 'create-option') {
+      setCategories([...categories, newValue]);
+    }
+    setCategory(newValue);
+  };
+
+  const handleLanguageChange = (newValue) => {
+    setLanguage(newValue);
   };
 
   const addPlayer = (player) => {
@@ -164,7 +128,19 @@ const GamePage = () => {
       setIsHost(game.data.host === user.id);
     };
 
+    const fetchLanguages = async () => {
+      const result = await getLanguages();
+      setLanguages(result.data.map(language => ({ label: language.name, value: language.id })));
+    };
+
+    const fetchCategories = async () => {
+      const result = await getCategories();
+      setCategories(result.data.map(category => ({ label: category.name, value: category.id })));
+    };
+
     fetchGame();
+    fetchLanguages();
+    fetchCategories();
 
     socket.emit('ping', {game_id: gameId});
     socket.emit('join', { player: user, game_id: gameId });
@@ -258,8 +234,7 @@ const GamePage = () => {
       console.log('got pong', data);
       addPlayer(data.player);
     };
-
-
+ 
     socket.on('joined', onJoined);
     socket.on('left', onLeft);
     socket.on('is_ready', onIsReady);
@@ -284,12 +259,13 @@ const GamePage = () => {
     <Container>
       <Row>
         <Col xs={8}>
-          <h1>Category: {category.name}</h1>
           { questionReady && 
             <QuestionCard
               question={question}
               answers={answers}
               handleAnswerClicked={handleAnswerClicked}
+              selectedAnswerId={selectedAnswerId}
+              correctAnswerId={correctAnswerId}
             />
           }
           { 
@@ -317,12 +293,15 @@ const GamePage = () => {
           )}
         </Col>
         <Col xs={4}>
-          <Sidebar players={players} />
+          <Sidebar players={players} currentCategory={category.name} difficulty={difficulty} />
           <Select
-            options={categoryOptions}
+            options={categories}
             value={category.name}
             onChange={handleCategoryChange}
+            onCreateOption={handleCategoryChange}
+            formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
             isSearchable
+            isClearable
             placeholder="Select a category..."
           />
           <Select
@@ -331,6 +310,13 @@ const GamePage = () => {
             onChange={handleDifficultyChange}
             isSearchable
             placeholder="Select a difficulty..."
+          />
+          <Select
+            options={languages}
+            value={language}
+            onChange={handleLanguageChange}
+            isSearchable
+            placeholder="Select a language..."
           />
           {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
         </Col>

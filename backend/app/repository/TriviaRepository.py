@@ -47,6 +47,9 @@ class TriviaRepository:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
             
+            if question is None:
+                return None
+            
             questionDict = TriviaRepository.row_to_dict(question)
             questionDict["answers"] = json.loads(questionDict['answers'])
 
@@ -154,7 +157,7 @@ class TriviaRepository:
                         INSERT INTO answers (answer_text, is_correct, question_id)
                         VALUES (?, ?, ?)
                     """
-                    Database.insert(answer_sql, (answer, answer == question["correct_answer"], question_id), False)
+                    Database.insert(answer_sql, (answer["text"], answer['is_correct'], question_id), False)
 
             Database.execute("COMMIT")
             return True
