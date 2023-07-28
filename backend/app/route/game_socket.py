@@ -29,7 +29,7 @@ def register_handlers(socketio):
 
     @socketio.on('answer')
     def handle_answer(data):
-        TriviaRepository.answer_question(data['game_id'], data['player_id'], data['answer_id'])
+        TriviaRepository.answer_question(data['game_id'], data['player']['id'], data['answer_id'])
 
         emit('answered', data, broadcast=True, room=data['game_id'])
 

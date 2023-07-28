@@ -71,7 +71,8 @@ const GamePage = () => {
             id: player.id,
             name: player.name,
             ready: false,
-            points: 0
+            points: 0,
+            answered: false
           }
         ];
       }
@@ -80,6 +81,17 @@ const GamePage = () => {
 
   const isReady = (player) => {
     return players.some(existingPlayer => existingPlayer.id === player.id && existingPlayer.ready);
+  };
+
+  const setPlayerAnswer = (player, answer_id) => {
+    setPlayers(players.map(existingPlayer => {
+      if (existingPlayer.id === player.id) {
+        return {
+          ...existingPlayer,
+          answer: answer_id
+        };
+      }}
+    ));
   };
 
   const removePlayer = (player) => {
@@ -99,12 +111,11 @@ const GamePage = () => {
 
   const handleStartGame = () => {
     console.log('start');
-
     socket.emit('start', { game_id: gameId, player: user });
   };
 
-  const handleAnswerClicked = (answerId) => () => {
-    console.log('answer', answerId);
+  const handleAnswerClicked = (answerId) => {
+    console.log('answer clicked', answerId);
     setSelectedAnswerId(answerId);
     socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId });
   };
@@ -234,7 +245,12 @@ const GamePage = () => {
       console.log('got pong', data);
       addPlayer(data.player);
     };
- 
+    const onAnswered = (data) => {
+      console.log('got answered', data);
+      setPlayerAnswer(data.player, data.answer_id);
+    };
+    
+    socket.on('answered', onAnswered);
     socket.on('joined', onJoined);
     socket.on('left', onLeft);
     socket.on('is_ready', onIsReady);
@@ -242,6 +258,7 @@ const GamePage = () => {
     socket.on('is_ready', onIsReady);
 
     return () => {
+      socket.off('answered', onAnswered);
       socket.off('joined', onJoined);
       socket.off('left', onLeft);
       socket.off('is_ready', onIsReady);
@@ -250,9 +267,9 @@ const GamePage = () => {
     }
   }, [players]);
 
-
   useEffect(() => {
     setAllReady(players.every(player => player.ready));
+    setAllAnswered(players.every(player => player.answer !== null));
   }, [players]);
 
   return (

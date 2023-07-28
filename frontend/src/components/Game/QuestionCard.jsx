@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import classNames from 'classnames';
 
 
-const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId, correctAnswerId }) => (
+const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId, player_answers}) => (
   <Card className="mb-4">
       <Card.Body>
           <Card.Title className="mb-3 p-5">{question.question}</Card.Title>
@@ -15,8 +15,9 @@ const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId
                           <Button 
                               className={classNames(
                                 selectedAnswerId === answer.id && "active",
-                                correctAnswerId !== null && correctAnswerId === answer.id ? "correct" : "incorrect"
+                                player_answers.length() > 0 && answer.is_correct ? "correct" : "incorrect"
                               )}
+                              disabled={selectedAnswerId !== null}
                               variant={"outline-primary"}
                               onClick={() => handleAnswerClicked(answer.id)}
                           >
