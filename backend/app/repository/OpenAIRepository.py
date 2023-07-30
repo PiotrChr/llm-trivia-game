@@ -130,3 +130,20 @@ def verify_question(question_json):
     except Exception as error:
         print('Error in verify_question:', error)
         raise error
+    
+    def get_translation(question, language):
+        url = "https://microsoft-translator-text.p.rapidapi.com/translate"
+        
+        querystring = {"api-version":"3.0","to":language,"textType":"plain","profanityAction":"NoAction","profanityMarker":"False"}
+        
+        payload = [{"Text":question}]
+        
+        headers = {
+            'content-type': "application/json",
+            'x-rapidapi-key': os.getenv('RAPID_API_KEY'),
+            'x-rapidapi-host': "microsoft-translator-text.p.rapidapi.com"
+            }
+        
+        response = requests.request("POST", url, data=json.dumps(payload), headers=headers, params=querystring)
+        
+        return json.loads(response.text)[0]['translations'][0]['text']

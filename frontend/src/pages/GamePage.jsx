@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { useAuth } from '../routing/AuthProvider';
-import { getGame, isPlaying, getCategories, getLanguages } from '../services/api';
-import { socket } from '../services/socket';
+import Countdown from '../components/Game/Countdown';
 import QuestionCard from '../components/Game/QuestionCard';
 import Sidebar from '../components/Game/SideBar';
-import Countdown from '../components/Game/Countdown';
+import { useAuth } from '../routing/AuthProvider';
+import { getCategories, getGame, getLanguages, isPlaying } from '../services/api';
+import { socket } from '../services/socket';
 
 // { id: 1, name: 'Player 1', ready: false, points: 0 },
 
@@ -72,7 +72,7 @@ const GamePage = () => {
             name: player.name,
             ready: false,
             points: 0,
-            answered: false
+            answer: null
           }
         ];
       }
@@ -118,6 +118,20 @@ const GamePage = () => {
     console.log('answer clicked', answerId);
     setSelectedAnswerId(answerId);
     socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId });
+  };
+
+  const handleNextQuestionClick = () => {
+    console.log('next question');
+    resetAll();
+    socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
+  };
+
+  const resetAll = () => {
+    setQuestionReady(false);
+    setSelectedAnswerId(null);
+    setCorrectAnswerId(null);
+    setAnswers([]);
+    setPlayers(players.map(player => ({ ...player, answer: null })));
   };
 
   useEffect(() => {
@@ -270,6 +284,8 @@ const GamePage = () => {
   useEffect(() => {
     setAllReady(players.every(player => player.ready));
     setAllAnswered(players.every(player => player.answer !== null));
+    console.log('players', players)
+    console.log('allAnswered', allAnswered)
   }, [players]);
 
   return (
@@ -282,7 +298,17 @@ const GamePage = () => {
               answers={answers}
               handleAnswerClicked={handleAnswerClicked}
               selectedAnswerId={selectedAnswerId}
-              correctAnswerId={correctAnswerId}
+              player_answers={
+                allAnswered ? players.map(player => {
+                  if (player.answer) {
+                    return {
+                      player: player.name,
+                      answer: player.answer
+                    }
+                  }
+                
+                }) : []
+              }
             />
           }
           { 
@@ -306,7 +332,7 @@ const GamePage = () => {
             <Button>Stop Game</Button>
           )}
           { gameStarted && allAnswered && (
-            <Button>Next question</Button>
+            <Button onClick={handleNextQuestionClick}>Next question</Button>
           )}
         </Col>
         <Col xs={4}>
