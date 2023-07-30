@@ -52,6 +52,26 @@ Example of a correct reply:
 Important! If you do not reply with a valid JSON array, the system will not be able to process your response and you will not be able to continue.
 """
 
+translation_user_prompt_json_structure = """
+{"language": language, "questions": [{"question": "Some example question", "answers": [{"text": "answer1", "is_correct": "true"}, {"text": "answer2", "is_correct": "false"}, {"text": "answer3", "is_correct": "false"}, {"text": "answer4", "is_correct": "false"}]}, {"question": "Some other example question", "answers": [{"text": "answer1", "is_correct": "false"}, {"text": "answer2", "is_correct": "false"}, {"text": "answer3", "is_correct": "true"}, {"text": "answer4", "is_correct": "false"}]}]}
+"""
+
+translation_system_prompt = f"""
+You're tasked with translating json array with trivia questions. Your responses should be strictly in JSON format and should follow the structure given below:
+{translation_user_prompt_json_structure}
+Language is a string with the target language name. Questions are an array of questions and answers in the source language. The answers should be translated as well.
+
+In a following messages I'll send a json object with the language and questions you should translate.
+You should translate the questions and answers to the target language and reply with the json object containing the translated questions and answers.
+Your response should be strictly in JSON format and should follow the structure given below: 
+{translation_user_prompt_json_structure}
+Where language is a string with the target language name. Questions are an array of questions and answers in the target language.
+Do not add any commentary to the reply.
+
+Example of a correct reply:
+{translation_user_prompt_json_structure}
+"""
+
 openai.api_key = os.getenv('OPENAI_KEY')
 # openai.organization = os.getenv('OPENAI_ORG_ID')
 
@@ -66,9 +86,7 @@ def chat_completion(messages):
         response = openai.ChatCompletion.create(**data)
         print('raw', response)
         content = response['choices'][0]['message']['content'].strip()
-        # # strips the first line and \n\n from the top of res string
-        # content = content[content.find('\n\n') + 2:]
-        
+
         return content
         
     except Exception as error:
@@ -131,19 +149,30 @@ def verify_question(question_json):
         print('Error in verify_question:', error)
         raise error
     
-    def get_translation(question, language):
-        url = "https://microsoft-translator-text.p.rapidapi.com/translate"
+
+def translate_questions(questions, language):
+    # initial system message
+    init_system_prompt = {
+        "role": "system",
+        "content": verification_system_prompt
+    }
+
+    user_message = {
+        "role": "user",
+        "content": json.dumps({
+            "language": language,
+            "questions": questions
+        })
+    }
+
+    messages = [init_system_prompt, user_message]
+
+    try:
+        response = chat_completion(messages)
         
-        querystring = {"api-version":"3.0","to":language,"textType":"plain","profanityAction":"NoAction","profanityMarker":"False"}
+        parsed_response = json.loads(response)
         
-        payload = [{"Text":question}]
-        
-        headers = {
-            'content-type': "application/json",
-            'x-rapidapi-key': os.getenv('RAPID_API_KEY'),
-            'x-rapidapi-host': "microsoft-translator-text.p.rapidapi.com"
-            }
-        
-        response = requests.request("POST", url, data=json.dumps(payload), headers=headers, params=querystring)
-        
-        return json.loads(response.text)[0]['translations'][0]['text']
+        return parsed_response
+    except Exception as error:
+        print('Error in verify_question:', error)
+        raise error
