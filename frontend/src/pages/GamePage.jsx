@@ -289,82 +289,98 @@ const GamePage = () => {
   }, [players]);
 
   return (
-    <Container>
-      <Row>
-        <Col xs={8}>
-          { questionReady && 
-            <QuestionCard
-              question={question}
-              answers={answers}
-              handleAnswerClicked={handleAnswerClicked}
-              selectedAnswerId={selectedAnswerId}
-              player_answers={
-                allAnswered ? players.map(player => {
-                  if (player.answer) {
-                    return {
-                      player: player.name,
-                      answer: player.answer
+    <section className="min-vh-80 mb-8">
+      <div
+        className="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
+        style={{ backgroundImage: "/static/assets/img/curved-images/curved14.jpg", borderRadius: '0px 0px 24px 24px' }}
+      >
+        <span className="mask bg-gradient-dark opacity-6"></span>
+        <Container>
+          <Row className="justify-content-center">
+            <Col lg={5} className="text-center mx-auto">
+              <h1 className="text-white mb-2 mt-5">Welcome!</h1>
+              <p className="text-lead text-white">Use these awesome forms to login or create a new account in your project for free.</p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <Container>
+        <Row className="mt-lg-n10 mt-md-n11 mt-n10">
+          <Col xs={8}>
+            { questionReady && 
+              <QuestionCard
+                question={question}
+                answers={answers}
+                handleAnswerClicked={handleAnswerClicked}
+                selectedAnswerId={selectedAnswerId}
+                player_answers={
+                  allAnswered ? players.map(player => {
+                    if (player.answer) {
+                      return {
+                        player: player.name,
+                        answer: player.answer
+                      }
                     }
-                  }
-                
-                }) : []
-              }
+                  
+                  }) : []
+                }
+              />
+            }
+            { 
+              !questionReady && (countdown > 0 || drawing) &&
+                <Countdown
+                  secondsLeft={countdown}
+                  title={ drawing ? 'Drawing a question' : 'Countdown' }
+                  showProgressBar={!drawing}
+                /> 
+            }
+            { !questionReady && !isReady(user) && (
+              <Button onClick={handleReady}>Ready</Button>
+            )}
+            {/* { !questionReady && !isHost && !serverStarted && (
+              <Button onClick={handleStartServer}>Start Server</Button>
+            )} */}
+            { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
+              <Button onClick={handleStartGame}>Start Game</Button>
+            )}
+            { gameStarted && isHost && (
+              <Button>Stop Game</Button>
+            )}
+            { gameStarted && allAnswered && (
+              <Button onClick={handleNextQuestionClick}>Next question</Button>
+            )}
+          </Col>
+          <Col xs={4}>
+            <Sidebar players={players} currentCategory={category.name} difficulty={difficulty} />
+            <Select
+              options={categories}
+              value={category.name}
+              onChange={handleCategoryChange}
+              onCreateOption={handleCategoryChange}
+              formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
+              isSearchable
+              isClearable
+              placeholder="Select a category..."
             />
-          }
-          { 
-            !questionReady && (countdown > 0 || drawing) &&
-              <Countdown
-                secondsLeft={countdown}
-                title={ drawing ? 'Drawing a question' : 'Countdown' }
-                showProgressBar={!drawing}
-              /> 
-          }
-          { !questionReady && !isReady(user) && (
-            <Button onClick={handleReady}>Ready</Button>
-          )}
-          {/* { !questionReady && !isHost && !serverStarted && (
-            <Button onClick={handleStartServer}>Start Server</Button>
-          )} */}
-          { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
-            <Button onClick={handleStartGame}>Start Game</Button>
-          )}
-          { gameStarted && isHost && (
-            <Button>Stop Game</Button>
-          )}
-          { gameStarted && allAnswered && (
-            <Button onClick={handleNextQuestionClick}>Next question</Button>
-          )}
-        </Col>
-        <Col xs={4}>
-          <Sidebar players={players} currentCategory={category.name} difficulty={difficulty} />
-          <Select
-            options={categories}
-            value={category.name}
-            onChange={handleCategoryChange}
-            onCreateOption={handleCategoryChange}
-            formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-            isSearchable
-            isClearable
-            placeholder="Select a category..."
-          />
-          <Select
-            options={difficultyOptions}
-            value={difficulty}
-            onChange={handleDifficultyChange}
-            isSearchable
-            placeholder="Select a difficulty..."
-          />
-          <Select
-            options={languages}
-            value={language}
-            onChange={handleLanguageChange}
-            isSearchable
-            placeholder="Select a language..."
-          />
-          {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
-        </Col>
-      </Row>
-    </Container>
+            <Select
+              options={difficultyOptions}
+              value={difficulty}
+              onChange={handleDifficultyChange}
+              isSearchable
+              placeholder="Select a difficulty..."
+            />
+            <Select
+              options={languages}
+              value={language}
+              onChange={handleLanguageChange}
+              isSearchable
+              placeholder="Select a language..."
+            />
+            {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
+          </Col>
+        </Row>
+      </Container>
+    </section>
   );
 };
 

@@ -10,7 +10,7 @@ const HomePage = () => {
   return (
     <div>
       <div
-        className="p-5 text-center bg-image rounded-3"
+        className="p-5 text-center bg-image rounded-3 position-relative"
         style={{ backgroundImage: "url('static/img/jumbotron_image.png')", height: '400px', backgroundSize: 'cover' }}
       >
       <div className="mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} >

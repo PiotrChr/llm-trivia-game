@@ -26,7 +26,7 @@ if __name__ == '__main__':
     PORT = int(os.getenv('FRONTEND_PORT', 8000))
     url = f"http://localhost:{PORT}"
 
-    webbrowser.open(url)
+    # webbrowser.open(url)
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
 
