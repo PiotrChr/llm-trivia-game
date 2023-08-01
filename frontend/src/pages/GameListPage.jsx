@@ -5,6 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router-dom';
 import { getGames } from '../services/api';
 import { useAuth } from '../routing/AuthProvider';  // import AuthContext to access current user information
+import { Col, Row } from 'react-bootstrap';
 
 function GameListPage() {
   const [games, setGames] = useState([]);
@@ -35,35 +36,67 @@ function GameListPage() {
   }
 
   return (
-    <div className="game-list-page">
-      <h1>Game List</h1>
-      <ul style={{listStyleType: 'none'}}>
-        {games.map((game, index) => (
-          <li key={index} className='d-flex mb-2'>
-            <Card style={{ width: '100%' }}>
-              <Card.Body className="d-flex flex-row">
-                <div className="flex-grow-1">
-                  <Card.Title>{game.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">Hosted by: {game.host}</Card.Subtitle>
-                  <Card.Text>
-                    <strong>Start time: </strong>{game.time_start}<br/>
-                    <strong>Category: {game.current_category}</strong><br/>
-                    <strong>Max questions: </strong>{game.max_questions}<br/>
-                    <strong>Players: </strong>{game.players.length}
-                  </Card.Text>
-                </div>
-                <div className="d-grid align-items-end">
-                  {hasJoined(game) 
-                    ? <Button variant="success" onClick={() => handleConnect(game.id)} className="mr-2">Connect</Button>
-                    : <Button variant="primary" onClick={() => handleJoin(game.id)} className="mr-2">Join</Button>}
-                  <Button variant="secondary" onClick={() => { /* Implement view stats logic here */ }}>View Stats</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className="min-vh-80 mb-8">
+      <div
+        className="page-header min-height-300 align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
+        style={{borderRadius: '0px 0px 24px 24px' }}
+      >
+        <span className="mask bg-gradient-primary opacity-6"></span>
+      </div>
+      <Card className='card-body blur shadow-blur mx-4 mt-n4 overflow-hidden'>
+        <Row className='gx-4'>
+          Test  
+        </Row>
+      </Card>
+      <div className="container mt-6">
+        <Row>
+          <Col size="12">
+            <table className="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">Game ID</th>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">Category</th>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">Players</th>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">Status</th>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                  <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                { games.map((game) => {
+                  return (
+                    <tr key={game.id}>
+                      <td>
+                        <h6 className="mb-0 text-xs"> { game.id } </h6>
+                      </td>
+                      <td className='align-middle text-center text-sm'>
+                        <h6 className="mb-0 text-xs"> CATID </h6>
+                      </td>
+                      <td className='align-middle text-center text-sm'>
+                        <h6 className="mb-0 text-xs"> { game.players.length } </h6>
+                      </td>
+                      <td className='align-middle text-center text-sm'>
+                        <span className="badge badge-sm bg-gradient-success">somestatus</span>
+                      </td>
+                      <td className="align-middle text-center text-sm">
+                        <Button variant="outline-secondary" className="btn-round mb-0" onClick={() => { /* Implement view stats logic here */ }}>View Stats</Button>
+                      </td>
+                      <td className='align-middle text-center text-sm'>
+                        {
+                          hasJoined(game) 
+                            ? <Button variant="outline-primary" onClick={() => handleConnect(game.id)} className="btn-round btn-sm mb-0">Connect</Button>
+                            : <Button variant="outline-success" onClick={() => handleJoin(game.id)} className="btn-round btn-sm mb-0">Join</Button>
+                        }
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </Col>
+        </Row>
+      </div>
+    </section>
   );
 }
 

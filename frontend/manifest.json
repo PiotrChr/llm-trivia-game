@@ -1,0 +1,460 @@
+{
+  "008": [
+    "/static/img/category_images/008/astronomy2.jpeg",
+    "/static/img/category_images/008/astronomy1.jpeg"
+  ],
+  "091": [
+    "/static/img/category_images/091/caligraphy4.jpeg",
+    "/static/img/category_images/091/caligraphy1.jpeg",
+    "/static/img/category_images/091/caligraphy2.jpeg",
+    "/static/img/category_images/091/caligraphy3.jpeg"
+  ],
+  "098": [
+    "/static/img/category_images/098/bonsai_cultivation3.jpeg",
+    "/static/img/category_images/098/bonsai_cultivation1.jpeg",
+    "/static/img/category_images/098/bonsai_cultivation2.jpeg",
+    "/static/img/category_images/098/bonsai_cultivation4.jpeg"
+  ],
+  "012": [
+    "/static/img/category_images/012/biology1.jpeg",
+    "/static/img/category_images/012/biology2.jpeg"
+  ],
+  "025": [
+    "/static/img/category_images/025/current_affairs.jpeg",
+    "/static/img/category_images/025/current_affairs2.jpeg",
+    "/static/img/category_images/025/current_affairs3.jpeg"
+  ],
+  "001": [],
+  "062": [
+    "/static/img/category_images/062/marine_biology3.jpeg",
+    "/static/img/category_images/062/marine_biology2.jpeg",
+    "/static/img/category_images/062/marine_biology4.jpeg",
+    "/static/img/category_images/062/marine_biology1.jpeg"
+  ],
+  "023": [
+    "/static/img/category_images/023/health_medicine2.jpg",
+    "/static/img/category_images/023/health_medicine.jpeg"
+  ],
+  "030": [
+    "/static/img/category_images/030/video_games2.jpeg",
+    "/static/img/category_images/030/video_games5.jpeg",
+    "/static/img/category_images/030/video_games3.jpeg",
+    "/static/img/category_images/030/video_games.jpeg",
+    "/static/img/category_images/030/video_games4.jpeg"
+  ],
+  "089": [
+    "/static/img/category_images/089/folk_music2.jpeg",
+    "/static/img/category_images/089/folk_music3.jpeg",
+    "/static/img/category_images/089/folk_music5.jpeg",
+    "/static/img/category_images/089/folk_music4.jpeg",
+    "/static/img/category_images/089/folk_music1.jpeg"
+  ],
+  "059": [
+    "/static/img/category_images/059/jazz_music1.jpeg",
+    "/static/img/category_images/059/jazz_music2.jpeg"
+  ],
+  "055": [
+    "/static/img/category_images/055/viticulture2.jpeg",
+    "/static/img/category_images/055/viticulture1.jpeg",
+    "/static/img/category_images/055/viticulture4.jpeg",
+    "/static/img/category_images/055/viticulture3.jpeg"
+  ],
+  "081": [
+    "/static/img/category_images/081/gemology1.jpeg",
+    "/static/img/category_images/081/gemology3.jpeg",
+    "/static/img/category_images/081/gemology2.jpeg"
+  ],
+  "040": [],
+  "037": [
+    "/static/img/category_images/037/languages4.jpeg",
+    "/static/img/category_images/037/languages1.jpeg",
+    "/static/img/category_images/037/languages2.jpeg",
+    "/static/img/category_images/037/languages5.jpeg",
+    "/static/img/category_images/037/languages3.jpeg"
+  ],
+  "061": [
+    "/static/img/category_images/061/meteorology2.jpeg",
+    "/static/img/category_images/061/meteorology4.jpeg",
+    "/static/img/category_images/061/meteorology1.jpeg",
+    "/static/img/category_images/061/meteorology3.jpeg",
+    "/static/img/category_images/061/meteorology5.jpeg"
+  ],
+  "041": [],
+  "095": [
+    "/static/img/category_images/095/podcasts2.jpeg",
+    "/static/img/category_images/095/podcasts3.jpeg",
+    "/static/img/category_images/095/podcasts1.jpeg"
+  ],
+  "076": [
+    "/static/img/category_images/076/ballet2.jpeg",
+    "/static/img/category_images/076/ballet1.jpeg",
+    "/static/img/category_images/076/ballet3.jpeg"
+  ],
+  "092": [
+    "/static/img/category_images/092/ornithology4.jpeg",
+    "/static/img/category_images/092/ornithology2.jpeg",
+    "/static/img/category_images/092/ornithology1.jpeg",
+    "/static/img/category_images/092/ornithology3.jpeg"
+  ],
+  "051": [
+    "/static/img/category_images/051/classical_literature1.jpeg",
+    "/static/img/category_images/051/classical_literature3.jpeg",
+    "/static/img/category_images/051/classical_literature5.jpeg",
+    "/static/img/category_images/051/classical_literature4.jpeg",
+    "/static/img/category_images/051/classical_literature2.jpeg"
+  ],
+  "036": [
+    "/static/img/category_images/036/travel2.jpeg",
+    "/static/img/category_images/036/travel1.jpeg"
+  ],
+  "087": [
+    "/static/img/category_images/087/microbiology1.jpeg",
+    "/static/img/category_images/087/microbiology3.jpeg",
+    "/static/img/category_images/087/microbiology2.jpeg",
+    "/static/img/category_images/087/microbiology4.jpeg"
+  ],
+  "093": [
+    "/static/img/category_images/093/futurology3.jpeg",
+    "/static/img/category_images/093/futurology1.jpeg",
+    "/static/img/category_images/093/futurology2.jpeg"
+  ],
+  "005": [
+    "/static/img/category_images/005/movies2.jpeg",
+    "/static/img/category_images/005/movies3.jpeg",
+    "/static/img/category_images/005/movies1.jpeg"
+  ],
+  "029": [
+    "/static/img/category_images/029/technology2.jpeg",
+    "/static/img/category_images/029/technology1.jpeg"
+  ],
+  "017": [
+    "/static/img/category_images/017/cooking3.jpeg",
+    "/static/img/category_images/017/cooking2.jpeg",
+    "/static/img/category_images/017/cooking1.jpeg"
+  ],
+  "099": [
+    "/static/img/category_images/099/brewing2.jpeg",
+    "/static/img/category_images/099/brewing1.jpeg"
+  ],
+  "018": [
+    "/static/img/category_images/018/fashion1.jpeg"
+  ],
+  "088": [
+    "/static/img/category_images/088/stand_up_comedy2.jpeg",
+    "/static/img/category_images/088/stand_up_comedy1.jpeg",
+    "/static/img/category_images/088/stand_up_comedy3.jpeg"
+  ],
+  "014": [
+    "/static/img/category_images/014/philosophy2.jpeg",
+    "/static/img/category_images/014/philosophy1.jpeg"
+  ],
+  "050": [
+    "/static/img/category_images/050/classical_music3.jpeg",
+    "/static/img/category_images/050/classical_music1.jpeg",
+    "/static/img/category_images/050/classical_music2.jpeg"
+  ],
+  "053": [],
+  "094": [
+    "/static/img/category_images/094/cryptocurrency3.jpeg",
+    "/static/img/category_images/094/cryptocurrency2.jpeg",
+    "/static/img/category_images/094/cryptocurrency1.jpeg"
+  ],
+  "010": [
+    "/static/img/category_images/010/literature2.jpeg",
+    "/static/img/category_images/010/literature1.jpeg"
+  ],
+  "096": [
+    "/static/img/category_images/096/origami3.jpeg",
+    "/static/img/category_images/096/origami1.jpeg",
+    "/static/img/category_images/096/origami2.jpeg",
+    "/static/img/category_images/096/origami4.jpeg"
+  ],
+  "028": [
+    "/static/img/category_images/028/automobiles4.jpeg",
+    "/static/img/category_images/028/automobiles3.jpeg",
+    "/static/img/category_images/028/automobiles2.jpeg",
+    "/static/img/category_images/028/automobiles1.jpeg"
+  ],
+  "015": [
+    "/static/img/category_images/015/art1.jpeg",
+    "/static/img/category_images/015/art2.jpeg",
+    "/static/img/category_images/015/art3.jpeg"
+  ],
+  "021": [
+    "/static/img/category_images/021/television1.jpeg"
+  ],
+  "097": [
+    "/static/img/category_images/097/fencing2.jpeg",
+    "/static/img/category_images/097/fencing1.jpeg"
+  ],
+  "073": [
+    "/static/img/category_images/073/radio_broadcasting1.jpeg",
+    "/static/img/category_images/073/radio_broadcasting3.jpeg",
+    "/static/img/category_images/073/radio_broadcasting2.jpeg"
+  ],
+  "074": [
+    "/static/img/category_images/074/tea_culture1.jpeg",
+    "/static/img/category_images/074/tea_culture3.jpeg",
+    "/static/img/category_images/074/tea_culture2.jpeg",
+    "/static/img/category_images/074/tea_culture4.jpeg"
+  ],
+  "052": [
+    "/static/img/category_images/052/mythology5.jpeg",
+    "/static/img/category_images/052/mythology3.jpeg",
+    "/static/img/category_images/052/mythology1.jpeg",
+    "/static/img/category_images/052/mythology6.jpeg",
+    "/static/img/category_images/052/mythology4.jpeg",
+    "/static/img/category_images/052/mythology2.jpeg"
+  ],
+  "039": [],
+  "067": [
+    "/static/img/category_images/067/neuroscience2.jpeg",
+    "/static/img/category_images/067/neuroscience1.jpeg",
+    "/static/img/category_images/067/neuroscience3.jpeg"
+  ],
+  "003": [
+    "/static/img/category_images/003/history1.jpeg",
+    "/static/img/category_images/003/history3.jpeg",
+    "/static/img/category_images/003/history2.jpeg"
+  ],
+  "043": [
+    "/static/img/category_images/043/photography3.jpeg",
+    "/static/img/category_images/043/photography2.jpeg",
+    "/static/img/category_images/043/photography1.jpeg"
+  ],
+  "063": [
+    "/static/img/category_images/063/paleontology1.jpeg",
+    "/static/img/category_images/063/paleontology3.jpeg",
+    "/static/img/category_images/063/paleontology2.jpeg"
+  ],
+  "100": [
+    "/static/img/category_images/100/entomology3.jpeg",
+    "/static/img/category_images/100/entomology2.jpeg",
+    "/static/img/category_images/100/entomology1.jpeg"
+  ],
+  "019": [
+    "/static/img/category_images/019/business_finance.jpeg",
+    "/static/img/category_images/019/business_finance2.jpeg"
+  ],
+  "054": [
+    "/static/img/category_images/054/horticulture4.jpeg",
+    "/static/img/category_images/054/horticulture3.jpeg",
+    "/static/img/category_images/054/horticulture2.jpeg",
+    "/static/img/category_images/054/horticulture1.jpeg"
+  ],
+  "080": [
+    "/static/img/category_images/080/kinesiology1.jpeg"
+  ],
+  "082": [
+    "/static/img/category_images/082/esports1.jpeg",
+    "/static/img/category_images/082/esports3.jpeg",
+    "/static/img/category_images/082/esports2.jpeg"
+  ],
+  "044": [
+    "/static/img/category_images/044/cinema1.jpeg",
+    "/static/img/category_images/044/cinema2.jpeg"
+  ],
+  "032": [
+    "/static/img/category_images/032/science_fiction2.jpeg",
+    "/static/img/category_images/032/science_fiction1.jpeg"
+  ],
+  "079": [
+    "/static/img/category_images/079/ufology2.jpeg",
+    "/static/img/category_images/079/ufology3.jpeg",
+    "/static/img/category_images/079/ufology4.jpeg",
+    "/static/img/category_images/079/ufology1.jpeg"
+  ],
+  "004": [
+    "/static/img/category_images/004/music2.jpeg",
+    "/static/img/category_images/004/music1.jpeg"
+  ],
+  "069": [
+    "/static/img/category_images/069/cryptology4.jpeg",
+    "/static/img/category_images/069/cryptology2.jpeg",
+    "/static/img/category_images/069/cryptology1.jpeg",
+    "/static/img/category_images/069/cryptology3.jpeg"
+  ],
+  "072": [
+    "/static/img/category_images/072/philately3.jpeg",
+    "/static/img/category_images/072/philately2.jpeg",
+    "/static/img/category_images/072/philately4.jpeg",
+    "/static/img/category_images/072/philately1.jpeg"
+  ],
+  "086": [
+    "/static/img/category_images/086/medieval_history4.jpeg",
+    "/static/img/category_images/086/medieval_history1.jpeg",
+    "/static/img/category_images/086/medieval_history3.jpeg",
+    "/static/img/category_images/086/medieval_history2.jpeg"
+  ],
+  "011": [
+    "/static/img/category_images/011/chemistry1.jpeg"
+  ],
+  "047": [],
+  "038": [],
+  "016": [
+    "/static/img/category_images/016/sport2.jpeg",
+    "/static/img/category_images/016/sport1.jpeg"
+  ],
+  "065": [
+    "/static/img/category_images/065/sociology2.jpeg",
+    "/static/img/category_images/065/sociology1.jpeg"
+  ],
+  "007": [
+    "/static/img/category_images/007/computer_science1.jpeg"
+  ],
+  "085": [
+    "/static/img/category_images/085/agriculture1.jpeg",
+    "/static/img/category_images/085/agriculture2.jpeg",
+    "/static/img/category_images/085/agriculture3.jpeg"
+  ],
+  "022": [
+    "/static/img/category_images/022/religion2.jpeg",
+    "/static/img/category_images/022/religion1.jpeg"
+  ],
+  "033": [
+    "/static/img/category_images/033/anime_manga4.jpeg",
+    "/static/img/category_images/033/anime_manga3.jpeg",
+    "/static/img/category_images/033/anime_manga1.jpeg",
+    "/static/img/category_images/033/anime_manga2.jpeg"
+  ],
+  "066": [
+    "/static/img/category_images/066/ethics2.jpeg",
+    "/static/img/category_images/066/ethics3.jpeg",
+    "/static/img/category_images/066/ethics1.jpeg"
+  ],
+  "064": [
+    "/static/img/category_images/064/geology4.jpeg",
+    "/static/img/category_images/064/geology2.jpeg",
+    "/static/img/category_images/064/geology3.jpeg",
+    "/static/img/category_images/064/geology1.jpeg"
+  ],
+  "078": [
+    "/static/img/category_images/078/crypto_zoology4.jpeg",
+    "/static/img/category_images/078/crypto_zoology2.jpeg",
+    "/static/img/category_images/078/crypto_zoology1.jpeg",
+    "/static/img/category_images/078/crypto_zoology3.jpeg"
+  ],
+  "034": [
+    "/static/img/category_images/034/board_games1.jpeg"
+  ],
+  "027": [
+    "/static/img/category_images/027/celebrities2.jpeg",
+    "/static/img/category_images/027/celebrities1.jpeg",
+    "/static/img/category_images/027/celebrities3.jpeg"
+  ],
+  "049": [
+    "/static/img/category_images/049/dance1.jpeg",
+    "/static/img/category_images/049/dance2.jpeg"
+  ],
+  "009": [
+    "/static/img/category_images/009/geography1.jpeg",
+    "/static/img/category_images/009/geography2.jpeg"
+  ],
+  "042": [
+    "/static/img/category_images/042/fantasy_literature2.jpeg",
+    "/static/img/category_images/042/fantasy_literature4.jpeg",
+    "/static/img/category_images/042/fantasy_literature1.jpeg",
+    "/static/img/category_images/042/fantasy_literature3.jpeg"
+  ],
+  "090": [
+    "/static/img/category_images/090/musical_theatre2.jpeg",
+    "/static/img/category_images/090/musical_theatre3.jpeg",
+    "/static/img/category_images/090/musical_theatre1.jpeg"
+  ],
+  "060": [
+    "/static/img/category_images/060/opera4.jpeg",
+    "/static/img/category_images/060/opera1.jpeg",
+    "/static/img/category_images/060/opera3.jpeg",
+    "/static/img/category_images/060/opera2.jpeg"
+  ],
+  "058": [
+    "/static/img/category_images/058/graphic_design1.jpeg",
+    "/static/img/category_images/058/graphic_design3.jpeg",
+    "/static/img/category_images/058/graphic_design2.jpeg"
+  ],
+  "070": [
+    "/static/img/category_images/070/archery1.jpeg"
+  ],
+  "071": [
+    "/static/img/category_images/071/numismatics1.jpeg",
+    "/static/img/category_images/071/numismatics2.jpeg"
+  ],
+  "046": [],
+  "031": [
+    "/static/img/category_images/031/comic_books2.jpeg",
+    "/static/img/category_images/031/comic_books3.jpeg",
+    "/static/img/category_images/031/comic_books1.jpeg"
+  ],
+  "068": [
+    "/static/img/category_images/068/cartography4.jpeg",
+    "/static/img/category_images/068/cartography3.jpeg",
+    "/static/img/category_images/068/cartography2.jpeg",
+    "/static/img/category_images/068/cartography1.jpeg"
+  ],
+  "057": [
+    "/static/img/category_images/057/robotics1.jpeg",
+    "/static/img/category_images/057/robotics2.jpeg",
+    "/static/img/category_images/057/robotics3.jpeg"
+  ],
+  "056": [
+    "/static/img/category_images/056/quantum_mechanics2.jpeg",
+    "/static/img/category_images/056/quantum_mechanics1.jpeg",
+    "/static/img/category_images/056/quantum_mechanics4.jpeg",
+    "/static/img/category_images/056/quantum_mechanics3.jpeg"
+  ],
+  "026": [
+    "/static/img/category_images/026/politics2.jpeg",
+    "/static/img/category_images/026/politics1.jpeg",
+    "/static/img/category_images/026/politics3.jpeg"
+  ],
+  "006": [
+    "/static/img/category_images/006/mathematics1.jpeg"
+  ],
+  "045": [
+    "/static/img/category_images/045/wildlife2.jpeg",
+    "/static/img/category_images/045/wildlife1.jpeg",
+    "/static/img/category_images/045/wildlife3.jpeg"
+  ],
+  "083": [
+    "/static/img/category_images/083/forestry1.jpeg",
+    "/static/img/category_images/083/forestry2.jpeg",
+    "/static/img/category_images/083/forestry3.jpeg"
+  ],
+  "048": [
+    "/static/img/category_images/048/sculpture2.jpeg",
+    "/static/img/category_images/048/sculpture1.jpeg"
+  ],
+  "024": [
+    "/static/img/category_images/024/environment1.jpeg",
+    "/static/img/category_images/024/environment2.jpeg"
+  ],
+  "002": [],
+  "013": [
+    "/static/img/category_images/013/psychology1.jpeg",
+    "/static/img/category_images/013/psychology2.jpeg"
+  ],
+  "084": [
+    "/static/img/category_images/084/astrology1.jpeg",
+    "/static/img/category_images/084/astrology2.jpeg",
+    "/static/img/category_images/084/astrology3.jpeg"
+  ],
+  "020": [
+    "/static/img/category_images/020/pop_culture1.jpeg",
+    "/static/img/category_images/020/pop_culture2.jpeg"
+  ],
+  "077": [
+    "/static/img/category_images/077/modern_art2.jpeg",
+    "/static/img/category_images/077/modern_art1.jpeg",
+    "/static/img/category_images/077/modern_art3.jpeg",
+    "/static/img/category_images/077/modern_art4.jpeg"
+  ],
+  "075": [
+    "/static/img/category_images/075/coffee_culture2.jpeg",
+    "/static/img/category_images/075/coffee_culture1.jpeg",
+    "/static/img/category_images/075/coffee_culture3.jpeg"
+  ],
+  "035": [
+    "/static/img/category_images/035/card_games2.jpeg",
+    "/static/img/category_images/035/card_games.jpeg"
+  ]
+}

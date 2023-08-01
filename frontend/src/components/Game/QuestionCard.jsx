@@ -4,8 +4,9 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId, player_answers}) => {
   console.log(player_answers);  
+  console.log(answers);
   return (
-        <Card className="mb-4">
+        <Card className="mb-4 shadow-none">
             <Card.Body>
                 <Card.Title className="mb-3 p-5">{question.question}</Card.Title>
 
@@ -17,7 +18,7 @@ const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId
                                     variant={
                                         selectedAnswerId === answer.id 
                                             ? (player_answers.length > 0
-                                                ? (answer.is_correct ? "success" : "danger")
+                                                ? (answer.is_correct === 'true' ? "success" : "danger")
                                                 : "outline-primary")
                                             : "outline-primary"
                                     }
