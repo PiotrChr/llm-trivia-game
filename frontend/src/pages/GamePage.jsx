@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+import { Button, Col, Container, ProgressBar, Row, Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
-import { useAuth } from '../routing/AuthProvider';
-import { getGame, isPlaying, getCategories, getLanguages } from '../services/api';
-import { socket } from '../services/socket';
+import classNames from 'classnames';
+import Countdown from '../components/Game/Countdown';
 import QuestionCard from '../components/Game/QuestionCard';
 import Sidebar from '../components/Game/SideBar';
-import Countdown from '../components/Game/Countdown';
-
+import { useAuth } from '../routing/AuthProvider';
+import { getCategories, getGame, getLanguages, isPlaying } from '../services/api';
+import { socket } from '../services/socket';
+import { getRandomBackground  } from '../utils';
 // { id: 1, name: 'Player 1', ready: false, points: 0 },
+
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -44,6 +46,7 @@ const GamePage = () => {
   const [answers, setAnswers] = useState([]);
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
   const [correctAnswerId, setCorrectAnswerId] = useState(null);
+  const [currentBackground, setCurrentBackground] = useState(null);
 
   const gameId = useParams().gameId;
 
@@ -72,7 +75,7 @@ const GamePage = () => {
             name: player.name,
             ready: false,
             points: 0,
-            answered: false
+            answer: null
           }
         ];
       }
@@ -90,13 +93,12 @@ const GamePage = () => {
           ...existingPlayer,
           answer: answer_id
         };
-      }}
-    ));
+      }
+      return existingPlayer;
+    }));
   };
 
   const removePlayer = (player) => {
-    console.log('remove', player)
-    console.log(players)
     setPlayers(players.filter(p => p.id !== player.id));
   };
 
@@ -105,20 +107,35 @@ const GamePage = () => {
   };
 
   const handleReady = () => {
-    console.log('ready');
     socket.emit('ready', { player: user, game_id: gameId });
   };
 
   const handleStartGame = () => {
-    console.log('start');
     socket.emit('start', { game_id: gameId, player: user });
   };
 
   const handleAnswerClicked = (answerId) => {
-    console.log('answer clicked', answerId);
     setSelectedAnswerId(answerId);
     socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId });
   };
+
+  const handleNextQuestionClick = () => {
+    console.log('next question');
+    resetAll();
+    socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
+  };
+
+  const resetAll = () => {
+    setQuestionReady(false);
+    setSelectedAnswerId(null);
+    setCorrectAnswerId(null);
+    setAnswers([]);
+    setPlayers(players.map(player => ({ ...player, answer: null })));
+  };
+
+  useEffect(() => {
+    setCurrentBackground(getRandomBackground(category['id']));
+  }, [category['id']]);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -220,8 +237,6 @@ const GamePage = () => {
 
   useEffect(() => { 
     const onIsReady = (data) => {
-      console.log('got is_ready', data);
-
       setPlayers(players => players.map(player => {
         if (player.id === data.player.id) {
           return {
@@ -234,19 +249,15 @@ const GamePage = () => {
       }));
     };
     const onJoined = (data) => {
-      console.log('got joined', data);
       addPlayer(data.player);
     };
     const onLeft = (data) => {
-      console.log('got left', data);
       removePlayer(data.player);
     };
     const onPong = (data) => {
-      console.log('got pong', data);
       addPlayer(data.player);
     };
     const onAnswered = (data) => {
-      console.log('got answered', data);
       setPlayerAnswer(data.player, data.answer_id);
     };
     
@@ -273,72 +284,114 @@ const GamePage = () => {
   }, [players]);
 
   return (
-    <Container>
-      <Row>
-        <Col xs={8}>
-          { questionReady && 
-            <QuestionCard
-              question={question}
-              answers={answers}
-              handleAnswerClicked={handleAnswerClicked}
-              selectedAnswerId={selectedAnswerId}
-              correctAnswerId={correctAnswerId}
-            />
-          }
-          { 
-            !questionReady && (countdown > 0 || drawing) &&
-              <Countdown
-                secondsLeft={countdown}
-                title={ drawing ? 'Drawing a question' : 'Countdown' }
-                showProgressBar={!drawing}
-              /> 
-          }
-          { !questionReady && !isReady(user) && (
-            <Button onClick={handleReady}>Ready</Button>
-          )}
-          {/* { !questionReady && !isHost && !serverStarted && (
-            <Button onClick={handleStartServer}>Start Server</Button>
-          )} */}
-          { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
-            <Button onClick={handleStartGame}>Start Game</Button>
-          )}
-          { gameStarted && isHost && (
-            <Button>Stop Game</Button>
-          )}
-          { gameStarted && allAnswered && (
-            <Button>Next question</Button>
-          )}
-        </Col>
-        <Col xs={4}>
-          <Sidebar players={players} currentCategory={category.name} difficulty={difficulty} />
-          <Select
-            options={categories}
-            value={category.name}
-            onChange={handleCategoryChange}
-            onCreateOption={handleCategoryChange}
-            formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-            isSearchable
-            isClearable
-            placeholder="Select a category..."
-          />
-          <Select
-            options={difficultyOptions}
-            value={difficulty}
-            onChange={handleDifficultyChange}
-            isSearchable
-            placeholder="Select a difficulty..."
-          />
-          <Select
-            options={languages}
-            value={language}
-            onChange={handleLanguageChange}
-            isSearchable
-            placeholder="Select a language..."
-          />
-          {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
-        </Col>
-      </Row>
-    </Container>
+    <section className="min-vh-80 mb-8">
+      <div
+        className="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
+        style={{
+          backgroundImage: `url(${currentBackground})`,
+          borderRadius: '0px 0px 24px 24px',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <span className="mask bg-gradient-dark opacity-6"></span>
+        <Container>
+          <Row className="justify-content-center">
+            <Col lg={5} className="text-center mx-auto">
+              <h1 className="text-white mb-2 mt-10">{ category.name }</h1>
+              <p className="text-lead text-white">Current difficulty: { difficulty }</p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <Container>
+        <Row className="mt-lg-n10 mt-md-n11 mt-n10">
+          <Card>
+            <Card.Body className='row'>
+              <Col xs={8}>
+              { questionReady && 
+                <QuestionCard
+                  question={question}
+                  answers={answers}
+                  handleAnswerClicked={handleAnswerClicked}
+                  selectedAnswerId={selectedAnswerId}
+                  player_answers={
+                    allAnswered ? players.map(player => {
+                      if (player.answer) {
+                        return {
+                          player: player.name,
+                          answer: player.answer
+                        }
+                      }
+                    
+                    }) : []
+                  }
+                />
+              }
+              { 
+                !questionReady && (countdown > 0 || drawing) &&
+                  <Countdown
+                    secondsLeft={countdown}
+                    title={ drawing ? 'Drawing a question' : 'Countdown' }
+                    showProgressBar={!drawing}
+                  /> 
+              }
+            </Col>
+            <Col xs={4}>
+              <Sidebar players={players} />
+              <Select
+                options={categories}
+                value={category.name}
+                onChange={handleCategoryChange}
+                onCreateOption={handleCategoryChange}
+                formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
+                isSearchable
+                isClearable
+                placeholder="Select a category..."
+              />
+              <Select
+                options={difficultyOptions}
+                value={difficulty}
+                onChange={handleDifficultyChange}
+                isSearchable
+                placeholder="Select a difficulty..."
+              />
+              <Select
+                options={languages}
+                value={language}
+                onChange={handleLanguageChange}
+                isSearchable
+                placeholder="Select a language..."
+              />
+              {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
+            </Col>
+            </Card.Body>
+            <Card.Footer>
+              <Button
+                variant="none"
+                onClick={handleReady}
+                className={classNames({
+                  "disabled": isReady(user),
+                  "btn-success": isReady(user),
+                  "btn-outline-success": !isReady(user),
+                }, "btn-sm btn-round mb-0 me-2")}
+              >
+                Ready
+              </Button>
+              { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
+                <Button className="btn-sm btn-round mb-0 me-3" onClick={handleStartGame}>Start Game</Button>
+              )}
+              { gameStarted && isHost && (
+                <Button className="btn-sm btn-round mb-0 me-3">Stop Game</Button>
+              )}
+              { gameStarted && allAnswered && (
+                <Button className="btn-sm btn-round mb-0 me-3" onClick={handleNextQuestionClick}>Next question</Button>
+              )}
+            </Card.Footer>
+          </Card>
+        </Row>
+      </Container>
+    </section>
   );
 };
 

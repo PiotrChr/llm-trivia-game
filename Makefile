@@ -1,10 +1,10 @@
-.PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help
+.PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help install_all setup setup_db setup_env build_frontend_dev generate_manifest
 
 default: help
 
 install_all: install_backend install_frontend
 
-setup: install_all remove_tables setup_db setup_env build_frontend_dev
+setup: install_all remove_tables setup_db setup_env build_frontend_dev generate_manifest
 
 setup_env:
 	python3 scripts/setup_env.py
@@ -34,6 +34,9 @@ build_frontend:
 
 build_frontend_dev:
 	cd frontend && npm run build_dev
+
+generate_manifest:
+	python3 scripts/generateManifest.py
 
 start_backend_server:
 	cd backend && python3 app.py

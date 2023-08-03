@@ -28,7 +28,7 @@ class QuestionManager:
             questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 20)
             TriviaRepository.add_questions(questions, cat_id, difficulty)
 
-            question = QuestionManager.draw_one(questions)
+            question = TriviaRepository.draw_question(game_id, cat_id, difficulty)
 
         return question
         
