@@ -105,6 +105,9 @@ def register_handlers(socketio):
     def handle_pong(data):
         emit('pong', data, broadcast=True, room=data['game_id'])
 
+    @socketio.on('message')
+    def handle_message(data):
+        emit('message', data, broadcast=True, room=data['game_id'])
 
     @socketio.on('*')
     def catch_all(event, data):

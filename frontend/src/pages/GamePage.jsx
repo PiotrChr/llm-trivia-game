@@ -47,6 +47,7 @@ const GamePage = () => {
   const [selectedAnswerId, setSelectedAnswerId] = useState(null);
   const [correctAnswerId, setCorrectAnswerId] = useState(null);
   const [currentBackground, setCurrentBackground] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const gameId = useParams().gameId;
 
@@ -61,6 +62,10 @@ const GamePage = () => {
 
   const handleLanguageChange = (newValue) => {
     setLanguage(newValue);
+  };
+
+  const handleSendMessage = (message) => {
+    socket.emit('message', { game_id: gameId, player: user, message: message });
   };
 
   const addPlayer = (player) => {
@@ -120,7 +125,6 @@ const GamePage = () => {
   };
 
   const handleNextQuestionClick = () => {
-    console.log('next question');
     resetAll();
     socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
   };
@@ -183,26 +187,25 @@ const GamePage = () => {
       setGameStarted(false);
     };
     const onPing = () => {
-      console.log('got ping');
       socket.emit('pong', { player: user, game_id: gameId });
     };
     const onCountdown = (data) => {
-      console.log('got countdown', data);
       setCountdown(data.remaining_time);
     };
     const onDrawing = (data) => {
-      console.log('got drawing', data);
+      resetAll();
       setDrawing(true);
     };
     const onDrawn = (data) => {
-      console.log('got drawn', data);
       setDrawing(false);
     };
     const onQuestionReady = (data) => {
-      console.log('got question_ready', data);
       setQuestion(data.next_question);
       setAnswers(data.next_question.answers);
       setQuestionReady(true);
+    };
+    const onMessage = (data) => {
+      setMessages(messages => [...messages, data]);
     };
 
     socket.on('question_ready', onQuestionReady)
@@ -211,6 +214,7 @@ const GamePage = () => {
     socket.on('countdown', onCountdown);
     socket.on('ping', onPing);
     socket.on('stop', onStop);
+    socket.on('message', onMessage);
     
     return () => {  
       socket.off('question_ready', onQuestionReady)
@@ -219,6 +223,7 @@ const GamePage = () => {
       socket.off('countdown', onCountdown);
       socket.off('ping', onPing);
       socket.off('stop', onStop);
+      socket.off('message', onMessage);
     };
   }, []);
 
@@ -253,6 +258,8 @@ const GamePage = () => {
     };
     const onLeft = (data) => {
       removePlayer(data.player);
+      // removes player stats and statuses
+      
     };
     const onPong = (data) => {
       addPlayer(data.player);
@@ -338,55 +345,72 @@ const GamePage = () => {
               }
             </Col>
             <Col xs={4}>
-              <Sidebar players={players} />
-              <Select
-                options={categories}
-                value={category.name}
-                onChange={handleCategoryChange}
-                onCreateOption={handleCategoryChange}
-                formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-                isSearchable
-                isClearable
-                placeholder="Select a category..."
-              />
-              <Select
-                options={difficultyOptions}
-                value={difficulty}
-                onChange={handleDifficultyChange}
-                isSearchable
-                placeholder="Select a difficulty..."
-              />
-              <Select
-                options={languages}
-                value={language}
-                onChange={handleLanguageChange}
-                isSearchable
-                placeholder="Select a language..."
+              <Sidebar
+                players={players}
+                playerId={user.id}
+                messages={messages}
+                sendMessage={handleSendMessage}
               />
               {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
             </Col>
             </Card.Body>
             <Card.Footer>
-              <Button
-                variant="none"
-                onClick={handleReady}
-                className={classNames({
-                  "disabled": isReady(user),
-                  "btn-success": isReady(user),
-                  "btn-outline-success": !isReady(user),
-                }, "btn-sm btn-round mb-0 me-2")}
-              >
-                Ready
-              </Button>
-              { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
-                <Button className="btn-sm btn-round mb-0 me-3" onClick={handleStartGame}>Start Game</Button>
-              )}
-              { gameStarted && isHost && (
-                <Button className="btn-sm btn-round mb-0 me-3">Stop Game</Button>
-              )}
-              { gameStarted && allAnswered && (
-                <Button className="btn-sm btn-round mb-0 me-3" onClick={handleNextQuestionClick}>Next question</Button>
-              )}
+              <Row>
+                <Col size={12}>
+                  <Button
+                    variant="none"
+                    onClick={handleReady}
+                    className={classNames({
+                      "disabled": isReady(user),
+                      "btn-success": isReady(user),
+                      "btn-outline-success": !isReady(user),
+                    }, "btn-sm btn-round mb-0 me-2")}
+                  >
+                    Ready
+                  </Button>
+                  { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
+                    <Button className="btn-sm btn-round mb-0 me-3" onClick={handleStartGame}>Start Game</Button>
+                  )}
+                  { gameStarted && isHost && (
+                    <Button className="btn-sm btn-round mb-0 me-3">Stop Game</Button>
+                  )}
+                  { gameStarted && allAnswered && (
+                    <Button className="btn-sm btn-round mb-0 me-3" onClick={handleNextQuestionClick}>Next question</Button>
+                  )}
+                </Col>
+              </Row>
+              <Row className='mt-4'>
+                <Col xs={12} lg={4} md={4}>
+                  <Select
+                    options={categories}
+                    value={category.name}
+                    onChange={handleCategoryChange}
+                    onCreateOption={handleCategoryChange}
+                    formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
+                    isSearchable
+                    isClearable
+                    placeholder="Select a category..."
+                  />
+                </Col>
+                <Col xs={12} lg={4} md={4}>
+                  <Select
+                    options={difficultyOptions}
+                    value={difficulty}
+                    onChange={handleDifficultyChange}
+                    isSearchable
+                    placeholder="Select a difficulty..."
+                  />
+                </Col>
+                <Col xs={12} lg={4} md={4}>
+                  <Select
+                    options={languages}
+                    value={language}
+                    onChange={handleLanguageChange}
+                    isSearchable
+                    placeholder="Select a language..."
+                  />
+                </Col>
+              </Row>
             </Card.Footer>
           </Card>
         </Row>
