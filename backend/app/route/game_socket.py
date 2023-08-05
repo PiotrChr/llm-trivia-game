@@ -109,6 +109,12 @@ def register_handlers(socketio):
     def handle_message(data):
         emit('message', data, broadcast=True, room=data['game_id'])
 
+
+    @socketio.on('get_winners')
+    def handle_get_winners(data):
+        winners = TriviaRepository.get_round_winners(data['game_id'], data['question_id'])
+        emit('winners', {"winners": winners}, broadcast=True, room=data['game_id'])
+
     @socketio.on('*')
     def catch_all(event, data):
         print(f'Event: {event}, Data: {data}')

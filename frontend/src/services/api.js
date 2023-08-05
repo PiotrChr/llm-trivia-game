@@ -1,9 +1,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+/* eslint-disable no-undef */
 const API_HOST = process.env.BACKEND_HOST || 'localhost';
 const API_PORT = process.env.BACKEND_PORT || 9000;
 const BASE_URL = `http://${API_HOST}:${API_PORT}/api`;
+/* eslint-enable no-undef */
 
 // Create an axios instance
 const api = axios.create({

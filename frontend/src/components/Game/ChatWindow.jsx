@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Container, Row, Col, ListGroup, InputGroup, FormControl, Button, Form } from 'react-bootstrap';
 import classNames from 'classnames';
 
 
 const ChatWindow = ({sendMessage, messages, playerId}) => {
   const [inputMessage, setInputMessage] = useState('');
+  const messagesEndRef = useRef(null);
 
   const handleSendMessage = (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -14,13 +15,17 @@ const ChatWindow = ({sendMessage, messages, playerId}) => {
     setInputMessage('');
   };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
     <div>
-        <ListGroup>
+        <ListGroup className='p-1' style={{ height: '200px', overflow: 'hidden' }}>
             { messages.map((message, index) => (
                 <ListGroup.Item key={index} className={classNames(
                     `text-${message.player.id === playerId ? 'end' : 'start'}`,
-                    'text-xxs', 'border-0', 'py-0', 'mb-1'
+                    'text-xxs', 'border-0', 'py-0', 'mb-1', 'px-1'
                 )}>
                     <span className={parseInt(message.player.id) === parseInt(playerId) ? 'text-primary' : 'text-success'}>
                        { parseInt(message.player.id) !== parseInt(playerId) &&
@@ -30,6 +35,7 @@ const ChatWindow = ({sendMessage, messages, playerId}) => {
                     </span>
                 </ListGroup.Item>
             )) }
+            <div ref={messagesEndRef} />
         </ListGroup>
         <Form onSubmit={handleSendMessage}>
             <InputGroup className="mt-3 input-group-sm">

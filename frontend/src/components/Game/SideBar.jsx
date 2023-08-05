@@ -15,6 +15,9 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => (
                 <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                   Status
                 </th>
+                <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                  Points
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +42,9 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => (
                           <span className="badge badge-sm bg-gradient-danger">Not Ready</span>
                         )}
                       </p>
+                    </td>
+                    <td>
+                      <p className="text-sm font-weight-bold mb-0">{player.points}</p>
                     </td>
                   </tr>
                 )

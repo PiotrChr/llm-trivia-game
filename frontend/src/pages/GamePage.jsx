@@ -192,10 +192,6 @@ const GamePage = () => {
     const onCountdown = (data) => {
       setCountdown(data.remaining_time);
     };
-    const onDrawing = (data) => {
-      resetAll();
-      setDrawing(true);
-    };
     const onDrawn = (data) => {
       setDrawing(false);
     };
@@ -205,12 +201,18 @@ const GamePage = () => {
       setQuestionReady(true);
     };
     const onMessage = (data) => {
-      setMessages(messages => [...messages, data]);
+      
+      setMessages(messages => {
+        if (messages.length >= 10) {
+          return [...messages.slice(1), data];
+        } else {
+          return [...messages, data];
+        }
+      });
     };
 
     socket.on('question_ready', onQuestionReady)
     socket.on('drawn', onDrawn)
-    socket.on('drawing', onDrawing)
     socket.on('countdown', onCountdown);
     socket.on('ping', onPing);
     socket.on('stop', onStop);
@@ -219,7 +221,6 @@ const GamePage = () => {
     return () => {  
       socket.off('question_ready', onQuestionReady)
       socket.off('drawn', onDrawn)
-      socket.off('drawing', onDrawing)
       socket.off('countdown', onCountdown);
       socket.off('ping', onPing);
       socket.off('stop', onStop);
@@ -267,7 +268,25 @@ const GamePage = () => {
     const onAnswered = (data) => {
       setPlayerAnswer(data.player, data.answer_id);
     };
-    
+    const onDrawing = (data) => {
+      resetAll();
+      setDrawing(true);
+    };
+
+    const onWinners = (data) => {
+      setPlayers(players => players.map(player => {
+        if (data.winners.some(winner => winner.id === player.id)) {
+          return {
+            ...player,
+            points: player.points + 1
+          };
+        }
+        return player;
+      }));
+    };
+
+    socket.on('winners', onWinners)
+    socket.on('drawing', onDrawing)
     socket.on('answered', onAnswered);
     socket.on('joined', onJoined);
     socket.on('left', onLeft);
@@ -276,6 +295,8 @@ const GamePage = () => {
     socket.on('is_ready', onIsReady);
 
     return () => {
+      socket.off('winners', onWinners)
+      socket.off('drawing', onDrawing)
       socket.off('answered', onAnswered);
       socket.off('joined', onJoined);
       socket.off('left', onLeft);
@@ -288,7 +309,13 @@ const GamePage = () => {
   useEffect(() => {
     setAllReady(players.every(player => player.ready));
     setAllAnswered(players.every(player => player.answer !== null));
-  }, [players]);
+
+    if (allAnswered && isHost) {
+      socket.emit('get_winners', { game_id: gameId, question_id: question.id });
+    }
+  }, [players, isHost, allAnswered]);
+
+  console.log('players', players);
 
   return (
     <section className="min-vh-80 mb-8">

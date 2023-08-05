@@ -569,7 +569,28 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return None
         
-    
+
+    @staticmethod
+    def get_round_winners(game_id, question_id):
+        query = """
+            SELECT players.id, players.name
+            FROM player_answers
+            JOIN players ON player_answers.player_id = players.id
+            JOIN answers ON player_answers.answer_id = answers.id
+            WHERE player_answers.game_id = ? AND answers.is_correct = 1 AND player_answers.question_id = ?
+        """
+        
+        params = (game_id, question_id)
+        
+        try:
+            Database.get_cursor().execute(query, params)
+            players = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(player) for player in players]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
+
+
     @staticmethod
     def get_players():
         query = """
