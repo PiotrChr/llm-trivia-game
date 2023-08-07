@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
                   
                         <Dropdown.Menu>
                           <Dropdown.Item onClick={ ()=> navigate('/profile') }>
-                              <i className="bi-door-closed me-2"></i> Profile
+                              <i className="bi-person-fill me-2"></i> Profile
                           </Dropdown.Item>
                           <Dropdown.Item onClick={ ()=> navigate('/logout') }>
                             <i className="bi-door-closed me-2"></i> Logout
