@@ -12,6 +12,7 @@ import ScorePage from './pages/ScorePage';
 import StatsPage from './pages/StatsPage';
 import ErrorPage from './pages/ErrorPage';
 import LogoutPage from './pages/LogoutPage';
+import ProfilePage from './pages/ProfilePage';
 import Layout from './components/shared/Layout';
 import { PrivateRoute, AuthProvider } from './routing/AuthProvider';
 
@@ -25,6 +26,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/logout" element={<LogoutPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/profile" exact element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
               <Route path="/game/welcome" exact element={<PrivateRoute><GameWelcomePage /></PrivateRoute>} />
               <Route path="/game/host" exact element={<PrivateRoute><GameHostPage /></PrivateRoute>} />
               <Route path="/game/join/:gameId" element={<PrivateRoute><GameJoinPage /></PrivateRoute>} />

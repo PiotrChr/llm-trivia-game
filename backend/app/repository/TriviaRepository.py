@@ -258,12 +258,23 @@ class TriviaRepository:
     @staticmethod
     def get_player_answers(game_id, player_id):
         query = """
-            SELECT answers.id, answers.answer_text, answers.is_correct
+            SELECT player_answers.answer_id, category.id, category.id as category_id, category.name as category_name
             FROM player_answers
-            JOIN answers ON player_answers.answer_id = answers.id
-            WHERE player_answers.game_id = ? AND player_answers.player_id = ?
+            JOIN questions ON player_answers.question_id = questions.id
+            JOIN category ON questions.category = category.id
+            WHERE player_answers.player_id = ?
         """
-        params = (game_id, player_id)
+
+        query = """
+            SELECT * FROM player_answers
+            WHERE player_answers.player_id = ?
+        """
+
+        if game_id:
+            query += " AND player_answers.game_id = ?"
+            params = (player_id, game_id)
+        else:
+            params = (player_id,)
         try:
             Database.get_cursor().execute(query, params)
             answers = Database.get_cursor().fetchall()
@@ -273,15 +284,15 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def answer_question(game_id, player_id, answer_id):
+    def answer_question(game_id, question_id, player_id, answer_id):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
             player_answer_sql = """
-                INSERT INTO player_answers (player_id, game_id, answer_id)
+                INSERT INTO player_answers (player_id, question_id, game_id, answer_id)
                 VALUES (?, ?, ?)
             """
-            Database.insert(player_answer_sql, (player_id, game_id, answer_id), False)
+            Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id), False)
 
             Database.execute("COMMIT")
             return True
@@ -332,10 +343,12 @@ class TriviaRepository:
             SELECT games.*, 
             json_group_array(
                 json_object('player_id', players.id, 'name', players.name)
-            ) as players
+            ) as players,
+            json_object('id', category.id, 'name', category.name) as current_category
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
+            LEFT JOIN category ON games.current_category = category.id
             GROUP BY games.id
         """
         try:
@@ -345,6 +358,7 @@ class TriviaRepository:
             for game in games:
                 game_dict = TriviaRepository.row_to_dict(game)
                 game_dict["players"] = json.loads(game_dict["players"])
+                game_dict["current_category"] = json.loads(game_dict["current_category"])
                 parsed_games.append(game_dict)
             return parsed_games
         except sqlite3.Error as error:
@@ -454,7 +468,7 @@ class TriviaRepository:
             return None
         
     @staticmethod
-    def end_game(self, game_id, player_id):
+    def end_game(game_id, player_id):
         try:
             cursor = Database.get_cursor()
 
@@ -496,11 +510,11 @@ class TriviaRepository:
             return False
         
     @staticmethod
-    def get_game_stats(self, game_id):
+    def get_game_stats(game_id):
         try:
             cursor = Database.get_cursor()
 
-            cursor.execute("BEGIN TRANSACTION", commit=False)
+            cursor.execute("BEGIN TRANSACTION")
 
             # Fetch game details
             cursor.execute(
@@ -512,35 +526,29 @@ class TriviaRepository:
             if not game:
                 return None
 
-            # Fetch players of the game and their total score in the game
+            # Fetch players of the game, their total score, correct and incorrect answers
             cursor.execute(
                 """
-                SELECT players.name, SUM(answers.is_correct) as score 
+                SELECT players.name, 
+                    category.name as category_name,
+                    COUNT(player_answers.question_id) as question_count,
+                    SUM(answers.is_correct) as total_score,
+                    SUM(CASE WHEN answers.is_correct = 1 THEN 1 ELSE 0 END) as correct_answers,
+                    SUM(CASE WHEN answers.is_correct = 0 THEN 1 ELSE 0 END) as incorrect_answers
                 FROM player_answers
                 JOIN players ON player_answers.player_id = players.id
                 JOIN answers ON player_answers.answer_id = answers.id
+                JOIN questions ON player_answers.question_id = questions.id
+                JOIN category ON questions.category = category.id
                 WHERE player_answers.game_id = ?
-                GROUP BY players.name
+                GROUP BY players.name, category.name
                 """,
                 (game_id,)
             )
             player_scores = cursor.fetchall()
             player_scores = [dict(row) for row in player_scores]
 
-            # Fetch number of correct and incorrect answers per player in the game
-            cursor.execute(
-                """
-                SELECT players.name, answers.is_correct, COUNT(answers.is_correct) as count 
-                FROM player_answers
-                JOIN players ON player_answers.player_id = players.id
-                JOIN answers ON player_answers.answer_id = answers.id
-                WHERE player_answers.game_id = ?
-                GROUP BY players.name, answers.is_correct
-                """,
-                (game_id,)
-            )
-            answer_counts = cursor.fetchall()
-            answer_counts = [dict(row) for row in answer_counts]
+            print(player_scores)
 
             # Convert the results into a more usable format
             game_stats = {
@@ -551,21 +559,21 @@ class TriviaRepository:
             }
 
             for player in player_scores:
-                game_stats["players"][player["name"]] = {
-                    "total_score": player["score"],
-                    "correct_answers": 0,
-                    "incorrect_answers": 0,
-                }
-
-            for player in answer_counts:
-                if player["is_correct"]:
-                    game_stats["players"][player["name"]]["correct_answers"] = player["count"]
+                if player["name"] not in game_stats["players"]:
+                    game_stats["players"][player["name"]] = {
+                        "total_score": player["total_score"],
+                        "correct_answers": player["correct_answers"],
+                        "incorrect_answers": player["incorrect_answers"],
+                        "categories": {player["category_name"]: player["question_count"]}
+                    }
                 else:
-                    game_stats["players"][player["name"]]["incorrect_answers"] = player["count"]
+                    game_stats["players"][player["name"]]["categories"][player["category_name"]] = player["question_count"]
+
+            cursor.connection.commit()
 
             return game_stats
         except sqlite3.Error as e:
-            Database.execute("ROLLBACK")
+            cursor.connection.rollback()
             print(f"An error occurred: {e}")
             return None
         
@@ -590,6 +598,23 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
 
+
+    @staticmethod
+    def get_players_by_game(game_id):
+        query = """
+            SELECT players.*
+            FROM player_games
+            JOIN players ON player_games.player_id = players.id
+            WHERE player_games.game_id = ?
+        """
+        params = (game_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            players = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(player) for player in players]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
 
     @staticmethod
     def get_players():

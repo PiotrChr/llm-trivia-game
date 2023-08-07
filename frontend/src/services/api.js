@@ -47,12 +47,17 @@ export const checkAuth = async () => {
 // Users
 
 export const getUsers = async () => {
-    const response = await api.get(`${BASE_URL}/users`);
+    const response = await api.get(`${BASE_URL}/player`);
     return response;
 }
 
 export const getUser = async (id) => {
-    const response = await api.get(`${BASE_URL}/users/${id}`);
+    const response = await api.get(`${BASE_URL}/player/${id}`);
+    return response;
+}
+
+export const getProfileStats = async () => {
+    const response = await api.get(`${BASE_URL}/player/stats`);
     return response;
 }
 
@@ -65,6 +70,11 @@ export const getGames = async () => {
 
 export const getGame = async (id) => {
     const response = await api.get(`${BASE_URL}/game/${id}`);
+    return response;
+}
+
+export const getGameStats = async (id) => {
+    const response = await api.get(`${BASE_URL}/game/${id}/stats`);
     return response;
 }
 

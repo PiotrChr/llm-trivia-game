@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-// Assuming you have UserContext
 import { useAuth } from '../../routing/AuthProvider';
 
 const Layout = ({ children }) => {
@@ -10,10 +9,6 @@ const Layout = ({ children }) => {
 
   const { user } = useAuth();
   
-  const onLogout = () => {
-    {/* Add logout functionality here */}
-  };
-
   return (
     <>
       <Container className="position-sticky z-index-sticky top-0">
@@ -57,7 +52,10 @@ const Layout = ({ children }) => {
                         </Dropdown.Toggle>
                   
                         <Dropdown.Menu>
-                          <Dropdown.Item href="/logout">
+                          <Dropdown.Item onClick={ ()=> navigate('/profile') }>
+                              <i className="bi-door-closed me-2"></i> Profile
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={ ()=> navigate('/logout') }>
                             <i className="bi-door-closed me-2"></i> Logout
                           </Dropdown.Item>
                         </Dropdown.Menu>

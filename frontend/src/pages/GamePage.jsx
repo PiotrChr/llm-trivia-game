@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Container, ProgressBar, Row, Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
@@ -10,7 +10,6 @@ import { useAuth } from '../routing/AuthProvider';
 import { getCategories, getGame, getLanguages, isPlaying } from '../services/api';
 import { socket } from '../services/socket';
 import { getRandomBackground  } from '../utils';
-// { id: 1, name: 'Player 1', ready: false, points: 0 },
 
 
 const GamePage = () => {
@@ -121,7 +120,7 @@ const GamePage = () => {
 
   const handleAnswerClicked = (answerId) => {
     setSelectedAnswerId(answerId);
-    socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId });
+    socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId, question_id: question.id });
   };
 
   const handleNextQuestionClick = () => {
@@ -133,6 +132,7 @@ const GamePage = () => {
     setQuestionReady(false);
     setSelectedAnswerId(null);
     setCorrectAnswerId(null);
+    setAllAnswered(false);
     setAnswers([]);
     setPlayers(players.map(player => ({ ...player, answer: null })));
   };
@@ -181,6 +181,12 @@ const GamePage = () => {
       socket.emit('leave', { player: user, game_id: gameId });
     }
   }, []);
+
+  const handleAnswered = useCallback(() => {
+    if (allAnswered && isHost) {
+      socket.emit('get_winners', { game_id: gameId, question_id: question.id });
+    }
+  }, [allAnswered, isHost, question]);
 
   useEffect(() => {
     const onStop = () => {
@@ -258,15 +264,32 @@ const GamePage = () => {
       addPlayer(data.player);
     };
     const onLeft = (data) => {
-      removePlayer(data.player);
-      // removes player stats and statuses
-      
+      removePlayer(data.player);     
     };
     const onPong = (data) => {
       addPlayer(data.player);
     };
     const onAnswered = (data) => {
-      setPlayerAnswer(data.player, data.answer_id);
+      const newPlayers = players.map(existingPlayer => {
+        if (existingPlayer.id === data.player.id) {
+          return {
+            ...existingPlayer,
+            answer: data.answer_id
+          };
+        }
+        return existingPlayer;
+      });
+      const newAllAnswered = newPlayers.every(player => player.answer !== null);
+
+      console.log('newAllAnswered', newAllAnswered);
+      console.log('newPlayers', newPlayers);
+      
+      setPlayers(newPlayers);
+      setAllAnswered(newAllAnswered);
+
+      if (newAllAnswered && isHost) {
+        socket.emit('get_winners', { game_id: gameId, question_id: question.id });
+      }
     };
     const onDrawing = (data) => {
       resetAll();
@@ -274,6 +297,7 @@ const GamePage = () => {
     };
 
     const onWinners = (data) => {
+      console.log('winners', data.winners);
       setPlayers(players => players.map(player => {
         if (data.winners.some(winner => winner.id === player.id)) {
           return {
@@ -304,18 +328,12 @@ const GamePage = () => {
       socket.off('pong', onPong);
       socket.off('is_ready', onIsReady);
     }
-  }, [players]);
+  }, [players, isHost, question]);
 
   useEffect(() => {
     setAllReady(players.every(player => player.ready));
-    setAllAnswered(players.every(player => player.answer !== null));
-
-    if (allAnswered && isHost) {
-      socket.emit('get_winners', { game_id: gameId, question_id: question.id });
-    }
-  }, [players, isHost, allAnswered]);
-
-  console.log('players', players);
+    
+  }, [players]);
 
   return (
     <section className="min-vh-80 mb-8">
@@ -395,7 +413,7 @@ const GamePage = () => {
                   >
                     Ready
                   </Button>
-                  { !questionReady && isHost && !gameStarted && allReady && countdown == 0 && (
+                  { isHost && !gameStarted && allReady && countdown == 0 && !drawing && !questionReady && (
                     <Button className="btn-sm btn-round mb-0 me-3" onClick={handleStartGame}>Start Game</Button>
                   )}
                   { gameStarted && isHost && (

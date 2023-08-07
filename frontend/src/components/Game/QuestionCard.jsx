@@ -21,7 +21,9 @@ const QuestionCard = ({ question, answers, handleAnswerClicked, selectedAnswerId
                                             ? (player_answers.length > 0
                                                 ? (answer.is_correct === 'true' ? "success" : "danger")
                                                 : "primary")
-                                            : "outline-primary"
+                                            : (player_answers.length > 0 && answer.is_correct === 'true'
+                                                ? "outline-success"
+                                                : "outline-primary")
                                     }
                                     disabled={selectedAnswerId !== null}
                                     onClick={() => handleAnswerClicked(answer.id)}

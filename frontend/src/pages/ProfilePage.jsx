@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { getGameStats } from '../services/api';
+import { getProfileStats } from '../services/api';
 
 
-
-function StatsPage() {
+function ProfilePage() {
   const [stats, setStats] = useState({});
   const { gameId } = useParams();
 
   useEffect(() => {
     const fetchStats = async () => {
-      const response = await getGameStats(gameId);
+      const response = await getProfileStats();
       console.log(response);
 
       if (response.status === 200) {
@@ -32,8 +31,8 @@ function StatsPage() {
         <Container>
           <Row className="justify-content-center">
             <Col lg={5} className="text-center mx-auto">
-              <h1 className="text-white mb-2 mt-5">Stats Page</h1>
-              <p className="text-lead text-white">his is the stats page. Game functionality will be added here later.</p>
+              <h1 className="text-white mb-2 mt-5">Profile Page</h1>
+              <p className="text-lead text-white">This is the profile page. Game functionality will be added here later.</p>
             </Col>
           </Row>
         </Container>
@@ -42,8 +41,8 @@ function StatsPage() {
         <Row>
           <Col size="12">
             <div className="stats-page">
-              <h1>Stats Page</h1>
-              <p>This is the stats page. Game functionality will be added here later.</p>
+              <h1>Profile Page</h1>
+              <p>This is the profile page. Game functionality will be added here later.</p>
             </div>
           </Col>
         </Row>
@@ -53,4 +52,4 @@ function StatsPage() {
   );
 }
 
-export default StatsPage;
+export default ProfilePage;

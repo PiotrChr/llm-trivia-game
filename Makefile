@@ -50,6 +50,8 @@ start_frontend_server:
 lint_js:
 	cd frontend && npm run lint
 
+frontend_dev: lint_js build_frontend_dev start_frontend_server
+
 help:
 	@echo "Available recipes:"
 	@echo "make install_all                 - install backend and frontend dependencies"
