@@ -102,7 +102,6 @@ def player_join():
     if game['password'] != password:
         return jsonify({"msg": "Incorrect password", "game_id": game_id}), 401
     
-
     player_joined = TriviaRepository.player_join(player_id, game_id)
 
     if player_joined:
@@ -138,10 +137,9 @@ def end_game():
         return jsonify({"msg": "Error ending game", "game_id": game_id}), 500
 
 
-@game_routes.route('/stats', methods=['GET'])
-def get_game_stats():
-    game_id = request.args.get('game_id')
-
+@game_routes.route('/<game_id>/stats', methods=['GET'])
+@jwt_required()
+def get_game_stats(game_id):
     if game_id is None:
         return jsonify({"msg": "Missing game_id parameter"}), 400
 
@@ -153,3 +151,11 @@ def get_game_stats():
         return jsonify(game_stats), 200
 
 
+@game_routes.route('/<game_id>/players', methods=['GET'])
+def get_players_by_game(game_id):
+    players = TriviaRepository.get_players_by_game(game_id)
+
+    if players is None:
+        return jsonify({"msg": "No players found for this game_id"}), 404
+    else:
+        return jsonify(players), 200

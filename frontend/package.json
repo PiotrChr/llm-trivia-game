@@ -6,7 +6,8 @@
     "scripts": {
         "start": "webpack-dev-server --config ./config/webpack.config.js --open --mode development",
         "build": "webpack --config ./config/webpack.config.js --mode production",
-        "build_dev": "webpack --config ./config/webpack.config.js --mode development"
+        "build_dev": "webpack --config ./config/webpack.config.js --mode development",
+        "lint": "eslint ./src"
     },
     "keywords": [
         "trivia",
@@ -37,6 +38,8 @@
         "babel-loader": "^8.2.2",
         "css-loader": "^5.2.6",
         "dotenv-webpack": "^8.0.1",
+        "eslint": "^8.46.0",
+        "eslint-plugin-react": "^7.33.1",
         "html-webpack-plugin": "^5.3.1",
         "sass": "^1.64.0",
         "sass-loader": "^12.1.0",

@@ -29,7 +29,12 @@ def register_handlers(socketio):
 
     @socketio.on('answer')
     def handle_answer(data):
-        TriviaRepository.answer_question(data['game_id'], data['player']['id'], data['answer_id'])
+        TriviaRepository.answer_question(
+            data['game_id'],
+            data['question_id'],
+            data['player']['id'],
+            data['answer_id']
+        )
 
         emit('answered', data, broadcast=True, room=data['game_id'])
 
@@ -105,6 +110,15 @@ def register_handlers(socketio):
     def handle_pong(data):
         emit('pong', data, broadcast=True, room=data['game_id'])
 
+    @socketio.on('message')
+    def handle_message(data):
+        emit('message', data, broadcast=True, room=data['game_id'])
+
+
+    @socketio.on('get_winners')
+    def handle_get_winners(data):
+        winners = TriviaRepository.get_round_winners(data['game_id'], data['question_id'])
+        emit('winners', {"winners": winners}, broadcast=True, room=data['game_id'])
 
     @socketio.on('*')
     def catch_all(event, data):

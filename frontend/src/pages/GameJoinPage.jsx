@@ -14,7 +14,6 @@ function GameJoinPage() {
     const { gameId } = useParams();
 
     useEffect(() => {
-        console.log('id', gameId);
         if (gameId) {
             setGameId(gameId);
         }

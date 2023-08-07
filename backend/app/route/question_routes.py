@@ -16,4 +16,3 @@ def get_question(id):
     if question is None:
         return jsonify({"msg": "Question not found"}), 404
     return jsonify(question), 200
-

@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { useNavigate } from 'react-router-dom';
 import { getGames } from '../services/api';
-import { useAuth } from '../routing/AuthProvider';  // import AuthContext to access current user information
+import { useAuth } from '../routing/AuthProvider';
 import { Col, Row } from 'react-bootstrap';
 
 function GameListPage() {
   const [games, setGames] = useState([]);
   
   const navigate = useNavigate();
-  const { user } = useAuth(); // get current user from AuthContext
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchGames = async () => {
       const result = await getGames();
+      console.log(result.data);
+
       setGames(result.data);
     }
 
@@ -30,7 +31,10 @@ function GameListPage() {
     navigate('/game/' + gameId);
   };
 
-  // Check if the current user has joined a specific game
+  const handleViewStats = (gameId) => {
+    navigate('/game/' + gameId + '/stats');
+  };
+
   const hasJoined = (game) => {
     return game.players.some(player => player.player_id === user.id);
   }
@@ -41,13 +45,13 @@ function GameListPage() {
         className="page-header min-height-300 align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
         style={{borderRadius: '0px 0px 24px 24px' }}
       >
-        <span className="mask bg-gradient-primary opacity-6"></span>
+        <span className="mask bg-gradient-secondary opacity-6"></span>
       </div>
-      <Card className='card-body blur shadow-blur mx-4 mt-n4 overflow-hidden'>
-        <Row className='gx-4'>
-          Test  
-        </Row>
-      </Card>
+      <div className="container">
+        <Card className='card-body blur shadow-blur mx-4 mt-n4 overflow-hidden'>
+          <h4 className="text-xs mb-0">Game list</h4>
+        </Card>
+      </div>
       <div className="container mt-6">
         <Row>
           <Col size="12">
@@ -70,16 +74,24 @@ function GameListPage() {
                         <h6 className="mb-0 text-xs"> { game.id } </h6>
                       </td>
                       <td className='align-middle text-center text-sm'>
-                        <h6 className="mb-0 text-xs"> CATID </h6>
+                        <h6 className="mb-0 text-xs"> { game.current_category.name } </h6>
                       </td>
                       <td className='align-middle text-center text-sm'>
                         <h6 className="mb-0 text-xs"> { game.players.length } </h6>
                       </td>
                       <td className='align-middle text-center text-sm'>
-                        <span className="badge badge-sm bg-gradient-success">somestatus</span>
+                        {
+                          game.time_start && !game.time_end && <span className="badge badge-sm bg-gradient-warning">in progress</span>
+                        }
+                        {
+                          game.time_start && game.time_end && <span className="badge badge-sm bg-gradient-success">finished</span>
+                        }
+                        {
+                          !game.time_start && !game.time_end && <span className="badge badge-sm bg-gradient-primary">waiting</span>
+                        }
                       </td>
                       <td className="align-middle text-center text-sm">
-                        <Button variant="outline-secondary" className="btn-round mb-0" onClick={() => { /* Implement view stats logic here */ }}>View Stats</Button>
+                        <Button variant="outline-secondary" className="btn-round mb-0" onClick={() => handleViewStats(game.id)}>View Stats</Button>
                       </td>
                       <td className='align-middle text-center text-sm'>
                         {
