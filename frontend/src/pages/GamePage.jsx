@@ -55,8 +55,10 @@ const GamePage = () => {
   const handleCategoryChange = (newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
       setCategories([...categories, newValue]);
+      socket.emit('category_changed', { game_id: gameId, new_category: newValue.value})
     }
-    setCategory(newValue);
+
+    socket.emit('category_changed', { game_id: gameId, category: { name: newValue.label, id: newValue.value  }})
   };
 
   const handleLanguageChange = (newValue) => {
@@ -90,24 +92,12 @@ const GamePage = () => {
     return players.some(existingPlayer => existingPlayer.id === player.id && existingPlayer.ready);
   };
 
-  const setPlayerAnswer = (player, answer_id) => {
-    setPlayers(players.map(existingPlayer => {
-      if (existingPlayer.id === player.id) {
-        return {
-          ...existingPlayer,
-          answer: answer_id
-        };
-      }
-      return existingPlayer;
-    }));
-  };
-
   const removePlayer = (player) => {
     setPlayers(players.filter(p => p.id !== player.id));
   };
 
   const handleDifficultyChange = (selectedOption) => {
-    setDifficulty(selectedOption);
+    socket.emit('difficulty_changed', { game_id: gameId, difficulty: selectedOption.value });
   };
 
   const handleReady = () => {
@@ -207,7 +197,6 @@ const GamePage = () => {
       setQuestionReady(true);
     };
     const onMessage = (data) => {
-      
       setMessages(messages => {
         if (messages.length >= 10) {
           return [...messages.slice(1), data];
@@ -216,7 +205,17 @@ const GamePage = () => {
         }
       });
     };
+    const onDifficultyChange = (data) => {
+      setDifficulty(data.difficulty);
+    };
 
+    const onCategoryChanged = (data) => {
+      console.log('category changed', data);
+      setCategory(data.category);
+    };
+
+    socket.on('category_changed', onCategoryChanged)
+    socket.on('difficulty_changed', onDifficultyChange)
     socket.on('question_ready', onQuestionReady)
     socket.on('drawn', onDrawn)
     socket.on('countdown', onCountdown);
@@ -225,6 +224,8 @@ const GamePage = () => {
     socket.on('message', onMessage);
     
     return () => {  
+      socket.off('category_changed', onCategoryChanged)
+      socket.off('difficulty_changed', onDifficultyChange)
       socket.off('question_ready', onQuestionReady)
       socket.off('drawn', onDrawn)
       socket.off('countdown', onCountdown);
