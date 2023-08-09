@@ -1,96 +1,67 @@
-# LLM Trivia Game
+# LLM Trivia Game :game_die:
 
-LLM Trivia Game is a real-time trivia game that allows you to answer challenging questions in various categories. With each correct answer, you earn points and climb up the leaderboard!
+Welcome to **LLM Trivia Game**, an exciting real-time trivia challenge that lets you test your wits across a variety of categories. Compete against others, earn points with each correct answer, and see if you can top the leaderboard!
 
-## Setup and usage
+This game taps into the power of LLM (currently GPT) to generate fresh questions whenever there's a shortage in our database.
 
-### Prerequisites
+## Technical Stack
 
-- Node.js and npm
-- Python 3
-- pip
+- **Backend**: Python with Flask
+- **Frontend**: React
 
-### Installation
+## Setup & Installation
 
-To install the backend and frontend dependencies, use the following command:
+### Dependencies
 
-```
-make install_all
-```
+- **Frontend**: Refer to the `package.json` for a comprehensive list of frontend dependencies.
+- **Backend**: Check out the `requirements.txt` for required Python packages.
 
-Alternatively, you can install them separately:
+### Quick Start
 
-```
-make install_backend
-make install_frontend
-```
-
-### Database
-
-To create the database tables, use:
-
-```
-make create_db
+1. Clone the repository:
+```bash
+git clone https://github.com/<your_username>/llm-trivia-game.git
+cd llm-trivia-game
 ```
 
-To clear the database tables, use:
-
-```
-make clear_db
-```
-
-### Building the project
-
-To build the frontend for production, use:
-
-```
-make build_frontend
+2. Use the Makefile for an effortless setup:
+```bash
+make setup
 ```
 
-To build the frontend for development, use:
+This command will take care of backend & frontend dependencies, database setup, environment variables, and even build the frontend for development.
 
-```
-make build_frontend_dev
-```
+For more granular control, you can use specific commands from the Makefile. Here's a breakdown:
 
-### Running the project
-
-To start the backend server, use:
-
-```
-make start_backend_server
-```
-
-To start the frontend server in development mode, use:
-
-```
-make start_frontend_server_dev
+```plaintext
+make install_all                 - Install backend and frontend dependencies
+make setup                       - Setup the project (incl. installation, DB, and env)
+make start_backend_server        - Start the backend server
+make start_frontend_server_dev   - Start the frontend server in dev mode
+make start_frontend_server       - Start the frontend server in production mode
+... [refer to the given Makefile for more commands]
 ```
 
-To start the frontend server, use:
+## Contributing
 
-```
-make start_frontend_server
-```
+1. Fork the repository.
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit your changes: `git commit -m 'Add some AmazingFeature'`
+4. Push to the branch: `git push origin feature/AmazingFeature`
+5. Open a pull request.
 
-### Help
+## Game Reducer
 
-To display the help message, use:
+A peek into how the game state is managed can be found in `gameReducer.js`. It provides various actions to control the game's state, from setting categories, adjusting difficulty, handling player interactions, to managing the game's state and flow.
 
-```
-make help
-```
+## License
 
-The help command will print a list of available recipes:
+This project is licensed under the MIT License.
 
-```
-Available recipes:
-make install_all                 - install backend and frontend dependencies
-make install_backend             - install backend dependencies
-make install_frontend            - install frontend dependencies
-make create_db                   - create database tables
-make clear_db                    - clear database tables
-.
-.
-.
-```
+## Author
+
+Piotr Chrusciel
+
+---
+
+Challenge your trivia knowledge and enjoy the game! :tada:

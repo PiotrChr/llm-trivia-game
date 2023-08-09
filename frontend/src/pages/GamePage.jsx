@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useReducer } from 'react';
 import { Button, Col, Container, ProgressBar, Row, Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
@@ -10,161 +10,111 @@ import { useAuth } from '../routing/AuthProvider';
 import { getCategories, getGame, getLanguages, isPlaying } from '../services/api';
 import { socket } from '../services/socket';
 import { getRandomBackground  } from '../utils';
-
+import { initialState, gameReducer } from '../state/gameReducer';
 
 const GamePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [category, setCategory] = useState({
-    id: 0,
-    name: 'None'
-  });
-  const [difficulty, setDifficulty] = useState(1);
-  const [question, setQuestion] = useState();
-  const [categories, setCategories] = useState(
-    [
-      { label: "Sports", value: "sports" },
-      { label: "History", value: "history" },
-    ]
-  );
-  const [players, setPlayers] = useState([]);
-  const [allReady, setAllReady] = useState(false);
-  const [allAnswered, setAllAnswered] = useState(false);
-  const [questionReady, setQuestionReady] = useState(false);
-  const [languages, setLanguages] = useState([]);
-  const [language, setLanguage] = useState(null);
-  const [isTimed, setIsTimed] = useState(false);
-  const [timeElapsed, setTimeElapsed] = useState(0);
-  const [timeLimit, setTimeLimit] = useState(0);
-  const [isHost, setIsHost] = useState(false);
-  const [drawing, setDrawing] = useState(false);
-  const [game, setGame] = useState(null);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [countdown, setCountdown] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [selectedAnswerId, setSelectedAnswerId] = useState(null);
-  const [correctAnswerId, setCorrectAnswerId] = useState(null);
-  const [currentBackground, setCurrentBackground] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [state, dispatch] = useReducer(gameReducer, initialState);
+  const {
+    category,
+    difficulty,
+    question,
+    players,
+    messages,
+    answers,
+    countdown,
+    timeElapsed,
+    isTimed,
+    timeLimit,
+    allAnswered,
+    selectedAnswerId,
+    isHost,
+    gameStarted,
+    questionReady,
+    drawing,
+    languages,
+    language,
+    allReady,
+    currentBackground
+  } = state;
+
+  const [categories, setCategories] = useState([]);
 
   const gameId = useParams().gameId;
 
   const difficultyOptions = Array.from({length: 5}, (_, i) => ({ label: `Level ${i+1}`, value: i+1 }));
   
-  const handleCategoryChange = (newValue, actionMeta) => {
+  const handleCategoryChange = useCallback((newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
-      setCategories([...categories, newValue]);
+      dispatch({ type: 'ADD_CATEGORY', payload: newValue });
+      socket.emit('category_changed', { game_id: gameId, new_category: newValue.value})
+    } else {
+      socket.emit('category_changed', { game_id: gameId, category: { name: newValue.label, id: newValue.value  }})
     }
-    setCategory(newValue);
-  };
+  }, [gameId]);
 
-  const handleLanguageChange = (newValue) => {
-    setLanguage(newValue);
-  };
+  const handleLanguageChange = useCallback((newValue) => {
+    dispatch({ type: 'SET_LANGUAGE', payload: newValue });
+  }, []);
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = useCallback((message) => {
     socket.emit('message', { game_id: gameId, player: user, message: message });
-  };
+  }, []);
 
-  const addPlayer = (player) => {
-    setPlayers(players => {
-      if (players.some(existingPlayer => existingPlayer.id === player.id)) {
-        return players;
-      } else {
-        return [
-          ...players, 
-          {
-            id: player.id,
-            name: player.name,
-            ready: false,
-            points: 0,
-            answer: null
-          }
-        ];
-      }
-    });
-  };
-
-  const isReady = (player) => {
+  const isReady = useCallback((player) => {
     return players.some(existingPlayer => existingPlayer.id === player.id && existingPlayer.ready);
-  };
+  }, [players]);
 
-  const setPlayerAnswer = (player, answer_id) => {
-    setPlayers(players.map(existingPlayer => {
-      if (existingPlayer.id === player.id) {
-        return {
-          ...existingPlayer,
-          answer: answer_id
-        };
-      }
-      return existingPlayer;
-    }));
-  };
+  const handleDifficultyChange = useCallback((selectedOption) => {
+    socket.emit('difficulty_changed', { game_id: gameId, difficulty: selectedOption.value });
+  }, []);
 
-  const removePlayer = (player) => {
-    setPlayers(players.filter(p => p.id !== player.id));
-  };
-
-  const handleDifficultyChange = (selectedOption) => {
-    setDifficulty(selectedOption);
-  };
-
-  const handleReady = () => {
+  const handleReady = useCallback(() => {
     socket.emit('ready', { player: user, game_id: gameId });
-  };
+  }, []);
 
-  const handleStartGame = () => {
+  const handleStartGame = useCallback(() => {
     socket.emit('start', { game_id: gameId, player: user });
-  };
+  }, []);
 
-  const handleAnswerClicked = (answerId) => {
-    setSelectedAnswerId(answerId);
+  const handleAnswerClicked = useCallback((answerId) => {
+    dispatch({ type: 'SET_SELECTED_ANSWER', payload: answerId });
     socket.emit('answer', { game_id: gameId, player: user, answer_id: answerId, question_id: question.id });
-  };
+  }, [question]);
 
-  const handleNextQuestionClick = () => {
-    resetAll();
+  const handleNextQuestionClick = useCallback(() => {
+    dispatch({ type: 'RESET_ROUND' });
     socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
-  };
+  }, [difficulty, category]);
 
-  const resetAll = () => {
-    setQuestionReady(false);
-    setSelectedAnswerId(null);
-    setCorrectAnswerId(null);
-    setAllAnswered(false);
-    setAnswers([]);
-    setPlayers(players.map(player => ({ ...player, answer: null })));
-  };
-
-  useEffect(() => {
-    setCurrentBackground(getRandomBackground(category['id']));
-  }, [category['id']]);
+  useEffect(() => dispatch(
+    { type: 'SET_CURRENT_BACKGROUND', payload: getRandomBackground(category['id']) }), [category['id']]
+  );
 
   useEffect(() => {
     const fetchGame = async () => {
       const playing = await isPlaying(gameId);
-      if (!playing) {
+      if (!playing.data) {
         navigate('/error/unable-to-join-game');
         return;
       }
 
       const game = await getGame(gameId);
-      if (!game) {
-        alert('Failed to fetch game');
+      if (!game.data) {
+        navigate('/error/unable-to-join-game');
         return;
       }
 
-      setGame(game.data);
-      setCategory(game.data.current_category);
-      setIsHost(game.data.host === user.id);
+      dispatch({ type: 'SET_CATEGORY', payload: game.data.current_category });
+      dispatch({ type: 'SET_IS_HOST', payload: game.data.host.id === user.id });
     };
-
     const fetchLanguages = async () => {
       const result = await getLanguages();
-      setLanguages(result.data.map(language => ({ label: language.name, value: language.id })));
+      dispatch({ type: 'SET_LANGUAGES', payload: result.data.map(language => ({ label: language.name, value: language.id })) });
+      
     };
-
     const fetchCategories = async () => {
       const result = await getCategories();
       setCategories(result.data.map(category => ({ label: category.name, value: category.id })));
@@ -182,41 +132,22 @@ const GamePage = () => {
     }
   }, []);
 
-  const handleAnswered = useCallback(() => {
-    if (allAnswered && isHost) {
-      socket.emit('get_winners', { game_id: gameId, question_id: question.id });
-    }
-  }, [allAnswered, isHost, question]);
-
   useEffect(() => {
-    const onStop = () => {
-      setGameStarted(false);
-    };
-    const onPing = () => {
-      socket.emit('pong', { player: user, game_id: gameId });
-    };
-    const onCountdown = (data) => {
-      setCountdown(data.remaining_time);
-    };
-    const onDrawn = (data) => {
-      setDrawing(false);
-    };
+    const onStop = () => dispatch({ type: 'STOP_GAME' });
+    const onPing = () => socket.emit('pong', { player: user, game_id: gameId });
+    const onCountdown = (data) => dispatch({ type: 'SET_COUNTDOWN', payload: data.remaining_time });
+    const onDrawn = () => dispatch({ type: 'SET_DRAWING', payload: false });
     const onQuestionReady = (data) => {
-      setQuestion(data.next_question);
-      setAnswers(data.next_question.answers);
-      setQuestionReady(true);
+      dispatch({ type: 'SET_QUESTION', payload: data.next_question });
+      dispatch({ type: 'SET_ANSWERS', payload: data.next_question.answers });
+      dispatch({ type: 'SET_QUESTION_READY', payload: true });
     };
-    const onMessage = (data) => {
-      
-      setMessages(messages => {
-        if (messages.length >= 10) {
-          return [...messages.slice(1), data];
-        } else {
-          return [...messages, data];
-        }
-      });
-    };
+    const onMessage = (data) => dispatch({ type: 'ADD_MESSAGE', payload: data });
+    const onDifficultyChange = (data) => dispatch({ type: 'SET_DIFFICULTY', payload: data.difficulty });
+    const onCategoryChanged = (data) => dispatch({ type: 'SET_CATEGORY', payload: data.category });
 
+    socket.on('category_changed', onCategoryChanged)
+    socket.on('difficulty_changed', onDifficultyChange)
     socket.on('question_ready', onQuestionReady)
     socket.on('drawn', onDrawn)
     socket.on('countdown', onCountdown);
@@ -225,6 +156,8 @@ const GamePage = () => {
     socket.on('message', onMessage);
     
     return () => {  
+      socket.off('category_changed', onCategoryChanged)
+      socket.off('difficulty_changed', onDifficultyChange)
       socket.off('question_ready', onQuestionReady)
       socket.off('drawn', onDrawn)
       socket.off('countdown', onCountdown);
@@ -236,7 +169,7 @@ const GamePage = () => {
 
   useEffect(() => {
     const onStarted = () => {
-      setGameStarted(true);
+      dispatch({ type: 'START_GAME' });
       socket.emit('next', {game_id: gameId, player: user, category: category.id, difficulty});
     };
 
@@ -248,65 +181,21 @@ const GamePage = () => {
   }, [difficulty, category]);
 
   useEffect(() => { 
-    const onIsReady = (data) => {
-      setPlayers(players => players.map(player => {
-        if (player.id === data.player.id) {
-          return {
-            ...player,
-            ready: true
-          };
-        }
-  
-        return player;
-      }));
-    };
-    const onJoined = (data) => {
-      addPlayer(data.player);
-    };
-    const onLeft = (data) => {
-      removePlayer(data.player);     
-    };
-    const onPong = (data) => {
-      addPlayer(data.player);
-    };
+    const onIsReady = (data) => dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
+    const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data.player });
+    const onLeft = (data) => dispatch({ type: 'REMOVE_PLAYER', payload: data.player });
+    const onPong = (data) => dispatch({ type: 'ADD_PLAYER', payload: data.player });
     const onAnswered = (data) => {
-      const newPlayers = players.map(existingPlayer => {
-        if (existingPlayer.id === data.player.id) {
-          return {
-            ...existingPlayer,
-            answer: data.answer_id
-          };
-        }
-        return existingPlayer;
-      });
-      const newAllAnswered = newPlayers.every(player => player.answer !== null);
+      dispatch({ type: 'SET_PLAYER_ANSWER', payload: data.answer_id });
 
-      console.log('newAllAnswered', newAllAnswered);
-      console.log('newPlayers', newPlayers);
-      
-      setPlayers(newPlayers);
-      setAllAnswered(newAllAnswered);
-
-      if (newAllAnswered && isHost) {
+      if (allAnswered && isHost) {
         socket.emit('get_winners', { game_id: gameId, question_id: question.id });
       }
     };
-    const onDrawing = (data) => {
-      resetAll();
-      setDrawing(true);
-    };
-
+    const onDrawing = () => dispatch({ type: 'SET_DRAWING', payload: true });
     const onWinners = (data) => {
       console.log('winners', data.winners);
-      setPlayers(players => players.map(player => {
-        if (data.winners.some(winner => winner.id === player.id)) {
-          return {
-            ...player,
-            points: player.points + 1
-          };
-        }
-        return player;
-      }));
+      dispatch({ type: 'SET_PLAYER_SCORE', payload: data.winners })
     };
 
     socket.on('winners', onWinners)
@@ -316,8 +205,7 @@ const GamePage = () => {
     socket.on('left', onLeft);
     socket.on('is_ready', onIsReady);
     socket.on('pong', onPong);
-    socket.on('is_ready', onIsReady);
-
+    
     return () => {
       socket.off('winners', onWinners)
       socket.off('drawing', onDrawing)
@@ -326,13 +214,11 @@ const GamePage = () => {
       socket.off('left', onLeft);
       socket.off('is_ready', onIsReady);
       socket.off('pong', onPong);
-      socket.off('is_ready', onIsReady);
     }
   }, [players, isHost, question]);
 
   useEffect(() => {
-    setAllReady(players.every(player => player.ready));
-    
+    dispatch({ type: 'SET_ALL_READY', payload: players.every(player => player.ready) });
   }, [players]);
 
   return (
@@ -368,49 +254,31 @@ const GamePage = () => {
                   handleAnswerClicked={handleAnswerClicked}
                   selectedAnswerId={selectedAnswerId}
                   player_answers={
-                    allAnswered ? players.map(player => {
-                      if (player.answer) {
-                        return {
-                          player: player.name,
-                          answer: player.answer
-                        }
-                      }
-                    
-                    }) : []
+                    allAnswered ? players.map(player => player.answer && ({
+                      player: player.name,
+                      answer: player.answer
+                    })) : []
                   }
                 />
               }
-              { 
-                !questionReady && (countdown > 0 || drawing) &&
-                  <Countdown
-                    secondsLeft={countdown}
-                    title={ drawing ? 'Drawing a question' : 'Countdown' }
-                    showProgressBar={!drawing}
-                  /> 
+              { !questionReady && (countdown > 0 || drawing) &&
+                  <Countdown secondsLeft={countdown} title={ drawing ? 'Drawing a question' : 'Countdown' } showProgressBar={!drawing} /> 
               }
             </Col>
             <Col xs={4}>
-              <Sidebar
-                players={players}
-                playerId={user.id}
-                messages={messages}
-                sendMessage={handleSendMessage}
-              />
-              {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
+              <Sidebar players={players} playerId={user.id} messages={messages} sendMessage={handleSendMessage} />
+              { isTimed && <ProgressBar now={timeElapsed} max={timeLimit} /> }
             </Col>
             </Card.Body>
             <Card.Footer>
               <Row>
                 <Col size={12}>
-                  <Button
-                    variant="none"
-                    onClick={handleReady}
+                  <Button variant="none" onClick={handleReady}
                     className={classNames({
                       "disabled": isReady(user),
                       "btn-success": isReady(user),
                       "btn-outline-success": !isReady(user),
-                    }, "btn-sm btn-round mb-0 me-2")}
-                  >
+                    }, "btn-sm btn-round mb-0 me-2")}>
                     Ready
                   </Button>
                   { isHost && !gameStarted && allReady && countdown == 0 && !drawing && !questionReady && (

@@ -114,11 +114,30 @@ def register_handlers(socketio):
     def handle_message(data):
         emit('message', data, broadcast=True, room=data['game_id'])
 
-
     @socketio.on('get_winners')
     def handle_get_winners(data):
         winners = TriviaRepository.get_round_winners(data['game_id'], data['question_id'])
         emit('winners', {"winners": winners}, broadcast=True, room=data['game_id'])
+
+    @socketio.on('difficulty_changed')
+    def handle_difficulty_change(data):
+        emit('difficulty_changed', data, broadcast=True, room=data['game_id'])
+
+    @socketio.on('category_changed')
+    def handle_category_change(data):
+        if 'new_category' in data:
+            cat_id = TriviaRepository.create_category(data['new_category'])
+            cat_name = data['new_category']
+        else:
+            cat_id = data['category']['id']
+            cat_name = data['category']['name']
+            
+        emit('category_changed', {
+            "category": {
+                "id": cat_id,
+                "name": cat_name
+            }
+        }, broadcast=True, room=data['game_id'])
 
     @socketio.on('*')
     def catch_all(event, data):
