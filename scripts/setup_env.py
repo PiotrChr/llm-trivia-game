@@ -19,7 +19,7 @@ backend_host = prompt_for_data("Enter backend server host URL (default 127.0.0.1
 backend_port = prompt_for_data("Enter backend server port (default 9000): ", "9000")
 
 # Write frontend .env data
-write_to_env_file("frontend/.env", {
+write_to_env_file(".frontend.env", {
     "FRONTEND_PORT": frontend_port,
     "BACKEND_HOST": backend_host,
     "BACKEND_PORT": backend_port,
@@ -32,7 +32,7 @@ flask_secret_key = prompt_for_data("Enter Flask application secret key: (default
 open_ai_org_id = prompt_for_data("Enter OpenAI organization ID (default xxx): ", "xxx")
 
 # Write backend .env data
-write_to_env_file("backend/.env", {
+write_to_env_file(".backend.env", {
     "BACKEND_PORT": backend_port,
     "OPENAI_KEY": open_ai_key,
     "SECRET_KEY": flask_secret_key,

@@ -4,7 +4,7 @@ default: help
 
 install_all: install_backend install_frontend
 
-setup: install_all remove_tables setup_db setup_env build_frontend_dev generate_manifest
+setup: install_all remove_tables setup_db load_fixtures build_frontend_dev generate_manifest 
 
 setup_env:
 	python3 scripts/setup_env.py
@@ -29,6 +29,8 @@ remove_tables:
 load_fixtures:
 	python3 backend/db/load_fixtures.py
 
+build_and_start: build_frontend start_frontend_server
+
 build_frontend:
 	cd frontend && npm run build
 
@@ -51,6 +53,30 @@ lint_js:
 	cd frontend && npm run lint
 
 frontend_dev: lint_js build_frontend_dev start_frontend_server
+
+tree:
+	tree -f -I "node_modules|soft-ui-dashboard|category_images|bundle|__pycache_|assets" .
+
+build:
+	docker compose build
+
+up:
+	docker compose up -d
+
+down:
+	docker compose down
+
+logs:
+	docker compose logs -f
+
+bash_frontend:
+	docker compose exec frontend bash
+
+bash_backend:
+	docker compose exec backend bash
+
+bash_frontend_debug:
+	docker run -it --entrypoint /bin/sh llm-trivia-game-frontend:latest
 
 help:
 	@echo "Available recipes:"
