@@ -36,13 +36,21 @@ def register_handlers(socketio):
             data['answer_id']
         )
 
+        answer = TriviaRepository.get_answer_by_id(data['answer_id'])
+
+        if answer['is_correct']:
+            TriviaRepository.add_points(data['player']['id'], 1)
+
         emit('answered', data, broadcast=True, room=data['game_id'])
 
     @socketio.on('join')
     def on_join(data):
         room = data['game_id']
         join_room(room)
-        emit('joined', {"player": data['player'], "game_id": data["game_id"]}, room=room, broadcast=True)
+
+        player_points = TriviaRepository.get_player_points_by_game(data['game_id'], data['player']['id'])
+
+        emit('joined', {"player": data['player'], "game_id": data["game_id"], "player_points": player_points}, room=room, broadcast=True)
 
     @socketio.on('leave')
     def on_leave(data):
@@ -62,7 +70,7 @@ def register_handlers(socketio):
         countdown = 10
         for i in range(countdown, -1, -1):
             # Send a message with the remaining time
-            emit('countdown', {'remaining_time': i}, room=room, broadcast=True)
+            emit('countdown', {'remaining_time': i, 'total_time': countdown }, room=room, broadcast=True)
             socketio.sleep(1)
         
         TriviaRepository.start_game(data['game_id'])
@@ -82,7 +90,8 @@ def register_handlers(socketio):
         question = QuestionManager.next_question(
             data['game_id'],
             data['category'],
-            data['difficulty']
+            data['difficulty'],
+            data['language']
         )
 
         print('done drawing')
@@ -91,7 +100,7 @@ def register_handlers(socketio):
         countdown = 3
         for i in range(countdown, -1, -1):
             # Send a message with the remaining time
-            emit('countdown', {'remaining_time': i}, room=room, broadcast=True)
+            emit('countdown', {'remaining_time': i, 'total_time': countdown }, room=room, broadcast=True)
             socketio.sleep(1)
 
         print('Question is ready')
@@ -117,6 +126,7 @@ def register_handlers(socketio):
     @socketio.on('get_winners')
     def handle_get_winners(data):
         winners = TriviaRepository.get_round_winners(data['game_id'], data['question_id'])
+        print(winners)
         emit('winners', {"winners": winners}, broadcast=True, room=data['game_id'])
 
     @socketio.on('difficulty_changed')

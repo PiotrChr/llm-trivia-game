@@ -159,3 +159,13 @@ def get_players_by_game(game_id):
         return jsonify({"msg": "No players found for this game_id"}), 404
     else:
         return jsonify(players), 200
+
+
+@game_routes.route('/leaderboard', methods=['GET'])
+def get_leaderboard():
+    leaderboard = TriviaRepository.get_leaderboard()
+
+    if leaderboard is None:
+        return jsonify({"msg": "No leaderboard found"}), 404
+    else:
+        return jsonify(leaderboard), 200

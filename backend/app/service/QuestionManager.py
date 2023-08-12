@@ -8,8 +8,8 @@ class QuestionManager:
         pass
 
     @staticmethod
-    def next_question(game_id, category, difficulty):
-        print(f'Next question: {game_id}, {category}, {difficulty}')
+    def next_question(game_id, category, difficulty, language):
+        print(f'Next question: {game_id}, {category}, {difficulty}, {language}')
         if isinstance(category, str):
             cat_id = TriviaRepository.create_category(category)
         else:
@@ -24,6 +24,8 @@ class QuestionManager:
 
         if question is None:
             existing_questions = TriviaRepository.get_questions_texts(game_id, cat_id, difficulty)
+
+            print(f'Existing questions: {existing_questions}')
 
             questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 20)
             TriviaRepository.add_questions(questions, cat_id, difficulty)

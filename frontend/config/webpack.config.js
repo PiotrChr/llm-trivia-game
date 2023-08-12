@@ -1,6 +1,6 @@
 const path = require('path');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 // const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
@@ -45,6 +45,9 @@ module.exports = (env, argv) => {
             new HtmlWebpackPlugin({
                 filename: '../../index.html',
                 template: path.resolve(__dirname, '../src', 'index.html'),
+            }),
+            new webpack.EnvironmentPlugin({
+                NODE_ENV: isDevMode ? 'development' : 'production'
             }),
             // new CopyPlugin({
             //     patterns: [

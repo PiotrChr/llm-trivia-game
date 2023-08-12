@@ -7,14 +7,12 @@ const API_PORT = process.env.BACKEND_PORT || 9000;
 const BASE_URL = `http://${API_HOST}:${API_PORT}/api`;
 /* eslint-enable no-undef */
 
-// Create an axios instance
 const api = axios.create({
     baseURL: BASE_URL,
     withCredentials: true
   });
 
 api.interceptors.request.use((config) => {
-    // add Authorization header to every request
     const token = Cookies.get('token'); 
     config.headers.Authorization = token ? `Bearer ${token}` : '';
     return config;
@@ -100,6 +98,11 @@ export const endGame = async (gameId) => {
 
 export const isPlaying = async (gameId) => {
     const response = await api.get(`${BASE_URL}/game/${gameId}/is_playing`);
+    return response;
+}
+
+export const getLeaderboard = async () => {
+    const response = await api.get(`${BASE_URL}/game/leaderboard`);
     return response;
 }
 

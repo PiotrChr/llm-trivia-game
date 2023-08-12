@@ -23,8 +23,8 @@ const Layout = ({ children }) => {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mx-auto">
                   <Nav.Link href="/" active={location.pathname === "/"} className='align-items-center me-2'>Home</Nav.Link>
-                  <Nav.Link href="/score" active={location.pathname === "/score" } className='align-items-center me-2'>Score</Nav.Link>
-                  <Nav.Link href="/stats" active={location.pathname === "/stats"} className='align-items-center me-2'>Stats</Nav.Link>
+                  <Nav.Link href="/leaderboard" active={location.pathname === "/leaderboard"} className='align-items-center me-2'>Leaderboard</Nav.Link>
+                  <Nav.Link href="/score" active={location.pathname === "/about_game" } className='align-items-center me-2'>About game</Nav.Link>
                 </Nav>
                 <Nav>
                   {user ? (
