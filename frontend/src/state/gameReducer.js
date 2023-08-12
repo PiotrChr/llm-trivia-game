@@ -14,7 +14,10 @@ const initialState = {
     allAnswered: false,
     questionReady: false,
     languages: [],
-    language: null,
+    language: {
+      iso_code: "en",
+      name: "English"
+    },
     isTimed: false,
     timeElapsed: 0,
     timeLimit: 0,
@@ -41,7 +44,27 @@ const gameReducer = (state = initialState, action) => {
         return { ...state, question: action.payload };
   
       case "ADD_PLAYER":
-        return { ...state, players: [...state.players, action.payload] };
+        if (state.players.some(player => player.id === action.payload.player.id)) {
+          return { ...state, players: state.players.map(player => {
+            if (player.id === action.payload.player.id) {
+              return { ...player, 
+                points: action.payload.player_points,
+                ready: false,
+                answer: null,
+              };
+            }
+            return player;
+          })};
+        }
+        return { ...state, players: [...state.players, 
+          {
+            id: action.payload.player.id,
+            name: action.payload.player.name,
+            points: action.payload.player_points,
+            ready: false,
+            answer: null,
+          }
+        ]};
   
       case "REMOVE_PLAYER":
         return { ...state, players: state.players.filter(player => player.id !== action.payload.id) };
@@ -53,29 +76,35 @@ const gameReducer = (state = initialState, action) => {
         return { ...state, allAnswered: action.payload };
   
       case "SET_QUESTION_READY":
-        return { ...state, questionReady: action.payload };
+        return { ...state, questionReady: true };
   
       case "SET_LANGUAGES":
         return { ...state, languages: action.payload };
   
       case "SET_LANGUAGE":
-        return { ...state, language: action.payload };
+        return { 
+          ...state,
+          language: action.payload,
+        };
         
       case "SET_PLAYER_READY":
-        return { ...state, players: state.players.map(player => {
+        state = { ...state, players: state.players.map(player => {
             if (player.id === action.payload) {
                 return { ...player, ready: true };
             }
             return player;
         })};
+
+        return { ...state, allReady: state.players.every(player => player.ready) };
     
       case "SET_PLAYER_ANSWER":
         state = { ...state, players: state.players.map(player => {
-            if (player.id === action.payload.id) {
-                return { ...player, answer: action.payload };
+            if (player.id === action.payload.player.id) {
+                return { ...player, answer: action.payload.answer_id };
             }
             return player;
         })};
+
         return { ...state, allAnswered: state.players.every(player => player.answer) };
         
       case "SET_PLAYER_SCORE":
@@ -111,7 +140,10 @@ const gameReducer = (state = initialState, action) => {
         return { ...state, gameStarted: false };
 
       case "SET_COUNTDOWN":
-        return { ...state, countdown: action.payload };
+        return { ...state, countdown: {
+          remaining_time: action.payload.remaining_time,
+          total_time: action.payload.total_time,
+        } };
   
       case "SET_ANSWERS":
         return { ...state, answers: action.payload };
@@ -123,16 +155,18 @@ const gameReducer = (state = initialState, action) => {
         return { ...state, currentBackground: action.payload };
   
       case "ADD_MESSAGE":
-        return { ...state, messages: [...state.messages, action.payload] };
+        if (state.messages.length < 10) {
+            return { ...state, messages: [...state.messages, action.payload] };
+        }
+        return { ...state, messages: [...state.messages.slice(1), action.payload] };
       
       case "RESET_ROUND":
         return { ...state,  
             allAnswered: false,
             questionReady: false,
             timeElapsed: 0,
-            drawing: false,
-            gameStarted: false,
             answers: [],
+            selectedAnswerId: null,
             players: state.players.map(player => {
                 return { ...player, answer: null};
             }),

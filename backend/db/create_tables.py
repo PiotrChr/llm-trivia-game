@@ -20,6 +20,8 @@ def create_tables():
     run_sql_script('backend/db/queries/schema/player_answers.sql')
     run_sql_script('backend/db/queries/schema/games.sql')
     run_sql_script('backend/db/queries/schema/player_games.sql')
+    run_sql_script('backend/db/queries/schema/question_translations.sql')
+    run_sql_script('backend/db/queries/schema/answer_translations.sql')
 
 if __name__ == "__main__":
     create_tables()

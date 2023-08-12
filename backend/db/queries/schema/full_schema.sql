@@ -76,3 +76,30 @@ CREATE TABLE player_answers (
     FOREIGN KEY(answer_id) REFERENCES answers(id),
     FOREIGN KEY(game_id) REFERENCES games(id)
 );
+
+CREATE TABLE question_translations (
+    question_id INTEGER,
+    language_id INTEGER,
+    question_text TEXT NOT NULL,
+    PRIMARY KEY(question_id, language_id),
+    FOREIGN KEY(question_id) REFERENCES questions(id),
+    FOREIGN KEY(language_id) REFERENCES language(id)
+);
+
+CREATE TABLE answer_translations (
+    answer_id INTEGER,
+    language_id INTEGER,
+    answer_text TEXT NOT NULL,
+    PRIMARY KEY(answer_id, language_id),
+    FOREIGN KEY(answer_id) REFERENCES answers(id),
+    FOREIGN KEY(language_id) REFERENCES language(id)
+);
+
+CREATE TABLE category_translations (
+    category_id INTEGER,
+    language_id INTEGER,
+    category_name TEXT NOT NULL,
+    PRIMARY KEY(category_id, language_id),
+    FOREIGN KEY(category_id) REFERENCES category(id),
+    FOREIGN KEY(language_id) REFERENCES language(id)
+);

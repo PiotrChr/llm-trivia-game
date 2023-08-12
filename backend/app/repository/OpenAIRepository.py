@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-question_json_structure = """[{"question":"Some example question","answers":[{"text":"answer1","is_correct":"true"},{"text":"answer2","is_correct":"false"},{"text":"answer3","is_correct":"false"},{"text":"answer4","is_correct":"false"}]},{"question":"Some other example question","answers":[{"text":"answer1","is_correct":"false"},{"text":"answer2","is_correct":"false"},{"text":"answer3","is_correct":"true"},{"text":"answer4","is_correct":"false"}]}]"""
+question_json_structure = """[{"question":"Some example question","answers":[{"text":"answer1","is_correct":true},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":false},{"text":"answer4","is_correct":false}]},{"question":"Some other example question","answers":[{"text":"answer1","is_correct":false},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":true},{"text":"answer4","is_correct":false}]}]"""
 
 user_prompt_json_structure = """{"category": category, "difficulty": difficulty, "num_questions": num_questions, "existing_questions": ["Some other example question", "Some example question", "Some different example question"]}"""
 
@@ -53,7 +53,7 @@ Important! If you do not reply with a valid JSON array, the system will not be a
 """
 
 translation_user_prompt_json_structure = """
-{"language": language, "questions": [{"question": "Some example question", "answers": [{"text": "answer1", "is_correct": "true"}, {"text": "answer2", "is_correct": "false"}, {"text": "answer3", "is_correct": "false"}, {"text": "answer4", "is_correct": "false"}]}, {"question": "Some other example question", "answers": [{"text": "answer1", "is_correct": "false"}, {"text": "answer2", "is_correct": "false"}, {"text": "answer3", "is_correct": "true"}, {"text": "answer4", "is_correct": "false"}]}]}
+{"language": language, "questions": [{"question": "Some example question", "answers": [{"text": "answer1", "is_correct": true}, {"text": "answer2", "is_correct": false}, {"text": "answer3", "is_correct": false}, {"text": "answer4", "is_correct": false}]}, {"question": "Some other example question", "answers": [{"text": "answer1", "is_correct": false}, {"text": "answer2", "is_correct": false}, {"text": "answer3", "is_correct": true}, {"text": "answer4", "is_correct": false}]}]}
 """
 
 translation_system_prompt = f"""

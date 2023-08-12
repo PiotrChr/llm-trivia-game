@@ -226,6 +226,24 @@ class TriviaRepository:
             return None
 
     @staticmethod
+    def get_player_points_by_game(game_id, player_id):
+        query = """
+            SELECT SUM(answers.is_correct) as points
+            FROM answers
+            JOIN player_answers ON answers.id = player_answers.answer_id
+            WHERE player_answers.game_id = ? AND player_answers.player_id = ?
+        """
+        params = (game_id, player_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            points = Database.get_cursor().fetchone()
+            return points["points"]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table answers: {error}")
+            return None
+
+
+    @staticmethod
     def get_player_by_name(username):
         query = """
             SELECT * FROM players WHERE name = ?
@@ -257,18 +275,21 @@ class TriviaRepository:
         
     @staticmethod
     def get_player_answers(game_id, player_id):
+        print(f"Getting player answers for player {player_id} in game {game_id}")
+
         query = """
-            SELECT player_answers.answer_id, category.id, category.id as category_id, category.name as category_name
+            SELECT player_answers.answer_id, category.id, category.id as category_id, category.name as category_name, answers.is_correct as is_correct
             FROM player_answers
             JOIN questions ON player_answers.question_id = questions.id
             JOIN category ON questions.category = category.id
+            JOIN answers ON player_answers.answer_id = answers.id
             WHERE player_answers.player_id = ?
         """
 
-        query = """
-            SELECT * FROM player_answers
-            WHERE player_answers.player_id = ?
-        """
+        # query = """
+        #     SELECT * FROM player_answers
+        #     WHERE player_answers.player_id = ?
+        # """
 
         if game_id:
             query += " AND player_answers.game_id = ?"
@@ -290,7 +311,7 @@ class TriviaRepository:
 
             player_answer_sql = """
                 INSERT INTO player_answers (player_id, question_id, game_id, answer_id)
-                VALUES (?, ?, ?)
+                VALUES (?, ?, ?, ?)
             """
             Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id), False)
 
@@ -336,6 +357,36 @@ class TriviaRepository:
             print(f"An error occurred: {e}")
             return None
    
+    @staticmethod
+    def add_points(player_id, points):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            player_game_sql = """
+                UPDATE players SET total_score = total_score + ? WHERE id = ?
+            """
+            Database.execute(player_game_sql, (points, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def get_answer_by_id(answer_id):
+        query = """
+            SELECT * FROM answers WHERE id = ?
+        """
+        params = (answer_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            answer = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(answer)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table answers: {error}")
+            return None
 
     @staticmethod
     def get_games():
@@ -641,6 +692,42 @@ class TriviaRepository:
             return [TriviaRepository.row_to_dict(language) for language in languages]
         except sqlite3.Error as error:
             print(f"Failed to read data from table languages: {error}")
+            return None
+
+    @staticmethod
+    def get_leaderboard():
+        query = """
+            SELECT players.id, players.name, players.total_score, player_categories.category_name
+            FROM players
+            JOIN (
+                SELECT player_answers.player_id as player_id, category.name as category_name, COUNT(player_answers.question_id) as question_count
+                FROM player_answers
+                JOIN questions ON player_answers.question_id = questions.id
+                JOIN category ON questions.category = category.id
+                GROUP BY player_answers.player_id, category.name
+                ORDER BY question_count DESC
+                LIMIT 1
+            ) as player_categories ON players.id = player_categories.player_id
+            ORDER BY players.total_score DESC
+            LIMIT 10
+        """
+
+        # query = """
+        #     SELECT player_answers.player_id, category.name, COUNT(player_answers.question_id) as question_count
+        #     FROM player_answers
+        #     JOIN questions ON player_answers.question_id = questions.id
+        #     JOIN category ON questions.category = category.id
+        #     GROUP BY player_answers.player_id, category.name
+        #     ORDER BY question_count DESC
+        # """
+                
+
+        try:
+            Database.get_cursor().execute(query)
+            players = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(player) for player in players]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
             return None
 
     @staticmethod
