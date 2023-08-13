@@ -2,7 +2,7 @@
 # Ignore node modules
 frontend/node_modules/
 # Ignore .env files
-**/.env
+**/*.env
 # Ignore Python virtualenv
 venv/
 # Ignore Python compiled files
@@ -14,7 +14,7 @@ logs
 # Ignore the npm debug log
 npm-debug.log
 # Ignore the build folder 
-frontend/public/static/dist
+frontend/public/static/dist/
 frontend/public/index.html
 # Certs
 frontend/cert.pem

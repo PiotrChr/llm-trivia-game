@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 // const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 
 module.exports = (env, argv) => {
     const isDevMode = argv.mode === 'development';
@@ -42,12 +44,17 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new Dotenv(),
+            new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 filename: '../../index.html',
                 template: path.resolve(__dirname, '../src', 'index.html'),
             }),
             new webpack.EnvironmentPlugin({
                 NODE_ENV: isDevMode ? 'development' : 'production'
+            }),
+            new webpack.DefinePlugin({
+                'process.env.BACKEND_HOST': JSON.stringify(process.env.BACKEND_HOST),
+                'process.env.BACKEND_PORT': JSON.stringify(process.env.BACKEND_PORT)
             }),
             // new CopyPlugin({
             //     patterns: [

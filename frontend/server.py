@@ -5,7 +5,7 @@ import webbrowser
 from dotenv import load_dotenv
 
 # Load .env file
-load_dotenv()
+load_dotenv('../.frontend.env')
 
 app = Flask(__name__, static_folder='public/static/')
 
