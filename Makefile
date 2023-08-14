@@ -52,6 +52,9 @@ start_frontend_server:
 lint_js:
 	cd frontend && npm run lint
 
+format:
+	cd frontend && npm run format
+
 frontend_dev: lint_js build_frontend_dev start_frontend_server
 
 tree:

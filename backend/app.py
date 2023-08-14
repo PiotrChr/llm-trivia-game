@@ -7,8 +7,6 @@ from flask_socketio import SocketIO
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
-from app.repository.TriviaRepository import TriviaRepository
-from app.models.User import User
 from app.route.player_routes import player_routes
 from app.route.game_routes import game_routes
 from app.route.question_routes import question_routes
@@ -22,11 +20,11 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['JWT_TOKEN_LOCATION'] = ['headers']  # Where to look for the JWT
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400  # Access token expires after one day
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
-jwt = JWTManager(app)  # Initialize the JWT manager
+jwt = JWTManager(app)
 CORS(app, supports_credentials=True)
 socketio = SocketIO(
     app,
@@ -42,8 +40,6 @@ socketio = SocketIO(
 def close_db(e=None):
     Database.close()
 
-
-# Register WebSocket event handlers
 register_handlers(socketio)
 
 app.register_blueprint(player_routes, url_prefix='/api/players')

@@ -10,3 +10,5 @@
 - [ ] **Content:** About Author content
 - [ ] **Content:** About Game content
 - [ ] **Visuals:** Fix fade-in-out in GamePage
+- [ ] **Visuals:** Add alerts
+- [ ] **Visuals:** Add modals

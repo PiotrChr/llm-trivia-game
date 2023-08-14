@@ -7,13 +7,13 @@ import { Card, Container, Row, Col } from 'react-bootstrap';
 import { createGame, getCategories, getLanguages } from '../services/api';
 
 const GameHostPage = () => {
-  const [gamePassword, setGamePassword] = useState("");
-  const [maxQuestions, setMaxQuestions] = useState("");
-  const [timeLimit, setTimeLimit] = useState("");
-  const [language, setLanguage] = useState("");
+  const [gamePassword, setGamePassword] = useState('');
+  const [maxQuestions, setMaxQuestions] = useState('');
+  const [timeLimit, setTimeLimit] = useState('');
+  const [language, setLanguage] = useState('');
   const [categories, setCategories] = useState([
-    { label: "Sports", value: "sports" },
-    { label: "History", value: "history" },
+    { label: 'Sports', value: 'sports' },
+    { label: 'History', value: 'history' }
   ]);
   const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
@@ -23,11 +23,21 @@ const GameHostPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const result = await getCategories();
-      setCategories(result.data.map(category => ({ label: category.name, value: category.id })));
+      setCategories(
+        result.data.map((category) => ({
+          label: category.name,
+          value: category.id
+        }))
+      );
     };
     const fetchLanguages = async () => {
       const result = await getLanguages();
-      setLanguages(result.data.map(language => ({ label: language.name, value: language.id })));
+      setLanguages(
+        result.data.map((language) => ({
+          label: language.name,
+          value: language.id
+        }))
+      );
     };
 
     fetchCategories();
@@ -52,7 +62,7 @@ const GameHostPage = () => {
         gamePassword,
         category.value,
         timeLimit,
-        maxQuestions,
+        maxQuestions
       );
 
       if (!game) {
@@ -64,39 +74,69 @@ const GameHostPage = () => {
     }
 
     setValidated(true);
-  }
+  };
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh' }}
+    >
       <Row>
-        <Col md={{ span: 12}}>
+        <Col md={{ span: 12 }}>
           <Card className="p-4">
             <Card.Body>
               <h2 className="text-center mb-4">Host a Game</h2>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formGamePassword">
                   <Form.Label>Game Password</Form.Label>
-                  <Form.Control type="password" value={gamePassword} onChange={e => setGamePassword(e.target.value)} />
-                  <Form.Control.Feedback type="invalid">Please provide a valid password.</Form.Control.Feedback>
+                  <Form.Control
+                    type="password"
+                    value={gamePassword}
+                    onChange={(e) => setGamePassword(e.target.value)}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid password.
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formMaxQuestions">
-                  <Form.Label>Max Questions (leave empty for infinite)</Form.Label>
-                  <Form.Control type="number" value={maxQuestions} onChange={e => setMaxQuestions(e.target.value)} />
+                  <Form.Label>
+                    Max Questions (leave empty for infinite)
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={maxQuestions}
+                    onChange={(e) => setMaxQuestions(e.target.value)}
+                  />
                 </Form.Group>
 
                 <Form.Group controlId="formTimeLimit">
                   <Form.Label>Time Limit (leave empty for no limit)</Form.Label>
-                  <Form.Control type="number" value={timeLimit} onChange={e => setTimeLimit(e.target.value)} />
+                  <Form.Control
+                    type="number"
+                    value={timeLimit}
+                    onChange={(e) => setTimeLimit(e.target.value)}
+                  />
                 </Form.Group>
 
                 <Form.Group controlId="formLanguage">
                   <Form.Label>Language</Form.Label>
-                  <Form.Control as="select" value={language} onChange={e => setLanguage(e.target.value)} required>
+                  <Form.Control
+                    as="select"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    required
+                  >
                     {/* <option value="" disabled>Select a language</option> */}
-                    {languages.map(language => <option key={language.value} value={language.value}>{language.label}</option>)}
+                    {languages.map((language) => (
+                      <option key={language.value} value={language.value}>
+                        {language.label}
+                      </option>
+                    ))}
                   </Form.Control>
-                  <Form.Control.Feedback type="invalid">Please select a language.</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Please select a language.
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group controlId="formCategory">
@@ -110,7 +150,9 @@ const GameHostPage = () => {
                     formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
                     value={category}
                   />
-                  <Form.Control.Feedback type="invalid">Please select a category.</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Please select a category.
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="w-100 mt-3">
@@ -123,6 +165,6 @@ const GameHostPage = () => {
       </Row>
     </Container>
   );
-}
+};
 
 export default GameHostPage;

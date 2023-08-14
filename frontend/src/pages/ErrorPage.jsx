@@ -4,7 +4,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 
 function ErrorPage() {
   const { errorId } = useParams();
-  
+
   const getErrorMessage = () => {
     switch (errorId) {
       case '404':
@@ -16,12 +16,15 @@ function ErrorPage() {
       default:
         return 'An unknown error occurred.';
     }
-  }
+  };
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+    <Container
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh' }}
+    >
       <Row>
-        <Col md={{ span: 8, offset: 2}}>
+        <Col md={{ span: 8, offset: 2 }}>
           <Card className="p-4">
             <Card.Body>
               <h2 className="text-center mb-4">Error</h2>

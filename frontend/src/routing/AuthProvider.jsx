@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 import { Route, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { checkAuth } from '../services/api';
@@ -17,9 +17,8 @@ export function AuthProvider({ children }) {
 
   async function checkAuthenticated() {
     const token = checkJWT();
-    
+
     if (token) {
-      
       setUser({
         id: token.sub.id,
         name: token.sub.name
@@ -48,7 +47,5 @@ export function AuthProvider({ children }) {
 export function PrivateRoute({ children }) {
   const { user } = useAuth();
 
-  return (
-    user ? children : <Navigate to="/login" />
-  );
+  return user ? children : <Navigate to="/login" />;
 }
