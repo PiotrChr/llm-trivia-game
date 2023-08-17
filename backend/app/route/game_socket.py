@@ -1,4 +1,4 @@
-from flask_socketio import send, emit, leave_room, join_room
+from flask_socketio import emit, leave_room, join_room
 import time
 
 from app.repository.TriviaRepository import TriviaRepository
@@ -50,6 +50,8 @@ def register_handlers(socketio):
 
         player_points = TriviaRepository.get_player_points_by_game(data['game_id'], data['player']['id'])
 
+        print('Player joined', data['player']['id'], player_points)
+
         emit('joined', {"player": data['player'], "game_id": data["game_id"], "player_points": player_points}, room=room, broadcast=True)
 
     @socketio.on('leave')
@@ -87,12 +89,17 @@ def register_handlers(socketio):
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
         socketio.sleep(1)
 
-        question = QuestionManager.next_question(
-            data['game_id'],
-            data['category'],
-            data['difficulty'],
-            data['language']
-        )
+        try:
+            question = QuestionManager.next_question(
+                data['game_id'],
+                data['category'],
+                data['difficulty'],
+                data['language']
+            )
+        except Exception as e:
+            print(e)
+            emit('error', {"msg": "No questions found", "context": "next"}, room=room, broadcast=True)
+            return
 
         print('done drawing')
         emit('drawn', {"game_id": data['game_id']}, room=room, broadcast=True)
@@ -111,13 +118,15 @@ def register_handlers(socketio):
             broadcast=True
         )
 
-    @socketio.on('ping')
+    @socketio.on('pingx')
     def handle_ping(data):
-        emit('ping', broadcast=True, room=data['game_id'])
+        emit('pingx', broadcast=True, room=data['game_id'])
 
-    @socketio.on('pong')
+    @socketio.on('pongx')
     def handle_pong(data):
-        emit('pong', data, broadcast=True, room=data['game_id'])
+        player_points = TriviaRepository.get_player_points_by_game(data['game_id'], data['player']['id'])
+
+        emit('pongx', { **data, "player_points": player_points }, broadcast=True, room=data['game_id'])
 
     @socketio.on('message')
     def handle_message(data):
@@ -142,12 +151,19 @@ def register_handlers(socketio):
             cat_id = data['category']['id']
             cat_name = data['category']['name']
             
+        TriviaRepository.set_current_category(data['game_id'], cat_id)
+        
         emit('category_changed', {
             "category": {
                 "id": cat_id,
                 "name": cat_name
             }
         }, broadcast=True, room=data['game_id'])
+
+    @socketio.on('language_changed')
+    def handle_language_change(data):
+        TriviaRepository.set_game_language(data['game_id'], data['language'])
+        emit('language_changed', data, broadcast=True, room=data['game_id'])
 
     @socketio.on('*')
     def catch_all(event, data):

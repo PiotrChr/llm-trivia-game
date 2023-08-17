@@ -87,13 +87,17 @@ export const createGame = async (
   password,
   currentCategory,
   timeLimit,
-  maxQuestions
+  maxQuestions,
+  language,
+  autoStart
 ) => {
   const response = await api.post(`${BASE_URL}/game/create`, {
     password,
     currentCategory,
     timeLimit,
-    maxQuestions
+    maxQuestions,
+    language,
+    autoStart
   });
   return response;
 };

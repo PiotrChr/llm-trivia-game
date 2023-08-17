@@ -8,14 +8,14 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => (
       <div className="table-responsive">
         <table className="table align-items-center mb-0">
           <thead>
-            <tr>
-              <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            <tr className="text-center">
+              <th className="text-uppercase text-justify text-secondary text-xxs font-weight-bolder opacity-7 p-1">
                 Player
               </th>
-              <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+              <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-1">
                 Status
               </th>
-              <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+              <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 p-1">
                 Points
               </th>
             </tr>
@@ -25,18 +25,15 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => (
               players.map((player) => {
                 return (
                   <tr key={player.id}>
-                    <td>
-                      <div className="d-flex px-2 py-1">
-                        {/* <div>
-                          <img src={player.avatar} className="avatar avatar-sm me-3" />
-                        </div> */}
+                    <td className="p-1 border-0">
+                      <div className="d-flex">
                         <div className="d-flex flex-column justify-content-center">
-                          <h6 className="mb-0 text-sm">{player.name}</h6>
+                          <h6 className="mb-0 text-xs">{player.name}</h6>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <p className="text-sm font-weight-bold mb-0">
+                    <td className="p-1 border-0">
+                      <p className="text-sm font-weight-bold mb-0 text-xxs text-center">
                         {player.ready ? (
                           <span className="badge badge-sm bg-gradient-success">
                             Ready
@@ -48,7 +45,7 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => (
                         )}
                       </p>
                     </td>
-                    <td>
+                    <td className="p-1 border-0 text-center text-center">
                       <p className="text-sm font-weight-bold mb-0">
                         {player.points}
                       </p>

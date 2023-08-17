@@ -1,1 +1,29 @@
 @import './soft-ui-dashboard.scss';
+
+
+#game-chat {
+
+    .chat-form-control {
+        border-radius: 0px 0px 0px 10px !important;
+        border-bottom: 0px !important;
+        border-left: 0px !important;
+        border-right: 0px !important;
+        border-color: #eee !important;
+    
+        &:focus {
+            border-color: #eee !important;
+            border-left: 0px !important;
+            border-right: 0px !important;
+            z-index: 2;
+        }
+    
+    }
+    
+    .chat-form-button {
+        border-radius: 0px 0px 10px 0px !important;
+        color: gray;
+        background: #fafafa;
+        border-top: 1px solid #eee !important;
+        box-shadow: none;
+    }
+}

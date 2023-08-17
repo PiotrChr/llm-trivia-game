@@ -24,7 +24,12 @@
     "/static/img/category_images/025/current_affairs2.jpeg",
     "/static/img/category_images/025/current_affairs3.jpeg"
   ],
-  "001": [],
+  "001": [
+    "/static/img/category_images/001/physics3.jpeg",
+    "/static/img/category_images/001/physics2.jpeg",
+    "/static/img/category_images/001/physics1.jpeg",
+    "/static/img/category_images/001/physics4.jpeg"
+  ],
   "062": [
     "/static/img/category_images/062/marine_biology3.jpeg",
     "/static/img/category_images/062/marine_biology2.jpeg",
@@ -428,7 +433,11 @@
     "/static/img/category_images/024/environment1.jpeg",
     "/static/img/category_images/024/environment2.jpeg"
   ],
-  "002": [],
+  "002": [
+    "/static/img/category_images/002/types_of_barbie_dolls3.jpeg",
+    "/static/img/category_images/002/types_of_barbie_dolls2.jpeg",
+    "/static/img/category_images/002/types_of_barbie_dolls1.jpeg"
+  ],
   "013": [
     "/static/img/category_images/013/psychology1.jpeg",
     "/static/img/category_images/013/psychology2.jpeg"

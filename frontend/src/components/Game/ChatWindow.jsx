@@ -1,14 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  InputGroup,
-  FormControl,
-  Button,
-  Form
-} from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
 
 const ChatWindow = ({ sendMessage, messages, playerId }) => {
@@ -28,56 +19,71 @@ const ChatWindow = ({ sendMessage, messages, playerId }) => {
   }, [messages]);
 
   return (
-    <div>
-      <ListGroup
-        className="p-1"
-        style={{ height: '200px', overflow: 'hidden' }}
+    <div className="mt-4">
+      <div
+        style={{
+          border: '1px solid #eee',
+          padding: '0px',
+          borderRadius: '10px'
+        }}
       >
-        {messages.map((message, index) => (
-          <ListGroup.Item
-            key={index}
-            className={classNames(
-              `text-${message.player.id === playerId ? 'end' : 'start'}`,
-              'text-xxs',
-              'border-0',
-              'py-0',
-              'mb-1',
-              'px-1'
-            )}
-          >
-            <span
-              className={
-                parseInt(message.player.id) === parseInt(playerId)
-                  ? 'text-primary'
-                  : 'text-success'
-              }
-            >
-              {parseInt(message.player.id) !== parseInt(playerId) && (
-                <strong>{message.player.name}: </strong>
+        <ListGroup
+          className="p-1"
+          style={{ height: '200px', overflow: 'hidden' }}
+        >
+          {messages.map((message, index) => (
+            <ListGroup.Item
+              key={index}
+              className={classNames(
+                `text-${message.player.id === playerId ? 'end' : 'start'}`,
+                'text-xxs',
+                'border-0',
+                'py-1',
+                'px-2'
               )}
-              {message.message}
-            </span>
-          </ListGroup.Item>
-        ))}
-        <div ref={messagesEndRef} />
-      </ListGroup>
-      <Form onSubmit={handleSendMessage}>
-        <InputGroup className="mt-3 input-group-sm">
-          <FormControl
-            type="text"
-            placeholder="Type your message..."
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-          />
-          <Button
-            variant="outline-secondary"
-            className="mb-0"
-            onClick={handleSendMessage}
-          >
-            Send
-          </Button>
-        </InputGroup>
-      </Form>
+              style={{
+                background:
+                  parseInt(message.player.id) === parseInt(playerId)
+                    ? '#fafafa'
+                    : '#fff'
+              }}
+            >
+              <span
+                className={
+                  parseInt(message.player.id) === parseInt(playerId)
+                    ? 'text-primary'
+                    : 'text-success'
+                }
+              >
+                {parseInt(message.player.id) !== parseInt(playerId) && (
+                  <strong>{message.player.name}: </strong>
+                )}
+                {message.message}
+              </span>
+            </ListGroup.Item>
+          ))}
+          <div ref={messagesEndRef} />
+        </ListGroup>
+        <form onSubmit={handleSendMessage} id="game-chat">
+          <div className="mt-1 input-group-sm input-group">
+            <input
+              type="text"
+              className="shadow-none form-control chat-form-control"
+              placeholder="Type your message..."
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+            />
+            <Button
+              variant="secondary"
+              className="mb-0 chat-form-button text-xxs"
+              style={{ borderRadius: '0px 0px 10px 0px !important' }}
+              onClick={handleSendMessage}
+            >
+              Send
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

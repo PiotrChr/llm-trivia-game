@@ -5,12 +5,13 @@ import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { createGame, getCategories, getLanguages } from '../services/api';
+import { useAlert } from '../components/shared/Alert/AlertContext';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState('');
   const [maxQuestions, setMaxQuestions] = useState('');
   const [timeLimit, setTimeLimit] = useState('');
-  const [language, setLanguage] = useState('');
+  const [language, setLanguage] = useState(null);
   const [categories, setCategories] = useState([
     { label: 'Sports', value: 'sports' },
     { label: 'History', value: 'history' }
@@ -18,7 +19,9 @@ const GameHostPage = () => {
   const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
   const [validated, setValidated] = useState(false);
+  const [autoStart, setAutoStart] = useState(false);
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,7 +38,7 @@ const GameHostPage = () => {
       setLanguages(
         result.data.map((language) => ({
           label: language.name,
-          value: language.id
+          value: language.iso_code
         }))
       );
     };
@@ -58,19 +61,32 @@ const GameHostPage = () => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      const game = await createGame(
-        gamePassword,
-        category.value,
-        timeLimit,
-        maxQuestions
-      );
+      try {
+        const game = await createGame(
+          gamePassword,
+          category.value,
+          timeLimit,
+          maxQuestions,
+          language.value,
+          autoStart
+        );
 
-      if (!game) {
-        alert('Failed to create game');
+        if (!game) {
+          showAlert('Error', 'Something went wrong', null, {
+            variant: 'danger',
+            position: 'bottom'
+          });
+          return;
+        }
+
+        navigate('/game/' + game.data.id);
+      } catch (err) {
+        showAlert('Error', 'Something went wrong', err.message, {
+          variant: 'danger',
+          position: 'bottom'
+        });
         return;
       }
-
-      navigate('/game/' + game.data.id);
     }
 
     setValidated(true);
@@ -121,19 +137,12 @@ const GameHostPage = () => {
 
                 <Form.Group controlId="formLanguage">
                   <Form.Label>Language</Form.Label>
-                  <Form.Control
-                    as="select"
+                  <Select
                     value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
+                    options={languages}
+                    onChange={(newValue) => setLanguage(newValue)}
                     required
-                  >
-                    {/* <option value="" disabled>Select a language</option> */}
-                    {languages.map((language) => (
-                      <option key={language.value} value={language.value}>
-                        {language.label}
-                      </option>
-                    ))}
-                  </Form.Control>
+                  />
                   <Form.Control.Feedback type="invalid">
                     Please select a language.
                   </Form.Control.Feedback>
@@ -154,7 +163,14 @@ const GameHostPage = () => {
                     Please select a category.
                   </Form.Control.Feedback>
                 </Form.Group>
-
+                <Form.Group controlId="formAutoStart" className="mt-4">
+                  <Form.Check
+                    type="switch"
+                    label="Auto-Start round"
+                    checked={autoStart}
+                    onChange={(e) => setAutoStart(e.target.checked)}
+                  />
+                </Form.Group>
                 <Button variant="primary" type="submit" className="w-100 mt-3">
                   Host Game
                 </Button>

@@ -55,7 +55,7 @@ lint_js:
 format:
 	cd frontend && npm run format
 
-frontend_dev: lint_js build_frontend_dev start_frontend_server
+frontend_dev: format lint_js build_frontend_dev start_frontend_server
 
 tree:
 	tree -f -I "node_modules|soft-ui-dashboard|category_images|bundle|__pycache_|assets" .

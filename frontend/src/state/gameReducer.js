@@ -5,12 +5,10 @@ const initialState = {
   },
   difficulty: 1,
   question: null,
-  categories: [
-    { label: 'Sports', value: 'sports' },
-    { label: 'History', value: 'history' }
-  ],
   players: [],
+  requiredPlayers: [],
   allReady: false,
+  allPresent: false,
   allAnswered: false,
   questionReady: false,
   languages: [],
@@ -21,6 +19,7 @@ const initialState = {
   isTimed: false,
   timeElapsed: 0,
   timeLimit: 0,
+  autoStart: false,
   isHost: false,
   drawing: false,
   game: null,
@@ -47,7 +46,7 @@ const gameReducer = (state = initialState, action) => {
       if (
         state.players.some((player) => player.id === action.payload.player.id)
       ) {
-        return {
+        state = {
           ...state,
           players: state.players.map((player) => {
             if (player.id === action.payload.player.id) {
@@ -61,28 +60,70 @@ const gameReducer = (state = initialState, action) => {
             return player;
           })
         };
+      } else {
+        state = {
+          ...state,
+          players: [
+            ...state.players,
+            {
+              id: action.payload.player.id,
+              name: action.payload.player.name,
+              points: action.payload.player_points,
+              ready: false,
+              answer: null
+            }
+          ]
+        };
       }
-      return {
-        ...state,
-        players: [
-          ...state.players,
-          {
-            id: action.payload.player.id,
-            name: action.payload.player.name,
-            points: action.payload.player_points,
-            ready: false,
-            answer: null
-          }
-        ]
-      };
 
-    case 'REMOVE_PLAYER':
-      return {
+      state = {
         ...state,
-        players: state.players.filter(
-          (player) => player.id !== action.payload.id
+        allPresent: state.requiredPlayers.every((player) =>
+          state.players.some((p) => p.id === player)
         )
       };
+
+      return state;
+
+    case 'REMOVE_PLAYER':
+      state = {
+        ...state,
+        players: state.players
+          .filter((player) => player.id !== action.payload.id)
+          .map((player) => {
+            return { ...player, answer: null };
+          })
+      };
+
+      state = {
+        ...state,
+        allPresent: state.requiredPlayers.every((player) =>
+          state.players.some((p) => p.id === player)
+        ),
+        allReady: false,
+        allAnswered: false,
+        questionReady: false,
+        gameStarted: false,
+        timeElapsed: 0,
+        selectedAnswerId: null
+      };
+
+      return state;
+
+    case 'SET_REQUIRED_PLAYERS':
+      return { ...state, requiredPlayers: action.payload };
+
+    case 'ADD_REQUIRED_PLAYER':
+      if (!state.requiredPlayers.includes(action.payload)) {
+        return {
+          ...state,
+          requiredPlayers: [...state.requiredPlayers, action.payload]
+        };
+      }
+      return state;
+
+    case 'SET_AUTO_START':
+      return { ...state, autoStart: action.payload };
 
     case 'SET_ALL_READY':
       return { ...state, allReady: action.payload };

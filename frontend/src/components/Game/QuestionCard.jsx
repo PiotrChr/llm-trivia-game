@@ -10,6 +10,7 @@ const QuestionCard = ({
 }) => {
   console.log(player_answers);
   console.log(answers);
+  console.log(selectedAnswerId);
 
   const getVariant = useCallback(
     (answer) => {
@@ -35,11 +36,11 @@ const QuestionCard = ({
   );
 
   return (
-    <Card className="mb-4 shadow-none">
-      <Card.Body>
-        <Card.Title className="mb-3 p-5">{question.question}</Card.Title>
+    <Card className="shadow-none">
+      <Card.Body className="p-0 d-flex flex-column">
+        <Card.Title className="mb-3 p-4">{question.question}</Card.Title>
 
-        <Container>
+        <Container className="d-flex flex-column justify-content-center flex-grow-1">
           <Row className="justify-content-md-center">
             {answers.map((answer, index) => {
               const number_of_answers = player_answers.filter(

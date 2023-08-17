@@ -11,8 +11,7 @@ import {
   Container,
   ProgressBar,
   Row,
-  Card,
-  Fade
+  Card
 } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select';
@@ -31,10 +30,13 @@ import { socket } from '../services/socket';
 import { getRandomBackground } from '../utils';
 import { initialState, gameReducer } from '../state/gameReducer';
 import FadeInOut from '../components/shared/FadeInOut';
+import ResultBadge from '../components/Game/ResultBadge';
+import { useAlert } from '../components/shared/Alert/AlertContext';
 
 const GamePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const {
@@ -42,11 +44,13 @@ const GamePage = () => {
     difficulty,
     question,
     players,
+    allPresent,
     messages,
     answers,
     countdown,
     timeElapsed,
     isTimed,
+    autoStart,
     timeLimit,
     allAnswered,
     selectedAnswerId,
@@ -61,6 +65,8 @@ const GamePage = () => {
   } = state;
 
   const [categories, setCategories] = useState([]);
+  const [displayResult, setDisplayResult] = useState(null);
+
   const gameId = useParams().gameId;
 
   const difficultyOptions = useMemo(
@@ -88,17 +94,27 @@ const GamePage = () => {
   }, []);
 
   const handleLanguageChange = useCallback((newValue) => {
-    dispatch({
-      type: 'SET_LANGUAGE',
-      payload: {
-        name: newValue.label,
-        iso_code: newValue.value
-      }
+    socket.emit('language_changed', {
+      game_id: gameId,
+      language: newValue.value
     });
   }, []);
 
   const handleSendMessage = useCallback((message) => {
     socket.emit('message', { game_id: gameId, player: user, message: message });
+  }, []);
+
+  const handleDisplayResult = useCallback((winner) => {
+    setDisplayResult(winner);
+
+    const timeout = setTimeout(() => {
+      setDisplayResult(null);
+    }, 3000);
+
+    return () => {
+      // setDisplayResult(null);
+      // clearInterval(interval);
+    };
   }, []);
 
   const isReady = useCallback(
@@ -123,9 +139,14 @@ const GamePage = () => {
   }, []);
 
   const handleStartGame = useCallback(() => {
+    if (!allPresent) {
+      showAlert('Not all players are present!', {});
+      return;
+    }
+
     dispatch({ type: 'START_GAME' });
     socket.emit('start', { game_id: gameId, player: user });
-  }, []);
+  }, [allPresent]);
 
   const handleAnswerClicked = useCallback(
     (answerId) => {
@@ -141,7 +162,6 @@ const GamePage = () => {
   );
 
   const handleNextQuestionClick = useCallback(() => {
-    dispatch({ type: 'RESET_ROUND' });
     socket.emit('next', {
       game_id: gameId,
       player: user,
@@ -176,6 +196,11 @@ const GamePage = () => {
 
       dispatch({ type: 'SET_CATEGORY', payload: game.data.current_category });
       dispatch({ type: 'SET_IS_HOST', payload: game.data.host === user.id });
+      dispatch({
+        type: 'SET_REQUIRED_PLAYERS',
+        payload: game.data.players.map((player) => player.player_id)
+      });
+      dispatch({ type: 'SET_AUTO_START', payload: game.data.auto_start });
     };
     const fetchLanguages = async () => {
       const result = await getLanguages();
@@ -204,7 +229,8 @@ const GamePage = () => {
 
   useEffect(() => {
     const onStop = () => dispatch({ type: 'STOP_GAME' });
-    const onPing = () => socket.emit('pong', { player: user, game_id: gameId });
+    const onPing = () =>
+      socket.emit('pongx', { player: user, game_id: gameId });
     const onCountdown = (data) =>
       dispatch({ type: 'SET_COUNTDOWN', payload: data });
     const onDrawn = () => dispatch({ type: 'SET_DRAWING', payload: false });
@@ -219,26 +245,51 @@ const GamePage = () => {
       dispatch({ type: 'SET_DIFFICULTY', payload: data.difficulty });
     const onCategoryChanged = (data) =>
       dispatch({ type: 'SET_CATEGORY', payload: data.category });
+    const onPlayerAddedToGame = (data) => {
+      console.log('player added to game');
+      dispatch({ type: 'ADD_REQUIRED_PLAYER', payload: data.player_id });
+    };
+    const onlanguagechange = (data) =>
+      dispatch({
+        type: 'SET_LANGUAGE',
+        payload: {
+          name: data.name,
+          iso_code: data.iso_code
+        }
+      });
+    const onError = (data) => {
+      console.log('error', data);
+      showAlert('Error', data.msg, null, {
+        variant: 'danger',
+        position: 'bottom'
+      });
+    };
 
-    socket.emit('ping', { game_id: gameId });
+    socket.emit('pingx', { game_id: gameId });
     socket.emit('join', { player: user, game_id: gameId });
 
+    socket.on('error', onError);
+    socket.on('language_changed', onlanguagechange);
+    socket.on('player_added_to_game', onPlayerAddedToGame);
     socket.on('category_changed', onCategoryChanged);
     socket.on('difficulty_changed', onDifficultyChange);
     socket.on('question_ready', onQuestionReady);
     socket.on('drawn', onDrawn);
     socket.on('countdown', onCountdown);
-    socket.on('ping', onPing);
+    socket.on('pingx', onPing);
     socket.on('stop', onStop);
     socket.on('message', onMessage);
 
     return () => {
+      socket.off('error', onError);
+      socket.off('language_changed', onlanguagechange);
+      socket.off('player_added_to_game', onPlayerAddedToGame);
       socket.off('category_changed', onCategoryChanged);
       socket.off('difficulty_changed', onDifficultyChange);
       socket.off('question_ready', onQuestionReady);
       socket.off('drawn', onDrawn);
       socket.off('countdown', onCountdown);
-      socket.off('ping', onPing);
+      socket.off('pingx', onPing);
       socket.off('stop', onStop);
       socket.off('message', onMessage);
       socket.emit('leave', { player: user, game_id: gameId });
@@ -267,16 +318,27 @@ const GamePage = () => {
     const onIsReady = (data) =>
       dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
     const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
-    const onLeft = (data) =>
+    const onLeft = (data) => {
+      console.log('player left');
       dispatch({ type: 'REMOVE_PLAYER', payload: data.player });
-    const onPong = (data) =>
-      dispatch({ type: 'ADD_PLAYER', payload: data.player });
+    };
+    const onPong = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
     const onAnswered = (data) => {
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
-    const onDrawing = () => dispatch({ type: 'SET_DRAWING', payload: true });
+    const onDrawing = () => {
+      dispatch({ type: 'RESET_ROUND' });
+      dispatch({ type: 'SET_DRAWING', payload: true });
+    };
     const onWinners = (data) => {
+      handleDisplayResult(data.winners.some((winner) => winner.id === user.id));
       dispatch({ type: 'SET_PLAYER_SCORE', payload: data.winners });
+
+      if (isHost && autoStart) {
+        setTimeout(() => {
+          handleNextQuestionClick();
+        }, 5000);
+      }
     };
 
     socket.on('winners', onWinners);
@@ -285,7 +347,7 @@ const GamePage = () => {
     socket.on('joined', onJoined);
     socket.on('left', onLeft);
     socket.on('is_ready', onIsReady);
-    socket.on('pong', onPong);
+    socket.on('pongx', onPong);
 
     return () => {
       socket.off('winners', onWinners);
@@ -294,7 +356,7 @@ const GamePage = () => {
       socket.off('joined', onJoined);
       socket.off('left', onLeft);
       socket.off('is_ready', onIsReady);
-      socket.off('pong', onPong);
+      socket.off('pongx', onPong);
     };
   }, [players, isHost, question]);
 
@@ -314,6 +376,8 @@ const GamePage = () => {
     }
   }, [allAnswered]);
 
+  console.log(displayResult);
+
   return (
     <section className="min-vh-80 mb-8">
       <div
@@ -326,7 +390,7 @@ const GamePage = () => {
             <Col lg={5} className="text-center mx-auto">
               <h1 className="text-white mb-2 mt-10">{category.name}</h1>
               <p className="text-lead text-white">
-                Current difficulty: {difficulty}
+                Current difficulty: {difficulty}/5
               </p>
               <p className="text-lead text-white">
                 Current language: {language.name}
@@ -338,13 +402,27 @@ const GamePage = () => {
       <Container>
         <Row className="mt-lg-n10 mt-md-n11 mt-n10">
           <Card>
-            <Card.Body className="row">
-              <Col xs={8} className="position-relative">
+            <FadeInOut
+              show={displayResult !== null}
+              duration={500}
+              className="position-absolute z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
+              style={{
+                left: '0px',
+                right: '0px',
+                background: 'rgba(255,255,255,0.9)'
+              }}
+            >
+              <ResultBadge won={displayResult} />
+            </FadeInOut>
+            <Card.Body
+              className="row z-index-1"
+              style={{ borderBottom: '1px solid #eee' }}
+            >
+              <Col xs={8} className="position-relative d-flex">
                 <FadeInOut
                   show={questionReady}
                   duration={500}
-                  className="position-absolute"
-                  style={{ left: '0px', right: '0px' }}
+                  className="position-relative d-flex"
                 >
                   <QuestionCard
                     question={question}
@@ -353,13 +431,15 @@ const GamePage = () => {
                     selectedAnswerId={selectedAnswerId}
                     player_answers={
                       allAnswered
-                        ? players.map(
-                            (player) =>
-                              player.answer && {
-                                player: player.id,
-                                answer_id: player.answer
-                              }
-                          )
+                        ? players
+                            .map(
+                              (player) =>
+                                player.answer && {
+                                  player: player.id,
+                                  answer_id: player.answer
+                                }
+                            )
+                            .filter(Boolean)
                         : []
                     }
                   />
@@ -420,7 +500,7 @@ const GamePage = () => {
                       Stop Game
                     </Button>
                   )}
-                  {gameStarted && allAnswered && (
+                  {gameStarted && allAnswered && !autoStart && (
                     <Button
                       className="btn-sm btn-round mb-0 me-3"
                       onClick={handleNextQuestionClick}

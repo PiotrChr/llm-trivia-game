@@ -7,6 +7,8 @@ from flask_socketio import SocketIO
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
+load_dotenv(dotenv_path='../.backend.env')
+
 from app.route.player_routes import player_routes
 from app.route.game_routes import game_routes
 from app.route.question_routes import question_routes
@@ -16,7 +18,7 @@ from app.route.category_routes import category_routes
 from app.route.game_socket import register_handlers
 from utils.Database import Database
 
-load_dotenv()
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -35,6 +37,8 @@ socketio = SocketIO(
     ping_timeout=600,
     ping_interval=15
 )
+
+app.extensions['socketio'] = socketio
 
 @app.teardown_appcontext    
 def close_db(e=None):

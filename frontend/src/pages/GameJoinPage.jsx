@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { joinGame } from '../services/api';
+import { useAlert } from '../components/shared/Alert/AlertContext';
 
 function GameJoinPage() {
   const [currentGameId, setGameId] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const { gameId } = useParams();
 
@@ -26,14 +28,29 @@ function GameJoinPage() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      const response = await joinGame(currentGameId, password);
-      console.log(response);
-      if (response.code !== 200) {
-        alert('Failed to join game');
+      try {
+        await joinGame(currentGameId, password);
+      } catch (err) {
+        showAlert(
+          'Error',
+          'Double check the password and game ID',
+          err.message,
+          {
+            variant: 'danger',
+            position: 'bottom'
+          }
+        );
         return;
       }
 
-      navigate('/game/' + currentGameId);
+      showAlert('Joined', 'You have successfully joined the game!', null, {
+        variant: 'success',
+        position: 'bottom'
+      });
+
+      setTimeout(() => {
+        navigate(`/game/${currentGameId}`);
+      }, 2000);
     }
 
     setValidated(true);

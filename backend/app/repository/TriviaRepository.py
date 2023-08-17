@@ -23,26 +23,43 @@ class TriviaRepository:
 
 
     @staticmethod
-    def draw_question(game_id, category, difficulty):
+    def draw_question(game_id, category, difficulty, language='en'):
         query = """
-            SELECT questions.*,
-            json_group_array(
-                json_object('id', answers.id, 'text', answers.answer_text, 'is_correct', answers.is_correct)
-            ) as answers
-            FROM questions
-            JOIN answers ON questions.id = answers.question_id
-            WHERE questions.category = ? AND questions.difficulty = ? AND questions.id NOT IN (
+            WITH 
+            QuestionLanguage AS (
+                SELECT questions.id AS qid, 
+                    CASE WHEN ? = 'en' THEN questions.question ELSE COALESCE(qt.question_text, questions.question) END AS question,
+                    questions.category,
+                    questions.difficulty
+                FROM questions
+                LEFT JOIN question_translations qt ON questions.id = qt.question_id AND qt.language_id = (SELECT id FROM language WHERE iso_code = ?)
+            ),
+            AnswerLanguage AS (
+                SELECT answers.id AS aid, answers.question_id,
+                    CASE WHEN ? = 'en' THEN answers.answer_text ELSE COALESCE(at.answer_text, answers.answer_text) END AS answer_text,
+                    answers.is_correct
+                FROM answers
+                LEFT JOIN answer_translations at ON answers.id = at.answer_id AND at.language_id = (SELECT id FROM language WHERE iso_code = ?)
+            )
+
+            SELECT ql.question, ql.qid as id, ql.category, ql.difficulty,
+                json_group_array(
+                    json_object('id', al.aid, 'text', al.answer_text, 'is_correct', al.is_correct)
+                ) as answers
+            FROM QuestionLanguage ql
+            JOIN AnswerLanguage al ON ql.qid = al.question_id
+            WHERE ql.qid NOT IN (
                 SELECT questions.id
                 FROM questions
                 JOIN answers ON questions.id = answers.question_id
                 JOIN player_answers ON answers.id = player_answers.answer_id
                 WHERE player_answers.game_id = ?
-            )
-            GROUP BY questions.id
+            ) AND ql.category = ? AND ql.difficulty = ?
+            GROUP BY ql.qid
             ORDER BY RANDOM()
             LIMIT 1
         """
-        params = (category, difficulty, game_id)
+        params = (language,language, language, language, game_id, category, difficulty)
         try:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
@@ -104,7 +121,7 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def get_questions_texts(category, difficulty, limit=None):
+    def get_questions_texts(category, difficulty, limit=50):
         query = """
             SELECT questions.question
             FROM questions
@@ -112,12 +129,13 @@ class TriviaRepository:
             ORDER BY RANDOM()
         """
         params = (category, difficulty)
-        if limit:
+        if limit is not None:
             query += " LIMIT ?"
             params += (limit,)
         try:
             Database.get_cursor().execute(query, params)
-            return Database.get_cursor().fetchall()
+            texts = Database.get_cursor().fetchall()
+            return [text["question"] for text in texts]
         except sqlite3.Error as error:
             print(f"Failed to read data from table questions: {error}")
             return None
@@ -150,17 +168,18 @@ class TriviaRepository:
                     INSERT INTO questions (question, category, difficulty)
                     VALUES (?, ?, ?)
                 """
-                question_id = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
-
+                question["id"] = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
+                
                 for answer in question["answers"]:
                     answer_sql = """
                         INSERT INTO answers (answer_text, is_correct, question_id)
                         VALUES (?, ?, ?)
                     """
-                    Database.insert(answer_sql, (answer["text"], answer['is_correct'], question_id), False)
-
+                    answer["id"] = Database.insert(answer_sql, (answer["text"], answer['is_correct'], question["id"]), False)
+                    
             Database.execute("COMMIT")
-            return True
+            
+            return questions
         except sqlite3.Error as e:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
@@ -323,23 +342,50 @@ class TriviaRepository:
             return False
 
     @staticmethod
+    def set_game_language(game_id, language_iso_code):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            language_sql = """
+                UPDATE games SET current_language = (SELECT id FROM language WHERE iso_code = ?) WHERE id = ?
+            """
+            Database.execute(language_sql, (language_iso_code, game_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+        
+
+    @staticmethod
     def create_game(
         password,
         max_questions,
         host,
         current_category,
-        time_limit
+        time_limit,
+        language='en',
+        auto_start=False
     ):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
-            print(f"Creating game with password: {password}, max_questions: {max_questions}, host: {host}, current_category: {current_category}, time_limit: {time_limit}")
+            print(f"Creating game with password: {password}, max_questions: {max_questions}, host: {host}, current_category: {current_category}, time_limit: {time_limit}, language: {language}, auto_start: {auto_start}")
+
+            language_id = Database.get_cursor().execute(
+                "SELECT id FROM language WHERE iso_code = ?",
+                (language,)
+            ).fetchone()["id"]
+            
+            print(f"Language ID: {language_id}")
 
             game_sql = """
-                INSERT INTO games (password, max_questions, host, current_category, time_limit)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             """
-            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit), False)
+            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start), False)
 
             print(f"Game ID: {game_id}")
 
@@ -712,16 +758,6 @@ class TriviaRepository:
             LIMIT 10
         """
 
-        # query = """
-        #     SELECT player_answers.player_id, category.name, COUNT(player_answers.question_id) as question_count
-        #     FROM player_answers
-        #     JOIN questions ON player_answers.question_id = questions.id
-        #     JOIN category ON questions.category = category.id
-        #     GROUP BY player_answers.player_id, category.name
-        #     ORDER BY question_count DESC
-        # """
-                
-
         try:
             Database.get_cursor().execute(query)
             players = Database.get_cursor().fetchall()
@@ -729,6 +765,10 @@ class TriviaRepository:
         except sqlite3.Error as error:
             print(f"Failed to read data from table players: {error}")
             return None
+
+    @staticmethod
+    # def add_question_translation(questions, language):
+        
 
     @staticmethod
     def generate_hash(password: str) -> str:
