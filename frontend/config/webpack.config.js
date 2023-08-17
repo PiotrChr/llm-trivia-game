@@ -9,6 +9,20 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = (env, argv) => {
     const isDevMode = argv.mode === 'development';
     
+    const getEnvVar = (key) => {
+        if (process.env[key]) {
+            return JSON.stringify(process.env[key]);
+        }
+        
+        const dotenv = require('dotenv').config({ path: '../.frontend.env' });
+
+        if (!dotenv.parsed[key]) {
+            console.warn(`Environment variable ${key} is not set.`);
+        }
+
+        return JSON.stringify(dotenv.parsed[key]);
+    };
+
     return {
         entry: path.resolve(__dirname, '../src/index.jsx'),
         output: {
@@ -43,7 +57,6 @@ module.exports = (env, argv) => {
             ]
         },
         plugins: [
-            new Dotenv(),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 filename: '../../index.html',
@@ -53,14 +66,9 @@ module.exports = (env, argv) => {
                 NODE_ENV: isDevMode ? 'development' : 'production'
             }),
             new webpack.DefinePlugin({
-                'process.env.BACKEND_HOST': JSON.stringify(process.env.BACKEND_HOST),
-                'process.env.BACKEND_PORT': JSON.stringify(process.env.BACKEND_PORT)
+                'process.env.BACKEND_HOST': getEnvVar('BACKEND_HOST'),
+                'process.env.BACKEND_PORT': getEnvVar('BACKEND_PORT'),
             }),
-            // new CopyPlugin({
-            //     patterns: [
-            //         { from: path.resolve(__dirname, '../resources/img/'), to: path.resolve('../dist/img/') },
-            //     ],
-            // }),
         ],
         resolve: {
             extensions: ['.js', '.jsx']

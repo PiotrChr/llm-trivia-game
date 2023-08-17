@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
 /* eslint-disable no-undef */
 const API_HOST = process.env.BACKEND_HOST || 'localhost';

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-const UNMOUNTED = "unmounted";
-const EXITED = "exited";
-const ENTERING = "entering";
-const ENTERED = "entered";
-const EXITING = "exiting";
+const UNMOUNTED = 'unmounted';
+const EXITED = 'exited';
+const ENTERING = 'entering';
+const ENTERED = 'entered';
+const EXITING = 'exiting';
 
 const transitionStyles = {
   entering: { opacity: 0 },

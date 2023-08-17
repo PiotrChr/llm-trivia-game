@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: docker/backend.Dockerfile
+      dockerfile: ./docker/backend.Dockerfile
     ports:
       - "5000:5000"
     env_file:
@@ -17,7 +17,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: docker/frontend.Dockerfile
+      dockerfile: ./docker/frontend.Dockerfile
       args:
         - API_HOST=backend
         - API_PORT=5000
