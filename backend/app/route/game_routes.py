@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from app.repository.TriviaRepository import TriviaRepository
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_socketio import join_room, leave_room, SocketIO, send, emit
+from flask_socketio import emit
+from flask import current_app
 
 game_routes = Blueprint('game_routes', __name__)
 
@@ -12,7 +13,7 @@ def get_games():
 
 
 @game_routes.route('/<game_id>', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_game_by_id(game_id):
     game = TriviaRepository.get_game_by_id(game_id)
     return jsonify(game), 200
@@ -27,6 +28,8 @@ def create_game():
     max_questions = request.json.get('maxQuestions', None)
     host = get_jwt_identity()['id']
     current_category = request.json.get('currentCategory', None)
+    auto_start = request.json.get('autoStart', False)
+    language = request.json.get('language', 'en')
     
     if not isinstance(current_category, str):
         cat_id = current_category
@@ -42,7 +45,9 @@ def create_game():
         max_questions,
         host,
         cat_id,
-        time_limit
+        time_limit,
+        language,
+        auto_start
     )
 
     if game_id is None:
@@ -102,9 +107,13 @@ def player_join():
     if game['password'] != password:
         return jsonify({"msg": "Incorrect password", "game_id": game_id}), 401
     
+    print(f'Player {player_id} joining game {game_id}')
     player_joined = TriviaRepository.player_join(player_id, game_id)
 
     if player_joined:
+        socketio = current_app.extensions['socketio']
+        socketio.emit('player_added_to_game', {'player_id': player_id, 'game_id': game_id}, to=game_id)
+
         return jsonify({"msg": "Player joined successfully", "player_id": player_id, "game_id": game_id}), 200
     else:
         return jsonify({"msg": "Error joining player", "player_id": player_id, "game_id": game_id}), 500
@@ -169,3 +178,4 @@ def get_leaderboard():
         return jsonify({"msg": "No leaderboard found"}), 404
     else:
         return jsonify(leaderboard), 200
+    

@@ -10,6 +10,7 @@ class QuestionManager:
     @staticmethod
     def next_question(game_id, category, difficulty, language):
         print(f'Next question: {game_id}, {category}, {difficulty}, {language}')
+        
         if isinstance(category, str):
             cat_id = TriviaRepository.create_category(category)
         else:
@@ -20,15 +21,17 @@ class QuestionManager:
         if not TriviaRepository.set_current_category(game_id, cat_id):
             return False
         
-        question = TriviaRepository.draw_question(game_id, cat_id, difficulty)
+        question = TriviaRepository.draw_question(game_id, cat_id, difficulty, language)
 
         if question is None:
             print('No question found, generating new batch for:', cat_id, difficulty)
             existing_questions = TriviaRepository.get_questions_texts(game_id, cat_id, difficulty)
+            existing_questions = TriviaRepository.get_questions_texts(cat_id, difficulty)
+            print(game_id, cat_id, difficulty)
             print(f'Existing questions: {existing_questions}')
 
-            questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 20)
-            TriviaRepository.add_questions(questions, cat_id, difficulty)
+            questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 2)
+            questions = TriviaRepository.add_questions(questions, cat_id, difficulty)
 
             question = TriviaRepository.draw_question(game_id, cat_id, difficulty)
 
@@ -39,16 +42,9 @@ class QuestionManager:
         try:
             questions = get_question(category, difficulty, existing_questions, num_questions)
         except json.decoder.JSONDecodeError as decodeError:
+            print('JSONDecodeError, retrying...')
             questions = get_question(category, difficulty, existing_questions, num_questions)
 
         # questions = verify_question(questions)
 
         return questions
-
-    @staticmethod
-    def draw_one(questions):
-        return questions[random.randint(0, len(questions) - 1)]
-
-
-        
-    

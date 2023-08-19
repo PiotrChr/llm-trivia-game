@@ -16,3 +16,10 @@ def get_question(id):
     if question is None:
         return jsonify({"msg": "Question not found"}), 404
     return jsonify(question), 200
+
+@question_routes.route('/texts/<category_id>/<difficulty>', methods=['GET'])
+def get_question_texts(category_id, difficulty):
+    question_texts = TriviaRepository.get_questions_texts(category_id, difficulty)
+    if question_texts is None:
+        return jsonify({"msg": "Question texts not found"}), 404
+    return jsonify(question_texts), 200

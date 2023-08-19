@@ -6,10 +6,9 @@ import { useAuth } from '../routing/AuthProvider';
 import { login } from '../services/api';
 import { decode } from '../utils';
 
-
 function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [validated, setValidated] = useState(false); // add validated state
   const { user, setUser } = useAuth();
@@ -27,7 +26,7 @@ function LoginPage() {
 
         if (response.status === 200) {
           Cookies.set('token', response.data.access_token);
-          Cookies.set('refresh_token', response.data.refresh_token)
+          Cookies.set('refresh_token', response.data.refresh_token);
 
           const token = decode(response.data.access_token);
 
@@ -35,31 +34,37 @@ function LoginPage() {
             id: token.sub.id,
             name: token.sub.name
           });
-          
+
           navigate('/');
         } else {
-          setError("Invalid credentials.");
+          setError('Invalid credentials.');
         }
       } catch (err) {
-        setError("Invalid credentials.");
+        setError('Invalid credentials.');
       }
     }
 
     setValidated(true); // set validated to true after checking form validity
-  }
+  };
 
   return (
     <section className="min-vh-80 mb-8">
       <div
         className="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
-        style={{ backgroundImage: "/static/assets/img/curved-images/curved14.jpg", borderRadius: '0px 0px 24px 24px' }}
+        style={{
+          backgroundImage: '/static/assets/img/curved-images/curved14.jpg',
+          borderRadius: '0px 0px 24px 24px'
+        }}
       >
         <span className="mask bg-gradient-dark opacity-6"></span>
         <Container>
           <Row className="justify-content-center">
             <Col lg={5} className="text-center mx-auto">
               <h1 className="text-white mb-2 mt-5">Welcome!</h1>
-              <p className="text-lead text-white">Use these awesome forms to login or create a new account in your project for free.</p>
+              <p className="text-lead text-white">
+                Use these awesome forms to login or create a new account in your
+                project for free.
+              </p>
             </Col>
           </Row>
         </Container>
@@ -75,33 +80,59 @@ function LoginPage() {
                 {/* Social Buttons Here */}
               </Row>
               <div className="mt-2 position-relative text-center">
-                <p className="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">or</p>
+                <p className="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                  or
+                </p>
               </div>
               <Row className="px-3">
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
                   <Form.Group controlId="formBasicUsername">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} required />
-                    <Form.Control.Feedback type="invalid">Please choose a username.</Form.Control.Feedback>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please choose a username.
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                    <Form.Control.Feedback type="invalid">Please provide a password.</Form.Control.Feedback>
+                    <Form.Control
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a password.
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <div className="text-center">
-                    <Button variant="none" type="submit" className='bg-gradient-dark w-100 my-4 mb-2'>
+                    <Button
+                      variant="none"
+                      type="submit"
+                      className="bg-gradient-dark w-100 my-4 mb-2"
+                    >
                       Log in
                     </Button>
                   </div>
-                  
                 </Form>
                 {error && <p>{error}</p>}
               </Row>
               <Card.Footer className="text-center pt-0 px-lg-2 px-1">
                 <p className="mb-4 text-sm mx-auto">
                   Don't have an account?
-                  <a onClick={() => { navigate('/signup') }} className="text-info text-gradient font-weight-bold ms-2">Sign up</a>
+                  <a
+                    onClick={() => {
+                      navigate('/signup');
+                    }}
+                    className="text-info text-gradient font-weight-bold ms-2"
+                  >
+                    Sign up
+                  </a>
                 </p>
               </Card.Footer>
             </Card>

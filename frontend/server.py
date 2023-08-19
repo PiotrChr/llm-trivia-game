@@ -1,11 +1,9 @@
-# server.py
 from flask import Flask, send_from_directory
 import os
 import webbrowser
 from dotenv import load_dotenv
 
-# Load .env file
-load_dotenv('../.frontend.env')
+load_dotenv(dotenv_path='../.frontend.env')
 
 app = Flask(__name__, static_folder='public/static/')
 
