@@ -64,10 +64,7 @@ function GameListPage() {
                         <h6 className="mb-0 text-xs"> {leader.total_score} </h6>
                       </td>
                       <td className="align-middle text-center text-sm">
-                        <h6 className="mb-0 text-xs">
-                          {' '}
-                          {leader.most_played_cat}{' '}
-                        </h6>
+                        <h6 className="mb-0 text-xs">{leader.category_name}</h6>
                       </td>
                     </tr>
                   );

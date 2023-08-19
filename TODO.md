@@ -1,6 +1,6 @@
 # TODO.md
 
-- [ ] **Player Profile Page:** _[Needs further specification]_
+- [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
 - [ ] **Enhancement:** Add placeholder image in QuestionCard
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array

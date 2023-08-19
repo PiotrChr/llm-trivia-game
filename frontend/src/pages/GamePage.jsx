@@ -422,7 +422,7 @@ const GamePage = () => {
                 <FadeInOut
                   show={questionReady}
                   duration={500}
-                  className="position-relative d-flex"
+                  className="position-relative d-flex w-100"
                 >
                   <QuestionCard
                     question={question}
@@ -472,7 +472,7 @@ const GamePage = () => {
             </Card.Body>
             <Card.Footer>
               <Row>
-                <Col size={12}>
+                <Col size={12} className="d-flex">
                   <Button
                     variant="none"
                     onClick={handleReady}
@@ -508,36 +508,41 @@ const GamePage = () => {
                       Next question
                     </Button>
                   )}
-                </Col>
-              </Row>
-              <Row className="mt-4">
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={categories}
-                    value={{ label: category.name, value: category.id }}
-                    onChange={handleCategoryChange}
-                    onCreateOption={handleCategoryChange}
-                    formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-                    isSearchable
-                    isClearable
-                  />
-                </Col>
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={difficultyOptions}
-                    value={difficultyOptions[difficulty - 1]}
-                    onChange={handleDifficultyChange}
-                    isSearchable
-                  />
-                </Col>
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={languages}
-                    value={{ label: language.name, value: language.iso_code }}
-                    onChange={handleLanguageChange}
-                    isSearchable
-                    defaultValue={{ label: 'English', value: 'en' }}
-                  />
+
+                  {isHost && (
+                    <>
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={categories}
+                        value={{ label: category.name, value: category.id }}
+                        onChange={handleCategoryChange}
+                        onCreateOption={handleCategoryChange}
+                        formatCreateLabel={(inputValue) =>
+                          `Add "${inputValue}"`
+                        }
+                        isSearchable
+                        isClearable
+                      />
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={difficultyOptions}
+                        value={difficultyOptions[difficulty - 1]}
+                        onChange={handleDifficultyChange}
+                        isSearchable
+                      />
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={languages}
+                        value={{
+                          label: language.name,
+                          value: language.iso_code
+                        }}
+                        onChange={handleLanguageChange}
+                        isSearchable
+                        defaultValue={{ label: 'English', value: 'en' }}
+                      />
+                    </>
+                  )}
                 </Col>
               </Row>
             </Card.Footer>
