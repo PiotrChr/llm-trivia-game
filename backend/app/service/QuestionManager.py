@@ -23,8 +23,8 @@ class QuestionManager:
         question = TriviaRepository.draw_question(game_id, cat_id, difficulty)
 
         if question is None:
+            print('No question found, generating new batch for:', cat_id, difficulty)
             existing_questions = TriviaRepository.get_questions_texts(game_id, cat_id, difficulty)
-
             print(f'Existing questions: {existing_questions}')
 
             questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 20)
