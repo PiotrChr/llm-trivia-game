@@ -23,7 +23,7 @@ class TriviaRepository:
 
 
     @staticmethod
-    def draw_question(game_id, category, difficulty, language='en'):
+    def draw_question(game_id, category, difficulty, language='en', limit=1):
         query = """
             WITH 
             QuestionLanguage AS (
@@ -57,9 +57,9 @@ class TriviaRepository:
             ) AND ql.category = ? AND ql.difficulty = ?
             GROUP BY ql.qid
             ORDER BY RANDOM()
-            LIMIT 1
+            LIMIT ?
         """
-        params = (language,language, language, language, game_id, category, difficulty)
+        params = (language,language, language, language, game_id, category, difficulty, limit)
         try:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
@@ -767,8 +767,39 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    # def add_question_translation(questions, language):
+    def add_translation(questions, language):
+        language_id = TriviaRepository.get_language_id(language)
+        if not language_id:
+            raise ValueError(f"No language found for {language}")
+
+        for question_data in questions:
+            question_id = question_data['id']
+            translated_question = question_data['question']
+
+            question_insert_query = """
+            INSERT INTO question_translations (question_id, language_id, question_text)
+            VALUES (?, ?, ?)
+            """
+            Database.insert(question_insert_query, (question_id, language_id, translated_question))
+
+            for answer_data in question_data['answers']:
+                answer_id = answer_data['id']
+                translated_answer = answer_data['text']
+
+                # Insert the translated answer
+                answer_insert_query = """
+                INSERT INTO answer_translations (answer_id, language_id, answer_text)
+                VALUES (?, ?, ?)
+                """
+                Database.insert(answer_insert_query, (answer_id, language_id, translated_answer))
         
+    @staticmethod
+    def get_language_id(language):
+        query = """
+        SELECT id FROM language WHERE name = ?
+        """
+        results = Database.fetchall(query, (language,))
+        return results[0]['id'] if results else None
 
     @staticmethod
     def generate_hash(password: str) -> str:

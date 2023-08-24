@@ -110,11 +110,6 @@ const GamePage = () => {
     const timeout = setTimeout(() => {
       setDisplayResult(null);
     }, 3000);
-
-    return () => {
-      // setDisplayResult(null);
-      // clearInterval(interval);
-    };
   }, []);
 
   const isReady = useCallback(
@@ -246,7 +241,6 @@ const GamePage = () => {
     const onCategoryChanged = (data) =>
       dispatch({ type: 'SET_CATEGORY', payload: data.category });
     const onPlayerAddedToGame = (data) => {
-      console.log('player added to game');
       dispatch({ type: 'ADD_REQUIRED_PLAYER', payload: data.player_id });
     };
     const onlanguagechange = (data) =>
@@ -258,7 +252,6 @@ const GamePage = () => {
         }
       });
     const onError = (data) => {
-      console.log('error', data);
       showAlert('Error', data.msg, null, {
         variant: 'danger',
         position: 'bottom'
@@ -319,7 +312,6 @@ const GamePage = () => {
       dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
     const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
     const onLeft = (data) => {
-      console.log('player left');
       dispatch({ type: 'REMOVE_PLAYER', payload: data.player });
     };
     const onPong = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
@@ -375,8 +367,6 @@ const GamePage = () => {
       socket.emit('get_winners', { game_id: gameId, question_id: question.id });
     }
   }, [allAnswered]);
-
-  console.log(displayResult);
 
   return (
     <section className="min-vh-80 mb-8">
@@ -552,7 +542,5 @@ const GamePage = () => {
     </section>
   );
 };
-
-// GamePage.whyDidYouRender = true;
 
 export default GamePage;
