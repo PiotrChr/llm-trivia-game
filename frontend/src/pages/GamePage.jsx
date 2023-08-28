@@ -191,6 +191,7 @@ const GamePage = () => {
 
       dispatch({ type: 'SET_CATEGORY', payload: game.data.current_category });
       dispatch({ type: 'SET_IS_HOST', payload: game.data.host === user.id });
+      dispatch({ type: 'SET_LANGUAGE', payload: game.data.language });
       dispatch({
         type: 'SET_REQUIRED_PLAYERS',
         payload: game.data.players.map((player) => player.player_id)

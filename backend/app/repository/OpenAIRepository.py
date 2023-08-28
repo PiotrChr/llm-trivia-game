@@ -51,7 +51,11 @@ Important! If you do not reply with a valid JSON array, the system will not be a
 """
 
 translation_user_prompt_json_structure = """
-{"language": "language", "questions": [{"question": "Some example question", "answers": [{"text": "answer1", "is_correct": true}, {"text": "answer2", "is_correct": false}, {"text": "answer3", "is_correct": false}, {"text": "answer4", "is_correct": false}]}, {"question": "Some other example question", "answers": [{"text": "answer1", "is_correct": false}, {"text": "answer2", "is_correct": false}, {"text": "answer3", "is_correct": true}, {"text": "answer4", "is_correct": false}]}]}
+{"language":"en","target_language":"pl","questions":[{"question":"Some example question","id":1,"answers":[{"id":123,"text":"answer1","is_correct":true},{"id":222,"text":"answer2","is_correct":false},{"id":23,"text":"answer3","is_correct":false},{"id":98,"text":"answer4","is_correct":false}]},{"question":"Some other example question","id":23,"answers":[{"id":12,"text":"answer1","is_correct":false},{"id":64,"text":"answer2","is_correct":false},{"id":1252,"text":"answer3","is_correct":true},{"id":998,"text":"answer4","is_correct":false}]}]}
+"""
+
+translated_prompt_json_structure = """
+{"language":"en","target_language":"pl","questions":[{"question":"Jakies przykladowe pytanie","id":1,"answers":[{"id":123,"text":"Odpowiedz 1","is_correct":true},{"id":222,"text":"Odpowiedz 2","is_correct":false},{"id":23,"text":"Odpowiedz 3","is_correct":false},{"id":98,"text":"Odpowiedz 4","is_correct":false}]},{"question":"Jakies inne przykladowe pytanie","id":23,"answers":[{"id":12,"text":"Odpowiedz 1","is_correct":false},{"id":64,"text":"Odpowiedz 2","is_correct":false},{"id":1252,"text":"Odpowiedz 3","is_correct":true},{"id":998,"text":"Odpowiedz 4","is_correct":false}]}]}
 """
 
 translation_system_prompt = f"""
@@ -59,15 +63,15 @@ You're tasked with translating json array with trivia questions. Your responses 
 {translation_user_prompt_json_structure}
 Language is a string with the target language name. Questions are an array of questions and answers in the source language. The answers should be translated as well.
 
-In a following messages I'll send a json object with the language and questions you should translate.
+In a following messages I'll send a json object with the language, target_language and questions (array) you should translate.
 You should translate the questions and answers to the target language and reply with the json object containing the translated questions and answers.
 Your response should be strictly in JSON format and should follow the structure given below: 
-{translation_user_prompt_json_structure}
-Where language is a string with the target language name. Questions are an array of questions and answers in the target language.
+{translated_prompt_json_structure}
+
 Do not add any commentary to the reply.
 
 Example of a correct reply:
-{translation_user_prompt_json_structure}
+{translated_prompt_json_structure}
 """
 
 openai.api_key = os.getenv('OPENAI_KEY')
@@ -148,17 +152,18 @@ def verify_question(question_json):
         raise error
     
 
-def translate_questions(questions, language):
+def translate_questions(questions, taget_language, current_language = 'en'):
     # initial system message
     init_system_prompt = {
         "role": "system",
-        "content": verification_system_prompt
+        "content": translation_system_prompt
     }
 
     user_message = {
         "role": "user",
         "content": json.dumps({
-            "language": language,
+            "language": current_language,
+            "target_language": taget_language,
             "questions": questions
         })
     }

@@ -28,7 +28,7 @@ class TriviaRepository:
             WITH 
             QuestionLanguage AS (
                 SELECT questions.id AS qid, 
-                    CASE WHEN ? = 'en' THEN questions.question ELSE COALESCE(qt.question_text, questions.question) END AS question,
+                    CASE WHEN ? = 'en' THEN questions.question ELSE qt.question_text END AS question,
                     questions.category,
                     questions.difficulty
                 FROM questions
@@ -36,7 +36,7 @@ class TriviaRepository:
             ),
             AnswerLanguage AS (
                 SELECT answers.id AS aid, answers.question_id,
-                    CASE WHEN ? = 'en' THEN answers.answer_text ELSE COALESCE(at.answer_text, answers.answer_text) END AS answer_text,
+                    CASE WHEN ? = 'en' THEN answers.answer_text ELSE at.answer_text END AS answer_text,
                     answers.is_correct
                 FROM answers
                 LEFT JOIN answer_translations at ON answers.id = at.answer_id AND at.language_id = (SELECT id FROM language WHERE iso_code = ?)
@@ -55,11 +55,15 @@ class TriviaRepository:
                 JOIN player_answers ON answers.id = player_answers.answer_id
                 WHERE player_answers.game_id = ?
             ) AND ql.category = ? AND ql.difficulty = ?
+            AND ( 
+                (? = 'en') OR 
+                (? != 'en' AND ql.question IS NOT NULL AND ql.question != questions.question AND al.answer_text IS NOT NULL AND al.answer_text != answers.answer_text)
+            )
             GROUP BY ql.qid
             ORDER BY RANDOM()
             LIMIT ?
         """
-        params = (language,language, language, language, game_id, category, difficulty, limit)
+        params = (language,language, language, language, game_id, category, difficulty, language, language, limit)
         try:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
@@ -470,11 +474,13 @@ class TriviaRepository:
             json_group_array(
                 json_object('player_id', players.id, 'name', players.name)
             ) as players,
+            json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
             json_object('id', category.id, 'name', category.name) as current_category
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
+            LEFT JOIN language ON games.current_language = language.id
             WHERE games.id = ?
         """
         params = (game_id,)
@@ -486,6 +492,7 @@ class TriviaRepository:
                 game_dict = TriviaRepository.row_to_dict(game)
                 game_dict["players"] = json.loads(game_dict["players"])
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
+                game_dict["language"] = json.loads(game_dict["language"])
                 return game_dict
             else:
                 return None
@@ -767,7 +774,7 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def add_translation(questions, language):
+    def add_translations(questions, language):
         language_id = TriviaRepository.get_language_id(language)
         if not language_id:
             raise ValueError(f"No language found for {language}")
@@ -794,11 +801,11 @@ class TriviaRepository:
                 Database.insert(answer_insert_query, (answer_id, language_id, translated_answer))
         
     @staticmethod
-    def get_language_id(language):
+    def get_language_id(language_iso_code):
         query = """
-        SELECT id FROM language WHERE name = ?
+        SELECT id FROM language WHERE iso_code = ?
         """
-        results = Database.fetchall(query, (language,))
+        results = Database.fetchall(query, (language_iso_code,))
         return results[0]['id'] if results else None
 
     @staticmethod
