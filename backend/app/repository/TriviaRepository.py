@@ -309,11 +309,6 @@ class TriviaRepository:
             WHERE player_answers.player_id = ?
         """
 
-        # query = """
-        #     SELECT * FROM player_answers
-        #     WHERE player_answers.player_id = ?
-        # """
-
         if game_id:
             query += " AND player_answers.game_id = ?"
             params = (player_id, game_id)
@@ -578,7 +573,6 @@ class TriviaRepository:
 
             cursor.execute("BEGIN TRANSACTION", commit=False)
 
-            # Calculate total score for this game by the player
             cursor.execute(
                 """
                 SELECT SUM(answers.is_correct) as score 
@@ -592,14 +586,12 @@ class TriviaRepository:
 
             score = cursor.fetchone()[0] or 0
 
-            # End the game by setting the end time
             cursor.execute(
                 "UPDATE games SET time_end = datetime('now') WHERE id = ?",
                 (game_id,),
                 False
             )
             
-            # Update the player's total score
             cursor.execute(
                 "UPDATE players SET total_score = total_score + ? WHERE id = ?",
                 (score, player_id),
@@ -620,7 +612,6 @@ class TriviaRepository:
 
             cursor.execute("BEGIN TRANSACTION")
 
-            # Fetch game details
             cursor.execute(
                 "SELECT * FROM games WHERE id = ?",
                 (game_id,)
@@ -630,7 +621,6 @@ class TriviaRepository:
             if not game:
                 return None
 
-            # Fetch players of the game, their total score, correct and incorrect answers
             cursor.execute(
                 """
                 SELECT players.name, 
@@ -793,7 +783,6 @@ class TriviaRepository:
                 answer_id = answer_data['id']
                 translated_answer = answer_data['text']
 
-                # Insert the translated answer
                 answer_insert_query = """
                 INSERT INTO answer_translations (answer_id, language_id, answer_text)
                 VALUES (?, ?, ?)

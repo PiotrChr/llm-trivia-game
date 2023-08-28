@@ -1,7 +1,5 @@
-import requests
 import json
 import openai
-from dotenv import load_dotenv
 import os
 
 question_json_structure = """[{"question":"Some example question","answers":[{"text":"answer1","is_correct":true},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":false},{"text":"answer4","is_correct":false}]},{"question":"Some other example question","answers":[{"text":"answer1","is_correct":false},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":true},{"text":"answer4","is_correct":false}]}]"""
@@ -75,13 +73,16 @@ Example of a correct reply:
 """
 
 openai.api_key = os.getenv('OPENAI_KEY')
+MODEL = os.getenv('MODEL')
+TEMPERATURE = os.getenv('TEMPERATURE')
+
 # openai.organization = os.getenv('OPENAI_ORG_ID')
 
-def chat_completion(messages):
+def chat_completion(messages, temperature = TEMPERATURE):
     data = {
-        "model": "gpt-3.5-turbo",
+        "model": MODEL,
         "messages": messages,
-        "temperature": 0.9,
+        "temperature": temperature,
     }
 
     try:
@@ -128,7 +129,6 @@ def get_question(category, difficulty, existing_questions=[], num_questions=1):
         raise error
     
 def verify_question(question_json):
-    # initial system message
     init_system_prompt = {
         "role": "system",
         "content": verification_system_prompt
@@ -153,7 +153,6 @@ def verify_question(question_json):
     
 
 def translate_questions(questions, taget_language, current_language = 'en'):
-    # initial system message
     init_system_prompt = {
         "role": "system",
         "content": translation_system_prompt
