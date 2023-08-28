@@ -74,7 +74,7 @@ Example of a correct reply:
 
 openai.api_key = os.getenv('OPENAI_KEY')
 MODEL = os.getenv('MODEL')
-TEMPERATURE = os.getenv('TEMPERATURE')
+TEMPERATURE = float(os.getenv('TEMPERATURE'))
 
 # openai.organization = os.getenv('OPENAI_ORG_ID')
 

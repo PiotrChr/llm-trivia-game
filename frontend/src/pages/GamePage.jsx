@@ -438,10 +438,16 @@ const GamePage = () => {
                 <FadeInOut
                   show={
                     !questionReady && (countdown.remaining_time > 0 || drawing)
+                    // true
                   }
                   duration={500}
-                  className="position-absolute"
-                  style={{ left: '0px', right: '0px' }}
+                  className="position-absolute align-items-center justify-content-center d-flex"
+                  style={{
+                    left: '0px',
+                    right: '0px',
+                    top: '0px',
+                    bottom: '0px'
+                  }}
                 >
                   <Countdown
                     secondsLeft={countdown.remaining_time}

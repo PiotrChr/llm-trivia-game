@@ -12,6 +12,5 @@
 - [ ] **Content:** About Author content
 - [ ] **Content:** About Game/ game rules content
 - [ ] **Visuals:** Fix fade-in-out in GamePage
-- [ ] **Visuals:** Add modals
-- [ ] **Visuals:** Better countdown
+- [ ] **Visuals:** Add modals/prompt
 

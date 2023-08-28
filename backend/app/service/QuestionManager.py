@@ -27,23 +27,32 @@ class QuestionManager:
     @staticmethod
     def try_other_languages_or_generate(game_id, cat_id, category_name, difficulty, language):
         print('Trying other languages or generating new questions')
+        print (f'game_id: {game_id}, cat_id: {cat_id}, category_name: {category_name}, difficulty: {difficulty}, language: {language}')
 
         if language != 'en':
             questions = TriviaRepository.draw_question(game_id, cat_id, difficulty, 'en', limit=10)
             if questions:
+                print('Found questions in English, translating...')
+                print('questions:', questions)
                 QuestionManager.handle_translation(questions, language)
+
+                print('Translation handled')
                 question = TriviaRepository.draw_question(game_id, cat_id, difficulty, language, limit=1)
                 if question:
                     return question
 
+        print('Generating new questions')
         questions = QuestionManager.generate_new_questions(cat_id, category_name, difficulty)
         if language != 'en':
+            print('Translating fresh questions')
             QuestionManager.handle_translation(questions, language)
+
         return TriviaRepository.draw_question(game_id, cat_id, difficulty, language, limit=1)
 
     @staticmethod
     def generate_new_batch(category, difficulty, existing_questions, num_questions):
         try:
+            print('Getting questions')
             questions = get_question(category, difficulty, existing_questions, num_questions)
         except json.decoder.JSONDecodeError as decodeError:
             print('JSONDecodeError, retrying...')
@@ -78,8 +87,8 @@ class QuestionManager:
         print('Adding translations to database')
         try:
             TriviaRepository.add_translations(questions, language)
-        except:
-            print('Error adding translations to database.')
+        except Exception as error:
+            print('Error adding translations to database: ', error)
         
         return questions
 
@@ -95,5 +104,8 @@ class QuestionManager:
     @staticmethod
     def generate_new_questions(cat_id, category, difficulty):
         existing_questions = TriviaRepository.get_questions_texts(cat_id, difficulty)
+        print('Existing questions:', existing_questions)
+
+        print('New batch')
         questions = QuestionManager.generate_new_batch(category, difficulty, existing_questions, 2)
         return TriviaRepository.add_questions(questions, cat_id, difficulty)

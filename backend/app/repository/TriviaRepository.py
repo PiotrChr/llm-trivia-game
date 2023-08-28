@@ -28,7 +28,7 @@ class TriviaRepository:
             WITH 
             QuestionLanguage AS (
                 SELECT questions.id AS qid, 
-                    CASE WHEN ? = 'en' THEN questions.question ELSE qt.question_text END AS question,
+                    CASE WHEN ? = 'en' THEN questions.question_text ELSE qt.question_text END AS question_text,
                     questions.category,
                     questions.difficulty
                 FROM questions
@@ -42,7 +42,7 @@ class TriviaRepository:
                 LEFT JOIN answer_translations at ON answers.id = at.answer_id AND at.language_id = (SELECT id FROM language WHERE iso_code = ?)
             )
 
-            SELECT ql.question, ql.qid as id, ql.category, ql.difficulty,
+            SELECT ql.question_text, ql.qid as id, ql.category, ql.difficulty,
                 json_group_array(
                     json_object('id', al.aid, 'text', al.answer_text, 'is_correct', al.is_correct)
                 ) as answers
@@ -55,15 +55,11 @@ class TriviaRepository:
                 JOIN player_answers ON answers.id = player_answers.answer_id
                 WHERE player_answers.game_id = ?
             ) AND ql.category = ? AND ql.difficulty = ?
-            AND ( 
-                (? = 'en') OR 
-                (? != 'en' AND ql.question IS NOT NULL AND ql.question != questions.question AND al.answer_text IS NOT NULL AND al.answer_text != answers.answer_text)
-            )
             GROUP BY ql.qid
             ORDER BY RANDOM()
             LIMIT ?
         """
-        params = (language,language, language, language, game_id, category, difficulty, language, language, limit)
+        params = (language,language, language, language, game_id, category, difficulty, limit)
         try:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
@@ -126,8 +122,9 @@ class TriviaRepository:
 
     @staticmethod
     def get_questions_texts(category, difficulty, limit=50):
+        print(f"Getting questions for category {category} and difficulty {difficulty}")
         query = """
-            SELECT questions.question
+            SELECT questions.question_text
             FROM questions
             WHERE questions.category = ? AND questions.difficulty = ?
             ORDER BY RANDOM()
@@ -139,7 +136,7 @@ class TriviaRepository:
         try:
             Database.get_cursor().execute(query, params)
             texts = Database.get_cursor().fetchall()
-            return [text["question"] for text in texts]
+            return [text["question_text"] for text in texts]
         except sqlite3.Error as error:
             print(f"Failed to read data from table questions: {error}")
             return None
@@ -169,7 +166,7 @@ class TriviaRepository:
 
             for question in questions:
                 question_sql = """
-                    INSERT INTO questions (question, category, difficulty)
+                    INSERT INTO questions (question_text, category, difficulty)
                     VALUES (?, ?, ?)
                 """
                 question["id"] = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
@@ -764,12 +761,12 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def add_translations(questions, language):
+    def add_translations(data, language):
         language_id = TriviaRepository.get_language_id(language)
         if not language_id:
             raise ValueError(f"No language found for {language}")
 
-        for question_data in questions:
+        for question_data in data['questions']:
             question_id = question_data['id']
             translated_question = question_data['question']
 
