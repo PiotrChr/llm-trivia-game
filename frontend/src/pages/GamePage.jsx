@@ -110,11 +110,6 @@ const GamePage = () => {
     const timeout = setTimeout(() => {
       setDisplayResult(null);
     }, 3000);
-
-    return () => {
-      // setDisplayResult(null);
-      // clearInterval(interval);
-    };
   }, []);
 
   const isReady = useCallback(
@@ -196,6 +191,7 @@ const GamePage = () => {
 
       dispatch({ type: 'SET_CATEGORY', payload: game.data.current_category });
       dispatch({ type: 'SET_IS_HOST', payload: game.data.host === user.id });
+      dispatch({ type: 'SET_LANGUAGE', payload: game.data.language });
       dispatch({
         type: 'SET_REQUIRED_PLAYERS',
         payload: game.data.players.map((player) => player.player_id)
@@ -246,7 +242,6 @@ const GamePage = () => {
     const onCategoryChanged = (data) =>
       dispatch({ type: 'SET_CATEGORY', payload: data.category });
     const onPlayerAddedToGame = (data) => {
-      console.log('player added to game');
       dispatch({ type: 'ADD_REQUIRED_PLAYER', payload: data.player_id });
     };
     const onlanguagechange = (data) =>
@@ -258,7 +253,6 @@ const GamePage = () => {
         }
       });
     const onError = (data) => {
-      console.log('error', data);
       showAlert('Error', data.msg, null, {
         variant: 'danger',
         position: 'bottom'
@@ -319,7 +313,6 @@ const GamePage = () => {
       dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
     const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
     const onLeft = (data) => {
-      console.log('player left');
       dispatch({ type: 'REMOVE_PLAYER', payload: data.player });
     };
     const onPong = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
@@ -376,8 +369,6 @@ const GamePage = () => {
     }
   }, [allAnswered]);
 
-  console.log(displayResult);
-
   return (
     <section className="min-vh-80 mb-8">
       <div
@@ -422,7 +413,7 @@ const GamePage = () => {
                 <FadeInOut
                   show={questionReady}
                   duration={500}
-                  className="position-relative d-flex"
+                  className="position-relative d-flex w-100"
                 >
                   <QuestionCard
                     question={question}
@@ -447,10 +438,16 @@ const GamePage = () => {
                 <FadeInOut
                   show={
                     !questionReady && (countdown.remaining_time > 0 || drawing)
+                    // true
                   }
                   duration={500}
-                  className="position-absolute"
-                  style={{ left: '0px', right: '0px' }}
+                  className="position-absolute align-items-center justify-content-center d-flex"
+                  style={{
+                    left: '0px',
+                    right: '0px',
+                    top: '0px',
+                    bottom: '0px'
+                  }}
                 >
                   <Countdown
                     secondsLeft={countdown.remaining_time}
@@ -472,7 +469,7 @@ const GamePage = () => {
             </Card.Body>
             <Card.Footer>
               <Row>
-                <Col size={12}>
+                <Col size={12} className="d-flex">
                   <Button
                     variant="none"
                     onClick={handleReady}
@@ -508,36 +505,41 @@ const GamePage = () => {
                       Next question
                     </Button>
                   )}
-                </Col>
-              </Row>
-              <Row className="mt-4">
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={categories}
-                    value={{ label: category.name, value: category.id }}
-                    onChange={handleCategoryChange}
-                    onCreateOption={handleCategoryChange}
-                    formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-                    isSearchable
-                    isClearable
-                  />
-                </Col>
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={difficultyOptions}
-                    value={difficultyOptions[difficulty - 1]}
-                    onChange={handleDifficultyChange}
-                    isSearchable
-                  />
-                </Col>
-                <Col xs={12} lg={4} md={4}>
-                  <Select
-                    options={languages}
-                    value={{ label: language.name, value: language.iso_code }}
-                    onChange={handleLanguageChange}
-                    isSearchable
-                    defaultValue={{ label: 'English', value: 'en' }}
-                  />
+
+                  {isHost && (
+                    <>
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={categories}
+                        value={{ label: category.name, value: category.id }}
+                        onChange={handleCategoryChange}
+                        onCreateOption={handleCategoryChange}
+                        formatCreateLabel={(inputValue) =>
+                          `Add "${inputValue}"`
+                        }
+                        isSearchable
+                        isClearable
+                      />
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={difficultyOptions}
+                        value={difficultyOptions[difficulty - 1]}
+                        onChange={handleDifficultyChange}
+                        isSearchable
+                      />
+                      <Select
+                        className="mx-2 flex-grow-1"
+                        options={languages}
+                        value={{
+                          label: language.name,
+                          value: language.iso_code
+                        }}
+                        onChange={handleLanguageChange}
+                        isSearchable
+                        defaultValue={{ label: 'English', value: 'en' }}
+                      />
+                    </>
+                  )}
                 </Col>
               </Row>
             </Card.Footer>
@@ -547,7 +549,5 @@ const GamePage = () => {
     </section>
   );
 };
-
-// GamePage.whyDidYouRender = true;
 
 export default GamePage;

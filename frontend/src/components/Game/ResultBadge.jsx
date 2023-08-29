@@ -12,6 +12,10 @@ const ResultBadge = ({ won }) => {
     };
   }, []);
 
+  if (won === null) {
+    return;
+  }
+
   return (
     <>
       {won ? (

@@ -8,10 +8,6 @@ const QuestionCard = ({
   selectedAnswerId,
   player_answers
 }) => {
-  console.log(player_answers);
-  console.log(answers);
-  console.log(selectedAnswerId);
-
   const getVariant = useCallback(
     (answer) => {
       let variant;
@@ -36,9 +32,9 @@ const QuestionCard = ({
   );
 
   return (
-    <Card className="shadow-none">
+    <Card className="shadow-none w-100">
       <Card.Body className="p-0 d-flex flex-column">
-        <Card.Title className="mb-3 p-4">{question.question}</Card.Title>
+        <Card.Title className="mb-3 p-4">{question.question_text}</Card.Title>
 
         <Container className="d-flex flex-column justify-content-center flex-grow-1">
           <Row className="justify-content-md-center">

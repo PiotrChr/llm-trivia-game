@@ -23,12 +23,12 @@ class TriviaRepository:
 
 
     @staticmethod
-    def draw_question(game_id, category, difficulty, language='en'):
+    def draw_question(game_id, category, difficulty, language='en', limit=1):
         query = """
             WITH 
             QuestionLanguage AS (
                 SELECT questions.id AS qid, 
-                    CASE WHEN ? = 'en' THEN questions.question ELSE COALESCE(qt.question_text, questions.question) END AS question,
+                    CASE WHEN ? = 'en' THEN questions.question_text ELSE qt.question_text END AS question_text,
                     questions.category,
                     questions.difficulty
                 FROM questions
@@ -36,13 +36,13 @@ class TriviaRepository:
             ),
             AnswerLanguage AS (
                 SELECT answers.id AS aid, answers.question_id,
-                    CASE WHEN ? = 'en' THEN answers.answer_text ELSE COALESCE(at.answer_text, answers.answer_text) END AS answer_text,
+                    CASE WHEN ? = 'en' THEN answers.answer_text ELSE at.answer_text END AS answer_text,
                     answers.is_correct
                 FROM answers
                 LEFT JOIN answer_translations at ON answers.id = at.answer_id AND at.language_id = (SELECT id FROM language WHERE iso_code = ?)
             )
 
-            SELECT ql.question, ql.qid as id, ql.category, ql.difficulty,
+            SELECT ql.question_text, ql.qid as id, ql.category, ql.difficulty,
                 json_group_array(
                     json_object('id', al.aid, 'text', al.answer_text, 'is_correct', al.is_correct)
                 ) as answers
@@ -57,9 +57,9 @@ class TriviaRepository:
             ) AND ql.category = ? AND ql.difficulty = ?
             GROUP BY ql.qid
             ORDER BY RANDOM()
-            LIMIT 1
+            LIMIT ?
         """
-        params = (language,language, language, language, game_id, category, difficulty)
+        params = (language,language, language, language, game_id, category, difficulty, limit)
         try:
             Database.get_cursor().execute(query, params)
             question = Database.get_cursor().fetchone()
@@ -122,8 +122,9 @@ class TriviaRepository:
 
     @staticmethod
     def get_questions_texts(category, difficulty, limit=50):
+        print(f"Getting questions for category {category} and difficulty {difficulty}")
         query = """
-            SELECT questions.question
+            SELECT questions.question_text
             FROM questions
             WHERE questions.category = ? AND questions.difficulty = ?
             ORDER BY RANDOM()
@@ -135,7 +136,7 @@ class TriviaRepository:
         try:
             Database.get_cursor().execute(query, params)
             texts = Database.get_cursor().fetchall()
-            return [text["question"] for text in texts]
+            return [text["question_text"] for text in texts]
         except sqlite3.Error as error:
             print(f"Failed to read data from table questions: {error}")
             return None
@@ -165,7 +166,7 @@ class TriviaRepository:
 
             for question in questions:
                 question_sql = """
-                    INSERT INTO questions (question, category, difficulty)
+                    INSERT INTO questions (question_text, category, difficulty)
                     VALUES (?, ?, ?)
                 """
                 question["id"] = Database.insert(question_sql, (question["question"], category_id, difficulty), False)
@@ -304,11 +305,6 @@ class TriviaRepository:
             JOIN answers ON player_answers.answer_id = answers.id
             WHERE player_answers.player_id = ?
         """
-
-        # query = """
-        #     SELECT * FROM player_answers
-        #     WHERE player_answers.player_id = ?
-        # """
 
         if game_id:
             query += " AND player_answers.game_id = ?"
@@ -470,11 +466,13 @@ class TriviaRepository:
             json_group_array(
                 json_object('player_id', players.id, 'name', players.name)
             ) as players,
+            json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
             json_object('id', category.id, 'name', category.name) as current_category
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
+            LEFT JOIN language ON games.current_language = language.id
             WHERE games.id = ?
         """
         params = (game_id,)
@@ -486,6 +484,7 @@ class TriviaRepository:
                 game_dict = TriviaRepository.row_to_dict(game)
                 game_dict["players"] = json.loads(game_dict["players"])
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
+                game_dict["language"] = json.loads(game_dict["language"])
                 return game_dict
             else:
                 return None
@@ -571,7 +570,6 @@ class TriviaRepository:
 
             cursor.execute("BEGIN TRANSACTION", commit=False)
 
-            # Calculate total score for this game by the player
             cursor.execute(
                 """
                 SELECT SUM(answers.is_correct) as score 
@@ -585,14 +583,12 @@ class TriviaRepository:
 
             score = cursor.fetchone()[0] or 0
 
-            # End the game by setting the end time
             cursor.execute(
                 "UPDATE games SET time_end = datetime('now') WHERE id = ?",
                 (game_id,),
                 False
             )
             
-            # Update the player's total score
             cursor.execute(
                 "UPDATE players SET total_score = total_score + ? WHERE id = ?",
                 (score, player_id),
@@ -613,7 +609,6 @@ class TriviaRepository:
 
             cursor.execute("BEGIN TRANSACTION")
 
-            # Fetch game details
             cursor.execute(
                 "SELECT * FROM games WHERE id = ?",
                 (game_id,)
@@ -623,7 +618,6 @@ class TriviaRepository:
             if not game:
                 return None
 
-            # Fetch players of the game, their total score, correct and incorrect answers
             cursor.execute(
                 """
                 SELECT players.name, 
@@ -767,8 +761,38 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    # def add_question_translation(questions, language):
+    def add_translations(data, language):
+        language_id = TriviaRepository.get_language_id(language)
+        if not language_id:
+            raise ValueError(f"No language found for {language}")
+
+        for question_data in data['questions']:
+            question_id = question_data['id']
+            translated_question = question_data['question']
+
+            question_insert_query = """
+            INSERT INTO question_translations (question_id, language_id, question_text)
+            VALUES (?, ?, ?)
+            """
+            Database.insert(question_insert_query, (question_id, language_id, translated_question))
+
+            for answer_data in question_data['answers']:
+                answer_id = answer_data['id']
+                translated_answer = answer_data['text']
+
+                answer_insert_query = """
+                INSERT INTO answer_translations (answer_id, language_id, answer_text)
+                VALUES (?, ?, ?)
+                """
+                Database.insert(answer_insert_query, (answer_id, language_id, translated_answer))
         
+    @staticmethod
+    def get_language_id(language_iso_code):
+        query = """
+        SELECT id FROM language WHERE iso_code = ?
+        """
+        results = Database.fetchall(query, (language_iso_code,))
+        return results[0]['id'] if results else None
 
     @staticmethod
     def generate_hash(password: str) -> str:

@@ -1,19 +1,29 @@
 import React from 'react';
-import { ProgressBar } from 'react-bootstrap';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const Countdown = ({ secondsLeft, title, showProgressBar, secondsTotal }) => {
   return (
     <div>
-      <h2>{title}</h2>
-      {secondsLeft > 0 && <p>Question will start in {secondsLeft} seconds</p>}
-      {showProgressBar && <ProgressBar now={secondsLeft} max={secondsTotal} />}
+      {showProgressBar && (
+        <CountdownCircleTimer
+          // initialRemainingTime={secondsLeft}
+          colors={['#82d616', '#eace25']}
+          colorsTime={[secondsTotal, 0]}
+          duration={secondsTotal}
+          isPlaying
+        >
+          {({ remainingTime }) => remainingTime}
+        </CountdownCircleTimer>
+      )}
     </div>
   );
 };
 
 Countdown.defaultProps = {
   title: 'Loading...',
-  secondsTotal: 10
+  secondsTotal: 1,
+  showProgressBar: false,
+  secondsLeft: 0
 };
 
 export default Countdown;
