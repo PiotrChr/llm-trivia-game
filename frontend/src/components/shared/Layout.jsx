@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
                       active={location.pathname === '/about_game'}
                       className="align-items-center me-2"
                     >
-                      About game
+                      About game & rules
                     </Nav.Link>
                   </Nav>
                   <Nav>
