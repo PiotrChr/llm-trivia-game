@@ -18,7 +18,8 @@ install_backend:
 	pip3 install -r backend/requirements.txt
 
 install_frontend:
-	cd frontend && npm install
+	sudo apt-get install nodejs npm \
+	&& cd frontend && npm install
 
 recreate_db: remove_tables setup_db load_fixtures
 
