@@ -24,7 +24,7 @@ install_frontend:
 recreate_db: remove_tables setup_db load_fixtures
 
 start_gunicorn_frontend_live:
-	cd frontend/public && gunicorn ../server:app
+	cd frontend && gunicorn server:app
 
 start_gunicorn_backend_live:
 	cd backend && gunicorn server:app
