@@ -1,5 +1,7 @@
 DEFAULT_START_CAT_ID:=0
 START_CAT=$(DEFAULT_START_CAT_ID)
+DEFAULT_LANG:=pl
+LANG:=$(DEFAULT_LANG)
 
 .PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help install_all setup setup_db setup_env build_frontend_dev generate_manifest
 
@@ -20,6 +22,10 @@ install_frontend:
 
 recreate_db: remove_tables setup_db load_fixtures
 
+reacreate_db_init:
+	rm backend/db/db.sqlite \
+	&& cp backend/db/db.sqlite.init db.sqlite
+
 setup_db:
 	python3 scripts/setup_db.py
 
@@ -34,6 +40,9 @@ load_fixtures:
 
 fetch_questions:
 	cd backend && python3 fetch_questions.py --num_questions 50 --start_cat_id $(START_CAT)
+
+translate_questions:
+	cd backend && python3 translate_questions.py --language $(LANG) --cat $(CAT)
 
 build_and_start: build_frontend start_frontend_server
 

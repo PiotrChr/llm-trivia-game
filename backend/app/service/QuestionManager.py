@@ -93,6 +93,10 @@ class QuestionManager:
             
         return questions
     
+    def translate_all(target_language, category=None):
+        # TODO
+        pass
+    
     @staticmethod
     def handle_category(category):
         if isinstance(category, str):

@@ -1,4 +1,5 @@
 import React, { createContext, useState, useCallback, useContext } from 'react';
+import Prompt from './Prompt';
 
 const PromptContext = createContext();
 
@@ -37,6 +38,9 @@ const PromptProvider = ({ children }) => {
   return (
     <PromptContext.Provider value={{ prompt, showPrompt, hidePrompt }}>
       {children}
+      {prompt && (
+        <Prompt {...prompt} onCancel={hidePrompt} onDecline={hidePrompt} />
+      )}
     </PromptContext.Provider>
   );
 };

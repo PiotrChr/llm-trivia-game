@@ -32,11 +32,14 @@ import { initialState, gameReducer } from '../state/gameReducer';
 import FadeInOut from '../components/shared/FadeInOut';
 import ResultBadge from '../components/Game/ResultBadge';
 import { useAlert } from '../components/shared/Alert/AlertContext';
+import { useModal } from '../components/shared/Modal/ModalContext';
+import ReportQuestion from '../components/Game/ReportQuestion';
 
 const GamePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { showAlert } = useAlert();
+  const { showModal, hideModal } = useModal();
 
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const {
@@ -451,9 +454,9 @@ const GamePage = () => {
                 >
                   <Countdown
                     secondsLeft={countdown.remaining_time}
-                    secondsTotal={countdown.total_time}
+                    secondsTotal={drawing ? 1 : countdown.total_time}
                     title={drawing ? 'Drawing a question' : 'Countdown'}
-                    showProgressBar={!drawing}
+                    showProgressBar={true}
                   />
                 </FadeInOut>
               </Col>
@@ -484,6 +487,23 @@ const GamePage = () => {
                   >
                     Ready
                   </Button>
+                  {questionReady && (
+                    <Button
+                      variant="danger"
+                      className="btn-sm btn-round mb-0 me-2"
+                      onClick={() =>
+                        showModal(
+                          <ReportQuestion
+                            question={question}
+                            onSubmit={hideModal}
+                          />,
+                          'Report Question'
+                        )
+                      }
+                    >
+                      Report question
+                    </Button>
+                  )}
                   {isHost && !gameStarted && allReady && (
                     <Button
                       className="btn-sm btn-round mb-0 me-3"

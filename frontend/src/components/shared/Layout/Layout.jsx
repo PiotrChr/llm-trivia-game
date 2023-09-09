@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-import { useAuth } from '../../routing/AuthProvider';
+import { useAuth } from '../../../routing/AuthProvider';
 
 const Layout = ({ children }) => {
   const location = useLocation();
