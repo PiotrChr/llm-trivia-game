@@ -23,6 +23,12 @@ install_frontend:
 
 recreate_db: remove_tables setup_db load_fixtures
 
+start_gunicorn_frontend_live:
+	cd frontend/public && gunicorn ../server:app
+
+start_gunicorn_backend_live:
+	cd backend && gunicorn server:app
+
 reacreate_db_init:
 	rm backend/db/db.sqlite \
 	&& cp backend/db/db.sqlite.init db.sqlite

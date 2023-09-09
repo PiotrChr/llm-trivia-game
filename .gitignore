@@ -30,4 +30,6 @@ backend/key.pem
 *.bak
 *~
 # Ignore database files
-backend/db/db.sqlite
+*.db
+*.sqlite
+*.sqlite3

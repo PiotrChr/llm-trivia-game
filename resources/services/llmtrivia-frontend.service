@@ -1,0 +1,12 @@
+[Unit]
+Description=LLM Trivia Frontend
+After=network.target
+
+[Service]
+User=pchrusciel
+WorkingDirectory=/home/pchrusciel/llm-trivia
+ExecStart=/usr/bin/env make start_gunicorn_frontend_live
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
