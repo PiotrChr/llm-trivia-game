@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-import { useAuth } from '../../routing/AuthProvider';
+import { useAuth } from '../../../routing/AuthProvider';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
                       active={location.pathname === '/about_game'}
                       className="align-items-center me-2"
                     >
-                      About game
+                      About game & rules
                     </Nav.Link>
                   </Nav>
                   <Nav>

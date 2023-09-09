@@ -76,6 +76,10 @@ class TriviaRepository:
             print(f"Failed to read data from table questions: {error}")
             return None
 
+    def get_untraslated_questions(target_language, category=None, limit=100):
+        pass
+        # TODO
+
     @staticmethod
     def get_questions():
         query = """

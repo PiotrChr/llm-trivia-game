@@ -25,6 +25,28 @@ class QuestionManager:
         return question
         
     @staticmethod
+    def fill_database_with_new_questions(num_questions, start_category_id=None):
+        categories = TriviaRepository.get_categories()
+        difficulty = 1
+        
+        for category in categories:
+            cat_id = category['id']
+
+            if start_category_id is not None and cat_id < start_category_id:
+                continue
+
+            category_name = category['name']
+            existing_questions = TriviaRepository.get_questions_texts(cat_id, difficulty)
+                
+            print(f'Generating {num_questions} new questions for {category_name}...')
+            try:
+                questions = QuestionManager.generate_new_batch(category_name, difficulty, existing_questions, num_questions)
+                TriviaRepository.add_questions(questions, cat_id, difficulty)
+                print(f'Added {num_questions} new questions for {category_name} to the database')
+            except Exception as e:
+                print(f'Error generating or adding questions for {category_name}: {e}')
+
+    @staticmethod
     def try_other_languages_or_generate(game_id, cat_id, category_name, difficulty, language):
         print('Trying other languages or generating new questions')
         print (f'game_id: {game_id}, cat_id: {cat_id}, category_name: {category_name}, difficulty: {difficulty}, language: {language}')
@@ -70,6 +92,10 @@ class QuestionManager:
             print('Error translating.')
             
         return questions
+    
+    def translate_all(target_language, category=None):
+        # TODO
+        pass
     
     @staticmethod
     def handle_category(category):

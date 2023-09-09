@@ -1,25 +1,39 @@
 import sqlite3
 from sqlite3 import Error
 import os
-from flask import g
+from flask import g, has_app_context
 
 class Database:
-    @staticmethod
-    def get_conn():
-        if 'db_conn' not in g:
-            try:
-                g.db_conn = sqlite3.connect('db/db.sqlite')
-                g.db_conn.row_factory = sqlite3.Row
-                print(f'successful connection with sqlite version {sqlite3.version}')
-            except Error as e:
-                print(f'Error occurred during connection: {e}')
-        return g.db_conn
+    _conn = None
+    _cursor = None
 
     @staticmethod
-    def get_cursor():
-        if 'db_cursor' not in g:
-            g.db_cursor = Database.get_conn().cursor()
-        return g.db_cursor
+    def _is_flask_context():
+        return has_app_context()
+
+    @classmethod
+    def get_conn(cls):
+        if cls._is_flask_context():
+            if 'db_conn' not in g:
+                g.db_conn = sqlite3.connect('db/db.sqlite')
+                g.db_conn.row_factory = sqlite3.Row
+            return g.db_conn
+        else:
+            if cls._conn is None:
+                cls._conn = sqlite3.connect('db/db.sqlite')
+                cls._conn.row_factory = sqlite3.Row
+            return cls._conn
+
+    @classmethod
+    def get_cursor(cls):
+        if cls._is_flask_context():
+            if 'db_cursor' not in g:
+                g.db_cursor = cls.get_conn().cursor()
+            return g.db_cursor
+        else:
+            if cls._cursor is None:
+                cls._cursor = cls.get_conn().cursor()
+            return cls._cursor
     
     @staticmethod
     def execute(query, params=None, commit=True):
@@ -41,14 +55,21 @@ class Database:
         Database.execute(query, params)
         return Database.get_cursor().fetchall()
     
-    @staticmethod
-    def close():
-        db_cursor = g.pop('db_cursor', None)
+    @classmethod
+    def close(cls):
+        if cls._is_flask_context():
+            db_cursor = g.pop('db_cursor', None)
+            if db_cursor:
+                db_cursor.close()
 
-        if db_cursor is not None:
-            db_cursor.close()
+            db_conn = g.pop('db_conn', None)
+            if db_conn:
+                db_conn.close()
+        else:
+            if cls._cursor:
+                cls._cursor.close()
+                cls._cursor = None
 
-        db_conn = g.pop('db_conn', None)
-
-        if db_conn is not None:
-            db_conn.close()
+            if cls._conn:
+                cls._conn.close()
+                cls._conn = None
