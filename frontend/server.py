@@ -3,7 +3,7 @@ import os
 import webbrowser
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='../.frontend.env')
+load_dotenv(dotenv_path='../../.frontend.env')
 
 app = Flask(__name__, static_folder='public/static/')
 
@@ -11,8 +11,6 @@ app = Flask(__name__, static_folder='public/static/')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    print(path)
-
     if path != "" and os.path.exists("public/" + path):
         return send_from_directory('public', path)
     elif path.startswith("static/"):
