@@ -13,13 +13,14 @@ module.exports = (env, argv) => {
         if (process.env[key]) {
             return JSON.stringify(process.env[key]);
         }
-        
+
         const dotenv = require('dotenv').config({ path: '../.frontend.env' });
-
-        if (!dotenv.parsed[key]) {
-            console.warn(`Environment variable ${key} is not set.`);
+    
+        if (!dotenv.parsed || typeof dotenv.parsed !== 'object' || !dotenv.parsed[key]) {
+            console.warn(`Environment variable ${key} is not set or .frontend.env file is missing.`);
+            return JSON.stringify(null);
         }
-
+    
         return JSON.stringify(dotenv.parsed[key]);
     };
 
@@ -67,7 +68,7 @@ module.exports = (env, argv) => {
             }),
             new webpack.DefinePlugin({
                 'process.env.BACKEND_HOST': getEnvVar('BACKEND_HOST'),
-                'process.env.BACKEND_PORT': getEnvVar('BACKEND_PORT'),
+                'process.env.BACKEND_PORT_PUBLIC': getEnvVar('BACKEND_PORT_PUBLIC'),
             }),
         ],
         resolve: {
