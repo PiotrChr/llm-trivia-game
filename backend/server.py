@@ -27,11 +27,11 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
 jwt = JWTManager(app)
-CORS(app, supports_credentials=True)
+CORS(app, origins=[os.getenv('FRONTEND_HOST')], supports_credentials=True)
 socketio = SocketIO(
     app,
     async_mode='gevent',
-    cors_allowed_origins="*",
+    cors_allowed_origins=os.getenv('FRONTEND_HOST', '*'),
     engineio_logger=True,
     logger=True,
     ping_timeout=600,

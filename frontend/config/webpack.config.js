@@ -18,7 +18,7 @@ module.exports = (env, argv) => {
     
         if (!dotenv.parsed || typeof dotenv.parsed !== 'object' || !dotenv.parsed[key]) {
             console.warn(`Environment variable ${key} is not set or .frontend.env file is missing.`);
-            return JSON.stringify(null);
+            return JSON.stringify('');
         }
     
         return JSON.stringify(dotenv.parsed[key]);

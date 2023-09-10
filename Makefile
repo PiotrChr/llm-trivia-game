@@ -1,11 +1,11 @@
-DEFAULT_START_CAT_ID:=0
+.DEFAULT_GOAL := help
+
+.DEFAULT_START_CAT_ID:=0
 START_CAT=$(DEFAULT_START_CAT_ID)
 DEFAULT_LANG:=pl
 LANG:=$(DEFAULT_LANG)
 
-.PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help install_all setup setup_db setup_env build_frontend_dev generate_manifest
-
-default: help
+.PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help install_all setup setup_db setup_env build_frontend_dev generate_manifest enable_service start_service stop_service status_service
 
 install_all: install_backend install_frontend
 
@@ -18,17 +18,13 @@ install_backend:
 	pip3 install -r backend/requirements.txt
 
 install_frontend:
-	sudo apt-get install nodejs npm \
-	&& cd frontend && npm install
+	sudo apt-get install nodejs npm
+	cd frontend && npm install
 
 recreate_db: remove_tables setup_db load_fixtures
 
 start_gunicorn_backend_live:
 	cd backend && gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker
-
-reacreate_db_init:
-	rm backend/db/db.sqlite \
-	&& cp backend/db/db.sqlite.init db.sqlite
 
 setup_db:
 	python3 scripts/setup_db.py
@@ -100,24 +96,54 @@ bash_backend:
 bash_frontend_debug:
 	docker run -it --entrypoint /bin/sh llm-trivia-game-frontend:latest
 
+enable_service:
+	sudo cp resources/services/llmtrivia-backend.service /etc/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable llmtrivia-backend.service
+
+start_service:
+	sudo systemctl start llmtrivia-backend.service
+
+stop_service:
+	sudo systemctl stop llmtrivia-backend.service
+
+status_service:
+	sudo systemctl status llmtrivia-backend.service
+
 help:
 	@echo "Available recipes:"
-	@echo "make install_all                 - install backend and frontend dependencies"
-	@echo "make install_backend             - install backend dependencies"
-	@echo "make install_frontend            - install frontend dependencies"
-	@echo "make setup                       - setup the project including installation, database, and environment setup"
-	@echo "make setup_env                   - setup environment variables"
-	@echo "make recreate_db                 - recreate the database and load fixtures"
-	@echo "make setup_db                    - create database tables"
-	@echo "make clear_db                    - clear database tables"
-	@echo "make remove_tables               - remove tables from the database"
-	@echo "make load_fixtures               - load data fixtures into the database"
-	@echo "make build_frontend              - build frontend for production"
-	@echo "make build_frontend_dev          - build frontend for development"
-	@echo "make generate_manifest           - generate project manifest"
-	@echo "make start_backend_server        - start backend server"
-	@echo "make start_frontend_server_dev   - start frontend server in development mode"
-	@echo "make start_frontend_server       - start frontend server in production mode"
-	@echo "make lint_js                     - lint JavaScript files"
-	@echo "make frontend_dev                - lint, build and start frontend server for development"
-	@echo "make help                        - display this help message"
+	@echo "  install_all             - Install backend and frontend dependencies"
+	@echo "  setup                   - Complete setup including building and loading fixtures"
+	@echo "  setup_env               - Set up environment"
+	@echo "  install_backend         - Install backend dependencies"
+	@echo "  install_frontend        - Install frontend dependencies"
+	@echo "  recreate_db             - Remove tables and set up the database again"
+	@echo "  start_gunicorn_backend_live - Start the gunicorn backend for live environment"
+	@echo "  setup_db                - Set up the database"
+	@echo "  clear_db                - Clear the database tables"
+	@echo "  remove_tables           - Remove database tables"
+	@echo "  load_fixtures           - Load fixtures into the database"
+	@echo "  fetch_questions         - Fetch questions"
+	@echo "  translate_questions     - Translate questions"
+	@echo "  build_and_start         - Build frontend and start frontend server"
+	@echo "  build_frontend          - Build the frontend"
+	@echo "  build_frontend_dev      - Build frontend in development mode"
+	@echo "  generate_manifest       - Generate manifest"
+	@echo "  start_backend_server    - Start the backend server"
+	@echo "  start_frontend_server_dev - Start frontend server in development mode"
+	@echo "  start_frontend_server   - Start the frontend server"
+	@echo "  lint_js                 - Lint JavaScript files"
+	@echo "  format                  - Format files"
+	@echo "  frontend_dev            - Frontend development tasks"
+	@echo "  tree                    - Display project tree without specific directories"
+	@echo "  build                   - Build docker compose services"
+	@echo "  up                      - Start docker compose services"
+	@echo "  down                    - Stop docker compose services"
+	@echo "  logs                    - Show logs for docker compose services"
+	@echo "  bash_frontend           - Bash into frontend docker service"
+	@echo "  bash_backend            - Bash into backend docker service"
+	@echo "  bash_frontend_debug     - Debug frontend docker service with bash"
+	@echo "  enable_service          - Enable llmtrivia-backend systemd service"
+	@echo "  start_service           - Start llmtrivia-backend systemd service"
+	@echo "  stop_service            - Stop llmtrivia-backend systemd service"
+	@echo "  status_service          - Show status of llmtrivia-backend systemd service"
