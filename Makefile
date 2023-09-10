@@ -23,9 +23,6 @@ install_frontend:
 
 recreate_db: remove_tables setup_db load_fixtures
 
-start_gunicorn_frontend_live:
-	cd frontend && gunicorn server:app --bind 0.0.0.0:$(FRONTEND_PORT)
-
 start_gunicorn_backend_live:
 	cd backend && gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT)
 

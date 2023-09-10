@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=pchrusciel
-WorkingDirectory=/home/pchrusciel/llm-trivia
+WorkingDirectory=/home/pchrusciel/llm-trivia-game
 ExecStart=/usr/bin/env make start_gunicorn_backend_live
 Restart=always
 

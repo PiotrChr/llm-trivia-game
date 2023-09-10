@@ -16,13 +16,14 @@ def write_to_env_file(filename, data_dict):
 # Prompt for frontend .env data
 frontend_port = prompt_for_data("Enter frontend server port (default 8000): ", "8000")
 backend_host = prompt_for_data("Enter backend server host URL (default 127.0.0.1): ", "127.0.0.1")
-backend_port = prompt_for_data("Enter backend server port (default 9000): ", "9000")
+backend_public_port = prompt_for_data("Enter backend server public port (default '9000'): ", "9000")
+backend_internal_port = prompt_for_data("Enter backend server internal port (default 9000): ", "9000")
 
 # Write frontend .env data
 write_to_env_file(".frontend.env", {
     "FRONTEND_PORT": frontend_port,
     "BACKEND_HOST": backend_host,
-    "BACKEND_PORT": backend_port,
+    "BACKEND_PORT_PUBLIC": backend_public_port,
 })
 
 # Prompt for backend .env data
@@ -35,7 +36,7 @@ temperature = prompt_for_data("Enter LLM Model inference temperature (default 0.
 
 # Write backend .env data
 write_to_env_file(".backend.env", {
-    "BACKEND_PORT": backend_port,
+    "BACKEND_PORT": backend_internal_port,
     "OPENAI_KEY": open_ai_key,
     "SECRET_KEY": flask_secret_key,
     "OPENAI_ORG_ID": open_ai_org_id,
