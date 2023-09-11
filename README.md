@@ -99,9 +99,9 @@ This project supports deployment to live servers. The deployment script and deta
 ## Contributing
 
 1. Fork the repository.
-2. Create your feature branch: \`git checkout -b feature/AmazingFeature\`.
-3. Commit your changes: \`git commit -m 'Add AmazingFeature'\`.
-4. Push to the branch: \`git push origin feature/AmazingFeature\`.
+2. Create your feature branch: `git checkout -b feature/AmazingFeature`.
+3. Commit your changes: `git commit -m 'Add AmazingFeature'`.
+4. Push to the branch: `git push origin feature/AmazingFeature`.
 5. Open a pull request.
 
 For a deeper insight into the game state management, review `gameReducer.js`. This file facilitates numerous actions to govern the game's state, from defining categories, toggling difficulty, handling player interactions, to administering the game's state and progression.
