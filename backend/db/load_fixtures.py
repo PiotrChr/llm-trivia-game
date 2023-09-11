@@ -14,6 +14,7 @@ def create_tables():
     run_sql_script('backend/db/queries/fixtures/language.sql')
     run_sql_script('backend/db/queries/fixtures/category.sql')
     run_sql_script('backend/db/queries/fixtures/players.sql')
+    run_sql_script('backend/db/queries/fixtures/report_types.sql')
 
 if __name__ == "__main__":
     create_tables()

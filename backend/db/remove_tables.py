@@ -16,6 +16,8 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS games')
     c.execute('DROP TABLE IF EXISTS question_translations')
     c.execute('DROP TABLE IF EXISTS answer_translations')
+    c.execute('DROP TABLE IF EXISTS report')
+    c.execute('DROP TABLE IF EXISTS report_types')
 
     conn.commit()
 
