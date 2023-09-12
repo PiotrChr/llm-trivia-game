@@ -1,96 +1,81 @@
 .DEFAULT_GOAL := help
 
-.DEFAULT_START_CAT_ID:=0
+BACKEND_DIR = backend
+FRONTEND_DIR = frontend
+
+DEFAULT_START_CAT_ID:=0
 START_CAT=$(DEFAULT_START_CAT_ID)
 DEFAULT_LANG:=pl
 LANG:=$(DEFAULT_LANG)
 
-.PHONY: install_backend install_frontend create_db clear_db start_backend_server start_frontend_server start_frontend_server_dev build_frontend help install_all setup setup_db setup_env build_frontend_dev generate_manifest enable_service start_service stop_service status_service
+.PHONY: help install_all install_common_deps install_backend install_frontend \
+        recreate_db setup_db clear_db remove_tables load_fixtures \
+        build_and_start build_frontend build_frontend_dev start_backend_server \
+        start_frontend_server_dev start_frontend_server lint_js format \
+        frontend_dev tree build up down logs bash_frontend bash_backend \
+        bash_frontend_debug enable_service start_service stop_service \
+        status_service deploy_dev deploy_prod start_gunicorn_backend_live \
+        fetch_questions translate_questions generate_manifest
 
-install_all: install_backend install_frontend
-
-setup: install_all remove_tables setup_db load_fixtures build_frontend_dev generate_manifest 
-
-setup_env:
-	python3 scripts/setup_env.py
-
-deploy_dev:
-	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
-
-deploy_prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
-
+# Installation
 install_common_deps:
 	sudo apt-get update && sudo apt-get install -y python3-pip python3-venv python3-dev python3-wheel build-essential libssl-dev libffi-dev python3-setuptools
 	curl -fsSL https://get.docker.com -o get-docker.sh
 	sh get-docker.sh
 	rm get-docker.sh
 	sudo usermod -aG docker $${USER}
-	# Optional: Install docker-compose
 	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
 	sudo chmod +x /usr/local/bin/docker-compose
 
 install_backend:
-	pip3 install -r backend/requirements.txt
+	pip3 install -r $(BACKEND_DIR)/requirements.txt
 
 install_frontend:
 	sudo apt-get install nodejs npm
-	cd frontend && npm install
+	(cd $(FRONTEND_DIR) && npm install)
 
-recreate_db: remove_tables setup_db load_fixtures
+install_all: install_backend install_frontend
 
-start_gunicorn_backend_live:
-	cd backend && /home/pchrusciel/.local/bin/gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker
-
+# Database
 setup_db:
 	python3 scripts/setup_db.py
 
 clear_db:
-	python3 backend/db/clear_tables.py
+	python3 $(BACKEND_DIR)/db/clear_tables.py
 
 remove_tables:
-	python3 backend/db/remove_tables.py
+	python3 $(BACKEND_DIR)/db/remove_tables.py
 
 load_fixtures:
-	python3 backend/db/load_fixtures.py
+	python3 $(BACKEND_DIR)/db/load_fixtures.py
 
-fetch_questions:
-	cd backend && python3 fetch_questions.py --num_questions 50 --start_cat_id $(START_CAT)
+recreate_db: remove_tables setup_db load_fixtures
 
-translate_questions:
-	cd backend && python3 translate_questions.py --language $(LANG) --cat $(CAT)
-
-build_and_start: build_frontend start_frontend_server
-
+# Frontend & Backend
 build_frontend:
-	cd frontend && npm run build
+	(cd $(FRONTEND_DIR) && npm run build)
 
 build_frontend_dev:
-	cd frontend && npm run build_dev
-
-generate_manifest:
-	python3 scripts/generateManifest.py
+	(cd $(FRONTEND_DIR) && npm run build_dev)
 
 start_backend_server:
-	cd backend && python3 server.py
+	(cd $(BACKEND_DIR) && python3 server.py)
 
 start_frontend_server_dev:
-	cd frontend && npm start
+	(cd $(FRONTEND_DIR) && npm start)
 
 start_frontend_server:
-	cd frontend/public && python3 ../server.py
+	(cd $(FRONTEND_DIR)/public && python3 ../server.py)
 
 lint_js:
-	cd frontend && npm run lint
+	(cd $(FRONTEND_DIR) && npm run lint)
 
 format:
-	cd frontend && npm run format
+	(cd $(FRONTEND_DIR) && npm run format)
 
-frontend_dev: format lint_js build_frontend_dev start_frontend_server
+frontend_dev: format lint_js build_frontend_dev start_frontend_server_dev
 
-tree:
-	tree -f -I "node_modules|soft-ui-dashboard|category_images|bundle|__pycache_|assets" .
-
+# Docker
 build:
 	docker compose build
 
@@ -112,6 +97,7 @@ bash_backend:
 bash_frontend_debug:
 	docker run -it --entrypoint /bin/sh llm-trivia-game-frontend:latest
 
+# Deployment & Services
 enable_service:
 	sudo cp resources/services/llmtrivia-backend.service /etc/systemd/system/
 	sudo systemctl daemon-reload
@@ -126,6 +112,27 @@ stop_service:
 status_service:
 	sudo systemctl status llmtrivia-backend.service
 
+deploy_dev:
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
+
+deploy_prod:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+
+start_gunicorn_backend_live:
+	(cd $(BACKEND_DIR) && /home/pchrusciel/.local/bin/gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker)
+
+fetch_questions:
+	(cd $(BACKEND_DIR) && python3 fetch_questions.py --num_questions 50 --start_cat_id $(START_CAT))
+
+translate_questions:
+	(cd $(BACKEND_DIR) && python3 translate_questions.py --language $(LANG) --cat $(CAT))
+
+generate_manifest:
+	python3 scripts/generateManifest.py
+
+setup: install_all remove_tables setup_db load_fixtures build_frontend_dev generate_manifest 
+
+# Help
 help:
 	@echo "Available recipes:"
 	@echo "  install_all             - Install backend and frontend dependencies"
