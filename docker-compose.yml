@@ -5,31 +5,64 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend.Dockerfile
-    ports:
-      - "5000:5000"
     env_file:
       - '.backend.env'
     environment:
       - BACKEND_PORT=5000
+      - FRONTEND_HOST=nginx-frontend
+      - MODEL=gpt-3.5-turbo
+      - TEMPERATURE=0.9
+      - OPENAI_KEY=secret
+      - SECRET_KEY=secret
     volumes:
       - ./backend:/app/backend
+    expose:
+      - "5000"
+    networks:
+      - custom_network
+
+  nginx-backend:
+    image: nginx:latest
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx-backend.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - custom_network
+
+  nginx-frontend:
+    image: nginx:latest
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./nginx-frontend.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - custom_network
 
   frontend:
     build:
       context: .
       dockerfile: ./docker/frontend.Dockerfile
       args:
-        - API_HOST=backend
-        - API_PORT=5000
-    ports:
-      - "3000:3000"
+        - API_HOST=nginx-backend
+        - API_PORT=8080
     volumes:
       - ./frontend:/app/frontend
     env_file:
       - '.frontend.env'
     environment:
-      - BACKEND_PORT=5000
-      - BACKEND_HOST=127.0.0.1
+      - BACKEND_PORT=8080
+      - BACKEND_HOST=nginx-backend
       - FRONTEND_PORT=3000
     depends_on:
       - backend
+    networks:
+      - custom_network
+networks:
+  custom_network:
+    driver: bridge

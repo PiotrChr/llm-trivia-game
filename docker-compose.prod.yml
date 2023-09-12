@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  nginx-backend:
+    ports:
+      - "443:8443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+  
+  backend:
+    environment:
+      - OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+      - SECRET_KEY=${{ secrets.OPENAI_SECRET }}

@@ -14,6 +14,22 @@ setup: install_all remove_tables setup_db load_fixtures build_frontend_dev gener
 setup_env:
 	python3 scripts/setup_env.py
 
+deploy_dev:
+	docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d
+
+deploy_prod:
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+
+install_common_deps:
+	sudo apt-get update && sudo apt-get install -y python3-pip python3-venv python3-dev python3-wheel build-essential libssl-dev libffi-dev python3-setuptools
+	curl -fsSL https://get.docker.com -o get-docker.sh
+	sh get-docker.sh
+	rm get-docker.sh
+	sudo usermod -aG docker $${USER}
+	# Optional: Install docker-compose
+	sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$$(uname -s)-$$(uname -m)" -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+
 install_backend:
 	pip3 install -r backend/requirements.txt
 
@@ -147,3 +163,5 @@ help:
 	@echo "  start_service           - Start llmtrivia-backend systemd service"
 	@echo "  stop_service            - Stop llmtrivia-backend systemd service"
 	@echo "  status_service          - Show status of llmtrivia-backend systemd service"
+	@echo "  deploy_dev              - Deploy services for development using Docker"
+	@echo "  deploy_prod             - Deploy services for production using Docker"
