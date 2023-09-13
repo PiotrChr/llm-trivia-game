@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  backend:
+    volumes:
+      - ./backend:/app/backend:ro
+
+  frontend:
+    volumes:
+      - ./frontend:/app/frontend:ro
