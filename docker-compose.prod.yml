@@ -8,11 +8,11 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
   
   backend:
-    env_file: ~
+    env_file: ''
     environment:
       - OPENAI_KEY=${OPENAI_KEY}
       - SECRET_KEY=${OPENAI_SECRET}
   
   frontend:
-    env_file: ~
+    env_file: ''
       
