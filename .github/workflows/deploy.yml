@@ -26,7 +26,7 @@ jobs:
         BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
         BACKEND_PORT_PUBLIC: ${{ secrets.BACKEND_PORT_PUBLIC }}
       run: |
-        docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+        docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --no-cache
         docker push piotrchrusciel/llmtrivia-frontend:latest
         docker push piotrchrusciel/llmtrivia-backend:latest
 
