@@ -72,6 +72,22 @@ Example of a correct reply:
 {translated_prompt_json_structure}
 """
 
+fix_json_system_prompt = f"""
+You're tasked with fixing broken/incomplete json with questions and answers for a trivia game. Messages with questions will be formatted as follows:
+{question_json_structure}
+
+However the given json may be malformed and you have to fix it keeping in mind the required questions structure.
+In a following messages I'll send malformed json object.
+
+Your response should be strictly in JSON format and should follow the structure given below:
+{question_json_structure}
+
+Do not add any commentary to the reply.
+
+Example of a correct reply:
+{question_json_structure}
+"""
+
 openai.api_key = os.getenv('OPENAI_KEY')
 MODEL = os.getenv('MODEL')
 TEMPERATURE = float(os.getenv('TEMPERATURE'))
@@ -178,3 +194,30 @@ def translate_questions(questions, taget_language, current_language = 'en'):
     except Exception as error:
         print('Error in verify_question:', error)
         raise error
+    
+
+def fix_question_json(questions_json):
+    init_system_prompt = {
+        "role": "system",
+        "content": translation_system_prompt
+    }
+
+    user_message = {
+        "role": "user",
+        "content": json.dumps({
+            "questions_json": questions_json
+        })
+    }
+
+    messages = [init_system_prompt, user_message]
+
+    try:
+        response = chat_completion(messages)
+        
+        parsed_response = json.loads(response)
+        
+        return parsed_response
+    except Exception as error:
+        print('Error in fix_question_json:', error)
+        raise error
+    

@@ -16,5 +16,5 @@
 - [!] **Core** Fix JSON instead of retrying fetching new question set
 - [ ] **Visuals:** Fix fade-in-out in GamePage
 - [ ] **Visuals:** Wizzard for a game creation
-- [!] **Extra:** Add script to auto fill db with questions. 
+- [!] **Extra:** Add script to auto translate questions
 
