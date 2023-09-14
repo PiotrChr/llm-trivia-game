@@ -1,0 +1,47 @@
+name: Deploy to Production Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: Build and push Docker images
+      env:
+        OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
+      run: |
+        docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+        docker tag llmtrivia-frontend:latest piotrchrusciel/llmtrivia-frontend:latest
+        docker tag llmtrivia-backend:latest piotrchrusciel/llmtrivia-backend:latest
+        docker push piotrchrusciel/llmtrivia-frontend:latest
+        docker push piotrchrusciel/llmtrivia-backend:latest
+
+    - name: Deploy to Live Server
+      env:
+        OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ${{ secrets.PROJECT_PATH }}
+          git checkout main
+          git pull origin main
+          export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+          export OPENAI_SECRET=${{ secrets.OPENAI_SECRET }}
+          docker-compose down
+          docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml pull
+          docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml -f ${{ secrets.PROJECT_PATH }}/docker-compose.prod.yml up -d

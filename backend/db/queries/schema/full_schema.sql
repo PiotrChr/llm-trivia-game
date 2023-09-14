@@ -104,3 +104,47 @@ CREATE TABLE category_translations (
     FOREIGN KEY(category_id) REFERENCES category(id),
     FOREIGN KEY(language_id) REFERENCES language(id)
 );
+
+CREATE TABLE report_types (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE report {
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
+    report_type INTEGER NOT NULL,
+    report TEXT NOT NULL,
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(question_id) REFERENCES questions(id)
+    FOREIGN KEY(report_type) REFERENCES report_types(id)
+}
+
+CREATE TABLE lifeline_types (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE game_lifelines (
+    game_id INTEGER,
+    lifeline_id INTEGER,
+    count INTEGER NOT NULL,
+    PRIMARY KEY(game_id, lifeline_id),
+    FOREIGN KEY(game_id) REFERENCES games(id),
+    FOREIGN KEY(lifeline_id) REFERENCES lifeline_types(id)
+);
+
+CREATE TABLE player_lifelines (
+    player_id INTEGER,
+    lifeline_id INTEGER,
+    game_id INTEGER,
+    question_id INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(player_id, lifeline_id),
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(lifeline_id) REFERENCES lifeline_types(id)
+    FOREIGN KEY(game_id) REFERENCES games(id)
+    FOREIGN KEY(question_id) REFERENCES questions(id)
+);

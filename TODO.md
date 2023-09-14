@@ -1,5 +1,3 @@
-# TODO.md
-
 - [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array
@@ -15,6 +13,10 @@
 - [ ] **Content:** About Game/ game rules content
 - [!] **Core** Fix JSON instead of retrying fetching new question set
 - [ ] **Visuals:** Fix fade-in-out in GamePage
-- [ ] **Visuals:** Wizzard for a game creation
+- [ ] **Visuals:** Wizzard for a game creation (as simple as possible)
+- [!] **Core:** Create a question hint during inference (drawing)
+- [!] **Core:** Script to automatically fix questions based on reporting
+- [!] **Extra:** Refactor/cleanup
+- [!] **Extra:** Deployment
 - [!] **Extra:** Add script to auto translate questions
 

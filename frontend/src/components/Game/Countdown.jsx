@@ -12,7 +12,12 @@ const Countdown = ({ secondsLeft, title, showProgressBar, secondsTotal }) => {
           duration={secondsTotal}
           isPlaying
         >
-          {({ remainingTime }) => remainingTime}
+          {({ remainingTime }) => (
+            <>
+              <p>{title}</p>
+              <p>{remainingTime}</p>
+            </>
+          )}
         </CountdownCircleTimer>
       )}
     </div>

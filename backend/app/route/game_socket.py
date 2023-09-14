@@ -69,7 +69,7 @@ def register_handlers(socketio):
         if game['host'] != data['player']['id']:
             return
                 
-        countdown = 10
+        countdown = 5
         for i in range(countdown, -1, -1):
             # Send a message with the remaining time
             emit('countdown', {'remaining_time': i, 'total_time': countdown }, room=room, broadcast=True)

@@ -76,6 +76,10 @@ class TriviaRepository:
             print(f"Failed to read data from table questions: {error}")
             return None
 
+    def get_untraslated_questions(target_language, category=None, limit=100):
+        pass
+        # TODO
+
     @staticmethod
     def get_questions():
         query = """
@@ -639,9 +643,6 @@ class TriviaRepository:
             player_scores = cursor.fetchall()
             player_scores = [dict(row) for row in player_scores]
 
-            print(player_scores)
-
-            # Convert the results into a more usable format
             game_stats = {
                 "game_id": game_id,
                 "time_start": game["time_start"],
@@ -793,6 +794,24 @@ class TriviaRepository:
         """
         results = Database.fetchall(query, (language_iso_code,))
         return results[0]['id'] if results else None
+
+    @staticmethod
+    def save_report(question_id, player_id, report_type_id, report):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            report_sql = """
+                INSERT INTO reports (question_id, player_id, report_type, report)
+                VALUES (?, ?, ?, ?)
+            """
+            Database.insert(report_sql, (question_id, player_id, report_type_id, report), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
 
     @staticmethod
     def generate_hash(password: str) -> str:

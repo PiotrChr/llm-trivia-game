@@ -8,4 +8,5 @@ werkzeug==2.0.1
 flask-socketio==5.3.4
 openai==0.27.8
 gevent==23.7.0
-gevent-websocket==0.10.1
+gevent-websocket==0.10.
+gunicorn

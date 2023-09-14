@@ -3,8 +3,9 @@ import Cookies from 'js-cookie';
 
 /* eslint-disable no-undef */
 const API_HOST = process.env.BACKEND_HOST || 'localhost';
-const API_PORT = process.env.BACKEND_PORT || 9000;
-const BASE_URL = `http://${API_HOST}:${API_PORT}/api`;
+const API_PORT = process.env.BACKEND_PORT_PUBLIC !== '' ? `:${process.env.BACKEND_PORT_PUBLIC}` : '';
+
+const BASE_URL = `https://${API_HOST}${API_PORT}/api`;
 /* eslint-enable no-undef */
 
 const api = axios.create({
@@ -143,5 +144,15 @@ export const getCategories = async () => {
 
 export const getLanguages = async () => {
   const response = await api.get(`${BASE_URL}/language/`);
+  return response;
+};
+
+// Questions
+
+export const reportQuestion = async (questionId, reportData) => {
+  const response = await api.post(`${BASE_URL}/questions/${questionId}`, {
+    reportData
+  });
+
   return response;
 };
