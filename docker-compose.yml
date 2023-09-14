@@ -23,21 +23,9 @@ services:
   nginx-backend:
     image: nginx:latest
     ports:
-      - "8082:80"
+      - "8002:8002"
     volumes:
       - ./resources/nginx/backend.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - backend
-    networks:
-      - custom_network
-
-  nginx-frontend:
-    image: nginx:latest
-    ports:
-      - "8081:80"
-    volumes:
-      - ./frontend:/usr/share/nginx/html
-      - ./resources/nginx/frontend.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - backend
     networks:
@@ -51,16 +39,12 @@ services:
         - API_HOST=nginx-backend
         - API_PORT=8080
     image: llmtrivia-frontend
-    volumes:
-      - ./frontend:/app/frontend
-    environment:
-      - BACKEND_PORT=8080
-      - BACKEND_HOST=nginx-backend
-      - FRONTEND_PORT=3000
     depends_on:
       - backend
     networks:
       - custom_network
+    expose:
+      - "8001"
 networks:
   custom_network:
     driver: bridge
