@@ -18,4 +18,4 @@ RUN make load_fixtures
 
 EXPOSE 5000
 
-CMD ["make", "start_backend_server"]
+CMD ["make", "start_gunicorn_backend_live"]
