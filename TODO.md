@@ -18,6 +18,5 @@
 - [!] **Core:** Script to automatically fix questions based on reporting
 - [!] **Extra:** Refactor/cleanup
 - [!] **Extra:** Deployment
-
-
+- [!] **Extra:** Add script to auto translate questions
 
