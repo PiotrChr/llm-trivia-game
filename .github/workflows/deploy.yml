@@ -28,6 +28,9 @@ jobs:
         docker push piotrchrusciel/llmtrivia-backend:latest
 
     - name: Deploy to Live Server
+      env:
+        OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVER_IP }}
