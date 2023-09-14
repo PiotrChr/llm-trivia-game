@@ -34,6 +34,8 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          cd /var/www/html/llmtrivia.com
-          docker-compose pull
-          docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+          cd ${{ secrets.PROJECT_PATH }}
+          git checkout main
+          git pull origin main
+          docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml pull
+          docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml -f ${{ secrets.PROJECT_PATH }}/docker-compose.prod.yml up -d
