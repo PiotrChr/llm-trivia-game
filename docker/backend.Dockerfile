@@ -22,6 +22,7 @@ RUN make load_fixtures
 
 # ---- Final Stage ----
 FROM python:3.10-slim
+RUN apt-get update && apt-get install -y make && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy installed python packages from builder stage
 COPY --from=builder /usr/local/lib/python3.10/site-packages/ /usr/local/lib/python3.10/site-packages/
