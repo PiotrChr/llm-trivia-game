@@ -22,8 +22,8 @@ jobs:
         OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
       run: |
         docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
-        docker tag piotrchrusciel/llmtrivia-frontend:latest piotrchrusciel/llmtrivia-frontend:latest
-        docker tag piotrchrusciel/llmtrivia-backend:latest piotrchrusciel/llmtrivia-backend:latest
+        docker tag llmtrivia-frontend:latest piotrchrusciel/llmtrivia-frontend:latest
+        docker tag llmtrivia-backend:latest piotrchrusciel/llmtrivia-backend:latest
         docker push piotrchrusciel/llmtrivia-frontend:latest
         docker push piotrchrusciel/llmtrivia-backend:latest
 
