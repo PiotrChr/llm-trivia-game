@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx-backend:
     ports:
-      - "443:8443"
+      - "8082:80"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
   

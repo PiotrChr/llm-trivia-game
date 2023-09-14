@@ -40,6 +40,8 @@ jobs:
           cd ${{ secrets.PROJECT_PATH }}
           git checkout main
           git pull origin main
+          export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
+          export OPENAI_SECRET=${{ secrets.OPENAI_SECRET }}
           docker-compose down
           docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml pull
           docker-compose -f ${{ secrets.PROJECT_PATH }}/docker-compose.yml -f ${{ secrets.PROJECT_PATH }}/docker-compose.prod.yml up -d
