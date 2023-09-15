@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.repository.TriviaRepository import TriviaRepository
 
 question_routes = Blueprint('question_routes', __name__)
@@ -23,3 +23,22 @@ def get_question_texts(category_id, difficulty):
     if question_texts is None:
         return jsonify({"msg": "Question texts not found"}), 404
     return jsonify(question_texts), 200
+
+@jwt_required()
+@question_routes.route('/<question_id>/report', methods=['POST'])
+def report_question(question_id):
+    try:
+        player_id = get_jwt_identity()['id']
+        report_type = request.json.get('reportType', None)
+        report = request.json.get('report', None)
+
+        TriviaRepository.save_report(
+            question_id,
+            player_id,
+            report_type,
+            report
+        )
+        return jsonify({"msg": "Question reported"}), 200
+    except Exception as error:
+        print('Error in report_question:', error)
+        return jsonify({"msg": "Error reporting question"}), 500

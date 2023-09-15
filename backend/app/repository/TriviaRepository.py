@@ -796,15 +796,17 @@ class TriviaRepository:
         return results[0]['id'] if results else None
 
     @staticmethod
-    def save_report(question_id, player_id, report_type_id, report):
+    def save_report(question_id, player_id, report_type, report):
+        # save report to database, uses report_types table to get a matching id
+
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
             report_sql = """
-                INSERT INTO reports (question_id, player_id, report_type, report)
+                INSERT INTO report (player_id, question_id, report_type, report)
                 VALUES (?, ?, ?, ?)
             """
-            Database.insert(report_sql, (question_id, player_id, report_type_id, report), False)
+            Database.insert(report_sql, (question_id, player_id, report_type, report), False)
 
             Database.execute("COMMIT")
             return True
@@ -812,6 +814,7 @@ class TriviaRepository:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
             return False
+        
 
     @staticmethod
     def generate_hash(password: str) -> str:

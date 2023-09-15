@@ -150,7 +150,7 @@ export const getLanguages = async () => {
 // Questions
 
 export const reportQuestion = async (questionId, reportData) => {
-  const response = await api.post(`${BASE_URL}/questions/${questionId}`, {
+  const response = await api.post(`${BASE_URL}/questions/${questionId}/report`, {
     reportData
   });
 

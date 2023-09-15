@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
 import { getCategories, reportQuestion } from '../../services/api';
+import { useAlert } from '../shared/Alert/AlertContext';
 
 function ReportQuestion({ question, onSubmit }) {
   const [feedbackType, setFeedbackType] = useState(null);
@@ -10,6 +11,7 @@ function ReportQuestion({ question, onSubmit }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [otherProblem, setOtherProblem] = useState('');
+  const { setAlert } = useAlert();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -33,13 +35,28 @@ function ReportQuestion({ question, onSubmit }) {
   };
 
   const submitFeedback = async () => {
-    const response = await reportQuestion(question.id, {
-      feedbackType: feedbackType,
-      selectedCategory: selectedCategory,
-      correctAnswer: correctAnswer,
-      otherProblem: otherProblem
-    });
+    try {
+      const response = await reportQuestion(question.id, {
+        reportType: feedbackType,
+        report: selectedCategory  || otherProblem || correctAnswer
+      });
 
+      if (response.status === 200) {
+        setAlert({
+          title: 'Success',
+          message: 'Your feedback has been submitted.',
+          variant: 'success'
+        });
+      }
+    } catch (error) {
+      showAlert({
+        title: 'Error',
+        message: 'There was an error submitting your feedback. Please try again.',
+        details: error.message,
+        variant: 'danger'
+      });
+    }
+    
     resetFeedback();
     onSubmit();
   };

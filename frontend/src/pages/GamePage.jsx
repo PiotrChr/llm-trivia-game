@@ -24,7 +24,8 @@ import {
   getCategories,
   getGame,
   getLanguages,
-  isPlaying
+  isPlaying,
+  reportQuestion
 } from '../services/api';
 import { socket } from '../services/socket';
 import { getRandomBackground } from '../utils';
