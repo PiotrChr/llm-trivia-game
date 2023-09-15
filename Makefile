@@ -119,7 +119,7 @@ deploy_prod:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
 
 start_gunicorn_backend_live:
-	(cd $(BACKEND_DIR) && /home/pchrusciel/.local/bin/gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker)
+	(cd $(BACKEND_DIR) && gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker)
 
 fetch_questions:
 	(cd $(BACKEND_DIR) && python3 fetch_questions.py --num_questions 50 --start_cat_id $(START_CAT))

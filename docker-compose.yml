@@ -18,7 +18,7 @@ services:
     expose:
       - "5000"
     networks:
-      - custom_network
+      - llm_network
 
   nginx-backend:
     image: nginx:latest
@@ -29,7 +29,7 @@ services:
     depends_on:
       - backend
     networks:
-      - custom_network
+      - llm_network
 
   frontend:
     build:
@@ -42,9 +42,10 @@ services:
     depends_on:
       - backend
     networks:
-      - custom_network
+      - llm_network
     expose:
       - "8001"
+    
 networks:
-  custom_network:
+  llm_network:
     driver: bridge
