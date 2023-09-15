@@ -3,7 +3,7 @@ version: '3'
 services:
   frontend:
     image: piotrchrusciel/llmtrivia-frontend:latest
-    environment:
+    args:
       - BACKEND_HOST=${BACKEND_HOST}
   nginx-backend:
     ports:

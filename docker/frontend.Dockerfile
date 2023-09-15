@@ -1,6 +1,9 @@
 FROM node:14 as build-stage
 
 WORKDIR /app
+ARG BACKEND_HOST
+
+ENV BACKEND_HOST=${BACKEND_HOST}
 
 COPY ./frontend/package*.json ./
 RUN npm install
