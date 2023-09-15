@@ -3,8 +3,9 @@ version: '3'
 services:
   frontend:
     image: piotrchrusciel/llmtrivia-frontend:latest
-    args:
-      - BACKEND_HOST=${BACKEND_HOST}
+    build:
+      args:
+        - BACKEND_HOST=${BACKEND_HOST}
   nginx-backend:
     ports:
       - "8082:80"
