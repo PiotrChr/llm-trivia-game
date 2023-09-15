@@ -4,7 +4,7 @@ services:
   frontend:
     image: piotrchrusciel/llmtrivia-frontend:latest
     environment:
-      - BACKEND_HOST=$(BACKEND_HOST)
+      - BACKEND_HOST=${BACKEND_HOST}
   nginx-backend:
     ports:
       - "8082:80"
