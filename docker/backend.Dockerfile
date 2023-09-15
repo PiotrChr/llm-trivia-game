@@ -31,7 +31,8 @@ COPY resources/nginx/backend.conf /etc/nginx/conf.d/default.conf
 # Copy installed python packages from builder stage
 COPY --from=builder /usr/local/lib/python3.10/site-packages/ /usr/local/lib/python3.10/site-packages/
 RUN pip show gunicorn
-RUN which gunicorn
+RUN find /usr/local -name gunicorn
+
 
 WORKDIR /app
 
