@@ -1,6 +1,6 @@
 FROM python:3.10-slim as builder
 
-RUN apt-get update && apt-get install -y make && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y make sqlite3 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -16,8 +16,10 @@ RUN make remove_tables
 RUN make setup_db
 RUN make load_fixtures
 
+RUN sqlite3 backend/db/db.sqlite .tables
+
 FROM python:3.10-slim
-RUN apt-get update && apt-get install -y make && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y make sqlite3 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY resources/nginx/backend.conf /etc/nginx/conf.d/default.conf
 

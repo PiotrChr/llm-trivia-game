@@ -2,6 +2,7 @@ import sqlite3
 import os
 
 def run_sql_script(filename):
+    print(f"Running script {filename}...")
     with sqlite3.connect('backend/db/db.sqlite') as conn:
         if os.path.isfile(filename):
             with open(filename, 'r') as f:
