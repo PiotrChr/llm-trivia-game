@@ -7,7 +7,6 @@ load_dotenv(dotenv_path='../../.frontend.env')
 
 app = Flask(__name__, static_folder='public/static/')
 
-
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
