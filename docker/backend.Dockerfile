@@ -31,6 +31,7 @@ WORKDIR /app
 COPY --from=builder /app/backend/ ./backend/
 COPY --from=builder /app/scripts/ ./scripts/
 COPY --from=builder /app/Makefile ./
+COPY --from=builder /app/backend/db/db.sqlite ./backend/db/db.sqlite
 
 CMD sh -c "cd backend && gunicorn server:app --bind 0.0.0.0:5000 --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker"
 
