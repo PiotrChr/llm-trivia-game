@@ -33,6 +33,8 @@ COPY --from=builder /app/scripts/ ./scripts/
 COPY --from=builder /app/Makefile ./
 COPY --from=builder /app/backend/db/db.sqlite ./backend/db/db.sqlite
 
+RUN sqlite3 backend/db/db.sqlite .tables
+
 CMD sh -c "cd backend && gunicorn server:app --bind 0.0.0.0:5000 --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker"
 
 EXPOSE 5000
