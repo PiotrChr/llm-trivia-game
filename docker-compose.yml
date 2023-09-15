@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend.Dockerfile
-    image: pchrusciel/llmtrivia-backend:latest
+    image: piotrchrusciel/llmtrivia-backend:latest
     environment:
       - BACKEND_PORT=5000
       - FRONTEND_HOST=nginx-frontend
@@ -38,7 +38,7 @@ services:
       args:
         - API_HOST=nginx-backend
         - API_PORT=8080
-    image: pchrusciel/llmtrivia-frontend:latest
+    image: piotrchrusciel/llmtrivia-frontend:latest
     depends_on:
       - backend
     networks:
