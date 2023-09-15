@@ -13,8 +13,6 @@ services:
       - TEMPERATURE=0.9
       - OPENAI_KEY=secret
       - SECRET_KEY=secret
-    volumes:
-      - ./backend:/app/backend
     expose:
       - "5000"
     networks:

@@ -5,7 +5,7 @@ services:
     env_file:
         - '.backend.env'
     volumes:
-      - ./backend:/app/backend:ro
+      - ./backend:/app/backend
 
   frontend:
     env_file:
