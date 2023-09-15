@@ -53,9 +53,10 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(language_routes, url_prefix='/api/language')
 app.register_blueprint(category_routes, url_prefix='/api/category')
 
-port = int(os.getenv('BACKEND_PORT', 9000))
 
 if __name__ == '__main__':
+    port = int(os.getenv('BACKEND_PORT', 9000))
+    
     for rule in app.url_map.iter_rules():
         print(f"Endpoint: {rule.endpoint}, Route: {rule.rule}")
 

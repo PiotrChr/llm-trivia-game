@@ -16,5 +16,7 @@ services:
     image: piotrchrusciel/llmtrivia-backend:latest
     environment:
       - OPENAI_KEY=${OPENAI_KEY}
-      - SECRET_KEY=${OPENAI_SECRET}
+      - OPENAI_SECRET=${OPENAI_SECRET}
+      - FRONTEND_HOST=${FRONTEND_HOST}
+      - SECRET_KEY=${SECRET_KEY}
     
