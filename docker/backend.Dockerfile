@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install python packages
 COPY ./backend/requirements.txt ./backend/
-RUN pip install --upgrade pip && pip install -r ./backend/requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r ./backend/requirements.txt 
 RUN pip show gunicorn
 
 # Copy application and other necessary files for the build
