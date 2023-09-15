@@ -11,7 +11,7 @@ function ReportQuestion({ question, onSubmit }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [otherProblem, setOtherProblem] = useState('');
-  const { setAlert } = useAlert();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -38,47 +38,37 @@ function ReportQuestion({ question, onSubmit }) {
     try {
       const response = await reportQuestion(question.id, {
         reportType: feedbackType,
-        report: selectedCategory  || otherProblem || correctAnswer
+        report: selectedCategory || otherProblem || correctAnswer
       });
 
       if (response.status === 200) {
-        setAlert({
-          title: 'Success',
-          message: 'Your feedback has been submitted.',
-          variant: 'success'
+        showAlert('Success', 'Your feedback has been submitted.', null, {
+          variant: 'success',
+          position: 'bottom'
         });
       }
     } catch (error) {
-      showAlert({
-        title: 'Error',
-        message: 'There was an error submitting your feedback. Please try again.',
-        details: error.message,
-        variant: 'danger'
-      });
+      showAlert(
+        'Error',
+        'There was an error submitting your feedback. Please try again.',
+        error.message,
+        { variant: 'danger', position: 'bottom' }
+      );
     }
-    
+
     resetFeedback();
     onSubmit();
   };
 
   return (
     <div className="d-flex flex-column" id="report-question">
-      <Button
-        className="mb-1"
-        onClick={() => setFeedbackType('difficulty-easy')}
-      >
+      <Button className="mb-1" onClick={() => setFeedbackType(2)}>
         Too easy
       </Button>
-      <Button
-        className="mb-1"
-        onClick={() => setFeedbackType('difficulty-hard')}
-      >
+      <Button className="mb-1" onClick={() => setFeedbackType(3)}>
         Too hard
       </Button>
-      <Button
-        className="mb-1"
-        onClick={() => setFeedbackType('incorrect-answer')}
-      >
+      <Button className="mb-1" onClick={() => setFeedbackType(1)}>
         Incorrect Answer
       </Button>
 
@@ -97,10 +87,7 @@ function ReportQuestion({ question, onSubmit }) {
         </div>
       )}
 
-      <Button
-        className="mb-1"
-        onClick={() => setFeedbackType('wrong-category')}
-      >
+      <Button className="mb-1" onClick={() => setFeedbackType(4)}>
         Wrong Category
       </Button>
 
@@ -109,12 +96,14 @@ function ReportQuestion({ question, onSubmit }) {
           <Select
             options={categories}
             value={selectedCategory}
-            onChange={(selectedOption) => setSelectedCategory(selectedOption)}
+            onChange={(selectedOption) =>
+              setSelectedCategory(selectedOption.value)
+            }
           />
         </div>
       )}
 
-      <Button className="mb-1" onClick={() => setFeedbackType('other')}>
+      <Button className="mb-1" onClick={() => setFeedbackType(5)}>
         Other Problem
       </Button>
 

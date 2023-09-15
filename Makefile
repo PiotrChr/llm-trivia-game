@@ -40,6 +40,9 @@ install_all: install_backend install_frontend
 setup_db:
 	python3 scripts/setup_db.py
 
+setup_env:
+	python3 scripts/setup_env.py
+
 clear_db:
 	python3 $(BACKEND_DIR)/db/clear_tables.py
 
@@ -73,7 +76,7 @@ lint_js:
 format:
 	(cd $(FRONTEND_DIR) && npm run format)
 
-frontend_dev: format lint_js build_frontend_dev start_frontend_server_dev
+frontend_dev: format lint_js build_frontend_dev start_frontend_server
 
 # Docker
 build:

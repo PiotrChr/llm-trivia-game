@@ -103,7 +103,6 @@ def chat_completion(messages, temperature = TEMPERATURE):
 
     try:
         response = openai.ChatCompletion.create(**data)
-        print('raw', response)
         content = response['choices'][0]['message']['content'].strip()
 
         return content

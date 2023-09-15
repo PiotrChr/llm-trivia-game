@@ -24,13 +24,14 @@ def get_question_texts(category_id, difficulty):
         return jsonify({"msg": "Question texts not found"}), 404
     return jsonify(question_texts), 200
 
-@jwt_required()
 @question_routes.route('/<question_id>/report', methods=['POST'])
+@jwt_required()
 def report_question(question_id):
     try:
         player_id = get_jwt_identity()['id']
-        report_type = request.json.get('reportType', None)
-        report = request.json.get('report', None)
+        report_data = request.json.get('reportData', None)
+        report_type = report_data.get('reportType', None)
+        report = report_data.get('report', None)
 
         TriviaRepository.save_report(
             question_id,
