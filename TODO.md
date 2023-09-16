@@ -17,6 +17,14 @@
 - [!] **Core:** Create a question hint during inference (drawing)
 - [!] **Core:** Script to automatically fix questions based on reporting
 - [!] **Extra:** Refactor/cleanup
-- [!] **Extra:** Deployment
 - [!] **Extra:** Add script to auto translate questions
-
+- [ ] **Core** Connect social media (share score & co.)
+- [ ] **Core:** Personalisation - "my categories" collection/ favourites
+- [!] **Core:** Automatic Backups
+- [ ] **Core:** Achievements/Badges/TItles
+- [!] **Core:** Friends
+- [ ] **Core:** SSO (Google or similar)
+- [ ] **Extra:** General game feedback
+- [ ] **Extra:** Tutorial
+- [!] **Extra:** Question submission
+- [ ] **Extra:** Game sounds/music
