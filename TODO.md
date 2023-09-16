@@ -22,7 +22,7 @@
 - [ ] **Core** Connect social media (share score & co.)
 - [ ] **Core:** Personalisation - "my categories" collection/ favourites
 - [!] **Core:** Automatic Backups
-- [ ] **Core:** Achievements/Badges/TItles
+- [ ] **Core:** Achievements/Badges/TItles/Rank
 - [!] **Core:** Friends
 - [ ] **Core:** SSO (Google or similar)
 - [ ] **Extra:** General game feedback

@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
 
-const ChatWindow = ({ sendMessage, messages, playerId }) => {
+const ChatWindow = forwardRef(({ sendMessage, messages, playerId }, ref) => {
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef(null);
 
   const handleSendMessage = (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
     if (!inputMessage) return;
 
     sendMessage(inputMessage);
@@ -86,7 +86,7 @@ const ChatWindow = ({ sendMessage, messages, playerId }) => {
       </div>
     </div>
   );
-};
+});
 
 ChatWindow.defaultProps = {
   messages: []

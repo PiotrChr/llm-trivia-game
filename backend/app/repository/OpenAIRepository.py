@@ -25,6 +25,7 @@ Difficulty levels are defined as follows:
 4. **Very Hard**: Only someone with in-depth, specialized knowledge of the subject will likely know the answer. The questions should focus on obscure facts or very specific details. Example: "Which Queen song features a skiffle band using instruments made out of household objects?"
 5. **Impossible (Obscure Facts)**: Extremely obscure information that even enthusiasts of the subject might not know. The answer should be verifiable. Example: "Which member of Queen wrote the least number of songs for the band?"
 
+Important! Questions related to Queen (band) are just an example and you shouldn't generate questions covering only this topic. You should generate questions for the given category and difficulty level. Yu should be creative and generate questions that are not too similar to each other. The questions should be logically correct and factually accurate.
 Important! Higher difficulty levels should have more difficult questions and the answers should be and sound as more plausible. The context of the questions should not be too similar to each other in the same batch.
 
 My messages will be formatted as follows:

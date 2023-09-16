@@ -35,6 +35,7 @@ import ResultBadge from '../components/Game/ResultBadge';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 import { useModal } from '../components/shared/Modal/ModalContext';
 import ReportQuestion from '../components/Game/ReportQuestion';
+import Lifelines from '../components/Game/LifeLines';
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -400,7 +401,7 @@ const GamePage = () => {
             <FadeInOut
               show={displayResult !== null}
               duration={500}
-              className="position-absolute z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
+              className="position-relative z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
               style={{
                 left: '0px',
                 right: '0px',
@@ -414,6 +415,7 @@ const GamePage = () => {
               style={{ borderBottom: '1px solid #eee' }}
             >
               <Col sm={12} xs={12} lg={8} className="position-relative d-flex">
+                <Lifelines show={questionReady} />
                 <FadeInOut
                   show={questionReady}
                   duration={500}
@@ -441,11 +443,11 @@ const GamePage = () => {
                 </FadeInOut>
                 <FadeInOut
                   show={
-                    !questionReady && (countdown.remaining_time > 0 || drawing)
-                    // true
+                    // !questionReady && (countdown.remaining_time > 0 || drawing)
+                    true
                   }
                   duration={500}
-                  className="position-absolute align-items-center justify-content-center d-flex"
+                  className="position-relative align-items-center justify-content-center d-flex"
                   style={{
                     left: '0px',
                     right: '0px',
@@ -456,12 +458,12 @@ const GamePage = () => {
                   <Countdown
                     secondsLeft={countdown.remaining_time}
                     secondsTotal={drawing ? 1 : countdown.total_time}
-                    title={drawing ? 'Drawing a question' : 'Countdown'}
+                    title={null}
                     showProgressBar={true}
                   />
                 </FadeInOut>
               </Col>
-              <Col xs={12} sm={12} lg={12}>
+              <Col xs={12} sm={12} lg={4}>
                 <Sidebar
                   players={players}
                   playerId={user.id}
@@ -546,7 +548,6 @@ const GamePage = () => {
                         options={difficultyOptions}
                         value={difficultyOptions[difficulty - 1]}
                         onChange={handleDifficultyChange}
-                        isSearchable
                       />
                       <Select
                         className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"

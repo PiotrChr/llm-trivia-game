@@ -34,7 +34,8 @@ flask_secret_key = prompt_for_data("Enter Flask application secret key: (default
 open_ai_org_id = prompt_for_data("Enter OpenAI organization ID (default xxx): ", "xxx")
 model = prompt_for_data("Enter OpenAI LLM Model Type (default gpt-3.5-turbo): ", "gpt-3.5-turbo")
 temperature = prompt_for_data("Enter LLM Model inference temperature (default 0.9): ", 0.9)
-
+backup_dir = prompt_for_data("Enter backup directory (default /tmp): ", "/tmp")
+project_dir = prompt_for_data("Enter project directory (default /tmp): ", "/tmp")
 
 # Write backend .env data
 write_to_env_file(".backend.env", {
