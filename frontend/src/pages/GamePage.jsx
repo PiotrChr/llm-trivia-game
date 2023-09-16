@@ -35,6 +35,7 @@ import ResultBadge from '../components/Game/ResultBadge';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 import { useModal } from '../components/shared/Modal/ModalContext';
 import ReportQuestion from '../components/Game/ReportQuestion';
+import Lifelines from '../components/Game/LifeLines';
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -400,7 +401,7 @@ const GamePage = () => {
             <FadeInOut
               show={displayResult !== null}
               duration={500}
-              className="position-absolute z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
+              className="position-relative z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
               style={{
                 left: '0px',
                 right: '0px',
@@ -410,10 +411,11 @@ const GamePage = () => {
               <ResultBadge won={displayResult} />
             </FadeInOut>
             <Card.Body
-              className="row z-index-1"
+              className="row z-index-1 d-flex flex-sm-column flex-lg-row"
               style={{ borderBottom: '1px solid #eee' }}
             >
-              <Col xs={8} className="position-relative d-flex">
+              <Col sm={12} xs={12} lg={8} className="position-relative d-flex">
+                <Lifelines show={questionReady} />
                 <FadeInOut
                   show={questionReady}
                   duration={500}
@@ -441,11 +443,11 @@ const GamePage = () => {
                 </FadeInOut>
                 <FadeInOut
                   show={
-                    !questionReady && (countdown.remaining_time > 0 || drawing)
-                    // true
+                    // !questionReady && (countdown.remaining_time > 0 || drawing)
+                    true
                   }
                   duration={500}
-                  className="position-absolute align-items-center justify-content-center d-flex"
+                  className="position-relative align-items-center justify-content-center d-flex"
                   style={{
                     left: '0px',
                     right: '0px',
@@ -456,12 +458,12 @@ const GamePage = () => {
                   <Countdown
                     secondsLeft={countdown.remaining_time}
                     secondsTotal={drawing ? 1 : countdown.total_time}
-                    title={drawing ? 'Drawing a question' : 'Countdown'}
+                    title={null}
                     showProgressBar={true}
                   />
                 </FadeInOut>
               </Col>
-              <Col xs={4}>
+              <Col xs={12} sm={12} lg={4}>
                 <Sidebar
                   players={players}
                   playerId={user.id}
@@ -473,7 +475,7 @@ const GamePage = () => {
             </Card.Body>
             <Card.Footer>
               <Row>
-                <Col size={12} className="d-flex">
+                <Col size={12} className="d-flex flex-sm-column flex-lg-row">
                   <Button
                     variant="none"
                     onClick={handleReady}
@@ -483,7 +485,7 @@ const GamePage = () => {
                         'btn-success': isReady(user),
                         'btn-outline-success': !isReady(user)
                       },
-                      'btn-sm btn-round mb-0 me-2'
+                      'btn-sm btn-round mb-0 me-2 mt-sm-2 mt-lg-0'
                     )}
                   >
                     Ready
@@ -491,7 +493,7 @@ const GamePage = () => {
                   {questionReady && (
                     <Button
                       variant="danger"
-                      className="btn-sm btn-round mb-0 me-2"
+                      className="btn-sm btn-round mb-0 me-2 mt-sm-2 mt-lg-0"
                       onClick={() =>
                         showModal(
                           <ReportQuestion
@@ -507,20 +509,20 @@ const GamePage = () => {
                   )}
                   {isHost && !gameStarted && allReady && (
                     <Button
-                      className="btn-sm btn-round mb-0 me-3"
+                      className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0"
                       onClick={handleStartGame}
                     >
                       Start Game
                     </Button>
                   )}
                   {gameStarted && isHost && (
-                    <Button className="btn-sm btn-round mb-0 me-3">
+                    <Button className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0">
                       Stop Game
                     </Button>
                   )}
                   {gameStarted && allAnswered && !autoStart && (
                     <Button
-                      className="btn-sm btn-round mb-0 me-3"
+                      className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0"
                       onClick={handleNextQuestionClick}
                     >
                       Next question
@@ -530,7 +532,7 @@ const GamePage = () => {
                   {isHost && (
                     <>
                       <Select
-                        className="mx-2 flex-grow-1"
+                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
                         options={categories}
                         value={{ label: category.name, value: category.id }}
                         onChange={handleCategoryChange}
@@ -542,14 +544,13 @@ const GamePage = () => {
                         isClearable
                       />
                       <Select
-                        className="mx-2 flex-grow-1"
+                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
                         options={difficultyOptions}
                         value={difficultyOptions[difficulty - 1]}
                         onChange={handleDifficultyChange}
-                        isSearchable
                       />
                       <Select
-                        className="mx-2 flex-grow-1"
+                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
                         options={languages}
                         value={{
                           label: language.name,
