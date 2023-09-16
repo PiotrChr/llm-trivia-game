@@ -14,6 +14,7 @@
 - [!] **Core** Fix JSON instead of retrying fetching new question set
 - [ ] **Visuals:** Fix fade-in-out in GamePage
 - [ ] **Visuals:** Wizzard for a game creation (as simple as possible)
+- [ ] **Visuals:** Add icons pack (Material || Font Awesome || ...)
 - [!] **Core:** Create a question hint during inference (drawing)
 - [!] **Core:** Script to automatically fix questions based on reporting
 - [!] **Extra:** Refactor/cleanup
