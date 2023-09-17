@@ -58,55 +58,55 @@ export const checkAuth = async () => {
 // Players
 
 export const getUsers = async () => {
-  const response = await api.get(`${BASE_URL}/player`);
+  const response = await api.get(`${BASE_URL}/players`);
   return response;
 };
 
 export const getUser = async (id) => {
-  const response = await api.get(`${BASE_URL}/player/${id}`);
+  const response = await api.get(`${BASE_URL}/players/${id}`);
   return response;
 };
 
 export const getProfileStats = async () => {
-  const response = await api.get(`${BASE_URL}/player/stats`);
+  const response = await api.get(`${BASE_URL}/players/stats`);
   return response;
 };
 
 export const getFriends = async () => {
-  const response = await api.get(`${BASE_URL}/player/friends`);
+  const response = await api.get(`${BASE_URL}/players/friends`);
   return response;
 };
 
 export const inviteFriend = async (playerId) => {
-  const response = await api.post(`${BASE_URL}/player/friends/invite`, {
+  const response = await api.post(`${BASE_URL}/players/friends/invite`, {
     playerId
   });
   return response;
 };
 
 export const acceptFriend = async (playerId) => {
-  const response = await api.post(`${BASE_URL}/player/friends/accept`, {
+  const response = await api.post(`${BASE_URL}/players/friends/accept`, {
     playerId
   });
   return response;
 };
 
 export const declineFriend = async (playerId) => {
-  const response = await api.post(`${BASE_URL}/player/friends/decline`, {
+  const response = await api.post(`${BASE_URL}/players/friends/decline`, {
     playerId
   });
   return response;
 };
 
 export const removeFriend = async (userId) => {
-  const response = await api.delete(`${BASE_URL}/player/friends`, {
+  const response = await api.delete(`${BASE_URL}/players/friends`, {
     userId
   });
   return response;
 };
 
 export const searchUserByString = async (searchString) => {
-  const response = await api.get(`${BASE_URL}/player/search`, {
+  const response = await api.get(`${BASE_URL}/players/friends/search`, {
     searchString
   });
   return response;

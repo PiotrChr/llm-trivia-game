@@ -13,23 +13,41 @@ import {
 
 function FriendsPage() {
   const [friends, setFriends] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([
+    { value: 'chocolate', label: 'Chocolate' }
+  ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   //   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const result = await getFriends();
+      console.log(result);
+      setFriends(result.data);
+    };
+
+    fetchFriends();
+  }, []);
+
   const handleSearchChange = async (inputValue) => {
+    console.log('inputValue', inputValue);
+    console.log('length', inputValue.length);
+
     if (inputValue.length >= 3) {
       try {
-        const matchedUsers = await searchUserByString(inputValue);
-        setUsers(matchedUsers);
+        const result = await searchUserByString(inputValue);
+        console.log(result);
+        setUsers(result.friends);
       } catch (err) {
         console.log(err);
       }
     } else {
-      setUsers([]);
+      setUsers([{ value: 'chocolate', label: 'Chocolate' }]);
+      console.log('Too short');
     }
-    return inputValue;
+    return 'inputValue';
   };
 
   const handleRemove = async (friendId) => {
@@ -82,6 +100,7 @@ function FriendsPage() {
                 placeholder="Add a friend..."
                 onChange={() => {}}
                 onInputChange={handleSearchChange}
+                value={selectedOption}
                 isSearchable
               />
               {isLoading && <p>Loading...</p>}

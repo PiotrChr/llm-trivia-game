@@ -898,6 +898,37 @@ class TriviaRepository:
             return False
 
     @staticmethod
+    def search_player_by_string(search_string):
+        query = """
+            SELECT * FROM players WHERE name LIKE ?
+        """
+        params = (f"%{search_string}%",)
+        try:
+            Database.get_cursor().execute(query, params)
+            players = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(player) for player in players]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
+
+    @staticmethod
+    def get_player_invitations(player_id):
+        query = """
+            SELECT players.id, players.name
+            FROM friend_invitations
+            JOIN players ON friend_invitations.player_id = players.id
+            WHERE friend_invitations.friend_id = ?
+        """
+        params = (player_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            friends = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(friend) for friend in friends]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table friends: {error}")
+            return None
+
+    @staticmethod
     def get_notifications(notification_id, player_id):
         pass
 
