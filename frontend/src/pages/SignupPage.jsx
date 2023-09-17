@@ -12,7 +12,7 @@ function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [validated, setValidated] = useState(false); // add validated state
+  const [validated, setValidated] = useState(false);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function SignupPage() {
       }
     }
 
-    setValidated(true); // set validated to true after checking form validity
+    setValidated(true);
   };
 
   return (
@@ -88,6 +88,7 @@ function SignupPage() {
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
+                      minLength={3}
                     />
                     <Form.Control.Feedback type="invalid">
                       Please choose a username.

@@ -25,6 +25,13 @@ def create_tables():
     run_sql_script('backend/db/queries/schema/answer_translations.sql')
     run_sql_script('backend/db/queries/schema/report.sql')
     run_sql_script('backend/db/queries/schema/report_types.sql')
+    run_sql_script('backend/db/queries/schema/lifelines.sql')
+    run_sql_script('backend/db/queries/schema/lifeline_types.sql')
+    run_sql_script('backend/db/queries/schema/friends.sql')
+    run_sql_script('backend/db/queries/schema/friend_invitations.sql')
+    run_sql_script('backend/db/queries/schema/game_invitations.sql')
+    run_sql_script('backend/db/queries/schema/notifications.sql')
+    run_sql_script('backend/db/queries/schema/notification_types.sql')
 
 if __name__ == "__main__":
     create_tables()

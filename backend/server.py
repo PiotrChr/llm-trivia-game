@@ -15,6 +15,7 @@ from app.route.question_routes import question_routes
 from app.route.auth_routes import auth_routes
 from app.route.language_routes import language_routes
 from app.route.category_routes import category_routes
+from app.route.notifications_routes import notifications_routes
 from app.route.game_socket import register_handlers
 from utils.Database import Database
 
@@ -26,7 +27,7 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
 jwt = JWTManager(app)
-CORS(app, origins=[os.getenv('FRONTEND_HOST')], supports_credentials=True)
+CORS(app, origins=[os.getenv('FRONTEND_HOST', '*')], supports_credentials=True)
 socketio = SocketIO(
     app,
     async_mode='gevent',
@@ -51,6 +52,7 @@ app.register_blueprint(question_routes, url_prefix='/api/questions')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(language_routes, url_prefix='/api/language')
 app.register_blueprint(category_routes, url_prefix='/api/category')
+app.register_blueprint(notifications_routes, url_prefix='/api/notifications')
 
 
 if __name__ == '__main__':

@@ -140,7 +140,10 @@ const GamePage = () => {
 
   const handleStartGame = useCallback(() => {
     if (!allPresent) {
-      showAlert('Not all players are present!', {});
+      showAlert('Warning', 'Not all players are present!', null, {
+        variant: 'warning',
+        position: 'bottom'
+      });
       return;
     }
 
@@ -411,11 +414,16 @@ const GamePage = () => {
               <ResultBadge won={displayResult} />
             </FadeInOut>
             <Card.Body
-              className="row z-index-1 d-flex flex-sm-column flex-lg-row"
+              className="row z-index-1 d-flex flex-column flex-lg-row"
               style={{ borderBottom: '1px solid #eee' }}
             >
-              <Col sm={12} xs={12} lg={8} className="position-relative d-flex">
-                <Lifelines show={questionReady} />
+              <Lifelines show={questionReady} />
+              <Col
+                sm={12}
+                xs={12}
+                lg={8}
+                className="position-relative d-flex justify-content-center"
+              >
                 <FadeInOut
                   show={questionReady}
                   duration={500}
@@ -443,8 +451,8 @@ const GamePage = () => {
                 </FadeInOut>
                 <FadeInOut
                   show={
-                    // !questionReady && (countdown.remaining_time > 0 || drawing)
-                    true
+                    !questionReady && (countdown.remaining_time > 0 || drawing)
+                    // true
                   }
                   duration={500}
                   className="position-relative align-items-center justify-content-center d-flex"
@@ -463,7 +471,7 @@ const GamePage = () => {
                   />
                 </FadeInOut>
               </Col>
-              <Col xs={12} sm={12} lg={4}>
+              <Col xs={12} sm={12} lg={4} className="mt-5 mt-lg-0">
                 <Sidebar
                   players={players}
                   playerId={user.id}
@@ -475,7 +483,7 @@ const GamePage = () => {
             </Card.Body>
             <Card.Footer>
               <Row>
-                <Col size={12} className="d-flex flex-sm-column flex-lg-row">
+                <Col size={12} className="d-flex flex-column flex-lg-row">
                   <Button
                     variant="none"
                     onClick={handleReady}
@@ -485,7 +493,7 @@ const GamePage = () => {
                         'btn-success': isReady(user),
                         'btn-outline-success': !isReady(user)
                       },
-                      'btn-sm btn-round mb-0 me-2 mt-sm-2 mt-lg-0'
+                      'btn-sm btn-round mb-0 me-2 mt-2 mt-lg-0'
                     )}
                   >
                     Ready
@@ -493,7 +501,7 @@ const GamePage = () => {
                   {questionReady && (
                     <Button
                       variant="danger"
-                      className="btn-sm btn-round mb-0 me-2 mt-sm-2 mt-lg-0"
+                      className="btn-sm btn-round mb-0 me-2 mt-2 mt-lg-0"
                       onClick={() =>
                         showModal(
                           <ReportQuestion
@@ -509,20 +517,20 @@ const GamePage = () => {
                   )}
                   {isHost && !gameStarted && allReady && (
                     <Button
-                      className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0"
+                      className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
                       onClick={handleStartGame}
                     >
                       Start Game
                     </Button>
                   )}
                   {gameStarted && isHost && (
-                    <Button className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0">
+                    <Button className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0">
                       Stop Game
                     </Button>
                   )}
                   {gameStarted && allAnswered && !autoStart && (
                     <Button
-                      className="btn-sm btn-round mb-0 me-3 mt-sm-2 mt-lg-0"
+                      className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
                       onClick={handleNextQuestionClick}
                     >
                       Next question
@@ -532,7 +540,7 @@ const GamePage = () => {
                   {isHost && (
                     <>
                       <Select
-                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
+                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
                         options={categories}
                         value={{ label: category.name, value: category.id }}
                         onChange={handleCategoryChange}
@@ -544,13 +552,13 @@ const GamePage = () => {
                         isClearable
                       />
                       <Select
-                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
+                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
                         options={difficultyOptions}
                         value={difficultyOptions[difficulty - 1]}
                         onChange={handleDifficultyChange}
                       />
                       <Select
-                        className="mx-2 flex-grow-1 mt-sm-2 mt-lg-0"
+                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
                         options={languages}
                         value={{
                           label: language.name,

@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
-const Collapse = ({
-  title,
-  children,
-  defaultCollapsed = true,
-  forceCollapse
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+const Collapse = ({ title, children, forceCollapse, showChevron }) => {
+  const [isCollapsed, setIsCollapsed] = useState(forceCollapse);
 
   useEffect(() => {
     if (forceCollapse !== undefined) {
@@ -17,11 +12,11 @@ const Collapse = ({
 
   return (
     <div>
-      {isCollapsed ? (
+      {isCollapsed && showChevron ? (
         <Button
           variant="outline-secondary"
           className="d-flex justify-content-between w-100"
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={() => setIsCollapsed(false)}
         >
           {title}
           <i className="bi bi-chevron-down"></i>
@@ -30,14 +25,16 @@ const Collapse = ({
         <div className="mt-2 position-relative">
           {children}
 
-          <Button
-            variant="outline-secondary"
-            className="position-absolute top-0 end-0 m-2 p-1"
-            onClick={() => setIsCollapsed(true)}
-            aria-label="Collapse"
-          >
-            <i className="bi bi-x-lg"></i>
-          </Button>
+          {showChevron && (
+            <Button
+              variant="outline-secondary"
+              className="position-absolute btn-round top-0 end-0 m-2 p-1"
+              onClick={() => setIsCollapsed(true)}
+              aria-label="Collapse"
+            >
+              <i className="bi bi-chevron-up"></i>
+            </Button>
+          )}
         </div>
       )}
     </div>

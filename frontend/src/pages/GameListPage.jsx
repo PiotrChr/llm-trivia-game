@@ -39,6 +39,42 @@ function GameListPage() {
     return game.players.some((player) => player.player_id === user.id);
   };
 
+  const BtnConnect = ({ game }) => {
+    if (hasJoined(game)) {
+      return (
+        <Button
+          variant="outline-primary"
+          onClick={() => handleConnect(game.id)}
+          className="btn-round btn-sm mb-0 mt-2 mt-lg-0"
+        >
+          Connect
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          variant="outline-success"
+          onClick={() => handleJoin(game.id)}
+          className="btn-round btn-sm mb-0 mt-2 mt-lg-0"
+        >
+          Join
+        </Button>
+      );
+    }
+  };
+
+  const BtnViewStats = ({ game }) => {
+    return (
+      <Button
+        variant="outline-secondary"
+        onClick={() => handleViewStats(game.id)}
+        className="btn-round btn-sm mb-0 mt-2 mt-lg-0"
+      >
+        View Stats
+      </Button>
+    );
+  };
+
   return (
     <section className="min-vh-80 mb-8">
       <div
@@ -57,7 +93,7 @@ function GameListPage() {
           <Col size="12">
             <table className="table align-items-center mb-0">
               <thead>
-                <tr>
+                <tr className="d-none d-md-table-row">
                   <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
                     Game ID
                   </th>
@@ -78,22 +114,18 @@ function GameListPage() {
                 {games.map((game) => {
                   return (
                     <tr key={game.id}>
-                      <td>
-                        <h6 className="mb-0 text-xs"> {game.id} </h6>
+                      <td className="d-none d-md-table-cell">
+                        <h6 className="mb-0 text-xs">{game.id}</h6>
                       </td>
-                      <td className="align-middle text-center text-sm">
+                      <td className="align-middle text-center text-sm d-none d-md-table-cell">
                         <h6 className="mb-0 text-xs">
-                          {' '}
-                          {game.current_category.name}{' '}
+                          {game.current_category.name}
                         </h6>
                       </td>
-                      <td className="align-middle text-center text-sm">
-                        <h6 className="mb-0 text-xs">
-                          {' '}
-                          {game.players.length}{' '}
-                        </h6>
+                      <td className="align-middle text-center text-sm d-none d-md-table-cell">
+                        <h6 className="mb-0 text-xs">{game.players.length}</h6>
                       </td>
-                      <td className="align-middle text-center text-sm">
+                      <td className="align-middle text-center text-sm d-none d-md-table-cell">
                         {game.time_start && !game.time_end && (
                           <span className="badge badge-sm bg-gradient-warning">
                             in progress
@@ -110,33 +142,38 @@ function GameListPage() {
                           </span>
                         )}
                       </td>
-                      <td className="align-middle text-center text-sm">
-                        <Button
-                          variant="outline-secondary"
-                          className="btn-round mb-0"
-                          onClick={() => handleViewStats(game.id)}
-                        >
-                          View Stats
-                        </Button>
+                      <td className="align-middle text-center text-sm d-none d-md-table-cell">
+                        <BtnViewStats game={game} />
                       </td>
-                      <td className="align-middle text-center text-sm">
-                        {hasJoined(game) ? (
-                          <Button
-                            variant="outline-primary"
-                            onClick={() => handleConnect(game.id)}
-                            className="btn-round btn-sm mb-0"
-                          >
-                            Connect
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="outline-success"
-                            onClick={() => handleJoin(game.id)}
-                            className="btn-round btn-sm mb-0"
-                          >
-                            Join
-                          </Button>
+                      <td className="align-middle text-center text-sm d-none d-md-table-cell">
+                        <BtnConnect game={game} />
+                      </td>
+                      <td className="p-1 border-0 d-md-none">
+                        <strong>Game ID: </strong>
+                        {game.id} <br />
+                        <strong>Category: </strong>
+                        {game.current_category.name} <br />
+                        <strong>Players: </strong>
+                        {game.players.length} <br />
+                        <strong>Status: </strong>
+                        {game.time_start && !game.time_end && (
+                          <span className="badge badge-sm bg-gradient-warning">
+                            in progress
+                          </span>
                         )}
+                        {game.time_start && game.time_end && (
+                          <span className="badge badge-sm bg-gradient-success">
+                            finished
+                          </span>
+                        )}
+                        {!game.time_start && !game.time_end && (
+                          <span className="badge badge-sm bg-gradient-primary">
+                            waiting
+                          </span>
+                        )}
+                        <br />
+                        <BtnViewStats game={game} />
+                        <BtnConnect game={game} />
                       </td>
                     </tr>
                   );

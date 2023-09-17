@@ -817,5 +817,98 @@ class TriviaRepository:
         
 
     @staticmethod
+    def get_player_friends(player_id):
+        query = """
+            SELECT players.id, players.name
+            FROM friends
+            JOIN players ON friends.friend_id = players.id
+            WHERE friends.player_id = ?
+        """
+        params = (player_id,)
+        try:
+            Database.get_cursor().execute(query, params)
+            friends = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(friend) for friend in friends]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table friends: {error}")
+            return None 
+
+    @staticmethod
+    def invite_friend(player_id, friend_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            friend_sql = """
+                INSERT INTO friend_invitations (player_id, friend_id)
+                VALUES (?, ?)
+            """
+            Database.insert(friend_sql, (player_id, friend_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def decline_invite(player_id, friend_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (player_id, friend_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def accept_invite(player_id, friend_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (friend_id, player_id), False)
+
+            friend_sql = """
+                INSERT INTO friends (player_id, friend_id)
+                VALUES (?, ?)
+            """
+            Database.insert(friend_sql, (player_id, friend_id), False)
+
+            friend_sql = """
+                INSERT INTO friends (player_id, friend_id)
+                VALUES (?, ?)
+            """
+            Database.insert(friend_sql, (friend_id, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def get_notifications(notification_id, player_id):
+        pass
+
+    @staticmethod
+    def mark_notification_as_read(notification_id, player_id):
+        pass
+
+    @staticmethod
+    def get_notification_types():
+        pass
+
+    @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)
