@@ -50,14 +50,14 @@ def get_player_friends():
 def invite_friend():
     player_id = get_jwt_identity()['id']
     data = request.get_json()
-    TriviaRepository.invite_friend(player_id, data['friend_id'])
+    TriviaRepository.invite_friend(player_id, data['playerId'])
     return jsonify(success=True)
 
 @player_routes.route('/friends/search', methods=['GET'])
 @jwt_required()
 def search_player():
     player_id = get_jwt_identity()['id']
-    search = request.args.get('search')
+    search = request.args.get('string')
     players = TriviaRepository.search_player_by_string(search)
     return jsonify(players=players)
 
@@ -65,7 +65,7 @@ def search_player():
 @jwt_required()
 def get_player_friend_invitations():
     player_id = get_jwt_identity()['id']
-    friend_invitations = TriviaRepository.get_player_friend_invitations(player_id)
+    friend_invitations = TriviaRepository.get_player_friends_invitations(player_id)
     return jsonify(friend_invitations=friend_invitations)
 
 @player_routes.route('/friends/accept', methods=['POST'])

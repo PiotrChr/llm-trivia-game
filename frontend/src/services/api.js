@@ -77,6 +77,11 @@ export const getFriends = async () => {
   return response;
 };
 
+export const getInvitations = async () => {
+  const response = await api.get(`${BASE_URL}/players/friends/invitations`);
+  return response;
+};
+
 export const inviteFriend = async (playerId) => {
   const response = await api.post(`${BASE_URL}/players/friends/invite`, {
     playerId
@@ -107,7 +112,9 @@ export const removeFriend = async (userId) => {
 
 export const searchUserByString = async (searchString) => {
   const response = await api.get(`${BASE_URL}/players/friends/search`, {
-    searchString
+    params: {
+      string: searchString
+    }
   });
   return response;
 };

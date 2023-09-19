@@ -1,4 +1,4 @@
-INSERT INTO notification_types (id, type_name, description)
+INSERT INTO notification_types (id, name, description)
 VALUES 
     (1, 'Player Invited', 'You''ve been invited to join a game by [Player Name].'),
     (2, 'Game Start', 'Your game in [Category Name] is starting!'),

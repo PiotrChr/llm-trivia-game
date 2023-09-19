@@ -6,9 +6,20 @@ const AlertContext = createContext();
 const AlertProvider = ({ children }) => {
   const [alert, setAlert] = useState(null);
 
-  const showAlert = useCallback((title, message, details, options) => {
-    setAlert({ message, title, details, ...options });
-  }, []);
+  const showAlert = useCallback(
+    (
+      title,
+      message,
+      details = null,
+      options = {
+        variant: 'danger',
+        position: 'bottom'
+      }
+    ) => {
+      setAlert({ message, title, details, ...options });
+    },
+    []
+  );
 
   const hideAlert = useCallback(() => {
     setAlert(null);

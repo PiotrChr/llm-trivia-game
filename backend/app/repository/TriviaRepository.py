@@ -832,7 +832,49 @@ class TriviaRepository:
         except sqlite3.Error as error:
             print(f"Failed to read data from table friends: {error}")
             return None 
+        
+    @staticmethod
+    def get_player_friends_invitations(player_id):
+        query = """
+            -- Fetch invitations sent by the player
+            SELECT 
+                players.id AS player_id, 
+                players.name, 
+                'sent' AS type
+            FROM friend_invitations
+            JOIN players ON friend_invitations.friend_id = players.id
+            WHERE friend_invitations.player_id = ?
 
+            UNION
+
+            -- Fetch invitations received by the player
+            SELECT 
+                players.id AS player_id, 
+                players.name, 
+                'received' AS type
+            FROM friend_invitations
+            JOIN players ON friend_invitations.player_id = players.id
+            WHERE friend_invitations.friend_id = ?
+        """
+        params = (player_id, player_id)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            result = Database.get_cursor().fetchall()
+            
+            invitations = dict()
+            invitations['sent'] = []
+            invitations['received'] = []
+
+            for invitation in result:
+                invitation = TriviaRepository.row_to_dict(invitation)
+                invitations[invitation['type']].append(invitation)
+
+            return invitations
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table friend_invitations: {error}")
+            return None
+        
     @staticmethod
     def invite_friend(player_id, friend_id):
         try:
@@ -900,7 +942,7 @@ class TriviaRepository:
     @staticmethod
     def search_player_by_string(search_string):
         query = """
-            SELECT * FROM players WHERE name LIKE ?
+            SELECT email, id, name FROM players WHERE name LIKE ?
         """
         params = (f"%{search_string}%",)
         try:
@@ -909,23 +951,6 @@ class TriviaRepository:
             return [TriviaRepository.row_to_dict(player) for player in players]
         except sqlite3.Error as error:
             print(f"Failed to read data from table players: {error}")
-            return None
-
-    @staticmethod
-    def get_player_invitations(player_id):
-        query = """
-            SELECT players.id, players.name
-            FROM friend_invitations
-            JOIN players ON friend_invitations.player_id = players.id
-            WHERE friend_invitations.friend_id = ?
-        """
-        params = (player_id,)
-        try:
-            Database.get_cursor().execute(query, params)
-            friends = Database.get_cursor().fetchall()
-            return [TriviaRepository.row_to_dict(friend) for friend in friends]
-        except sqlite3.Error as error:
-            print(f"Failed to read data from table friends: {error}")
             return None
 
     @staticmethod

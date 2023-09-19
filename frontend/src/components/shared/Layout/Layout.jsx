@@ -91,7 +91,7 @@ const Layout = ({ children }) => {
 
                           <Dropdown.Menu>
                             <Dropdown.Item href="/game/list">
-                              <i className="bi-person-fill-add me-2"></i> List
+                              <i className="bi-list-ul me-2"></i> List
                             </Dropdown.Item>
                             <Dropdown.Item href="/game/join">
                               <i className="bi-person-fill-add me-2"></i> Join
@@ -116,7 +116,7 @@ const Layout = ({ children }) => {
                               <i className="bi-person-fill me-2"></i> Profile
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/friends')}>
-                              <i className="bi-person-fill me-2"></i> Friends
+                              <i className="bi-people-fill me-2"></i> Friends
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/logout')}>
                               <i className="bi-door-closed me-2"></i> Logout
