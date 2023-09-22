@@ -16,6 +16,8 @@ import ProfilePage from './pages/ProfilePage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import AboutGamePage from './pages/AboutGamePage';
 import AboutAuthorPage from './pages/AboutAuthorPage';
+import FriendsPage from './pages/FriendsPage';
+import NotificationsPage from './pages/NotificationsPage';
 import Layout from './components/shared/Layout/Layout';
 import { PrivateRoute, AuthProvider } from './routing/AuthProvider';
 import LayoutProvider from './components/shared/Layout/LayoutProvider';
@@ -40,6 +42,24 @@ function App() {
                 element={
                   <PrivateRoute>
                     <ProfilePage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/friends"
+                exact
+                element={
+                  <PrivateRoute>
+                    <FriendsPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/notifications"
+                exact
+                element={
+                  <PrivateRoute>
+                    <NotificationsPage />
                   </PrivateRoute>
                 }
               />

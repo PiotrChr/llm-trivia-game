@@ -1,6 +1,17 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
+import {
+  Container,
+  Navbar,
+  Nav,
+  Dropdown,
+  Row,
+  Col,
+  Button
+} from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+
 import { useAuth } from '../../../routing/AuthProvider';
 
 const Layout = ({ children }) => {
@@ -57,6 +68,18 @@ const Layout = ({ children }) => {
                   <Nav>
                     {user ? (
                       <>
+                        <Nav.Item
+                          className=""
+                          onClick={() => navigate('/notifications')}
+                        >
+                          <Button
+                            className="btn-sm btn-icon-only mb-0 mt-1 me-2 btn-round"
+                            variant="primary"
+                          >
+                            <FontAwesomeIcon icon={faBell} />
+                          </Button>
+                        </Nav.Item>
+
                         <Dropdown className="me-5">
                           <Dropdown.Toggle
                             variant="none"
@@ -68,7 +91,7 @@ const Layout = ({ children }) => {
 
                           <Dropdown.Menu>
                             <Dropdown.Item href="/game/list">
-                              <i className="bi-person-fill-add me-2"></i> List
+                              <i className="bi-list-ul me-2"></i> List
                             </Dropdown.Item>
                             <Dropdown.Item href="/game/join">
                               <i className="bi-person-fill-add me-2"></i> Join
@@ -91,6 +114,9 @@ const Layout = ({ children }) => {
                           <Dropdown.Menu>
                             <Dropdown.Item onClick={() => navigate('/profile')}>
                               <i className="bi-person-fill me-2"></i> Profile
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/friends')}>
+                              <i className="bi-people-fill me-2"></i> Friends
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/logout')}>
                               <i className="bi-door-closed me-2"></i> Logout

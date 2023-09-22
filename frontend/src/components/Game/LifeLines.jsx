@@ -1,3 +1,4 @@
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBalanceScale,
@@ -11,24 +12,40 @@ const Lifelines = ({ show, lifelines }) => {
     return null;
   }
 
+  const handle5050 = () => {
+    console.log('5050');
+  };
+
+  const handleRemoveOne = () => {
+    console.log('remove one');
+  };
+
+  const handleHint = () => {
+    console.log('hint');
+  };
+
+  const handleStatsLookup = () => {
+    console.log('stats lookup');
+  };
+
   return (
-    <>
-      <button className="lifeline-btn" onClick={your5050Function}>
+    <div className="position-absolute d-flex lifelines justify-content-center">
+      <button className="lifeline-btn" onClick={handle5050}>
         <FontAwesomeIcon icon={faBalanceScale} />
       </button>
 
-      <button className="lifeline-btn" onClick={yourRemoveOneFunction}>
-        <FontAwesomeIcon icon={faTimes} />
+      <button className="lifeline-btn" onClick={handleRemoveOne}>
+        <strong>-1</strong>
       </button>
 
-      <button className="lifeline-btn" onClick={yourHintFunction}>
+      <button className="lifeline-btn" onClick={handleHint}>
         <FontAwesomeIcon icon={faLightbulb} />
       </button>
 
-      <button className="lifeline-btn" onClick={yourStatisticsLookupFunction}>
+      <button className="lifeline-btn" onClick={handleStatsLookup}>
         <FontAwesomeIcon icon={faChartBar} />
       </button>
-    </>
+    </div>
   );
 };
 

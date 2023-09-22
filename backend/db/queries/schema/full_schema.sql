@@ -148,3 +148,43 @@ CREATE TABLE player_lifelines (
     FOREIGN KEY(game_id) REFERENCES games(id)
     FOREIGN KEY(question_id) REFERENCES questions(id)
 );
+
+CREATE TABLE friends (
+    player_id INTEGER,
+    friend_id INTEGER,
+    PRIMARY KEY(player_id, friend_id),
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(friend_id) REFERENCES players(id)
+);
+
+CREATE TABLE friend_invitations (
+    player_id INTEGER,
+    friend_id INTEGER,
+    PRIMARY KEY(player_id, friend_id),
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(friend_id) REFERENCES players(id)
+);
+
+CREATE TABLE game_invitations (
+    player_id INTEGER,
+    game_id INTEGER,
+    PRIMARY KEY(player_id, game_id),
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(game_id) REFERENCES games(id)
+);
+
+CREATE TABLE notification_types (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE notifications (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    notification_type INTEGER NOT NULL,
+    message TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(notification_type) REFERENCES notification_types(id)
+);

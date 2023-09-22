@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Button } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import ChatWindow from './ChatWindow';
 import Collapse from '../shared/Collapse';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
@@ -8,9 +8,13 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => {
   const [shouldCollapse, setShouldCollapse] = useState(
     window.innerWidth <= 768
   );
+  const [shouldShowChevron, setShouldShowChevron] = useState(
+    window.innerWidth <= 768
+  );
 
   const handleWindowResize = () => {
     setShouldCollapse(window.innerWidth <= 768);
+    setShouldShowChevron(window.innerWidth <= 768);
   };
 
   useEffect(() => {
@@ -24,7 +28,11 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => {
   return (
     <div className="sidebar">
       <Row>
-        <Collapse title="Players" forceCollapse={shouldCollapse}>
+        <Collapse
+          title="Players"
+          forceCollapse={shouldCollapse}
+          showChevron={shouldShowChevron}
+        >
           <div className="table-responsive">
             <table className="table align-items-center mb-0">
               <thead>
@@ -79,7 +87,11 @@ const Sidebar = ({ players, messages, sendMessage, playerId }) => {
         </Collapse>
       </Row>
       <Row>
-        <Collapse title="Chat" forceCollapse={shouldCollapse}>
+        <Collapse
+          title="Chat"
+          forceCollapse={shouldCollapse}
+          showChevron={shouldShowChevron}
+        >
           <ChatWindow
             sendMessage={sendMessage}
             messages={messages}

@@ -14,7 +14,7 @@ const Countdown = ({ secondsLeft, title, showProgressBar, secondsTotal }) => {
         >
           {({ remainingTime }) => (
             <>
-              <p>{title}</p>
+              {title && <p>{title}</p>}
               <p>{remainingTime}</p>
             </>
           )}

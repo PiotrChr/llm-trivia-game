@@ -11,6 +11,8 @@ const API_PORT =
 const BASE_URL = `${API_HOST}${API_PORT}/api`;
 /* eslint-enable no-undef */
 
+console.log(BASE_URL);
+
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true
@@ -53,20 +55,67 @@ export const checkAuth = async () => {
   return response;
 };
 
-// Users
+// Players
 
 export const getUsers = async () => {
-  const response = await api.get(`${BASE_URL}/player`);
+  const response = await api.get(`${BASE_URL}/players`);
   return response;
 };
 
 export const getUser = async (id) => {
-  const response = await api.get(`${BASE_URL}/player/${id}`);
+  const response = await api.get(`${BASE_URL}/players/${id}`);
   return response;
 };
 
 export const getProfileStats = async () => {
-  const response = await api.get(`${BASE_URL}/player/stats`);
+  const response = await api.get(`${BASE_URL}/players/stats`);
+  return response;
+};
+
+export const getFriends = async () => {
+  const response = await api.get(`${BASE_URL}/players/friends`);
+  return response;
+};
+
+export const getInvitations = async () => {
+  const response = await api.get(`${BASE_URL}/players/friends/invitations`);
+  return response;
+};
+
+export const inviteFriend = async (playerId) => {
+  const response = await api.post(`${BASE_URL}/players/friends/invite`, {
+    playerId
+  });
+  return response;
+};
+
+export const acceptFriend = async (playerId) => {
+  const response = await api.post(`${BASE_URL}/players/friends/accept`, {
+    playerId
+  });
+  return response;
+};
+
+export const declineFriend = async (playerId) => {
+  const response = await api.post(`${BASE_URL}/players/friends/decline`, {
+    playerId
+  });
+  return response;
+};
+
+export const removeFriend = async (userId) => {
+  const response = await api.delete(`${BASE_URL}/players/friends`, {
+    userId
+  });
+  return response;
+};
+
+export const searchUserByString = async (searchString) => {
+  const response = await api.get(`${BASE_URL}/players/friends/search`, {
+    params: {
+      string: searchString
+    }
+  });
   return response;
 };
 
@@ -160,5 +209,19 @@ export const reportQuestion = async (questionId, reportData) => {
     }
   );
 
+  return response;
+};
+
+// Notifications
+
+export const getNotifications = async () => {
+  const response = await api.get(`${BASE_URL}/notifications/`);
+  return response;
+};
+
+export const markNotificationAsRead = async (notificationId) => {
+  const response = await api.post(
+    `${BASE_URL}/notifications/${notificationId}/mark_as_read`
+  );
   return response;
 };
