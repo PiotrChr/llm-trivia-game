@@ -17,6 +17,7 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import AboutGamePage from './pages/AboutGamePage';
 import AboutAuthorPage from './pages/AboutAuthorPage';
 import FriendsPage from './pages/FriendsPage';
+import SubmitQuestion from './pages/QuestionSubmissionPage';
 import NotificationsPage from './pages/NotificationsPage';
 import Layout from './components/shared/Layout/Layout';
 import { PrivateRoute, AuthProvider } from './routing/AuthProvider';
@@ -36,6 +37,15 @@ function App() {
               <Route path="/about_game" element={<AboutGamePage />} />
               <Route path="/about_author" element={<AboutAuthorPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route
+                path="/submit_question"
+                exact
+                element={
+                  <PrivateRoute>
+                    <SubmitQuestion />
+                  </PrivateRoute>
+                }
+              />
               <Route
                 path="/profile"
                 exact
