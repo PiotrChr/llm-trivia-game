@@ -1,6 +1,7 @@
 from flask_socketio import emit, leave_room, join_room
+from flask import request
 import time
-
+from flask_jwt_extended import JWTManager, decode_token
 from app.repository.TriviaRepository import TriviaRepository
 from app.service.QuestionManager import QuestionManager
 
@@ -9,8 +10,25 @@ def register_handlers(socketio):
 
     @socketio.on('connect')
     def handle_connect():
-        print('Client connected')
+        token = request.args.get('token')
 
+        if not token:
+            raise ConnectionRefusedError('Authentication token is missing')
+
+        try:
+            decoded_token = decode_token(token)
+        except Exception as e:
+            raise ConnectionRefusedError(f'Invalid token: {str(e)}')
+        
+        player_id = decoded_token['sub']['id']
+        player = TriviaRepository.get_player_by_id(player_id)
+        
+        if not player:
+            raise ConnectionRefusedError('Player not found')
+        
+        join_room('player_%s' % player_id)
+
+    
     @socketio.on('disconnect')
     def handle_disconnect():
         print('Client disconnected')
@@ -42,6 +60,11 @@ def register_handlers(socketio):
             TriviaRepository.add_points(data['player']['id'], 1)
 
         emit('answered', data, broadcast=True, room=data['game_id'])
+
+    @socketio.on('join_private')
+    def handle_join_private(data):
+        room = 'player_%s' % data['player']['id']
+        join_room(room)
 
     @socketio.on('join')
     def on_join(data):

@@ -2,10 +2,9 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-
-import { UserContext } from '../UserContext';
 import { signup } from '../services/api';
 import { Row } from 'react-bootstrap';
+import { useAuth } from '../routing/AuthProvider';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -13,7 +12,7 @@ function SignupPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [validated, setValidated] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {

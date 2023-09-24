@@ -25,7 +25,82 @@ function AboutAuthorPage() {
       </div>
       <div className="container mt-6">
         <Row>
-          <Col size="12">{/* Content */}</Col>
+          <Col sm={12}>
+            <h1 className="mb-4">About the Author</h1>
+          </Col>
+
+          <Col sm={12} md={4}>
+            {/* Placeholder for author's image */}
+            <Image
+              src="path_to_author_image.jpg"
+              roundedCircle
+              width="200"
+              alt="Author's Image"
+              className="mb-4"
+            />
+          </Col>
+
+          <Col sm={12} md={8}>
+            {/* Brief description about the author */}
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Brief Description</Card.Title>
+                <Card.Text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                  tincidunt, nibh sit amet commodo convallis.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+
+            {/* Author's Qualifications */}
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Qualifications</Card.Title>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>Lorem ipsum dolor sit amet.</ListGroup.Item>
+                  <ListGroup.Item>Consectetur adipiscing elit.</ListGroup.Item>
+                  <ListGroup.Item>
+                    Vestibulum commodo convallis mauris.
+                  </ListGroup.Item>
+                  {/* ... add more qualifications */}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+
+            {/* Author's Achievements */}
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Achievements</Card.Title>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>Lorem ipsum dolor sit amet.</ListGroup.Item>
+                  <ListGroup.Item>Consectetur adipiscing elit.</ListGroup.Item>
+                  <ListGroup.Item>
+                    Vestibulum commodo convallis mauris.
+                  </ListGroup.Item>
+                  {/* ... add more achievements */}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+
+            {/* Short Timeline or History related to game development */}
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Timeline</Card.Title>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    2021: Started working on the trivia game project.
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    2022: Integrated LLM for enhanced question generation.
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    2023: Released the multiplayer version of the game.
+                  </ListGroup.Item>
+                  {/* ... add more timeline items */}
+                </ListGroup>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       </div>
     </section>

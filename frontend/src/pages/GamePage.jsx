@@ -27,7 +27,6 @@ import {
   isPlaying,
   reportQuestion
 } from '../services/api';
-import { socket } from '../services/socket';
 import { getRandomBackground } from '../utils';
 import { initialState, gameReducer } from '../state/gameReducer';
 import FadeInOut from '../components/shared/FadeInOut';
@@ -36,12 +35,14 @@ import { useAlert } from '../components/shared/Alert/AlertContext';
 import { useModal } from '../components/shared/Modal/ModalContext';
 import ReportQuestion from '../components/Game/ReportQuestion';
 import Lifelines from '../components/Game/LifeLines';
+import { useSocket } from '../services/hooks/useSocket';
 
 const GamePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const { showModal, hideModal } = useModal();
+  const socket = useSocket(token);
 
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const {

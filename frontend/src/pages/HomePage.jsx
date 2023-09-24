@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Jumbotron, Button, Container } from 'react-bootstrap';
-// Assuming you have UserContext
 import { useAuth } from '../routing/AuthProvider';
 
 const HomePage = () => {

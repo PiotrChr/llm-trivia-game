@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode';
 import { Route, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { checkAuth } from '../services/api';
-import { checkJWT } from '../utils';
+import { checkJWT, getJWT } from '../utils';
 
 const AuthContext = React.createContext();
 
@@ -14,11 +14,14 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(null);
 
   async function checkAuthenticated() {
     const token = checkJWT();
 
     if (token) {
+      setToken(getJWT());
+
       setUser({
         id: token.sub.id,
         name: token.sub.name
@@ -34,7 +37,8 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
-    setUser
+    setUser,
+    token
   };
 
   return (
