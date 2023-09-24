@@ -836,7 +836,6 @@ class TriviaRepository:
     @staticmethod
     def get_player_friends_invitations(player_id):
         query = """
-            -- Fetch invitations sent by the player
             SELECT 
                 players.id AS player_id, 
                 players.name, 
@@ -847,7 +846,6 @@ class TriviaRepository:
 
             UNION
 
-            -- Fetch invitations received by the player
             SELECT 
                 players.id AS player_id, 
                 players.name, 
@@ -954,17 +952,110 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def get_notifications(notification_id, player_id):
-        pass
+    def get_notifications(player_id):
+        query = """
+            SELECT *
+            FROM notifications
+            JOIN notification_types ON notifications.notification_type = notification_types.id
+            WHERE notifications.player_id = ?
+        """
+
+        params = (player_id,)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            notifications = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(notification) for notification in notifications]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table notifications: {error}")
+            return None
+        
+
+    @staticmethod
+    def create_notification(player_id, type, message):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            notification_sql = """
+                INSERT INTO notifications (player_id, notification_type, message)
+                VALUES (?, ?, ?)
+            """
+            id = Database.insert(notification_sql, (player_id, type, message), False)
+
+            Database.execute("COMMIT")
+            
+            return id
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
 
     @staticmethod
     def mark_notification_as_read(notification_id, player_id):
-        pass
+        query = """
+            UPDATE notifications SET read = 1 WHERE id = ? AND player_id = ?
+        """
+        params = (notification_id, player_id)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            Database.get_cursor().connection.commit()
+            return True
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table notifications: {error}")
+            return None
+
+    @staticmethod
+    def mark_all_notifications_as_read(player_id):
+        query = """
+            UPDATE notifications SET read = 1 WHERE player_id = ?
+        """
+        params = (player_id,)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            Database.get_cursor().connection.commit()
+            return True
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table notifications: {error}")
+            return None
+        
+    @staticmethod
+    def get_notification_by_id(id):
+        query = """
+            SELECT * FROM notifications
+            JOIN notification_types ON notifications.notification_type = notification_types.id
+            WHERE id = ?
+        """
+        params = (id,)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            notification = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(notification)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table notifications: {error}")
+            return None
 
     @staticmethod
     def get_notification_types():
         pass
 
+    def get_notification_type_by_name(name):
+        query = """
+            SELECT * FROM notification_types WHERE name = ?
+        """
+        params = (name,)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            notification_type = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(notification_type)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table notification_types: {error}")
+            return None
+    
+    
     @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)

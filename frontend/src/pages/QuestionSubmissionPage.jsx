@@ -10,7 +10,7 @@ import {
   Button,
   Form
 } from 'react-bootstrap';
-import { getLanguages, getCategories } from '../services/api';  // Assuming you have these functions set up
+import { getLanguages, getCategories } from '../services/api'; // Assuming you have these functions set up
 
 function QuestionSubmissionPage() {
   const [categories, setCategories] = useState([]);
@@ -27,11 +27,15 @@ function QuestionSubmissionPage() {
       try {
         const fetchedCategories = await getCategories();
         const fetchedLanguages = await getLanguages();
-        
-        setCategories(fetchedCategories.map(cat => ({ value: cat.id, label: cat.name })));
-        setLanguages(fetchedLanguages.map(lang => ({ value: lang.id, label: lang.name })));
+
+        setCategories(
+          fetchedCategories.map((cat) => ({ value: cat.id, label: cat.name }))
+        );
+        setLanguages(
+          fetchedLanguages.map((lang) => ({ value: lang.id, label: lang.name }))
+        );
       } catch (error) {
-        console.error("Error fetching data", error);
+        console.error('Error fetching data', error);
       }
     };
 

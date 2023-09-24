@@ -1,18 +1,10 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  Container,
-  Navbar,
-  Nav,
-  Dropdown,
-  Row,
-  Col,
-  Button
-} from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
 
 import { useAuth } from '../../../routing/AuthProvider';
+
+import NotificationDropdown from '../../Layout/NotificationsDropdown';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -68,7 +60,7 @@ const Layout = ({ children }) => {
                   <Nav>
                     {user ? (
                       <>
-                        <Nav.Item
+                        {/* <Nav.Item
                           className=""
                           onClick={() => navigate('/notifications')}
                         >
@@ -78,7 +70,11 @@ const Layout = ({ children }) => {
                           >
                             <FontAwesomeIcon icon={faBell} />
                           </Button>
-                        </Nav.Item>
+                        </Nav.Item> */}
+                        <NotificationDropdown
+                          user={user}
+                          // onClick={() => navigate('/notifications')}
+                        />
 
                         <Dropdown className="me-5">
                           <Dropdown.Toggle

@@ -6,7 +6,6 @@ from app.models.User import User
 
 auth_routes = Blueprint('auth_routes', __name__, url_prefix='/api/auth')
 
-
 @auth_routes.route('/login', methods=['POST'])
 def login():
     if not request.is_json:
@@ -24,9 +23,6 @@ def login():
     trivia_repository = TriviaRepository()
     player = trivia_repository.get_player_by_name(username)
 
-    print(username)
-    print(player)
-
     if player is None or not TriviaRepository.check_hash(player['password'], password):
         return jsonify({"msg": "Bad username or password"}), 401
     
@@ -35,8 +31,8 @@ def login():
         "name": player['name']
     }
 
-    access_token = create_access_token(identity=identity)  # Create an access token
-    refresh_token = create_refresh_token(identity=identity)  # Create a refresh token
+    access_token = create_access_token(identity=identity)
+    refresh_token = create_refresh_token(identity=identity)
 
     return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
@@ -55,7 +51,7 @@ def signup():
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
     if not email:
-        return jsonify({"msg": "Missing email parameter"}), 400
+        return jsonify({"msg": "Missing email parameter"}), 40
 
     hashed_password = TriviaRepository.generate_hash(password)
 

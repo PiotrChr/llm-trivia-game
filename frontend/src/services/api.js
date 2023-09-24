@@ -225,3 +225,8 @@ export const markNotificationAsRead = async (notificationId) => {
   );
   return response;
 };
+
+export const markAllNotificationsAsRead = async () => {
+  const response = await api.post(`${BASE_URL}/notifications/mark_all_as_read`);
+  return response;
+};

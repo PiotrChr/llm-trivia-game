@@ -185,6 +185,7 @@ function FriendsPage() {
           </Col>
         </Row>
         <Row className="mt-4">
+          <h3>Friends</h3>
           {friends.map((friend) => (
             <Col sm={4} key={friend.id}>
               <Card className="mb-4">
@@ -202,6 +203,7 @@ function FriendsPage() {
           ))}
         </Row>
         <Row className="mt-4">
+          <h3>Invitations received</h3>
           {invitationsReceived.map((friend, index) => (
             <Col sm={4} key={index}>
               <Card className="mb-4">
@@ -219,6 +221,7 @@ function FriendsPage() {
           ))}
         </Row>
         <Row className="mt-4">
+          <h3>Invitations sent</h3>
           {invitationsSent.map((friend, index) => (
             <Col sm={4} key={index}>
               <Card className="mb-4">

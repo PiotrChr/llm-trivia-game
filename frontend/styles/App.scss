@@ -77,3 +77,21 @@
         color: white;
     }
 }
+
+#notifications-dropdown {
+    button {
+        &::after {
+            display: none;
+        }
+
+        i {
+            font-size: 0.7rem;
+            vertical-align: 0;
+        }
+    }
+    
+    .dropdown-menu {
+        right: -14px !important;
+        left: auto !important;
+    }
+}

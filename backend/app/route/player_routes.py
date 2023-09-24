@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.repository.TriviaRepository import TriviaRepository
+from app.service.Notifications import Notifications
 
 player_routes = Blueprint('player_routes', __name__)
 
@@ -50,7 +51,11 @@ def get_player_friends():
 def invite_friend():
     player_id = get_jwt_identity()['id']
     data = request.get_json()
+    
     TriviaRepository.invite_friend(player_id, data['playerId'])
+    
+    Notifications.create_invite_notification(data['playerId'])
+
     return jsonify(success=True)
 
 @player_routes.route('/friends/search', methods=['GET'])

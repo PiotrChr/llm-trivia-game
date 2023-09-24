@@ -7,6 +7,10 @@ export const decode = (token) => {
   return jwt_decode(token);
 };
 
+export const getJWT = () => {
+  return Cookies.get('token');
+};
+
 export const checkJWT = () => {
   const token = Cookies.get('token');
 

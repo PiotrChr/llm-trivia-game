@@ -1,9 +1,9 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from flask_jwt_extended import JWTManager
-from flask_socketio import SocketIO
+from flask_jwt_extended import JWTManager, get_jwt_identity
+from flask_socketio import SocketIO, join_room
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
