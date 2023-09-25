@@ -61,6 +61,7 @@ CREATE TABLE game_questions (
 CREATE TABLE player_games (
     player_id INTEGER,
     game_id INTEGER,
+    time_spent INTEGER DEFAULT 0,
     PRIMARY KEY(player_id, game_id),
     FOREIGN KEY(player_id) REFERENCES players(id),
     FOREIGN KEY(game_id) REFERENCES games(id)
@@ -188,4 +189,34 @@ CREATE TABLE notifications (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(player_id) REFERENCES players(id),
     FOREIGN KEY(notification_type) REFERENCES notification_types(id)
+);
+
+CREATE TABLE rank_types (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE tiers (
+    id INTEGER PRIMARY KEY,
+    rank_type_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    min_points INTEGER NOT NULL,
+    max_points INTEGER NOT NULL,
+    FOREIGN KEY(rank_type_id) REFERENCES rank_types(id)
+);
+
+CREATE TABLE badges (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE player_badges (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    badge_id INTEGER NOT NULL,
+    earned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(player_id) REFERENCES players(id),
+    FOREIGN KEY(badge_id) REFERENCES badges(id)
 );
