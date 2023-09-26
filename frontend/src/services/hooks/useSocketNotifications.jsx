@@ -6,7 +6,10 @@ export const useSocketNotifications = (playerId, token) => {
   const socket = useSocket();
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket) {
+      console.log('no socket');
+      return;
+    }
 
     socket.on('newNotification', (data) => {
       console.log('newNotification', data);

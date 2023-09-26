@@ -9,9 +9,9 @@ from app.service.QuestionManager import QuestionManager
 def register_handlers(socketio):
 
     @socketio.on('connect')
-    def handle_connect():
+    def handle_connect(data):
         token = request.args.get('token')
-
+        
         if not token:
             raise ConnectionRefusedError('Authentication token is missing')
 
