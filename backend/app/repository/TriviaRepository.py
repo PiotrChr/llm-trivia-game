@@ -954,10 +954,10 @@ class TriviaRepository:
     @staticmethod
     def get_notifications(player_id):
         query = """
-            SELECT *
-            FROM notifications
-            JOIN notification_types ON notifications.notification_type = notification_types.id
-            WHERE notifications.player_id = ?
+            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as name, notification_types.description as description
+            FROM notifications as n
+            JOIN notification_types ON n.notification_type = notification_types.id
+            WHERE n.player_id = ?
         """
 
         params = (player_id,)
@@ -1023,9 +1023,10 @@ class TriviaRepository:
     @staticmethod
     def get_notification_by_id(id):
         query = """
-            SELECT * FROM notifications
+            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as type
+            FROM notifications as n
             JOIN notification_types ON notifications.notification_type = notification_types.id
-            WHERE id = ?
+            WHERE notifications.id = ?
         """
         params = (id,)
 

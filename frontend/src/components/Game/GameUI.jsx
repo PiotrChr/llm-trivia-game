@@ -31,7 +31,8 @@ const GameUI = ({
   handleNextQuestionClick,
   showModal,
   hideModal,
-  user
+  user,
+  isLoading
 }) => {
   const {
     category,
@@ -66,6 +67,8 @@ const GameUI = ({
     }),
     [currentBackground]
   );
+
+  if (isLoading) return <p>Loading...</p>;
 
   return (
     <section className="min-vh-80 mb-8">

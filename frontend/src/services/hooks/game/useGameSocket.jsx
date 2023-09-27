@@ -18,6 +18,8 @@ export const useGameSocket = (
   useEffect(() => {
     if (!socket) return;
 
+    console.log('socket set');
+
     const onStarted = () =>
       socket.emit('next', { game_id: gameId, player: user });
     const onStop = () => dispatch({ type: 'STOP_GAME' });
@@ -57,12 +59,18 @@ export const useGameSocket = (
       }
     };
 
+    const onIsReady = (data) => {
+      console.log('onIsReady', data);
+      dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
+    };
+
     socket.on('started', onStarted);
     socket.on('stop', onStop);
     socket.on('pingx', onPing);
     socket.on('countdown', onCountdown);
     socket.on('drawn', onDrawn);
     socket.on('question_ready', onQuestionReady);
+    socket.on('is_ready', onIsReady);
     socket.on('message', onMessage);
     socket.on('difficulty_changed', onDifficultyChange);
     socket.on('category_changed', onCategoryChanged);
@@ -78,6 +86,7 @@ export const useGameSocket = (
       socket.off('countdown', onCountdown);
       socket.off('drawn', onDrawn);
       socket.off('question_ready', onQuestionReady);
+      socket.off('is_ready', onIsReady);
       socket.off('message', onMessage);
       socket.off('difficulty_changed', onDifficultyChange);
       socket.off('category_changed', onCategoryChanged);

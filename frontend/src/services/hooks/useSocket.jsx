@@ -21,6 +21,9 @@ export function useSocket() {
       const newSocket = io(BASE_URL, {
         query: `token=${token}`
       });
+
+      console.log('connected to socket');
+
       setSocket(newSocket);
 
       return () => newSocket.disconnect();

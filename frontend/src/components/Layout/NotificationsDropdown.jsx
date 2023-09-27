@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropdown, Button } from 'react-bootstrap';
-import classNames from 'classnames';
 import { useSocketNotifications } from '../../services/hooks/useSocketNotifications';
 import { useApiNotifications } from '../../services/hooks/useApiNotifications';
 
@@ -14,7 +13,7 @@ const NotificationDropdown = ({ user }) => {
     error
   } = useApiNotifications(user.id);
 
-  const socketNotifications = useSocketNotifications(user.id);
+  const socketNotifications = useSocketNotifications();
   const allNotifications = [...apiNotifications, ...socketNotifications].filter(
     (notification) => notification.read === 0
   );

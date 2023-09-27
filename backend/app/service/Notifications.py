@@ -44,9 +44,12 @@ class Notifications:
     
     @staticmethod
     def create_invite_notification(player_id):
-        notification_id = TriviaRepository.get_notification_type_by_name(FRIEND_REQUST)['id']
+        notification_type_id = TriviaRepository.get_notification_type_by_name(FRIEND_REQUST)['id']
 
-        notification = TriviaRepository.create_notification(player_id, notification_id, '')
+        notification_id = TriviaRepository.create_notification(player_id, notification_type_id, '')
+
+        notification = TriviaRepository.get_notification_by_id(notification_id)
+        print('notification', notification)
 
         Notifications.socket_notify(player_id, {
             'message': 'You have been invited to be friends',

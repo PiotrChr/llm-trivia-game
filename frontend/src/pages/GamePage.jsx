@@ -144,8 +144,6 @@ const GamePage = () => {
     [state.players]
   );
 
-  if (isLoading) return <p>Loading...</p>;
-
   return (
     <GameUI
       state={state}
@@ -164,6 +162,7 @@ const GamePage = () => {
       handleNextQuestionClick={handleNextQuestionClick}
       showModal={showModal}
       hideModal={hideModal}
+      isLoading={isLoading}
       difficultyOptions={useMemo(
         () =>
           Array.from({ length: 5 }, (_, i) => ({

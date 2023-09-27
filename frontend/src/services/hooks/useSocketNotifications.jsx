@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSocket } from './useSocket';
 
-export const useSocketNotifications = (playerId, token) => {
+export const useSocketNotifications = () => {
   const [notifications, setNotifications] = useState([]);
   const socket = useSocket();
 
   useEffect(() => {
     if (!socket) {
-      console.log('no socket');
       return;
     }
 
@@ -24,7 +23,7 @@ export const useSocketNotifications = (playerId, token) => {
       socket.off('newNotification');
       socket.close();
     };
-  }, [playerId]);
+  }, [socket]);
 
   return notifications;
 };
