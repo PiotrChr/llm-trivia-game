@@ -1,4 +1,9 @@
 {
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "env": {
         "browser": true,
         "node": true,
@@ -14,9 +19,11 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react", "prettier"
+        "react", "prettier", "react-hooks"
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

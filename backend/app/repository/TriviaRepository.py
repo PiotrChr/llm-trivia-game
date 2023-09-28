@@ -874,6 +874,28 @@ class TriviaRepository:
             return None
         
     @staticmethod
+    def delete_player_friends_invitations(player_id, friend_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (player_id, friend_id), False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (friend_id, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
     def invite_friend(player_id, friend_id):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
@@ -954,10 +976,10 @@ class TriviaRepository:
     @staticmethod
     def get_notifications(player_id):
         query = """
-            SELECT *
-            FROM notifications
-            JOIN notification_types ON notifications.notification_type = notification_types.id
-            WHERE notifications.player_id = ?
+            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as name, notification_types.description as description
+            FROM notifications as n
+            JOIN notification_types ON n.notification_type = notification_types.id
+            WHERE n.player_id = ?
         """
 
         params = (player_id,)
@@ -1023,9 +1045,10 @@ class TriviaRepository:
     @staticmethod
     def get_notification_by_id(id):
         query = """
-            SELECT * FROM notifications
-            JOIN notification_types ON notifications.notification_type = notification_types.id
-            WHERE id = ?
+            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as type, notification_types.description as description
+            FROM notifications as n
+            JOIN notification_types ON n.notification_type = notification_types.id
+            WHERE n.id = ?
         """
         params = (id,)
 

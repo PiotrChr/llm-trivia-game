@@ -73,12 +73,22 @@ def get_player_friend_invitations():
     friend_invitations = TriviaRepository.get_player_friends_invitations(player_id)
     return jsonify(friend_invitations=friend_invitations)
 
+@player_routes.route('/friends/invitations', methods=['DELETE'])
+@jwt_required()
+def delete_player_friend_invitations():
+    player_id = get_jwt_identity()['id']
+    data = request.get_json()
+    friend_id = data['friendId']
+
+    TriviaRepository.delete_player_friends_invitations(player_id, friend_id)
+    return jsonify(success=True)
+
 @player_routes.route('/friends/accept', methods=['POST'])
 @jwt_required()
 def accept_invite():
     player_id = get_jwt_identity()['id']
     data = request.get_json()
-    TriviaRepository.accept_invite(player_id, data['friend_id'])
+    TriviaRepository.accept_invite(player_id, data['playerId'])
     return jsonify(success=True)
 
 @player_routes.route('/friends/decline', methods=['POST'])
@@ -86,5 +96,5 @@ def accept_invite():
 def decline_invite():
     player_id = get_jwt_identity()['id']
     data = request.get_json()
-    TriviaRepository.decline_invite(player_id, data['friend_id'])
+    TriviaRepository.decline_invite(player_id, data['playerId'])
     return jsonify(success=True)
