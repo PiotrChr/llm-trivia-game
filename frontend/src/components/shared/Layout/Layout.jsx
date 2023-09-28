@@ -76,7 +76,7 @@ const Layout = ({ children }) => {
                           // onClick={() => navigate('/notifications')}
                         />
 
-                        <Dropdown className="me-5">
+                        <Dropdown className="me-1">
                           <Dropdown.Toggle
                             variant="none"
                             id="dropdown-basic"

@@ -15,12 +15,18 @@ const NotificationDropdown = ({ user }) => {
 
   const socketNotifications = useSocketNotifications();
   const allNotifications = [...apiNotifications, ...socketNotifications].filter(
-    (notification) => notification.read === 0
+    (notification) => {
+      console.log(notification);
+
+      return notification.read === 0;
+    }
   );
 
-  const hasUnreadNotifications = allNotifications.some(
-    (notification) => !notification.read
-  );
+  const hasUnreadNotifications = allNotifications.some((notification) => {
+    console.log(notification);
+
+    return notification.read === 0;
+  });
 
   const markAllAsRead = async () => {
     try {
@@ -34,9 +40,6 @@ const NotificationDropdown = ({ user }) => {
       console.log(error);
     }
   };
-
-  console.log('apiNotifications', apiNotifications);
-  console.log('socketNotifications', socketNotifications);
 
   return (
     <Dropdown id="notifications-dropdown">
@@ -89,6 +92,13 @@ const NotificationDropdown = ({ user }) => {
             >
               <small>Mark all as read</small>
             </Button>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              className='btn-icon-only'
+              >
+              <i className="bi-trash-fill"></i>
+              </Button>
           </div>
         )}
       </Dropdown.Menu>

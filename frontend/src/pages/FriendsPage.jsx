@@ -14,6 +14,8 @@ import {
 import {
   inviteFriend,
   removeFriend,
+  acceptFriend,
+  declineFriend,
   getFriends,
   getInvitations,
   searchUserByString
@@ -55,11 +57,15 @@ function FriendsPage() {
       const fetchUsers = async () => {
         try {
           const result = await searchUserByString(searchTerm);
-          const friends = result.data.players.map((friend) => ({
-            value: friend.id,
-            label: friend.name
-          }));
-          setUsers(friends);
+          const players = result.data.players
+            .filter((player) => {
+              return !friends.some((friend) => friend.id === player.id);
+            })
+            .map((player) => ({
+              value: player.id,
+              label: player.name
+            }));
+          setUsers(players);
         } catch (err) {
           console.log(err);
         }
@@ -133,6 +139,28 @@ function FriendsPage() {
     }
   }, [facebookInvite]);
 
+  const handleDecline = async (friendId) => {
+    try {
+      const result = await declineFriend(friendId);
+      showAlert('Success', `Declined ${friendId} successfully!`, null, {
+        variant: 'success'
+      });
+    } catch (error) {
+      showAlert('Error', `Failed to decline ${friendId}. Please try again.`);
+    }
+  };
+
+  const handleAccept = async (friendId) => {
+    try {
+      const result = await acceptFriend(friendId);
+      showAlert('Success', `Accepted ${friendId} successfully!`, null, {
+        variant: 'success'
+      });
+    } catch (error) {
+      showAlert('Error', `Failed to accept ${friendId}. Please try again.`);
+    }
+  };
+
   return (
     <section className="min-vh-80 mb-8">
       <div className="page-header min-height-300 align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg">
@@ -189,7 +217,7 @@ function FriendsPage() {
           {friends.map((friend) => (
             <Col sm={4} key={friend.id}>
               <Card className="mb-4">
-                <Card.Body>
+                <Card.Body className="d-flex flex-column">
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"
@@ -207,13 +235,19 @@ function FriendsPage() {
           {invitationsReceived.map((friend, index) => (
             <Col sm={4} key={index}>
               <Card className="mb-4">
-                <Card.Body>
+                <Card.Body className="d-flex flex-column">
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemove(friend.id)}
+                    onClick={() => handleDecline(friend.id)}
                   >
-                    Remove
+                    Decline
+                  </Button>
+                  <Button
+                    variant="success"
+                    onClick={() => handleAccept(friend.id)}
+                  >
+                    Accept
                   </Button>
                 </Card.Body>
               </Card>
@@ -225,7 +259,7 @@ function FriendsPage() {
           {invitationsSent.map((friend, index) => (
             <Col sm={4} key={index}>
               <Card className="mb-4">
-                <Card.Body>
+                <Card.Body className="d-flex flex-column">
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"

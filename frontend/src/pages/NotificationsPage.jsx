@@ -18,14 +18,12 @@ function NotificationPage() {
   }, []);
 
   const clearNotification = async (notificationId) => {
-    // Clear individual notification logic here
     setNotifications((prev) =>
       prev.filter((notif) => notif.id !== notificationId)
     );
   };
 
   const clearAllNotifications = () => {
-    // Clear all notifications logic here
     setNotifications([]);
   };
 

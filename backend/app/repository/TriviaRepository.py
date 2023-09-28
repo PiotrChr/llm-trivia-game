@@ -1023,10 +1023,10 @@ class TriviaRepository:
     @staticmethod
     def get_notification_by_id(id):
         query = """
-            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as type
+            SELECT n.id, n.message, n.read, n.created_at, notification_types.name as type, notification_types.description as description
             FROM notifications as n
-            JOIN notification_types ON notifications.notification_type = notification_types.id
-            WHERE notifications.id = ?
+            JOIN notification_types ON n.notification_type = notification_types.id
+            WHERE n.id = ?
         """
         params = (id,)
 
