@@ -230,3 +230,15 @@ export const markAllNotificationsAsRead = async () => {
   const response = await api.post(`${BASE_URL}/notifications/mark_all_as_read`);
   return response;
 };
+
+export const clearNotifications = async () => {
+  const response = await api.delete(`${BASE_URL}/notifications/clear`);
+  return response;
+};
+
+export const removeInvitation = async (notificationId) => {
+  const response = await api.delete(
+    `${BASE_URL}/notifications/${notificationId}`
+  );
+  return response;
+}

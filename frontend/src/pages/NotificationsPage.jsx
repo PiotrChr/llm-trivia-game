@@ -2,36 +2,38 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
-import { getNotifications } from '../services/api';
+import { useApiNotifications } from '../services/hooks/useApiNotifications';
 import { Col, Row } from 'react-bootstrap';
+import { clearNotifications } from '../services/api';
+import { useAlert } from '../components/shared/Alert/AlertContext';
 
 function NotificationPage() {
-  const [notifications, setNotifications] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      const result = await getNotifications();
-      setNotifications(result.data);
-    };
-    fetchNotifications();
-  }, []);
+  const { notifications, loading, refresh, error } = useApiNotifications();
 
   const clearNotification = async (notificationId) => {
-    setNotifications((prev) =>
-      prev.filter((notif) => notif.id !== notificationId)
-    );
+    // setNotifications((prev) =>
+    //   prev.filter((notif) => notif.id !== notificationId)
+    // );
   };
 
-  const clearAllNotifications = () => {
-    setNotifications([]);
+  const clearAllNotifications = async () => {
+    try {
+      const response = clearNotifications();
+    } catch (error) {
+      showAlert(
+        'Error',
+        'There was an error clearing your notifications. Please try again.',
+        error.message,
+        { variant: 'danger', position: 'bottom' }
+      );
+    }
   };
 
   const NotificationColor = ({ type }) => {
     switch (type) {
       case 'warning':
         return 'bg-gradient-warning';
-      case 'success':
+      case 'Friend Request':
         return 'bg-gradient-success';
       case 'primary':
         return 'bg-gradient-primary';
@@ -39,6 +41,12 @@ function NotificationPage() {
         return 'bg-gradient-secondary';
     }
   };
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  console.log(notifications);
 
   return (
     <section className="min-vh-80 mb-8">
@@ -91,10 +99,10 @@ function NotificationPage() {
                       <td className="align-middle text-center text-sm d-none d-md-table-cell">
                         <span
                           className={`badge badge-sm ${NotificationColor(
-                            notification.type
+                            notification.name
                           )}`}
                         >
-                          {notification.type}
+                          {notification.name}
                         </span>
                       </td>
                       <td className="align-middle text-center text-sm d-none d-md-table-cell">

@@ -874,6 +874,28 @@ class TriviaRepository:
             return None
         
     @staticmethod
+    def delete_player_friends_invitations(player_id, friend_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (player_id, friend_id), False)
+
+            friend_sql = """
+                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
+            """
+            Database.execute(friend_sql, (friend_id, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
     def invite_friend(player_id, friend_id):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)

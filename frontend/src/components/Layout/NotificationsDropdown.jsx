@@ -1,11 +1,15 @@
 import React from 'react';
 import { Dropdown, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useSocketNotifications } from '../../services/hooks/useSocketNotifications';
 import { useApiNotifications } from '../../services/hooks/useApiNotifications';
-
 import { markAllNotificationsAsRead } from '../../services/api';
+import { useAlert } from '../shared/Alert/AlertContext';
 
 const NotificationDropdown = ({ user }) => {
+  const navigate = useNavigate();
+  const { showAlert } = useAlert();
+
   const {
     notifications: apiNotifications,
     loading,
@@ -15,29 +19,30 @@ const NotificationDropdown = ({ user }) => {
 
   const socketNotifications = useSocketNotifications();
   const allNotifications = [...apiNotifications, ...socketNotifications].filter(
-    (notification) => {
-      console.log(notification);
-
-      return notification.read === 0;
-    }
+    (notification) => notification.read === 0
   );
-
-  const hasUnreadNotifications = allNotifications.some((notification) => {
-    console.log(notification);
-
-    return notification.read === 0;
-  });
+  const hasUnreadNotifications = allNotifications.some(
+    (notification) => notification.read === 0
+  );
 
   const markAllAsRead = async () => {
     try {
       const response = await markAllNotificationsAsRead();
 
       if (response.status === 200) {
-        console.log('All notifications marked as read');
+        showAlert('Success', 'All notifications marked as read.', null, {
+          variant: 'success',
+          position: 'bottom'
+        });
         refresh();
       }
     } catch (error) {
-      console.log(error);
+      showAlert(
+        'Error',
+        'There was an error marking your notifications as read. Please try again.',
+        error.message,
+        { variant: 'danger', position: 'bottom' }
+      );
     }
   };
 
@@ -94,11 +99,11 @@ const NotificationDropdown = ({ user }) => {
             </Button>
             <Button
               variant="outline-secondary"
-              size="sm"
-              className='btn-icon-only'
-              >
-              <i className="bi-trash-fill"></i>
-              </Button>
+              className="btn-icon-only mb-1 me-2"
+              onClick={() => navigate('/notifications')}
+            >
+              <i className="bi-box-arrow-up-right"></i>
+            </Button>
           </div>
         )}
       </Dropdown.Menu>

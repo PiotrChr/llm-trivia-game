@@ -161,6 +161,17 @@ function FriendsPage() {
     }
   };
 
+  const handleRemoveInvitation = async (friendId) => {
+    try {
+      const result = await removeInvitation(friendId);
+      showAlert('Success', `Removed ${friendId} successfully!`, null, {
+        variant: 'success'
+      });
+    } catch (error) {
+      showAlert('Error', `Failed to remove ${friendId}. Please try again.`);
+    }
+  }
+
   return (
     <section className="min-vh-80 mb-8">
       <div className="page-header min-height-300 align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg">
@@ -221,7 +232,7 @@ function FriendsPage() {
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemove(friend.id)}
+                    onClick={() => handleRemove(friend.player_id)}
                   >
                     Remove
                   </Button>
@@ -239,13 +250,13 @@ function FriendsPage() {
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"
-                    onClick={() => handleDecline(friend.id)}
+                    onClick={() => handleDecline(friend.player_id)}
                   >
                     Decline
                   </Button>
                   <Button
                     variant="success"
-                    onClick={() => handleAccept(friend.id)}
+                    onClick={() => handleAccept(friend.player_id)}
                   >
                     Accept
                   </Button>
@@ -263,7 +274,7 @@ function FriendsPage() {
                   <Card.Title>{friend.name}</Card.Title>
                   <Button
                     variant="danger"
-                    onClick={() => handleRemove(friend.id)}
+                    onClick={() => handleRemoveInvitation(friend.player_id)}
                   >
                     Remove
                   </Button>
