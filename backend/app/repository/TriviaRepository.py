@@ -883,11 +883,6 @@ class TriviaRepository:
             """
             Database.execute(friend_sql, (player_id, friend_id), False)
 
-            friend_sql = """
-                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
-            """
-            Database.execute(friend_sql, (friend_id, player_id), False)
-
             Database.execute("COMMIT")
             return True
         except sqlite3.Error as e:

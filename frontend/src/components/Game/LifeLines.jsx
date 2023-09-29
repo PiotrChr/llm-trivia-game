@@ -29,7 +29,7 @@ const Lifelines = ({ show, lifelines }) => {
   };
 
   return (
-    <div className="position-absolute d-flex lifelines justify-content-center">
+    <div className="position-absolute d-flex lifelines justify-content-center justify-content-lg-start">
       <button className="lifeline-btn" onClick={handle5050}>
         <FontAwesomeIcon icon={faBalanceScale} />
       </button>

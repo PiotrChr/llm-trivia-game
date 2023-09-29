@@ -241,4 +241,4 @@ export const removeInvitation = async (notificationId) => {
     `${BASE_URL}/notifications/${notificationId}`
   );
   return response;
-}
+};

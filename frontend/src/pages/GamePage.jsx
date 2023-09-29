@@ -1,4 +1,10 @@
-import React, { useReducer, useState, useCallback, useMemo } from 'react';
+import React, {
+  useReducer,
+  useState,
+  useCallback,
+  useMemo,
+  useEffect
+} from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../routing/AuthProvider';
 import { useAlert } from '../components/shared/Alert/AlertContext';
@@ -26,7 +32,11 @@ const GamePage = () => {
     state.autoStart,
     handleNextQuestionClick,
     showModal,
-    hideModal
+    hideModal,
+    state.question,
+    state.category,
+    state.difficulty,
+    state.language
   );
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
 
@@ -143,6 +153,27 @@ const GamePage = () => {
     },
     [state.players]
   );
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.emit('join', { player: user, game_id: gameId });
+
+    return () => {
+      socket.emit('leave', { player: user, game_id: gameId });
+    };
+  }, [socket, gameId, user]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    if (state.allAnswered && state.isHost) {
+      socket.emit('get_winners', {
+        game_id: gameId,
+        question_id: state.question.id
+      });
+    }
+  }, [state.allAnswered, socket, state.question]);
 
   return (
     <GameUI

@@ -11,17 +11,27 @@ export const useGameSocket = (
   autoStart,
   handleNextQuestionClick,
   showModal,
-  hideModal
+  hideModal,
+  question,
+  category,
+  difficulty,
+  language
 ) => {
   const socket = useSocket();
 
   useEffect(() => {
     if (!socket) return;
 
-    console.log('socket set');
+    console.log('Socket set GameSocket');
 
     const onStarted = () =>
-      socket.emit('next', { game_id: gameId, player: user });
+      socket.emit('next', {
+        game_id: gameId,
+        player: user,
+        category: category.id,
+        difficulty,
+        language: language.iso_code
+      });
     const onStop = () => dispatch({ type: 'STOP_GAME' });
     const onPing = () =>
       socket.emit('pongx', { player: user, game_id: gameId });
@@ -52,21 +62,38 @@ export const useGameSocket = (
         position: 'bottom'
       });
     const onWinners = (data) => {
+      console.log(handleDisplayResult);
       handleDisplayResult(data.winners.some((winner) => winner.id === user.id));
       dispatch({ type: 'SET_PLAYER_SCORE', payload: data.winners });
       if (isHost && autoStart) {
         setTimeout(() => handleNextQuestionClick(), 5000);
       }
     };
-
     const onIsReady = (data) => {
       console.log('onIsReady', data);
       dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
     };
+    const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
+    const onDrawing = () => {
+      dispatch({ type: 'RESET_ROUND' });
+      dispatch({ type: 'SET_DRAWING', payload: true });
+    };
+    const onLeft = (data) => {
+      dispatch({ type: 'REMOVE_PLAYER', payload: data.player });
+    };
+    const onPong = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
+    const onAnswered = (data) => {
+      dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
+    };
 
+    socket.on('drawing', onDrawing);
+    socket.on('left', onLeft);
+    socket.on('answered', onAnswered);
+    socket.on('pongx', onPong);
     socket.on('started', onStarted);
     socket.on('stop', onStop);
     socket.on('pingx', onPing);
+    socket.on('joined', onJoined);
     socket.on('countdown', onCountdown);
     socket.on('drawn', onDrawn);
     socket.on('question_ready', onQuestionReady);
@@ -80,6 +107,10 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
+      socket.off('drawing', onDrawing);
+      socket.off('left', onLeft);
+      socket.off('answered', onAnswered);
+      socket.off('pongx', onPong);
       socket.off('started', onStarted);
       socket.off('stop', onStop);
       socket.off('pingx', onPing);
@@ -106,7 +137,8 @@ export const useGameSocket = (
     autoStart,
     handleNextQuestionClick,
     showModal,
-    hideModal
+    hideModal,
+    question
   ]);
 
   return { socket };

@@ -112,6 +112,8 @@ def register_handlers(socketio):
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
         socketio.sleep(1)
 
+        print('drawing', data['game_id'], data['category'], data['difficulty'], data['language'])
+
         try:
             question = QuestionManager.next_question(
                 data['game_id'],

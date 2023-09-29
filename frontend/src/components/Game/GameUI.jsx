@@ -92,7 +92,7 @@ const GameUI = ({
         </Container>
       </div>
       <Container>
-        <Row className="mt-lg-n10 mt-md-n11 mt-n10">
+        <Row className="mt-lg-n10 mt-md-n10 mt-n10">
           <Card>
             <FadeInOut
               show={displayResult !== null}
