@@ -10,6 +10,7 @@ const initialState = {
   allReady: false,
   allPresent: false,
   allAnswered: false,
+  answerMissed: false,
   questionReady: false,
   languages: [],
   language: {
@@ -19,6 +20,7 @@ const initialState = {
   isTimed: false,
   timeElapsed: 0,
   timeLimit: 0,
+  timer: null,
   autoStart: false,
   isHost: false,
   drawing: false,
@@ -172,7 +174,9 @@ const gameReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        allAnswered: state.players.every((player) => player.answer)
+        allAnswered: state.players.every(
+          (player) => player.answer || player.miss
+        )
       };
 
     case 'SET_PLAYER_SCORE':
@@ -194,6 +198,9 @@ const gameReducer = (state = initialState, action) => {
 
     case 'SET_TIME_LIMIT':
       return { ...state, timeLimit: action.payload };
+
+    case 'DECREMENT_TIMER':
+      return { ...state, timer: state.timer - 1 };
 
     case 'SET_IS_HOST':
       return { ...state, isHost: action.payload };
@@ -224,6 +231,9 @@ const gameReducer = (state = initialState, action) => {
 
     case 'SELECT_ANSWER':
       return { ...state, selectedAnswerId: action.payload };
+
+    case 'MISS_ANSWER':
+      return { ...state, answerMissed: null };
 
     case 'SET_CURRENT_BACKGROUND':
       return { ...state, currentBackground: action.payload };

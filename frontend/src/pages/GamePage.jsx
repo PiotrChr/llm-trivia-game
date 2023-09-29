@@ -175,6 +175,14 @@ const GamePage = () => {
     }
   }, [state.allAnswered, socket, state.question]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    if (state.timer >= state.timeLimit) {
+      dispatch({ type: 'MISS_ANSWER' });
+    }
+  }, [state.timeLimit, state.timer, dispatch]);
+
   return (
     <GameUI
       state={state}

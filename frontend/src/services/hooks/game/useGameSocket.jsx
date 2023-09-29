@@ -22,8 +22,6 @@ export const useGameSocket = (
   useEffect(() => {
     if (!socket) return;
 
-    console.log('Socket set GameSocket');
-
     const onStarted = () =>
       socket.emit('next', {
         game_id: gameId,
@@ -85,7 +83,15 @@ export const useGameSocket = (
     const onAnswered = (data) => {
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
+    const onStartTimer = () => {
+      const interval = setInterval(() => {
+        dispatch({ type: 'DECREMENT_TIMER' });
+      }, 1000);
 
+      return () => clearInterval(interval);
+    };
+
+    socket.on('start_timer', onStartTimer);
     socket.on('drawing', onDrawing);
     socket.on('left', onLeft);
     socket.on('answered', onAnswered);
@@ -107,6 +113,7 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
+      socket.off('start_timer', onStartTimer);
       socket.off('drawing', onDrawing);
       socket.off('left', onLeft);
       socket.off('answered', onAnswered);

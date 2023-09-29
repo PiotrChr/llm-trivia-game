@@ -342,6 +342,24 @@ class TriviaRepository:
             return False
 
     @staticmethod
+    def miss_answer(game_id, question_id, player_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            query = """
+                INSERT INTO player_answers (player_id, question_id, game_id, miss)
+                VALUES (?, ?, ?, ?)
+            """
+
+            Database.insert(query, (player_id, question_id, game_id, True), False)
+
+            Database.execute("COMMIT")
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
     def set_game_language(game_id, language_iso_code):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
