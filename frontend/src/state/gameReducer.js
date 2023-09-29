@@ -233,7 +233,15 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, selectedAnswerId: action.payload };
 
     case 'MISS_ANSWER':
-      return { ...state, answerMissed: null };
+      state = {
+        ...state,
+        players: state.players.map((player) => {
+          if (player.id === action.payload) {
+            return { ...player, answer: null, miss: true };
+          }
+          return player;
+        })
+      };
 
     case 'SET_CURRENT_BACKGROUND':
       return { ...state, currentBackground: action.payload };

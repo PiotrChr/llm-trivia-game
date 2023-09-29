@@ -90,7 +90,12 @@ export const useGameSocket = (
 
       return () => clearInterval(interval);
     };
+    const onMissedQuestion = (data) => {
+      const player_id = data.player.id;
+      dispatch({ type: 'MISS_ANSWER', payload: player_id });
+    }
 
+    socket.on('missed', onMissedQuestion);
     socket.on('start_timer', onStartTimer);
     socket.on('drawing', onDrawing);
     socket.on('left', onLeft);
@@ -113,6 +118,7 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
+      socket.off('missed', onMissedQuestion)
       socket.off('start_timer', onStartTimer);
       socket.off('drawing', onDrawing);
       socket.off('left', onLeft);

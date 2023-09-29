@@ -179,7 +179,11 @@ const GamePage = () => {
     if (!socket) return;
 
     if (state.timer >= state.timeLimit) {
-      dispatch({ type: 'MISS_ANSWER' });
+      socket.emit('miss', {
+        game_id: gameId,
+        player: user,
+        question_id: state.question.id
+      });
     }
   }, [state.timeLimit, state.timer, dispatch]);
 
