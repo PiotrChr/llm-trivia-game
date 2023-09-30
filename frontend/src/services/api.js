@@ -131,6 +131,11 @@ export const getGame = async (id) => {
   return response;
 };
 
+export const getGameModes = async () => {
+  const response = await api.get(`${BASE_URL}/game/modes`);
+  return response;
+};
+
 export const getGameStats = async (id) => {
   const response = await api.get(`${BASE_URL}/game/${id}/stats`);
   return response;

@@ -25,6 +25,8 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS game_invitations')
     c.execute('DROP TABLE IF EXISTS notifications')
     c.execute('DROP TABLE IF EXISTS notification_types')
+    c.execute('DROP TABLE IF EXISTS game_modes')
+    c.execute('DROP TABLE IF EXISTS game_rankings')
 
     conn.commit()
 

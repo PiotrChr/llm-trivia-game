@@ -23,9 +23,19 @@ CREATE TABLE games (
     host INTEGER NOT NULL,
     current_category INTEGER DEFAULT NULL,
     max_questions INTEGER DEFAULT NULL,
+    mode_id INTEGER NOT NULL,
     password TEXT DEFAULT NULL,
     FOREIGN KEY (host) REFERENCES users(id),
     FOREIGN KEY (current_category) REFERENCES category(id)
+    FOREIGN KEY (mode_id) REFERENCES game_modes(id)
+);
+
+CREATE TABLE game_players (
+    game_id INTEGER,
+    player_id INTEGER,
+    PRIMARY KEY(game_id, player_id),
+    FOREIGN KEY(game_id) REFERENCES games(id),
+    FOREIGN KEY(player_id) REFERENCES players(id)
 );
 
 CREATE TABLE players (
@@ -220,4 +230,22 @@ CREATE TABLE player_badges (
     earned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(player_id) REFERENCES players(id),
     FOREIGN KEY(badge_id) REFERENCES badges(id)
+);
+
+CREATE TABLE game_modes (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE game_rankings (
+    id INTEGER PRIMARY KEY,
+    game_id INTEGER NOT NULL,
+    player_id INTEGER NOT NULL,
+    mode_id INTEGER NOT NULL,
+    score INTEGER NOT NULL,
+    rank INTEGER NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES games(id),
+    FOREIGN KEY (player_id) REFERENCES players(id),
+    FOREIGN KEY (mode_id) REFERENCES game_modes(id)
 );

@@ -56,6 +56,13 @@ const Layout = ({ children }) => {
                     >
                       About game & rules
                     </Nav.Link>
+                    <Nav.Link
+                      href="/score"
+                      active={location.pathname === '/submit_question'}
+                      className="align-items-center me-2"
+                    >
+                      Submit a question
+                    </Nav.Link>
                   </Nav>
                   <Nav>
                     {user ? (
@@ -179,6 +186,15 @@ const Layout = ({ children }) => {
                 className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
               >
                 Project Page
+              </a>
+              <a
+                onClick={() => {
+                  navigate('/submit_question');
+                }}
+                target="_blank"
+                className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
+              >
+                Submit a Question
               </a>
             </div>
             <div className="col-lg-8 mx-auto text-center mb-4 mt-2">

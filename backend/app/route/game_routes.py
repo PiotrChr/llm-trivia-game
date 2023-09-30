@@ -18,6 +18,11 @@ def get_game_by_id(game_id):
     game = TriviaRepository.get_game_by_id(game_id)
     return jsonify(game), 200
 
+@game_routes.route('/modes', methods=['GET'])
+def get_modes():
+    modes = TriviaRepository.get_game_modes()
+    return jsonify(modes), 200
+
 @game_routes.route('/create', methods=['POST'])
 @jwt_required()
 def create_game():

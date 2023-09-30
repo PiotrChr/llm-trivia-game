@@ -480,6 +480,18 @@ class TriviaRepository:
             print(f"Failed to read data from table games: {error}")
             return None
 
+    @staticmethod
+    def get_game_modes():
+        query = """
+            SELECT * FROM game_modes
+        """
+        try:
+            Database.get_cursor().execute(query)
+            modes = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(mode) for mode in modes]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table game_modes: {error}")
+            return None
 
     @staticmethod
     def get_game_by_id(game_id):

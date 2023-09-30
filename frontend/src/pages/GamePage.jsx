@@ -178,7 +178,7 @@ const GamePage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    if (state.timer >= state.timeLimit) {
+    if (state.timer >= state.timeLimit && !state.selectedOption) {
       socket.emit('miss', {
         game_id: gameId,
         player: user,

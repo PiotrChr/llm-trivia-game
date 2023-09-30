@@ -20,6 +20,8 @@ def clear_tables():
     c.execute('DELETE FROM game_invitations; ALTER TABLE report AUTOINCREMENT = 1')
     c.execute('DELETE FROM notifications; ALTER TABLE report AUTOINCREMENT = 1')
     c.execute('DELETE FROM notification_types; ALTER TABLE report AUTOINCREMENT = 1')
+    c.execute('DELETE FROM game_modes; ALTER TABLE report AUTOINCREMENT = 1')
+    c.execute('DELETE FROM game_rankings; ALTER TABLE report AUTOINCREMENT = 1')
 
 
     conn.commit()
