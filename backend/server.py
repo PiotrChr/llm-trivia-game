@@ -23,7 +23,7 @@ from utils.Database import Database
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1209600
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
 jwt = JWTManager(app)

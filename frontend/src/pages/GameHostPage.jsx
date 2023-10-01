@@ -5,7 +5,12 @@ import Button from 'react-bootstrap/Button';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import StepWizard from 'react-step-wizard';
 
-import { createGame, getCategories, getLanguages } from '../services/api';
+import {
+  createGame,
+  getCategories,
+  getLanguages,
+  getGameModes
+} from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 
 import { LanguageStep } from '../components/Host/Steps/LanguageStep';
@@ -20,17 +25,11 @@ const GameHostPage = () => {
   const [maxQuestions, setMaxQuestions] = useState('');
   const [timeLimit, setTimeLimit] = useState('');
   const [language, setLanguage] = useState(null);
-  const [categories, setCategories] = useState([
-    { label: 'Sports', value: 'sports' },
-    { label: 'History', value: 'history' }
-  ]);
+  const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
   const [gameMode, setGameMode] = useState(null);
-  const [gameModes, setGameModes] = useState([
-    { label: 'Classic', value: 'classic' },
-    { label: 'Battle Royale', value: 'battle_royale' }
-  ]);
+  const [gameModes, setGameModes] = useState([]);
   const [validated, setValidated] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const navigate = useNavigate();
@@ -57,10 +56,14 @@ const GameHostPage = () => {
     };
     const fetchGameModes = async () => {
       const result = await getGameModes();
+
+      console.log(result);
+
       setGameModes(
         result.data.map((gameMode) => ({
           label: gameMode.name,
-          value: gameMode.id
+          value: gameMode.id,
+          description: gameMode.description
         }))
       );
     };
@@ -115,24 +118,25 @@ const GameHostPage = () => {
     setValidated(true);
   };
 
+  console.log(gameModes);
+  console.log(gameMode);
+
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: '100vh' }}
     >
-      <Row>
+      <Row className="w-100">
         <Col md={{ span: 12 }}>
           <Card className="p-4">
             <Card.Body>
               <h2 className="text-center mb-4">Host a Game</h2>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <StepWizard>
-                  <GameModeStep />
-                  <CategoryStep
-                    stepName="Category"
-                    setCategory={setCategory}
-                    category={category}
-                    categories={categories}
+                  <GameModeStep
+                    setGameMode={setGameMode}
+                    gameMode={gameMode}
+                    gameModes={gameModes}
                   />
                   <LanguageStep
                     stepName="Language"
@@ -140,7 +144,15 @@ const GameHostPage = () => {
                     language={language}
                     languages={languages}
                   />
-                  {gameMode === 'custom' && (
+                  {gameMode && gameMode.label === 'Custom' && (
+                    <CategoryStep
+                      stepName="Category"
+                      setCategory={setCategory}
+                      category={category}
+                      categories={categories}
+                    />
+                  )}
+                  {gameMode && gameMode.label === 'Custom' && (
                     <QuestionOptionsStep
                       stepName="Question Options"
                       maxQuestions={maxQuestions}
