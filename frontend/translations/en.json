@@ -1,0 +1,117 @@
+{
+    "common": {
+        "welcome": "Welcome to LLM Trivia!",
+        "play_now": "Play Now",
+        "game_modes": {
+            "timed": {
+                "name": "Timed",
+                "description": "Each question has a time limit. Answer faster to score more points!"
+            },
+            "marathon": {
+                "name": "Marathon",
+                "description": "Endless stream of questions. How long can you last?"
+            },
+            "custom": {
+                "name": "Custom",
+                "description": "Customize game settings to your liking. This mode is unranked."
+            },
+            "classic": {
+                "name": "Classic",
+                "description": "The classic game mode with standard rules and settings."
+            },
+            "competitive": {
+                "name": "Competitive",
+                "description": "Standard mode for competitive play. Climb the ranks!"
+            }
+        },
+        "select": "Select",
+        "language": "Language",
+        "all_categories": "All Categories",
+        "category": "Category",
+        "next": "Next",
+        "max_questions": "Max Questions",
+        "time_limit": "Time Limit",
+        "seconds": "Seconds",
+        "lifelines": "Lifelines",
+        "lifeline": "Lifeline",
+        "none": "None",
+        "auto_start_round": "Auto Start Round",
+        "game_id": "Game ID",
+        "player": "Player",
+        "players": "Players",
+        "status": "Status"
+    },
+    "lifelines": {
+        "50/50": {
+            "name": "50/50",
+            "description": ""
+        },
+        "eliminate_one": {
+            "name": "Eliminate one",
+            "description": ""
+        },
+        "ask_stats": {
+            "name": "Ask the stats",
+            "description": ""
+        },
+        "hint": {
+            "name": "Hint",
+            "description": ""
+        }
+    },
+    "home": {
+        "title": "Welcome to LLM Trivia Game!",
+        "heading": "The LLM Trivia Game is a fun and challenging quiz game. Players must answer a series of questions on various topics as accurately and quickly as possible. The game features a wide variety of categories, ensuring that players will be tested on a range of knowledge. Get started now and see how much you know!"
+    },
+    "navigation": {
+        "main": {
+            "home": "Home",
+            "leadereboard": "Leaderboard",
+            "about_game": "About Game & Rules",
+            "submit_question": "Submit a Question"
+        },
+        "play": {
+            "list": "List games",
+            "host": "Host a game",
+            "join": "Join a game"
+        },
+        "notifications": {
+            "mark_all_as_read": "Mark all as read",
+            "no_notifications": "No new notifications"
+        },
+        "user": {
+            "profile": "Profile",
+            "friends": "Friends",
+            "logout": "Logout"
+        }
+    },
+    "profile": {
+        "title": "Profile"
+    },
+    "friends": {
+        "title": "Friends",
+        "friends": "Friends",
+        "requests": "Requests",
+        "invitations_received": "Invitations Received",
+        "invitations_sent": "Invitations Sent",
+        "add_a_friend": "Add a Friend",
+        "invite": "Invite",
+        "invite_via_facebook": "Invite via Facebook"
+    },
+    "game": {
+        "title": "Game"
+    },
+    "game_list": {
+        "title": "Game List"
+    },
+    "game_host": {
+        "title": "Host a Game",
+        "select_language": "Select Language",
+        "select_game_mode": "Select Game Mode",
+        "question_options": "Question Options"
+    },
+    "game_join": {
+        "title": "Join a Game"
+    }
+    
+}

@@ -342,6 +342,24 @@ class TriviaRepository:
             return False
 
     @staticmethod
+    def miss_answer(game_id, question_id, player_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            query = """
+                INSERT INTO player_answers (player_id, question_id, game_id, miss)
+                VALUES (?, ?, ?, ?)
+            """
+
+            Database.insert(query, (player_id, question_id, game_id, True), False)
+
+            Database.execute("COMMIT")
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
     def set_game_language(game_id, language_iso_code):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
@@ -462,6 +480,18 @@ class TriviaRepository:
             print(f"Failed to read data from table games: {error}")
             return None
 
+    @staticmethod
+    def get_game_modes():
+        query = """
+            SELECT * FROM game_modes
+        """
+        try:
+            Database.get_cursor().execute(query)
+            modes = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(mode) for mode in modes]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table game_modes: {error}")
+            return None
 
     @staticmethod
     def get_game_by_id(game_id):
@@ -883,11 +913,6 @@ class TriviaRepository:
             """
             Database.execute(friend_sql, (player_id, friend_id), False)
 
-            friend_sql = """
-                DELETE FROM friend_invitations WHERE player_id = ? AND friend_id = ?
-            """
-            Database.execute(friend_sql, (friend_id, player_id), False)
-
             Database.execute("COMMIT")
             return True
         except sqlite3.Error as e:
@@ -1082,3 +1107,17 @@ class TriviaRepository:
     @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)
+    
+    # Lifelines
+
+    @staticmethod
+    def get_lifeline_types():
+        try:
+            Database.get_cursor().execute("SELECT * FROM lifeline_types")
+            lifeline_types = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(lifeline_type) for lifeline_type in lifeline_types]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table lifeline_types: {error}")
+            return None
+        
+    

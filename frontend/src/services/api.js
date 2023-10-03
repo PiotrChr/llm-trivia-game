@@ -11,8 +11,6 @@ const API_PORT =
 const BASE_URL = `${API_HOST}${API_PORT}/api`;
 /* eslint-enable no-undef */
 
-console.log(BASE_URL);
-
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true
@@ -131,6 +129,11 @@ export const getGame = async (id) => {
   return response;
 };
 
+export const getGameModes = async () => {
+  const response = await api.get(`${BASE_URL}/game/modes`);
+  return response;
+};
+
 export const getGameStats = async (id) => {
   const response = await api.get(`${BASE_URL}/game/${id}/stats`);
   return response;
@@ -241,4 +244,11 @@ export const removeInvitation = async (notificationId) => {
     `${BASE_URL}/notifications/${notificationId}`
   );
   return response;
-}
+};
+
+// Lifelines
+
+export const getLifelineTypes = async () => {
+  const response = await api.get(`${BASE_URL}/lifelines/types`);
+  return response;
+};

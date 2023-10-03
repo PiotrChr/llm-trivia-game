@@ -20,6 +20,7 @@ def create_tables():
     run_sql_script('backend/db/queries/fixtures/answers.sql')
     run_sql_script('backend/db/queries/fixtures/lifeline_types.sql')
     run_sql_script('backend/db/queries/fixtures/notification_types.sql')
+    run_sql_script('backend/db/queries/fixtures/game_modes.sql')
 
 if __name__ == "__main__":
     create_tables()

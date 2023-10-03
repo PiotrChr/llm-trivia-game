@@ -16,6 +16,7 @@ from app.route.auth_routes import auth_routes
 from app.route.language_routes import language_routes
 from app.route.category_routes import category_routes
 from app.route.notifications_routes import notifications_routes
+from app.route.lifeline_rotes import lifeline_routes
 from app.route.game_socket import register_handlers
 from utils.Database import Database
 
@@ -23,7 +24,7 @@ from utils.Database import Database
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 1209600
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = 2592000  # Refresh token expires after thirty days
 
 jwt = JWTManager(app)
@@ -53,6 +54,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(language_routes, url_prefix='/api/language')
 app.register_blueprint(category_routes, url_prefix='/api/category')
 app.register_blueprint(notifications_routes, url_prefix='/api/notifications')
+app.register_blueprint(lifeline_routes, url_prefix='/api/lifelines')
 
 
 if __name__ == '__main__':

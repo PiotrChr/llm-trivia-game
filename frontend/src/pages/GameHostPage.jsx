@@ -2,24 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Select from 'react-select';
 import { Card, Container, Row, Col } from 'react-bootstrap';
-import { createGame, getCategories, getLanguages } from '../services/api';
+import StepWizard from 'react-step-wizard';
+
+import {
+  createGame,
+  getCategories,
+  getLanguages,
+  getGameModes,
+  getLifelineTypes
+} from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
+
+import { LanguageStep } from '../components/Host/Steps/LanguageStep';
+import { CategoryStep } from '../components/Host/Steps/CategoryStep';
+import { QuestionOptionsStep } from '../components/Host/Steps/QuestionOptionsStep';
+import { GameOptionsStep } from '../components/Host/Steps/GameOptionsStep';
+import { GameModeStep } from '../components/Host/Steps/GameModeStep';
+import { FinalStep } from '../components/Host/Steps/FinalStep';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState('');
   const [maxQuestions, setMaxQuestions] = useState('');
   const [timeLimit, setTimeLimit] = useState('');
   const [language, setLanguage] = useState(null);
-  const [categories, setCategories] = useState([
-    { label: 'Sports', value: 'sports' },
-    { label: 'History', value: 'history' }
-  ]);
+  const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
+  const [allSelected, selectAll] = useState(true);
+  const [gameMode, setGameMode] = useState(null);
+  const [gameModes, setGameModes] = useState([]);
   const [validated, setValidated] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
+  const [lifelines, setLifeLines] = useState([]);
+  const [selectedLifelines, setSelectedLifeLines] = useState({});
   const navigate = useNavigate();
   const { showAlert } = useAlert();
 
@@ -42,7 +58,31 @@ const GameHostPage = () => {
         }))
       );
     };
+    const fetchGameModes = async () => {
+      const result = await getGameModes();
 
+      setGameModes(
+        result.data.map((gameMode) => ({
+          label: gameMode.name,
+          value: gameMode.id,
+          description: gameMode.description
+        }))
+      );
+    };
+
+    const fetchLifelines = async () => {
+      const result = await getLifelineTypes();
+      setLifeLines(
+        result.data.map((lifeline) => ({
+          label: lifeline.name,
+          value: lifeline.id,
+          description: lifeline.description
+        }))
+      );
+    };
+
+    fetchLifelines();
+    fetchGameModes();
     fetchCategories();
     fetchLanguages();
   }, []);
@@ -97,83 +137,55 @@ const GameHostPage = () => {
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: '100vh' }}
     >
-      <Row>
+      <Row className="w-100">
         <Col md={{ span: 12 }}>
           <Card className="p-4">
             <Card.Body>
               <h2 className="text-center mb-4">Host a Game</h2>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group controlId="formGamePassword">
-                  <Form.Label>Game Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={gamePassword}
-                    onChange={(e) => setGamePassword(e.target.value)}
+                <StepWizard>
+                  <GameModeStep
+                    setGameMode={setGameMode}
+                    gameMode={gameMode}
+                    gameModes={gameModes}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid password.
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group controlId="formMaxQuestions">
-                  <Form.Label>
-                    Max Questions (leave empty for infinite)
-                  </Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={maxQuestions}
-                    onChange={(e) => setMaxQuestions(e.target.value)}
+                  <LanguageStep
+                    stepName="Language"
+                    setLanguage={setLanguage}
+                    language={language}
+                    languages={languages}
                   />
-                </Form.Group>
-
-                <Form.Group controlId="formTimeLimit">
-                  <Form.Label>Time Limit (leave empty for no limit)</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={timeLimit}
-                    onChange={(e) => setTimeLimit(e.target.value)}
+                  {gameMode && gameMode.label === 'Custom' && (
+                    <CategoryStep
+                      stepName="Category"
+                      setCategory={setCategory}
+                      category={category}
+                      categories={categories}
+                      selectAll={selectAll}
+                      allSelected={allSelected}
+                    />
+                  )}
+                  {gameMode && gameMode.label === 'Custom' && (
+                    <QuestionOptionsStep
+                      stepName="Question Options"
+                      maxQuestions={maxQuestions}
+                      timeLimit={timeLimit}
+                      autoStart={autoStart}
+                      setMaxQuestions={setMaxQuestions}
+                      setTimeLimit={setTimeLimit}
+                      setAutoStart={setAutoStart}
+                      lifelines={lifelines}
+                      setSelectedLifeLines={setSelectedLifeLines}
+                      selectedLifelines={selectedLifelines}
+                    />
+                  )}
+                  <GameOptionsStep
+                    stepName="Game Options"
+                    gamePassword={gamePassword}
+                    setGamePassword={setGamePassword}
                   />
-                </Form.Group>
-
-                <Form.Group controlId="formLanguage">
-                  <Form.Label>Language</Form.Label>
-                  <Select
-                    value={language}
-                    options={languages}
-                    onChange={(newValue) => setLanguage(newValue)}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please select a language.
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                <Form.Group controlId="formCategory">
-                  <Form.Label>Initial Category</Form.Label>
-                  <Select
-                    isClearable
-                    isSearchable
-                    options={categories}
-                    onChange={handleCategoryChange}
-                    onCreateOption={handleCategoryChange}
-                    formatCreateLabel={(inputValue) => `Add "${inputValue}"`}
-                    value={category}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please select a category.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group controlId="formAutoStart" className="mt-4">
-                  <Form.Check
-                    type="switch"
-                    label="Auto-Start round"
-                    checked={autoStart}
-                    onChange={(e) => setAutoStart(e.target.checked)}
-                  />
-                </Form.Group>
-                <Button variant="primary" type="submit" className="w-100 mt-3">
-                  Host Game
-                </Button>
+                  <FinalStep stepName="Final Step" />
+                </StepWizard>
               </Form>
             </Card.Body>
           </Card>

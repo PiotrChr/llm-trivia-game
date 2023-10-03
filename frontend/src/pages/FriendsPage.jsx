@@ -170,7 +170,7 @@ function FriendsPage() {
     } catch (error) {
       showAlert('Error', `Failed to remove ${friendId}. Please try again.`);
     }
-  }
+  };
 
   return (
     <section className="min-vh-80 mb-8">

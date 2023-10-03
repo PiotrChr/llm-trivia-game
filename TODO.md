@@ -28,3 +28,5 @@
 - [ ] **Extra:** Tutorial
 - [!] **Extra:** Question submission
 - [ ] **Extra:** Game sounds/music
+- [ ] **Core:** Classic and Custom modes - Only classic is ranked (we need to store which mode was selected) 
+- [ ] **Extra:** Interface translations

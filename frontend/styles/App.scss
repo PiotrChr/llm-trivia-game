@@ -95,3 +95,15 @@
         left: auto !important;
     }
 }
+
+.game-mode-tile {
+    min-height: 250px;
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+}
+
+.lifeline-select {
+    .form-check-label {
+        min-width: 150px;
+    }
+}

@@ -7,7 +7,6 @@ from app.service.QuestionManager import QuestionManager
 
 
 def register_handlers(socketio):
-
     @socketio.on('connect')
     def handle_connect(data):
         token = request.args.get('token')
@@ -27,7 +26,6 @@ def register_handlers(socketio):
             raise ConnectionRefusedError('Player not found')
         
         join_room('player_%s' % player_id)
-
     
     @socketio.on('disconnect')
     def handle_disconnect():
@@ -44,6 +42,16 @@ def register_handlers(socketio):
         player_answers = TriviaRepository.get_player_answers(data['game_id'], data['player_id'])
 
         emit('answers_checked', {"player_answers": player_answers}, broadcast=True, room=data['game_id'])
+
+    @socketio.on('miss')
+    def miss_answer(data):
+        TriviaRepository.miss_answer(
+            data['game_id'],
+            data['question_id'],
+            data['player']['id']
+        )
+
+        emit('answer_missed', data, broadcast=True, room=data['game_id'])
 
     @socketio.on('answer')
     def handle_answer(data):
@@ -112,6 +120,8 @@ def register_handlers(socketio):
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
         socketio.sleep(1)
 
+        print('drawing', data['game_id'], data['category'], data['difficulty'], data['language'])
+
         try:
             question = QuestionManager.next_question(
                 data['game_id'],
@@ -140,6 +150,9 @@ def register_handlers(socketio):
             room=room,
             broadcast=True
         )
+
+        if game['time_limit'] > 0:
+            emit('start_timer', {"game_id": data['game_id'], "time_limit": game['time_limit']}, room=room, broadcast=True)
 
     @socketio.on('pingx')
     def handle_ping(data):
