@@ -9,7 +9,8 @@ import {
   createGame,
   getCategories,
   getLanguages,
-  getGameModes
+  getGameModes,
+  getLifelineTypes
 } from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 
@@ -28,10 +29,13 @@ const GameHostPage = () => {
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [category, setCategory] = useState(null);
+  const [allSelected, selectAll] = useState(true);
   const [gameMode, setGameMode] = useState(null);
   const [gameModes, setGameModes] = useState([]);
   const [validated, setValidated] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
+  const [lifelines, setLifeLines] = useState([]);
+  const [selectedLifelines, setSelectedLifeLines] = useState({});
   const navigate = useNavigate();
   const { showAlert } = useAlert();
 
@@ -57,8 +61,6 @@ const GameHostPage = () => {
     const fetchGameModes = async () => {
       const result = await getGameModes();
 
-      console.log(result);
-
       setGameModes(
         result.data.map((gameMode) => ({
           label: gameMode.name,
@@ -68,6 +70,18 @@ const GameHostPage = () => {
       );
     };
 
+    const fetchLifelines = async () => {
+      const result = await getLifelineTypes();
+      setLifeLines(
+        result.data.map((lifeline) => ({
+          label: lifeline.name,
+          value: lifeline.id,
+          description: lifeline.description
+        }))
+      );
+    };
+
+    fetchLifelines();
     fetchGameModes();
     fetchCategories();
     fetchLanguages();
@@ -118,9 +132,6 @@ const GameHostPage = () => {
     setValidated(true);
   };
 
-  console.log(gameModes);
-  console.log(gameMode);
-
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
@@ -150,6 +161,8 @@ const GameHostPage = () => {
                       setCategory={setCategory}
                       category={category}
                       categories={categories}
+                      selectAll={selectAll}
+                      allSelected={allSelected}
                     />
                   )}
                   {gameMode && gameMode.label === 'Custom' && (
@@ -161,6 +174,9 @@ const GameHostPage = () => {
                       setMaxQuestions={setMaxQuestions}
                       setTimeLimit={setTimeLimit}
                       setAutoStart={setAutoStart}
+                      lifelines={lifelines}
+                      setSelectedLifeLines={setSelectedLifeLines}
+                      selectedLifelines={selectedLifelines}
                     />
                   )}
                   <GameOptionsStep

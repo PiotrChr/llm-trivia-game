@@ -2,8 +2,13 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 
-export const GameOptionsStep = ({ setGamePassword, gamePassword }) => {
+export const GameOptionsStep = ({
+  setGamePassword,
+  gamePassword,
+  nextStep
+}) => {
   return (
     <Container className="host-game-step">
       <h3 className="text-center w-100 mb-5">Game Options</h3>
@@ -19,6 +24,14 @@ export const GameOptionsStep = ({ setGamePassword, gamePassword }) => {
             Please provide a valid password.
           </Form.Control.Feedback>
         </Form.Group>
+        <Button
+          variant="primary"
+          type="submit"
+          className="mt-5 btn w-auto ms-auto me-5"
+          onClick={nextStep}
+        >
+          Next
+        </Button>
       </Row>
     </Container>
   );

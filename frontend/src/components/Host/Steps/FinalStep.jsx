@@ -7,8 +7,13 @@ export const FinalStep = () => {
   return (
     <Container className="host-game-step">
       <Row>
-        <Button variant="primary" type="submit" className="w-100 mt-3">
-          Host Game
+        <Button
+          variant="primary"
+          type="submit"
+          className="mt-5 btn w-auto ms-auto me-5"
+          onClick={() => {}}
+        >
+          Create Game
         </Button>
       </Row>
     </Container>

@@ -1107,3 +1107,17 @@ class TriviaRepository:
     @staticmethod
     def generate_hash(password: str) -> str:
         return generate_password_hash(password)
+    
+    # Lifelines
+
+    @staticmethod
+    def get_lifeline_types():
+        try:
+            Database.get_cursor().execute("SELECT * FROM lifeline_types")
+            lifeline_types = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(lifeline_type) for lifeline_type in lifeline_types]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table lifeline_types: {error}")
+            return None
+        
+    

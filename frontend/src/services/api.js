@@ -11,8 +11,6 @@ const API_PORT =
 const BASE_URL = `${API_HOST}${API_PORT}/api`;
 /* eslint-enable no-undef */
 
-console.log(BASE_URL);
-
 const api = axios.create({
   baseURL: BASE_URL,
   withCredentials: true
@@ -245,5 +243,12 @@ export const removeInvitation = async (notificationId) => {
   const response = await api.delete(
     `${BASE_URL}/notifications/${notificationId}`
   );
+  return response;
+};
+
+// Lifelines
+
+export const getLifelineTypes = async () => {
+  const response = await api.get(`${BASE_URL}/lifelines/types`);
   return response;
 };
