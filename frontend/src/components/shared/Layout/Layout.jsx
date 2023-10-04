@@ -5,6 +5,7 @@ import { useAuth } from '../../../routing/AuthProvider';
 import { useTranslation } from 'react-i18next';
 
 import NotificationDropdown from '../../Layout/NotificationsDropdown';
+import LanguageDropdown from '../Translation/LanguageDropdown';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -144,6 +145,7 @@ const Layout = ({ children }) => {
                         </Nav.Item>
                       </>
                     )}
+                    <LanguageDropdown />
                   </Nav>
                 </Navbar.Collapse>
               </Container>

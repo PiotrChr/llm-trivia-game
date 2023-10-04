@@ -11,7 +11,7 @@ i18n
     backend: {
       loadPath: '/static/translations/{{lng}}/translation.json'
     },
-    lng: 'en', // default language
+    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false

@@ -30,11 +30,12 @@ export const QuestionOptionsStep = ({
     <Container className="host-game-step">
       <Row>
         <h3 className="text-center w-100 mb-5">
-          { t('game_host.question_options') }
+          {t('game_host.question_options')}
         </h3>
         <Form.Group controlId="formMaxQuestions">
           <Form.Label>
-          { t('common.max_questions') }: {maxQuestions !== 0 ? maxQuestions : 'Infinite'}
+            {t('common.max_questions')}:{' '}
+            {maxQuestions !== 0 ? maxQuestions : 'Infinite'}
           </Form.Label>
           <Form.Control
             type="range"
@@ -44,13 +45,14 @@ export const QuestionOptionsStep = ({
             onChange={(e) => setMaxQuestions(e.target.value)}
           />
           <Form.Text className="text-muted">
-            { t('game_host.max_questions_label') }
+            {t('game_host.max_questions_label')}
           </Form.Text>
         </Form.Group>
 
         <Form.Group controlId="formTimeLimit">
           <Form.Label>
-            { t('common.time_limit') }: {timeLimit !== 0 ? `${timeLimit} seconds` : 'No limit'}
+            {t('common.time_limit')}:{' '}
+            {timeLimit !== 0 ? `${timeLimit} seconds` : 'No limit'}
           </Form.Label>
           <Form.Control
             type="range"
@@ -60,12 +62,12 @@ export const QuestionOptionsStep = ({
             onChange={(e) => setTimeLimit(e.target.value)}
           />
           <Form.Text className="text-muted">
-            { t('game_host.time_limit_label') }
+            {t('game_host.time_limit_label')}
           </Form.Text>
         </Form.Group>
 
         <div className="lifeline-select">
-          <Form.Label>{ t('common.lifelines') }</Form.Label>
+          <Form.Label>{t('common.lifelines')}</Form.Label>
           {lifelines.map((lifeline) => (
             <Form.Group key={lifeline.value} className="d-flex mb-2">
               <Form.Check
@@ -120,7 +122,7 @@ export const QuestionOptionsStep = ({
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={nextStep}
         >
-          { t('common.next') }
+          {t('common.next')}
         </Button>
       </Row>
     </Container>

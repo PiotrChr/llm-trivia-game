@@ -13,6 +13,7 @@ import { initialState, gameReducer } from '../state/gameReducer';
 import { useGameSocket } from '../services/hooks/game/useGameSocket';
 import { useFetchGameData } from '../services/hooks/game/useFetchGameData';
 import GameUI from '../components/Game/GameUI';
+import { useTranslation } from 'react-i18next';
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ const GamePage = () => {
   const { showAlert } = useAlert();
   const [displayResult, setDisplayResult] = useState(null);
   const [state, dispatch] = useReducer(gameReducer, initialState);
+  const { t } = useTranslation();
 
   const { socket } = useGameSocket(
     gameId,
@@ -108,10 +110,15 @@ const GamePage = () => {
 
   const handleStartGame = useCallback(() => {
     if (!state.allPresent) {
-      showAlert('Warning', 'Not all players are present!', null, {
-        variant: 'warning',
-        position: 'bottom'
-      });
+      showAlert(
+        t('common.warning'),
+        t('game.errors.not_all_players_present'),
+        null,
+        {
+          variant: 'warning',
+          position: 'bottom'
+        }
+      );
       return;
     }
     dispatch({ type: 'START_GAME' });

@@ -14,6 +14,7 @@ import Sidebar from './SideBar';
 import FadeInOut from '../shared/FadeInOut';
 import ResultBadge from './ResultBadge';
 import Lifelines from './LifeLines';
+import { useTranslation } from 'react-i18next';
 
 const GameUI = ({
   state,
@@ -68,7 +69,9 @@ const GameUI = ({
     [currentBackground]
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  const { t } = useTranslation();
+
+  if (isLoading) return <p>{t('common.loading')}</p>;
 
   return (
     <section className="min-vh-80 mb-8">
@@ -82,10 +85,10 @@ const GameUI = ({
             <Col lg={5} className="text-center mx-auto">
               <h1 className="text-white mb-2 mt-10">{category.name}</h1>
               <p className="text-lead text-white">
-                Current difficulty: {difficulty}/5
+                {t('game.current_difficulty')}: {difficulty}/5
               </p>
               <p className="text-lead text-white">
-                Current language: {language.name}
+                {t('game.current_language')}: {language.name}
               </p>
             </Col>
           </Row>
@@ -186,7 +189,7 @@ const GameUI = ({
                         : 'btn-outline-success')
                     }
                   >
-                    Ready
+                    {t('game.ready')}
                   </Button>
                   {questionReady && (
                     <Button
@@ -198,11 +201,11 @@ const GameUI = ({
                             question={question}
                             onSubmit={hideModal}
                           />,
-                          'Report Question'
+                          t('game.report_question')
                         )
                       }
                     >
-                      Report question
+                      {t('game.report_question')}
                     </Button>
                   )}
                   {isHost && !gameStarted && allReady && (
@@ -210,12 +213,12 @@ const GameUI = ({
                       className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
                       onClick={handleStartGame}
                     >
-                      Start Game
+                      {t('game.start_game')}
                     </Button>
                   )}
                   {gameStarted && isHost && (
                     <Button className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0">
-                      Stop Game
+                      {t('game.stop_game')}
                     </Button>
                   )}
                   {gameStarted && allAnswered && !autoStart && (
@@ -223,7 +226,7 @@ const GameUI = ({
                       className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
                       onClick={handleNextQuestionClick}
                     >
-                      Next question
+                      {t('game.next_question')}
                     </Button>
                   )}
                   {isHost && (

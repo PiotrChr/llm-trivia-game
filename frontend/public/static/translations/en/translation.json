@@ -2,6 +2,7 @@
     "common": {
         "errors": {
             "error": "Error",
+            "warning": "Warning",
             "something_went_wrong": "Something went wrong. Please try again later."
         },
         "welcome": "Welcome to LLM Trivia!",
@@ -43,7 +44,10 @@
         "game_id": "Game ID",
         "player": "Player",
         "players": "Players",
-        "status": "Status"
+        "status": "Status",
+        "loading": "Loading...",
+        "send": "Send"
+        
     },
     "lifelines": {
         "50/50": {
@@ -115,7 +119,17 @@
         "invite_via_facebook": "Invite via Facebook"
     },
     "game": {
-        "title": "Game"
+        "title": "Game",
+        "current_difficulty": "Current Difficulty",
+        "current_language": "Current Language",
+        "ready": "Ready",
+        "start_game": "Start Game",
+        "stop_game": "Stop Game",
+        "next_question": "Next Question",
+        "report_question": "Report Question",
+        "error": {
+            "not_all_player_present": "Not all players are present"
+        }
     },
     "game_list": {
         "title": "Game List"
@@ -131,6 +145,7 @@
         "game_password": "Game Password",
         "max_questions_label": "Slide to the right to increase the number of questions, or slide to the left to decrease. Leave it at the minimum for an infinite number of questions.",
         "time_limit_label": "Slide to adjust the time limit for each question. Slide to the minimum for no time limit.",
+        "type_your_message": "Type your message...",
         "errors": {
             "invalid_game_password": "Invalid game password"
         }

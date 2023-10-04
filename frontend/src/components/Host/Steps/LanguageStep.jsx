@@ -21,9 +21,11 @@ export const LanguageStep = ({
   return (
     <Container className="host-game-step my-5 my-lg-5">
       <Row>
-        <h3 className="text-center w-100 mb-5">{ t('game_host.select_language') }</h3>
+        <h3 className="text-center w-100 mb-5">
+          {t('game_host.select_language')}
+        </h3>
         <Form.Group controlId="formLanguage">
-          <Form.Label>{ t('common.language') }</Form.Label>
+          <Form.Label>{t('common.language')}</Form.Label>
           <Select
             value={language}
             options={languages}
@@ -31,7 +33,7 @@ export const LanguageStep = ({
             required
           />
           <Form.Control.Feedback type="invalid">
-            { t('game_host.select_language') }
+            {t('game_host.select_language')}
           </Form.Control.Feedback>
         </Form.Group>
         <Button
@@ -40,7 +42,7 @@ export const LanguageStep = ({
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={nextStep}
         >
-          { t('common.next') }
+          {t('common.next')}
         </Button>
       </Row>
     </Container>

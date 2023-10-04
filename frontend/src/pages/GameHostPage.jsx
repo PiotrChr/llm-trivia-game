@@ -113,19 +113,29 @@ const GameHostPage = () => {
         );
 
         if (!game) {
-          showAlert(t('common.errors.error'), t('common.errors.something_went_wrong'), null, {
-            variant: 'danger',
-            position: 'bottom'
-          });
+          showAlert(
+            t('common.errors.error'),
+            t('common.errors.something_went_wrong'),
+            null,
+            {
+              variant: 'danger',
+              position: 'bottom'
+            }
+          );
           return;
         }
 
         navigate('/game/' + game.data.id);
       } catch (err) {
-        showAlert(t('common.errors.error'), t('common.errors.something_went_wrong'), err.message, {
-          variant: 'danger',
-          position: 'bottom'
-        });
+        showAlert(
+          t('common.errors.error'),
+          t('common.errors.something_went_wrong'),
+          err.message,
+          {
+            variant: 'danger',
+            position: 'bottom'
+          }
+        );
         return;
       }
     }

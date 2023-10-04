@@ -20,7 +20,9 @@ export const GameModeStep = ({
   return (
     <Container className="host-game-step">
       <Row>
-        <h3 className="text-center w-100 mb-5">{ t('game_host.select_game_mode') }</h3>
+        <h3 className="text-center w-100 mb-5">
+          {t('game_host.select_game_mode')}
+        </h3>
         {gameModes.map((mode, index) => (
           <Col md={4} key={index}>
             <GameModeTile
