@@ -4,6 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Select from 'react-select';
 import { Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+
 
 export const CategoryStep = ({
   setCategory,
@@ -13,13 +15,14 @@ export const CategoryStep = ({
   categories,
   nextStep
 }) => {
-  console.log(allSelected);
+
+  const { t } = useTranslation();
 
   return (
     <Container className="host-game-step my-lg-5 mt-0">
       <Row>
         <Form.Group controlId="formAllCategories" className="mb-5">
-          <Form.Label>All Categories</Form.Label>
+          <Form.Label>{ t('common.all_categories') }</Form.Label>
           <div className="form-check form-switch">
             <input
               className="form-check-input"
@@ -32,7 +35,7 @@ export const CategoryStep = ({
           </div>
         </Form.Group>
         <Form.Group controlId="formLanguage">
-          <Form.Label>Category</Form.Label>
+          <Form.Label>{ t('common.category') }</Form.Label>
           <Select
             value={category}
             options={categories}
@@ -41,7 +44,7 @@ export const CategoryStep = ({
             required
           />
           <Form.Control.Feedback type="invalid">
-            Please select a category.
+            { t('game_host.select_category') }
           </Form.Control.Feedback>
         </Form.Group>
 
@@ -51,7 +54,7 @@ export const CategoryStep = ({
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={nextStep}
         >
-          Next
+          { t('common.next') }
         </Button>
       </Row>
     </Container>

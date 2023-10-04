@@ -13,7 +13,7 @@ export const FinalStep = () => {
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={() => {}}
         >
-          Create Game
+          { t('game_host.create_game') }
         </Button>
       </Row>
     </Container>

@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from 'react-i18next';
 
 export const QuestionOptionsStep = ({
   setMaxQuestions,
@@ -16,6 +17,8 @@ export const QuestionOptionsStep = ({
   selectedLifelines,
   nextStep
 }) => {
+  const { t } = useTranslation();
+
   const setSelectedLifelineNumber = (lifeline, number) => {
     setSelectedLifeLines({
       ...selectedLifelines,
@@ -23,15 +26,15 @@ export const QuestionOptionsStep = ({
     });
   };
 
-  console.log(selectedLifelines);
-
   return (
     <Container className="host-game-step">
       <Row>
-        <h3 className="text-center w-100 mb-5">Question Options</h3>
+        <h3 className="text-center w-100 mb-5">
+          { t('game_host.question_options') }
+        </h3>
         <Form.Group controlId="formMaxQuestions">
           <Form.Label>
-            Max Questions: {maxQuestions !== 0 ? maxQuestions : 'Infinite'}
+          { t('common.max_questions') }: {maxQuestions !== 0 ? maxQuestions : 'Infinite'}
           </Form.Label>
           <Form.Control
             type="range"
@@ -41,15 +44,13 @@ export const QuestionOptionsStep = ({
             onChange={(e) => setMaxQuestions(e.target.value)}
           />
           <Form.Text className="text-muted">
-            Slide to the right to increase the number of questions, or slide to
-            the left to decrease. Leave it at the minimum for an infinite number
-            of questions.
+            { t('game_host.max_questions_label') }
           </Form.Text>
         </Form.Group>
 
         <Form.Group controlId="formTimeLimit">
           <Form.Label>
-            Time Limit: {timeLimit !== 0 ? `${timeLimit} seconds` : 'No limit'}
+            { t('common.time_limit') }: {timeLimit !== 0 ? `${timeLimit} seconds` : 'No limit'}
           </Form.Label>
           <Form.Control
             type="range"
@@ -59,13 +60,12 @@ export const QuestionOptionsStep = ({
             onChange={(e) => setTimeLimit(e.target.value)}
           />
           <Form.Text className="text-muted">
-            Slide to adjust the time limit for each question. Slide to the
-            minimum for no time limit.
+            { t('game_host.time_limit_label') }
           </Form.Text>
         </Form.Group>
 
         <div className="lifeline-select">
-          <Form.Label>Lifelines</Form.Label>
+          <Form.Label>{ t('common.lifelines') }</Form.Label>
           {lifelines.map((lifeline) => (
             <Form.Group key={lifeline.value} className="d-flex mb-2">
               <Form.Check
@@ -120,7 +120,7 @@ export const QuestionOptionsStep = ({
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={nextStep}
         >
-          Next
+          { t('common.next') }
         </Button>
       </Row>
     </Container>
