@@ -21,7 +21,9 @@ export const GameOptionsStep = ({
           <Form.Control
             type="password"
             value={gamePassword}
-            onChange={(e) => setGamePassword(e.target.value)}
+            onChange={(e) => {
+              setGamePassword(e.target.value);
+            }}
           />
           <Form.Control.Feedback type="invalid">
             {t('game_host.errors.invalid_game_password')}

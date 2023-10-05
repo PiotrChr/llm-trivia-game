@@ -195,7 +195,7 @@ const GameHostPage = () => {
                     gamePassword={gamePassword}
                     setGamePassword={setGamePassword}
                   />
-                  <FinalStep stepName="Final Step" />
+                  <FinalStep stepName="Final Step" startGame={handleSubmit} />
                 </StepWizard>
               </Form>
             </Card.Body>
