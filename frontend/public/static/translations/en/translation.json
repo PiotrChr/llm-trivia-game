@@ -1,5 +1,10 @@
 {
     "common": {
+        "errors": {
+            "error": "Error",
+            "warning": "Warning",
+            "something_went_wrong": "Something went wrong. Please try again later."
+        },
         "welcome": "Welcome to LLM Trivia!",
         "play_now": "Play Now",
         "game_modes": {
@@ -39,7 +44,10 @@
         "game_id": "Game ID",
         "player": "Player",
         "players": "Players",
-        "status": "Status"
+        "status": "Status",
+        "loading": "Loading...",
+        "send": "Send"
+        
     },
     "lifelines": {
         "50/50": {
@@ -66,14 +74,24 @@
     "navigation": {
         "main": {
             "home": "Home",
-            "leadereboard": "Leaderboard",
+            "leaderboard": "Leaderboard",
             "about_game": "About Game & Rules",
+            "submit_question": "Submit a Question"
+        },
+        "footer": {
+            "about_game": "About Game",
+            "contact": "Contact",
+            "terms": "Terms",
+            "privacy": "Privacy",
+            "about_author": "About the Author",
+            "project_page": "Project Page",
             "submit_question": "Submit a Question"
         },
         "play": {
             "list": "List games",
             "host": "Host a game",
-            "join": "Join a game"
+            "join": "Join a game",
+            "play": "Play"
         },
         "notifications": {
             "mark_all_as_read": "Mark all as read",
@@ -82,7 +100,9 @@
         "user": {
             "profile": "Profile",
             "friends": "Friends",
-            "logout": "Logout"
+            "logout": "Logout",
+            "login": "Login",
+            "signup": "Signup"
         }
     },
     "profile": {
@@ -99,7 +119,17 @@
         "invite_via_facebook": "Invite via Facebook"
     },
     "game": {
-        "title": "Game"
+        "title": "Game",
+        "current_difficulty": "Current Difficulty",
+        "current_language": "Current Language",
+        "ready": "Ready",
+        "start_game": "Start Game",
+        "stop_game": "Stop Game",
+        "next_question": "Next Question",
+        "report_question": "Report Question",
+        "error": {
+            "not_all_player_present": "Not all players are present"
+        }
     },
     "game_list": {
         "title": "Game List"
@@ -108,7 +138,17 @@
         "title": "Host a Game",
         "select_language": "Select Language",
         "select_game_mode": "Select Game Mode",
-        "question_options": "Question Options"
+        "select_category": "Select Category",
+        "question_options": "Question Options",
+        "create_game": "Create Game",
+        "game_options": "Game Options",
+        "game_password": "Game Password",
+        "max_questions_label": "Slide to the right to increase the number of questions, or slide to the left to decrease. Leave it at the minimum for an infinite number of questions.",
+        "time_limit_label": "Slide to adjust the time limit for each question. Slide to the minimum for no time limit.",
+        "type_your_message": "Type your message...",
+        "errors": {
+            "invalid_game_password": "Invalid game password"
+        }
     },
     "game_join": {
         "title": "Join a Game"

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import GameModeTile from '../GameModeTile';
+import { useTranslation } from 'react-i18next';
 
 export const GameModeStep = ({
   setGameMode,
@@ -8,6 +9,8 @@ export const GameModeStep = ({
   gameModes,
   nextStep
 }) => {
+  const { t } = useTranslation();
+
   const handleSelect = (mode) => {
     setGameMode(mode);
 
@@ -17,7 +20,9 @@ export const GameModeStep = ({
   return (
     <Container className="host-game-step">
       <Row>
-        <h3 className="text-center w-100 mb-5">Select Game Mode</h3>
+        <h3 className="text-center w-100 mb-5">
+          {t('game_host.select_game_mode')}
+        </h3>
         {gameModes.map((mode, index) => (
           <Col md={4} key={index}>
             <GameModeTile

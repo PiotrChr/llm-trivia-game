@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import i18n from 'i18next';
-import Backend from 'i18next-http-backend';
-import { initReactI18next } from 'react-i18next';
+import i18n from './i18n';
 import { getLanguages } from '../../../services/api';
 
 export const TranslationContext = createContext();
@@ -22,21 +20,7 @@ export const TranslationProvider = ({ children }) => {
     };
 
     fetchLanguages();
-
-    i18n
-      .use(Backend)
-      .use(initReactI18next)
-      .init({
-        backend: {
-          loadPath: '/locales/{{lng}}/{{ns}}.json'
-        },
-        lng: currentLanguage,
-        fallBackLng: 'en',
-        interpolation: {
-          escapeValue: false
-        }
-      });
-  }, [currentLanguage]);
+  }, []);
 
   const changeLanguage = (lang) => {
     setCurrentLanguage(lang);

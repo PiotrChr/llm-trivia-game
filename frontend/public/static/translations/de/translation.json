@@ -1,0 +1,156 @@
+{
+    "common": {
+        "errors": {
+            "error": "Fehler",
+            "warning": "Warnung",
+            "something_went_wrong": "Etwas ist schief gelaufen. Bitte versuchen Sie es später noch einmal."
+        },
+        "welcome": "Willkommen bei LLM Trivia!",
+        "play_now": "Jetzt spielen",
+        "game_modes": {
+            "timed": {
+                "name": "Zeitlich",
+                "description": "Jede Frage hat eine Zeitbegrenzung. Beantworten Sie schneller, um mehr Punkte zu erzielen!"
+            },
+            "marathon": {
+                "name": "Marathon",
+                "description": "Endloser Fragenstrom. Wie lange hältst du durch?"
+            },
+            "custom": {
+                "name": "Benutzerdefiniert",
+                "description": "Passen Sie die Spieleinstellungen nach Ihren Wünschen an. Dieser Modus ist nicht gewertet."
+            },
+            "classic": {
+                "name": "Klassisch",
+                "description": "Der klassische Spielmodus mit Standardregeln und -einstellungen."
+            },
+            "competitive": {
+                "name": "Wettbewerbsfähig",
+                "description": "Standardmodus für den Wettbewerb. Steige in den Rängen auf!"
+            }
+        },
+        "select": "Auswählen",
+        "language": "Sprache",
+        "all_categories": "Alle Kategorien",
+        "category": "Kategorie",
+        "next": "Nächste",
+        "max_questions": "Max Fragen",
+        "time_limit": "Zeitbegrenzung",
+        "seconds": "Sekunden",
+        "lifelines": "Rettungsleinen",
+        "lifeline": "Rettungsleine",
+        "none": "Keine",
+        "auto_start_round": "Runde automatisch starten",
+        "game_id": "Spiel ID",
+        "player": "Spieler",
+        "players": "Spieler",
+        "status": "Status",
+        "loading": "Wird geladen...",
+        "send": "Senden"
+    },
+    "lifelines": {
+        "50/50": {
+            "name": "50/50",
+            "description": ""
+        },
+        "eliminate_one": {
+            "name": "Eine ausschließen",
+            "description": ""
+        },
+        "ask_stats": {
+            "name": "Die Statistik fragen",
+            "description": ""
+        },
+        "hint": {
+            "name": "Hinweis",
+            "description": ""
+        }
+    },
+    "home": {
+        "title": "Willkommen beim LLM Trivia Spiel!",
+        "heading": "Das LLM Trivia Spiel ist ein lustiges und herausforderndes Quizspiel. Die Spieler müssen eine Reihe von Fragen zu verschiedenen Themen so genau und schnell wie möglich beantworten. Das Spiel bietet eine große Vielfalt an Kategorien, sodass die Spieler in einem breiten Wissensspektrum getestet werden. Fangen Sie jetzt an und sehen Sie, wie viel Sie wissen!"
+    },
+    "navigation": {
+        "main": {
+            "home": "Startseite",
+            "leaderboard": "Rangliste",
+            "about_game": "Über das Spiel & Regeln",
+            "submit_question": "Frage einreichen"
+        },
+        "footer": {
+            "about_game": "Über das Spiel",
+            "contact": "Kontakt",
+            "terms": "Bedingungen",
+            "privacy": "Datenschutz",
+            "about_author": "Über den Autor",
+            "project_page": "Projektseite",
+            "submit_question": "Frage einreichen"
+        },
+        "play": {
+            "list": "Spiele auflisten",
+            "host": "Ein Spiel hosten",
+            "join": "Einem Spiel beitreten",
+            "play": "Spielen"
+        },
+        "notifications": {
+            "mark_all_as_read": "Alle als gelesen markieren",
+            "no_notifications": "Keine neuen Benachrichtigungen"
+        },
+        "user": {
+            "profile": "Profil",
+            "friends": "Freunde",
+            "logout": "Abmelden",
+            "login": "Anmelden",
+            "signup": "Registrieren"
+        }
+    },
+    "profile": {
+        "title": "Profil"
+    },
+    "friends": {
+        "title": "Freunde",
+        "friends": "Freunde",
+        "requests": "Anfragen",
+        "invitations_received": "Erhaltene Einladungen",
+        "invitations_sent": "Gesendete Einladungen",
+        "add_a_friend": "Einen Freund hinzufügen",
+        "invite": "Einladen",
+        "invite_via_facebook": "Über Facebook einladen"
+    },
+    "game": {
+        "title": "Spiel",
+        "current_difficulty": "Aktuelle Schwierigkeit",
+        "current_language": "Aktuelle Sprache",
+        "ready": "Bereit",
+        "start_game": "Spiel starten",
+        "stop_game": "Spiel stoppen",
+        "next_question": "Nächste Frage",
+        "report_question": "Frage melden",
+        "error": {
+            "not_all_player_present": "Nicht alle Spieler sind anwesend"
+        }
+    },
+    "game_list": {
+        "title": "Spieleliste"
+    },
+    "game_host": {
+        "title": "Ein Spiel hosten",
+        "select_language": "Sprache auswählen",
+        "select_game_mode": "Spielmodus auswählen",
+        "select_category": "Kategorie auswählen",
+        "question_options": "Fragenoptionen",
+        "create_game": "Spiel erstellen",
+        "game_options": "Spielmöglichkeiten",
+        "game_password": "Spielpasswort",
+        "max_questions_label": "Schieben Sie nach rechts, um die Anzahl der Fragen zu erhöhen, oder nach links, um sie zu verringern. Lassen Sie es auf dem Minimum für eine unendliche Anzahl von Fragen.",
+        "time_limit_label": "Schieben Sie, um das Zeitlimit für jede Frage anzupassen. Schieben Sie auf das Minimum für keine Zeitbegrenzung.",
+        "type_your_message": "Geben Sie Ihre Nachricht ein...",
+        "errors": {
+            "invalid_game_password": "Ungültiges Spielpasswort"
+        }
+    },
+    "game_join": {
+        "title": "Einem Spiel beitreten"
+    }
+    
+}

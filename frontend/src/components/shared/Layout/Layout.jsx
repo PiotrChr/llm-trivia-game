@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-
 import { useAuth } from '../../../routing/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 import NotificationDropdown from '../../Layout/NotificationsDropdown';
+import LanguageDropdown from '../Translation/LanguageDropdown';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { user } = useAuth();
 
@@ -40,44 +42,33 @@ const Layout = ({ children }) => {
                       active={location.pathname === '/'}
                       className="align-items-center me-2"
                     >
-                      Home
+                      {t('navigation.main.home')}
                     </Nav.Link>
                     <Nav.Link
                       href="/leaderboard"
                       active={location.pathname === '/leaderboard'}
                       className="align-items-center me-2"
                     >
-                      Leaderboard
+                      {t('navigation.main.leaderboard')}
                     </Nav.Link>
                     <Nav.Link
                       href="/score"
                       active={location.pathname === '/about_game'}
                       className="align-items-center me-2"
                     >
-                      About game & rules
+                      {t('navigation.main.about_game')}
                     </Nav.Link>
                     <Nav.Link
                       href="/score"
                       active={location.pathname === '/submit_question'}
                       className="align-items-center me-2"
                     >
-                      Submit a question
+                      {t('navigation.main.submit_question')}
                     </Nav.Link>
                   </Nav>
                   <Nav>
                     {user ? (
                       <>
-                        {/* <Nav.Item
-                          className=""
-                          onClick={() => navigate('/notifications')}
-                        >
-                          <Button
-                            className="btn-sm btn-icon-only mb-0 mt-1 me-2 btn-round"
-                            variant="primary"
-                          >
-                            <FontAwesomeIcon icon={faBell} />
-                          </Button>
-                        </Nav.Item> */}
                         <NotificationDropdown
                           user={user}
                           // onClick={() => navigate('/notifications')}
@@ -89,18 +80,22 @@ const Layout = ({ children }) => {
                             id="dropdown-basic"
                             className="btn-round btn-sm mb-0 btn-outline-primary me-2"
                           >
-                            <i className="bi-joystick me-2"></i> Play
+                            <i className="bi-joystick me-2"></i>{' '}
+                            {t('navigation.play.play')}
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
                             <Dropdown.Item href="/game/list">
-                              <i className="bi-list-ul me-2"></i> List
+                              <i className="bi-list-ul me-2"></i>{' '}
+                              {t('navigation.play.list')}
                             </Dropdown.Item>
                             <Dropdown.Item href="/game/join">
-                              <i className="bi-person-fill-add me-2"></i> Join
+                              <i className="bi-person-fill-add me-2"></i>{' '}
+                              {t('navigation.play.join')}
                             </Dropdown.Item>
                             <Dropdown.Item href="/game/host">
-                              <i className="bi-file-plus-fill me-2"></i> Host
+                              <i className="bi-file-plus-fill me-2"></i>{' '}
+                              {t('navigation.play.host')}
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -116,13 +111,16 @@ const Layout = ({ children }) => {
 
                           <Dropdown.Menu>
                             <Dropdown.Item onClick={() => navigate('/profile')}>
-                              <i className="bi-person-fill me-2"></i> Profile
+                              <i className="bi-person-fill me-2"></i>{' '}
+                              {t('navigation.user.profile')}
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/friends')}>
-                              <i className="bi-people-fill me-2"></i> Friends
+                              <i className="bi-people-fill me-2"></i>{' '}
+                              {t('navigation.user.friends')}
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/logout')}>
-                              <i className="bi-door-closed me-2"></i> Logout
+                              <i className="bi-door-closed me-2"></i>{' '}
+                              {t('navigation.user.logout')}
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -134,7 +132,7 @@ const Layout = ({ children }) => {
                             href="/login"
                             className="btn btn-round btn-sm mb-0 btn-outline-primary me-2"
                           >
-                            Login
+                            {t('navigation.user.login')}
                           </a>
                         </Nav.Item>
                         <Nav.Item className="d-flex align-items-center">
@@ -142,11 +140,12 @@ const Layout = ({ children }) => {
                             href="/signup"
                             className="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark"
                           >
-                            Signup
+                            {t('navigation.user.signup')}
                           </a>
                         </Nav.Item>
                       </>
                     )}
+                    <LanguageDropdown />
                   </Nav>
                 </Navbar.Collapse>
               </Container>
@@ -167,7 +166,7 @@ const Layout = ({ children }) => {
                 target="_blank"
                 className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
               >
-                About Game
+                {t('navigation.footer.about_game')}
               </a>
               <a
                 onClick={() => {
@@ -176,7 +175,7 @@ const Layout = ({ children }) => {
                 target="_blank"
                 className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
               >
-                About Author
+                {t('navigation.footer.about_author')}
               </a>
               <a
                 onClick={() => {
@@ -185,7 +184,7 @@ const Layout = ({ children }) => {
                 target="_blank"
                 className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
               >
-                Project Page
+                {t('navigation.footer.project_page')}
               </a>
               <a
                 onClick={() => {
@@ -194,7 +193,7 @@ const Layout = ({ children }) => {
                 target="_blank"
                 className="text-secondary me-xl-5 me-3 mb-sm-0 mb-2"
               >
-                Submit a Question
+                {t('navigation.footer.submit_question')}
               </a>
             </div>
             <div className="col-lg-8 mx-auto text-center mb-4 mt-2">
@@ -221,15 +220,15 @@ const Layout = ({ children }) => {
               </a>
             </div>
           </div>
-          {/* <div className="row">
-          <div className="col-8 mx-auto text-center mt-1">
-            <p className="mb-0 text-secondary">
-              Copyright © <script>
-                document.write(new Date().getFullYear())
-              </script> Piotr Chrusciel.
-            </p>
+          <div className="row">
+            <div className="col-8 mx-auto text-center mt-1">
+              <p className="mb-0 text-secondary">
+                Copyright ©{' '}
+                <script>document.write(new Date().getFullYear())</script> Piotr
+                Chrusciel.
+              </p>
+            </div>
           </div>
-        </div> */}
         </div>
       </footer>
     </>

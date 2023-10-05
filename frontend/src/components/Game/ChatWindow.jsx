@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 const ChatWindow = forwardRef(({ sendMessage, messages, playerId }, ref) => {
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef(null);
+  const { t } = useTranslation();
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -69,7 +71,7 @@ const ChatWindow = forwardRef(({ sendMessage, messages, playerId }, ref) => {
             <input
               type="text"
               className="shadow-none form-control chat-form-control"
-              placeholder="Type your message..."
+              placeholder={t('game.type_your_message')}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
             />
@@ -79,7 +81,7 @@ const ChatWindow = forwardRef(({ sendMessage, messages, playerId }, ref) => {
               style={{ borderRadius: '0px 0px 10px 0px !important' }}
               onClick={handleSendMessage}
             >
-              Send
+              {t('common.send')}
             </Button>
           </div>
         </form>

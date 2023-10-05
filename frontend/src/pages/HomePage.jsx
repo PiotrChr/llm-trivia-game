@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { Jumbotron, Button, Container } from 'react-bootstrap';
 import { useAuth } from '../routing/AuthProvider';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
-  // Again, replace with your global state management
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -19,7 +20,7 @@ const HomePage = () => {
         <div className="mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
           <div className="d-flex justify-content-center align-items-center h-100">
             <div className="text-white">
-              <h1 className="mb-3">Welcome to LLM Trivia Game!</h1>
+              <h1 className="mb-3">{t('home.title')}</h1>
               <h4 className="mb-3">Subheading</h4>
               <p>
                 Test your knowledge across a wide range of topics with the LLM
@@ -43,7 +44,7 @@ const HomePage = () => {
                 )}
                 {user && (
                   <Button variant="primary" href="/game/welcome" size="lg">
-                    Play Now!
+                    {t('common.play_now')}
                   </Button>
                 )}
               </p>
@@ -53,13 +54,7 @@ const HomePage = () => {
       </div>
       <Container>
         <h2>About the Game</h2>
-        <p>
-          The LLM Trivia Game is a fun and challenging quiz game. Players must
-          answer a series of questions on various topics as accurately and
-          quickly as possible. The game features a wide variety of categories,
-          ensuring that players will be tested on a range of knowledge. Get
-          started now and see how much you know!
-        </p>
+        <p>{t('home.heading')}</p>
       </Container>
     </div>
   );

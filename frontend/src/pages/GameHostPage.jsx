@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import StepWizard from 'react-step-wizard';
+import { useTranslation } from 'react-i18next';
 
 import {
   createGame,
@@ -38,6 +38,7 @@ const GameHostPage = () => {
   const [selectedLifelines, setSelectedLifeLines] = useState({});
   const navigate = useNavigate();
   const { showAlert } = useAlert();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -112,19 +113,29 @@ const GameHostPage = () => {
         );
 
         if (!game) {
-          showAlert('Error', 'Something went wrong', null, {
-            variant: 'danger',
-            position: 'bottom'
-          });
+          showAlert(
+            t('common.errors.error'),
+            t('common.errors.something_went_wrong'),
+            null,
+            {
+              variant: 'danger',
+              position: 'bottom'
+            }
+          );
           return;
         }
 
         navigate('/game/' + game.data.id);
       } catch (err) {
-        showAlert('Error', 'Something went wrong', err.message, {
-          variant: 'danger',
-          position: 'bottom'
-        });
+        showAlert(
+          t('common.errors.error'),
+          t('common.errors.something_went_wrong'),
+          err.message,
+          {
+            variant: 'danger',
+            position: 'bottom'
+          }
+        );
         return;
       }
     }
@@ -184,7 +195,7 @@ const GameHostPage = () => {
                     gamePassword={gamePassword}
                     setGamePassword={setGamePassword}
                   />
-                  <FinalStep stepName="Final Step" />
+                  <FinalStep stepName="Final Step" startGame={handleSubmit} />
                 </StepWizard>
               </Form>
             </Card.Body>
