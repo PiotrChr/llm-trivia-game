@@ -110,13 +110,30 @@
 }
 
 #language-dropdown-menu {
+    #language-dropdown {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     .dropdown-menu {
-        // max-height: 250px;
-        // overflow-y: auto;
+        .language-filter-input {
+            border: 0px;
+
+            &:focus-visible {
+                outline: none;
+                border: 0px;
+            }
+        }
+
+        .scrollable-area {
+            max-height: 300px;
+            overflow-y: auto;
+        }
     }
 
     .flag-img {
         width: 15px;
+        border-radius: 50%;
     }
 
     .language-label {
