@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-import { useAuth } from '../../../routing/AuthProvider';
+import React from 'react';
+import { Col, Container, Dropdown, Nav, Navbar, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../routing/AuthProvider';
 
 import NotificationDropdown from '../../Layout/NotificationsDropdown';
 import LanguageDropdown from '../Translation/LanguageDropdown';

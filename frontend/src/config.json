@@ -1,0 +1,48 @@
+{
+    "game": {
+        "modes": {
+            "Classic": {
+                "categories": [],
+                "allCategories": true,
+                "maxQuestions": 10,
+                "timeLimit": 10,
+                "autoStart": true,
+                "eliminateOnFail": false,
+                "lifelines": [
+                    { "name": "fiftyFifty", "count": 1 },
+                    { "name": "eliminateOne", "count": 1 },
+                    { "name": "askStats", "count": 1 },
+                    { "name": "hint", "count": 1 }
+                ]
+            },
+            "Survival": {
+                "categories": [],
+                "allCategories": true,
+                "maxQuestions": 0,
+                "eliminateOnFail": true,
+                "timeLimit": 10,
+                "autoStart": true,
+                "lifelines": [
+                    { "name": "fiftyFifty", "count": 0 },
+                    { "name": "eliminateOne", "count": 0 },
+                    { "name": "askStats", "count": 0 },
+                    { "name": "hint", "count": 0 }
+                ]
+            },
+            "Marathon": {
+                "categories": [],
+                "allCategories": true,
+                "maxQuestions": 0,
+                "eliminateOnFail": false,
+                "timeLimit": 0,
+                "autoStart": true,
+                "lifelines": [
+                    { "name": "fiftyFifty", "count": 1 },
+                    { "name": "eliminateOne", "count": 1 },
+                    { "name": "askStats", "count": 1 },
+                    { "name": "hint", "count": 1 }
+                ]
+            }
+        }
+    }
+}

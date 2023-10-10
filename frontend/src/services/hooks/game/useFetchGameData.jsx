@@ -30,6 +30,7 @@ export const useFetchGameData = (gameId, user, dispatch) => {
           payload: game.data.players.map((player) => player.player_id)
         });
         dispatch({ type: 'SET_AUTO_START', payload: game.data.auto_start });
+        dispatch({ type: 'SET_GAME_MODE', payload: game.data.mode });
       } catch (error) {
         console.error('Failed to fetch game:', error);
         navigate('/error/unable-to-join-game');

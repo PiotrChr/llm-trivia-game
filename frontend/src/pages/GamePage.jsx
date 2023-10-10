@@ -162,7 +162,7 @@ const GamePage = () => {
   );
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !user || !gameId) return;
 
     socket.emit('join', { player: user, game_id: gameId });
 

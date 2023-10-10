@@ -12,6 +12,7 @@ const initialState = {
   allAnswered: false,
   answerMissed: false,
   questionReady: false,
+  gameMode: null,
   languages: [],
   language: {
     iso_code: 'en',
@@ -138,6 +139,9 @@ const gameReducer = (state = initialState, action) => {
 
     case 'SET_LANGUAGES':
       return { ...state, languages: action.payload };
+
+    case 'SET_GAME_MODE':
+      return { ...state, gameMode: action.payload };
 
     case 'SET_LANGUAGE':
       return {

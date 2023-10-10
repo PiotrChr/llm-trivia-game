@@ -33,27 +33,45 @@ def create_game():
     max_questions = request.json.get('maxQuestions', None)
     host = get_jwt_identity()['id']
     current_category = request.json.get('currentCategory', None)
+    all_categories = request.json.get('allCategories', None)
     auto_start = request.json.get('autoStart', False)
     language = request.json.get('language', 'en')
+    game_mode = request.json.get('gameMode', None)
+    eliminate_on_fail = request.json.get('eliminateOnFail', False)
+    selected_lifelines = request.json.get('selectedLifelines', None)
     
-    if not isinstance(current_category, str):
-        cat_id = current_category
-    else:
-        cat_id = TriviaRepository.create_category(current_category)
+    print(f'Creating game with params: {request.json}')
 
-    # Handle category
+    if all_categories is True:
+        print('Getting random category')
+        cat_id = TriviaRepository.get_random_category()
+    else:
+        if not isinstance(current_category, str):
+            cat_id = current_category
+        else:
+            # cat_id = TriviaRepository.create_category(current_category)
+            pass
 
     password = request.json.get('password', None)
-    
-    game_id = TriviaRepository.create_game(
-        password,
-        max_questions,
-        host,
-        cat_id,
-        time_limit,
-        language,
-        auto_start
-    )
+
+    game_id = None
+    try:
+        game_id = TriviaRepository.create_game(
+            game_mode,
+            password,
+            max_questions,
+            host,
+            cat_id,
+            all_categories,
+            time_limit,
+            language,
+            auto_start,
+            eliminate_on_fail,
+            selected_lifelines
+        )
+    except Exception as e:
+        print(e)
+        return jsonify({"msg": "Error creating game"}), 500
 
     if game_id is None:
         return jsonify({"msg": "Error creating game"}), 500

@@ -145,6 +145,19 @@ class TriviaRepository:
             print(f"Failed to read data from table questions: {error}")
             return None
 
+    @staticmethod
+    def get_random_category():
+        query = """
+            SELECT id FROM category ORDER BY RANDOM() LIMIT 1
+        """
+        try:
+            Database.get_cursor().execute(query)
+            category = Database.get_cursor().fetchone()
+            return category["id"]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table category: {error}")
+            return None
+        
 
     @staticmethod
     def set_current_category(game_id, category):
@@ -379,13 +392,17 @@ class TriviaRepository:
 
     @staticmethod
     def create_game(
+        game_mode,
         password,
         max_questions,
         host,
         current_category,
+        all_categories,
         time_limit,
         language='en',
-        auto_start=False
+        auto_start=False,
+        eliminate_on_fail=False,
+        selected_lifelines=None
     ):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
@@ -397,13 +414,11 @@ class TriviaRepository:
                 (language,)
             ).fetchone()["id"]
             
-            print(f"Language ID: {language_id}")
-
             game_sql = """
-                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start, mode_id, eliminate_on_fail, all_categories)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
-            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start), False)
+            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories), False)
 
             print(f"Game ID: {game_id}")
 
@@ -413,6 +428,19 @@ class TriviaRepository:
             """
             Database.insert(player_game_sql, (host, game_id), False)
 
+            if selected_lifelines:
+                for lifeline in selected_lifelines:
+                    lifeline_id = Database.get_cursor().execute(
+                        "SELECT id FROM lifeline_types WHERE name = ?",
+                        (lifeline['name'],)
+                    ).fetchone()["id"]
+
+                    lifeline_sql = """
+                        INSERT INTO game_lifelines (game_id, lifeline_id, count)
+                        VALUES (?, ?, ?)
+                    """
+                    Database.insert(lifeline_sql, (game_id, lifeline_id, lifeline['count']), False)
+                    
             Database.execute("COMMIT")
 
             return game_id
@@ -497,16 +525,16 @@ class TriviaRepository:
     def get_game_by_id(game_id):
         query = """
             SELECT games.*,
-            json_group_array(
-                json_object('player_id', players.id, 'name', players.name)
-            ) as players,
+            json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
             json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
             json_object('id', category.id, 'name', category.name) as current_category
+            json_object('id', game_modes.id, 'name', game_modes.name) as mode
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
             LEFT JOIN language ON games.current_language = language.id
+            LEFT JOIN game_modes ON games.mode_id = game_modes.id
             WHERE games.id = ?
         """
         params = (game_id,)

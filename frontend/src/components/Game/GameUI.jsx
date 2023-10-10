@@ -90,6 +90,9 @@ const GameUI = ({
               <p className="text-lead text-white">
                 {t('game.current_language')}: {language.name}
               </p>
+              <p className="text-lead text-white">
+                {t('common.game_mode')}: {state.gameMode && state.gameMode.name}
+              </p>
             </Col>
           </Row>
         </Container>

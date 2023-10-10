@@ -27,6 +27,7 @@ def create_tables():
     run_sql_script('backend/db/queries/schema/report.sql')
     run_sql_script('backend/db/queries/schema/lifelines.sql')
     run_sql_script('backend/db/queries/schema/lifeline_types.sql')
+    run_sql_script('backend/db/queries/schema/game_lifelines.sql')
     run_sql_script('backend/db/queries/schema/friends.sql')
     run_sql_script('backend/db/queries/schema/friend_invitations.sql')
     run_sql_script('backend/db/queries/schema/game_invitations.sql')

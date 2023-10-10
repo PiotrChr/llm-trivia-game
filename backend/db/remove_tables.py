@@ -20,6 +20,7 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS report_types')
     c.execute('DROP TABLE IF EXISTS lifeline_types')
     c.execute('DROP TABLE IF EXISTS lifelines')
+    c.execute('DROP TABLE IF EXISTS game_lifelines')
     c.execute('DROP TABLE IF EXISTS friends')
     c.execute('DROP TABLE IF EXISTS friend_invitations')
     c.execute('DROP TABLE IF EXISTS game_invitations')
