@@ -21,6 +21,9 @@ import { GameOptionsStep } from '../components/Host/Steps/GameOptionsStep';
 import { GameModeStep } from '../components/Host/Steps/GameModeStep';
 import { FinalStep } from '../components/Host/Steps/FinalStep';
 
+import config from '../config.json';
+import { all } from 'axios';
+
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState('');
   const [maxQuestions, setMaxQuestions] = useState('');
@@ -35,7 +38,8 @@ const GameHostPage = () => {
   const [validated, setValidated] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const [lifelines, setLifeLines] = useState([]);
-  const [selectedLifelines, setSelectedLifeLines] = useState({});
+  const [eliminateOnFail, setEliminateOnFail] = useState(false);
+  const [selectedLifelines, setSelectedLifeLines] = useState([]);
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const { t } = useTranslation();
@@ -102,14 +106,28 @@ const GameHostPage = () => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
+      console.log('gameData', {
+        gamePassword,
+        category,
+        language,
+        maxQuestions,
+        timeLimit,
+        autoStart,
+        selectedLifelines
+      });
+
       try {
         const game = await createGame(
+          gameMode ? gameMode.value : null,
           gamePassword,
-          category.value,
+          category ? category.value : null,
+          allSelected,
           timeLimit,
           maxQuestions,
-          language.value,
-          autoStart
+          language ? language.value : null,
+          autoStart,
+          eliminateOnFail,
+          selectedLifelines
         );
 
         if (!game) {
@@ -143,20 +161,37 @@ const GameHostPage = () => {
     setValidated(true);
   };
 
+  const handleSetGameMode = (mode) => {
+    setGameMode(mode);
+
+    if (['Classic', 'Survival', 'Marathon'].includes(mode.label)) {
+      const gameMode = config.game.modes[mode.label];
+
+      setMaxQuestions(gameMode.maxQuestions);
+      setTimeLimit(gameMode.timeLimit);
+      setAutoStart(gameMode.autoStart);
+      setSelectedLifeLines(gameMode.lifelines);
+      selectAll(gameMode.allCategories);
+      setCategories(gameMode.categories);
+      setEliminateOnFail(gameMode.eliminateOnFail);
+    }
+  };
+
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: '100vh' }}
+      id="host-game-page"
     >
       <Row className="w-100">
         <Col md={{ span: 12 }}>
           <Card className="p-4">
             <Card.Body>
-              <h2 className="text-center mb-4">Host a Game</h2>
+              <h2 className="text-center mb-4">{t('common.host_a_game')}</h2>
               <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <StepWizard>
                   <GameModeStep
-                    setGameMode={setGameMode}
+                    setGameMode={handleSetGameMode}
                     gameMode={gameMode}
                     gameModes={gameModes}
                   />
@@ -195,7 +230,21 @@ const GameHostPage = () => {
                     gamePassword={gamePassword}
                     setGamePassword={setGamePassword}
                   />
-                  <FinalStep stepName="Final Step" startGame={handleSubmit} />
+                  <FinalStep
+                    stepName="Final Step"
+                    startGame={handleSubmit}
+                    summary={{
+                      gamePassword,
+                      maxQuestions,
+                      timeLimit,
+                      language: language ? language.label : '',
+                      category,
+                      allSelected,
+                      gameMode: gameMode ? gameMode.label : '',
+                      autoStart,
+                      selectedLifelines
+                    }}
+                  />
                 </StepWizard>
               </Form>
             </Card.Body>

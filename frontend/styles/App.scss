@@ -71,6 +71,14 @@
         svg {
             margin-bottom: 2px;
         }
+
+        &.question-counter {
+            svg {
+                margin-bottom: 6px;
+            }
+        }
+
+        
     }
     
     .lifeline-btn:hover {
@@ -141,4 +149,18 @@
         margin-right: auto;
     }
 
+}
+
+.host-game-step {
+    .final-step {
+        .p-game-option {
+            .description {
+                min-width: 200px;
+                display: inline-block;
+            }
+            .value {
+                font-weight: bold;
+            }
+        }
+    }
 }

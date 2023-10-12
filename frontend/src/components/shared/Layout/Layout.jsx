@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Navbar, Nav, Dropdown, Row, Col } from 'react-bootstrap';
-import { useAuth } from '../../../routing/AuthProvider';
+import React from 'react';
+import { Col, Container, Dropdown, Nav, Navbar, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../routing/AuthProvider';
 
 import NotificationDropdown from '../../Layout/NotificationsDropdown';
 import LanguageDropdown from '../Translation/LanguageDropdown';
@@ -33,8 +33,10 @@ const Layout = ({ children }) => {
                 </Navbar.Brand>
                 <Navbar.Toggle
                   aria-controls="basic-navbar-nav"
-                  className="shadow-none ms-2"
-                />
+                  className="shadow-none ms-2 border-0"
+                >
+                  <i className="bi-list"></i>{' '}
+                </Navbar.Toggle>
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mx-auto">
                     <Nav.Link

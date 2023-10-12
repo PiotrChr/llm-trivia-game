@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSocket } from '../useSocket';
 
 export const useGameSocket = (
@@ -15,9 +15,18 @@ export const useGameSocket = (
   question,
   category,
   difficulty,
-  language
+  language,
+  timer,
+  selectedOption
 ) => {
   const socket = useSocket();
+
+  const timerRef = useRef(timer);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    timerRef.current = timer;
+  }, [timer]);
 
   useEffect(() => {
     if (!socket) return;
@@ -60,7 +69,7 @@ export const useGameSocket = (
         position: 'bottom'
       });
     const onWinners = (data) => {
-      console.log(handleDisplayResult);
+      console.log(data.winners);
       handleDisplayResult(data.winners.some((winner) => winner.id === user.id));
       dispatch({ type: 'SET_PLAYER_SCORE', payload: data.winners });
       if (isHost && autoStart) {
@@ -83,9 +92,19 @@ export const useGameSocket = (
     const onAnswered = (data) => {
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
-    const onStartTimer = () => {
-      const interval = setInterval(() => {
-        dispatch({ type: 'DECREMENT_TIMER' });
+    const onStartTimer = (data) => {
+      dispatch({ type: 'SET_TIMER', payload: data.time_limit });
+      console.log(data.time_limit);
+
+      intervalRef.current = setInterval(() => {
+        console.log('decremeting timer');
+        console.log('timer', timer);
+
+        if (timerRef.current === 0) {
+          clearInterval(intervalRef.current);
+        } else {
+          dispatch({ type: 'DECREMENT_TIMER' });
+        }
       }, 1000);
 
       return () => clearInterval(interval);
@@ -95,7 +114,7 @@ export const useGameSocket = (
       dispatch({ type: 'MISS_ANSWER', payload: player_id });
     };
 
-    socket.on('missed', onMissedQuestion);
+    socket.on('answer_missed', onMissedQuestion);
     socket.on('start_timer', onStartTimer);
     socket.on('drawing', onDrawing);
     socket.on('left', onLeft);
@@ -118,7 +137,7 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
-      socket.off('missed', onMissedQuestion);
+      socket.off('answer_missed', onMissedQuestion);
       socket.off('start_timer', onStartTimer);
       socket.off('drawing', onDrawing);
       socket.off('left', onLeft);
@@ -151,8 +170,16 @@ export const useGameSocket = (
     handleNextQuestionClick,
     showModal,
     hideModal,
-    question
+    question,
+    timer
   ]);
+
+  useEffect(() => {
+    console.log(selectedOption);
+    if (timer === 0 || selectedOption !== null) {
+      clearInterval(intervalRef.current);
+    }
+  }, [timer, selectedOption]);
 
   return { socket };
 };

@@ -140,20 +140,28 @@ export const getGameStats = async (id) => {
 };
 
 export const createGame = async (
+  gameMode,
   password,
   currentCategory,
+  allCategories,
   timeLimit,
   maxQuestions,
   language,
-  autoStart
+  autoStart,
+  eliminateOnFail,
+  selectedLifelines
 ) => {
   const response = await api.post(`${BASE_URL}/game/create`, {
+    gameMode,
     password,
     currentCategory,
+    allCategories,
     timeLimit,
     maxQuestions,
     language,
-    autoStart
+    autoStart,
+    eliminateOnFail,
+    selectedLifelines
   });
   return response;
 };

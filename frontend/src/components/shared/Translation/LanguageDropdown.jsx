@@ -8,11 +8,11 @@ const LanguageDropdown = () => {
   const [filter, setFilter] = useState('');
 
   const handleImageError = (e) => {
-    e.target.src = 'static/img/flags/placeholder.svg';
+    e.target.src = '/static/img/flags/placeholder.svg';
   };
 
   const filteredLanguages = languages.filter((language) =>
-    language.label.toLowerCase().includes(filter.toLowerCase())
+    language.label.toLowerCase().startsWith(filter.toLowerCase())
   );
 
   return (
@@ -45,7 +45,7 @@ const LanguageDropdown = () => {
             >
               <img
                 className="flag-img"
-                src={`static/img/flags/1x1/${language.value}.svg`}
+                src={`/static/img/flags/1x1/${language.value}.svg`}
                 onError={handleImageError}
               />
               <span className="language-label">{language.label}</span>

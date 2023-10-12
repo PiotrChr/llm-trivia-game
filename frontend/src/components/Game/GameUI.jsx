@@ -14,6 +14,7 @@ import Sidebar from './SideBar';
 import FadeInOut from '../shared/FadeInOut';
 import ResultBadge from './ResultBadge';
 import Lifelines from './LifeLines';
+import QuestionTimer from './QuestionTimer';
 import { useTranslation } from 'react-i18next';
 
 const GameUI = ({
@@ -90,6 +91,9 @@ const GameUI = ({
               <p className="text-lead text-white">
                 {t('game.current_language')}: {language.name}
               </p>
+              <p className="text-lead text-white">
+                {t('common.game_mode')}: {state.gameMode && state.gameMode.name}
+              </p>
             </Col>
           </Row>
         </Container>
@@ -97,29 +101,41 @@ const GameUI = ({
       <Container>
         <Row className="mt-lg-n10 mt-md-n10 mt-n10">
           <Card>
-            <FadeInOut
-              show={displayResult !== null}
-              duration={500}
-              className="position-relative z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center"
-              style={{
-                left: '0px',
-                right: '0px',
-                background: 'rgba(255,255,255,0.9)'
-              }}
-            >
-              <ResultBadge won={displayResult} />
-            </FadeInOut>
             <Card.Body
               className="row z-index-1 d-flex flex-column flex-lg-row"
               style={{ borderBottom: '1px solid #eee' }}
             >
-              <Lifelines show={questionReady} />
+              <QuestionTimer
+                show={questionReady && timeLimit > 0}
+                // show={true}
+                elapsed={timeLimit - state.timer}
+                timeLimit={timeLimit}
+                // secondsTotal={999}
+                isPlaying={true}
+              />
+              <Lifelines
+                show={questionReady}
+                // className={ state.timer > 0 && 'ms-8'}
+                className="ms-lg-8"
+              />
               <Col
                 sm={12}
                 xs={12}
                 lg={8}
                 className="position-relative d-flex justify-content-center"
               >
+                <FadeInOut
+                  show={displayResult !== null}
+                  duration={500}
+                  className="position-absolute z-index-2 rounded-4 top-0 bottom-0 d-flex align-items-center justify-content-center mt-1"
+                  style={{
+                    left: '0px',
+                    right: '0px',
+                    background: 'rgba(255,255,255,0.9)'
+                  }}
+                >
+                  <ResultBadge won={displayResult} />
+                </FadeInOut>
                 <FadeInOut
                   show={questionReady}
                   duration={500}

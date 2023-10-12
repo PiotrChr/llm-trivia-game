@@ -6,27 +6,25 @@
             "something_went_wrong": "Something went wrong. Please try again later."
         },
         "welcome": "Welcome to LLM Trivia!",
+        "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia Game. Can you beat the high score?",
         "play_now": "Play Now",
+        "game_mode": "Game Mode",
         "game_modes": {
-            "timed": {
-                "name": "Timed",
+            "classic": {
+                "name": "Classic",
                 "description": "Each question has a time limit. Answer faster to score more points!"
+            },
+            "survival": {
+                "name": "Survival",
+                "description": "Endless stream of questions. How long can you last?"
             },
             "marathon": {
                 "name": "Marathon",
-                "description": "Endless stream of questions. How long can you last?"
+                "description": "Customize game settings to your liking. This mode is unranked."
             },
             "custom": {
                 "name": "Custom",
-                "description": "Customize game settings to your liking. This mode is unranked."
-            },
-            "classic": {
-                "name": "Classic",
                 "description": "The classic game mode with standard rules and settings."
-            },
-            "competitive": {
-                "name": "Competitive",
-                "description": "Standard mode for competitive play. Climb the ranks!"
             }
         },
         "select": "Select",
@@ -46,19 +44,25 @@
         "players": "Players",
         "status": "Status",
         "loading": "Loading...",
-        "send": "Send"
+        "send": "Send",
+        "host_a_game": "Host a Game",
+        "yes": "Yes",
+        "no": "No",
+        "password": "Password",
+        "game_password": "Game Password",
+        "no_lifelines": "No Lifelines"
         
     },
     "lifelines": {
-        "50/50": {
+        "fiftyFifty": {
             "name": "50/50",
             "description": ""
         },
-        "eliminate_one": {
+        "eliminateOne": {
             "name": "Eliminate one",
             "description": ""
         },
-        "ask_stats": {
+        "askStats": {
             "name": "Ask the stats",
             "description": ""
         },
@@ -127,6 +131,7 @@
         "stop_game": "Stop Game",
         "next_question": "Next Question",
         "report_question": "Report Question",
+        "type_your_message": "Type your message...",
         "error": {
             "not_all_player_present": "Not all players are present"
         }
@@ -146,6 +151,7 @@
         "max_questions_label": "Slide to the right to increase the number of questions, or slide to the left to decrease. Leave it at the minimum for an infinite number of questions.",
         "time_limit_label": "Slide to adjust the time limit for each question. Slide to the minimum for no time limit.",
         "type_your_message": "Type your message...",
+        "game_summary": "Game Summary",
         "errors": {
             "invalid_game_password": "Invalid game password"
         }
