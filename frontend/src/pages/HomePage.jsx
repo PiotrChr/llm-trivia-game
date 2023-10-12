@@ -18,7 +18,7 @@ const HomePage = () => {
           backgroundPosition: 'center'
         }}
       >
-        <div className="mask">
+        <div className="mask home-page-mask" style={{ opacity: 1 }}>
           <div
             className="d-flex justify-content-center h-100"
             style={{ marginTop: '30vh' }}
@@ -42,7 +42,7 @@ const HomePage = () => {
                       variant="secondary"
                       href="/login"
                       size="lg"
-                      className="btn-round"
+                      className="btn-round mt-lg-7"
                     >
                       {t('navigation.user.login')}
                     </Button>
