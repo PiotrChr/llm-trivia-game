@@ -31,6 +31,8 @@ export const useFetchGameData = (gameId, user, dispatch) => {
         });
         dispatch({ type: 'SET_AUTO_START', payload: game.data.auto_start });
         dispatch({ type: 'SET_GAME_MODE', payload: game.data.mode });
+        // dispatch({ type: 'SET_DIFFICULTY', payload: game.data.difficulty });
+        dispatch({ type: 'SET_TIME_LIMIT', payload: game.data.time_limit });
       } catch (error) {
         console.error('Failed to fetch game:', error);
         navigate('/error/unable-to-join-game');

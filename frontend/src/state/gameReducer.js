@@ -55,9 +55,10 @@ const gameReducer = (state = initialState, action) => {
             if (player.id === action.payload.player.id) {
               return {
                 ...player,
-                points: action.payload.player_points,
+                points: action.payload.player_points || 0,
                 ready: false,
-                answer: null
+                answer: null,
+                miss: false
               };
             }
             return player;
@@ -71,9 +72,10 @@ const gameReducer = (state = initialState, action) => {
             {
               id: action.payload.player.id,
               name: action.payload.player.name,
-              points: action.payload.player_points,
+              points: action.payload.player_points || 0,
               ready: false,
-              answer: null
+              answer: null,
+              miss: false
             }
           ]
         };
@@ -203,6 +205,9 @@ const gameReducer = (state = initialState, action) => {
     case 'SET_TIME_LIMIT':
       return { ...state, timeLimit: action.payload };
 
+    case 'SET_TIMER':
+      return { ...state, timer: action.payload };
+
     case 'DECREMENT_TIMER':
       return { ...state, timer: state.timer - 1 };
 
@@ -237,7 +242,7 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, selectedAnswerId: action.payload };
 
     case 'MISS_ANSWER':
-      return {
+      state = {
         ...state,
         players: state.players.map((player) => {
           if (player.id === action.payload) {
@@ -245,6 +250,13 @@ const gameReducer = (state = initialState, action) => {
           }
           return player;
         })
+      };
+
+      return {
+        ...state,
+        allAnswered: state.players.every(
+          (player) => player.answer || player.miss
+        )
       };
 
     case 'SET_CURRENT_BACKGROUND':
@@ -266,9 +278,10 @@ const gameReducer = (state = initialState, action) => {
         questionReady: false,
         timeElapsed: 0,
         answers: [],
+        timer: null,
         selectedAnswerId: null,
         players: state.players.map((player) => {
-          return { ...player, answer: null };
+          return { ...player, answer: null, miss: false };
         })
       };
 

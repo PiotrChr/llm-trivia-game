@@ -6,6 +6,7 @@
             "something_went_wrong": "Something went wrong. Please try again later."
         },
         "welcome": "Welcome to LLM Trivia!",
+        "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia Game. Can you beat the high score?",
         "play_now": "Play Now",
         "game_mode": "Game Mode",
         "game_modes": {

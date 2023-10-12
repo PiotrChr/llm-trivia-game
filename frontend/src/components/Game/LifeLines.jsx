@@ -6,8 +6,9 @@ import {
   faLightbulb,
   faChartBar
 } from '@fortawesome/free-solid-svg-icons';
+import classNames from 'classnames';
 
-const Lifelines = ({ show, lifelines }) => {
+const Lifelines = ({ show, lifelines, className, style }) => {
   if (!show) {
     return null;
   }
@@ -29,7 +30,13 @@ const Lifelines = ({ show, lifelines }) => {
   };
 
   return (
-    <div className="position-absolute d-flex lifelines justify-content-center justify-content-lg-start">
+    <div
+      className={classNames(
+        'position-absolute d-flex lifelines justify-content-center justify-content-lg-start',
+        className
+      )}
+      style={style}
+    >
       <button className="lifeline-btn" onClick={handle5050}>
         <FontAwesomeIcon icon={faBalanceScale} />
       </button>

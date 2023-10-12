@@ -527,7 +527,7 @@ class TriviaRepository:
             SELECT games.*,
             json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
             json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
-            json_object('id', category.id, 'name', category.name) as current_category
+            json_object('id', category.id, 'name', category.name) as current_category,
             json_object('id', game_modes.id, 'name', game_modes.name) as mode
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
@@ -547,6 +547,7 @@ class TriviaRepository:
                 game_dict["players"] = json.loads(game_dict["players"])
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
                 game_dict["language"] = json.loads(game_dict["language"])
+                game_dict["mode"] = json.loads(game_dict["mode"])
                 return game_dict
             else:
                 return None

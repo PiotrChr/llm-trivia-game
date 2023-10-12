@@ -3,7 +3,8 @@ import React, {
   useState,
   useCallback,
   useMemo,
-  useEffect
+  useEffect,
+  useRef
 } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../routing/AuthProvider';
@@ -23,6 +24,26 @@ const GamePage = () => {
   const [displayResult, setDisplayResult] = useState(null);
   const [state, dispatch] = useReducer(gameReducer, initialState);
   const { t } = useTranslation();
+  const displayResultRef = useRef(null);
+
+  const handleDisplayResult = useCallback((winner) => {
+    setDisplayResult(winner);
+
+    displayResultRef.current = setTimeout(() => {
+      setDisplayResult(null);
+    }, 3000);
+  }, []);
+
+  const handleNextQuestionClick = useCallback(() => {
+    if (!socket) return;
+    socket.emit('next', {
+      game_id: gameId,
+      player: user,
+      category: state.category.id,
+      difficulty: state.difficulty,
+      language: state.language.iso_code
+    });
+  }, [socket, gameId, user, state.category, state.difficulty, state.language]);
 
   const { socket } = useGameSocket(
     gameId,
@@ -38,7 +59,9 @@ const GamePage = () => {
     state.question,
     state.category,
     state.difficulty,
-    state.language
+    state.language,
+    state.timer,
+    state.selectedOption
   );
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
 
@@ -83,14 +106,6 @@ const GamePage = () => {
     },
     [socket, gameId, user]
   );
-
-  const handleDisplayResult = useCallback((winner) => {
-    setDisplayResult(winner);
-    const timeout = setTimeout(() => {
-      setDisplayResult(null);
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   const handleDifficultyChange = useCallback(
     (selectedOption) => {
@@ -140,17 +155,6 @@ const GamePage = () => {
     [socket, gameId, user, state.question]
   );
 
-  const handleNextQuestionClick = useCallback(() => {
-    if (!socket) return;
-    socket.emit('next', {
-      game_id: gameId,
-      player: user,
-      category: state.category.id,
-      difficulty: state.difficulty,
-      language: state.language.iso_code
-    });
-  }, [socket, gameId, user, state.category, state.difficulty, state.language]);
-
   const isReady = useCallback(
     (player) => {
       return state.players.some(
@@ -160,6 +164,12 @@ const GamePage = () => {
     },
     [state.players]
   );
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(displayResultRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!socket || !user || !gameId) return;
@@ -185,14 +195,19 @@ const GamePage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    if (state.timer >= state.timeLimit && !state.selectedOption) {
+    if (
+      state.timeLimit > 0 &&
+      state.timer !== null &&
+      state.timer === 0 &&
+      !state.selectedOption
+    ) {
       socket.emit('miss', {
         game_id: gameId,
         player: user,
         question_id: state.question.id
       });
     }
-  }, [state.timeLimit, state.timer, dispatch]);
+  }, [state.timeLimit, state.timer]);
 
   return (
     <GameUI

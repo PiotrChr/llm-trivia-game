@@ -33,8 +33,10 @@ const Layout = ({ children }) => {
                 </Navbar.Brand>
                 <Navbar.Toggle
                   aria-controls="basic-navbar-nav"
-                  className="shadow-none ms-2"
-                />
+                  className="shadow-none ms-2 border-0"
+                >
+                  <i className="bi-list"></i>{' '}
+                </Navbar.Toggle>
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mx-auto">
                     <Nav.Link

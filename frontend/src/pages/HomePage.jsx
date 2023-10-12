@@ -12,38 +12,49 @@ const HomePage = () => {
       <div
         className="p-5 text-center bg-image rounded-3 position-relative"
         style={{
-          backgroundImage: "url('static/img/jumbotron_image.png')",
-          height: '400px',
-          backgroundSize: 'cover'
+          backgroundImage: 'url("static/img/jumbotron/5.png")',
+          height: '100vh',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
         }}
       >
-        <div className="mask" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-          <div className="d-flex justify-content-center align-items-center h-100">
+        <div className="mask">
+          <div
+            className="d-flex justify-content-center h-100"
+            style={{ marginTop: '30vh' }}
+          >
             <div className="text-white">
               <h1 className="mb-3">{t('home.title')}</h1>
               <h4 className="mb-3">Subheading</h4>
-              <p>
-                Test your knowledge across a wide range of topics with the LLM
-                Trivia Game. Can you beat the high score?
-              </p>
-              <p>
+              <p>{t('common.sub_heading')}</p>
+              <p style={{ marginTop: '15vh' }}>
                 {!user && (
                   <>
                     <Button
                       variant="primary"
                       href="/signup"
                       size="lg"
-                      className="mr-3"
+                      className="mr-3 btn-round"
                     >
-                      Signup
+                      {t('navigation.user.signup')}
                     </Button>
-                    <Button variant="secondary" href="/login" size="lg">
-                      Login
+                    <Button
+                      variant="secondary"
+                      href="/login"
+                      size="lg"
+                      className="btn-round"
+                    >
+                      {t('navigation.user.login')}
                     </Button>
                   </>
                 )}
                 {user && (
-                  <Button variant="primary" href="/game/welcome" size="lg">
+                  <Button
+                    variant="primary"
+                    href="/game/welcome"
+                    size="lg"
+                    className="btn-round"
+                  >
                     {t('common.play_now')}
                   </Button>
                 )}
