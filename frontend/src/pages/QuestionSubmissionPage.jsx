@@ -10,9 +10,10 @@ import {
   Button,
   Form
 } from 'react-bootstrap';
-import { getLanguages, getCategories } from '../services/api'; // Assuming you have these functions set up
+import { getLanguages, getCategories } from '../services/api';
+import { Jumbo } from '../components/Layout/Jumbo';
 
-function QuestionSubmissionPage() {
+const QuestionSubmissionPage = () => {
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [difficulty, setDifficulty] = useState(null);
@@ -25,8 +26,8 @@ function QuestionSubmissionPage() {
   useEffect(() => {
     const fetchSelectData = async () => {
       try {
-        const fetchedCategories = await getCategories();
-        const fetchedLanguages = await getLanguages();
+        const fetchedCategories = (await getCategories()).data;
+        const fetchedLanguages = (await getLanguages()).data;
 
         setCategories(
           fetchedCategories.map((cat) => ({ value: cat.id, label: cat.name }))
@@ -49,7 +50,6 @@ function QuestionSubmissionPage() {
   };
 
   const handleSubmit = () => {
-    // Here, you'd typically send the question data to your backend
     console.log({
       selectedCategory,
       selectedLanguage,
@@ -61,81 +61,90 @@ function QuestionSubmissionPage() {
   };
 
   return (
-    <section className="min-vh-80 mb-8">
-      <div className="container mt-6">
-        <Row>
-          <Col sm={4}>
-            <FormGroup>
-              <FormLabel>Category</FormLabel>
-              <Select
-                options={categories}
-                value={selectedCategory}
-                onChange={setSelectedCategory}
-              />
-            </FormGroup>
-
-            <FormGroup className="mt-3">
-              <FormLabel>Difficulty</FormLabel>
-              <Select
-                options={[
-                  { value: 'easy', label: 'Easy' },
-                  { value: 'medium', label: 'Medium' },
-                  { value: 'hard', label: 'Hard' }
-                ]}
-                value={difficulty}
-                onChange={setDifficulty}
-              />
-            </FormGroup>
-
-            <FormGroup className="mt-3">
-              <FormLabel>Language</FormLabel>
-              <Select
-                options={languages}
-                value={selectedLanguage}
-                onChange={setSelectedLanguage}
-              />
-            </FormGroup>
-          </Col>
-          <Col sm={8}>
-            <FormGroup>
-              <FormLabel>Question Text</FormLabel>
-              <FormControl
-                as="textarea"
-                rows={3}
-                value={questionText}
-                onChange={(e) => setQuestionText(e.target.value)}
-              />
-            </FormGroup>
-
-            <FormLabel className="mt-3">Answers</FormLabel>
-            {answers.map((answer, index) => (
-              <InputGroup className="mb-3" key={index}>
-                <InputGroup.Prepend>
-                  <InputGroup.Radio
-                    name="correctAnswer"
-                    checked={correctAnswer === index}
-                    onChange={() => setCorrectAnswer(index)}
-                  />
-                </InputGroup.Prepend>
-                <FormControl
-                  value={answer}
-                  onChange={(e) => handleAnswerChange(index, e.target.value)}
-                  placeholder={`Answer ${index + 1}`}
+    <div>
+      <Jumbo
+        url="static/img/jumbotron/question-submission/3.png"
+        scrollToContent={true}
+      ></Jumbo>
+      <section>
+        <div
+          className="container card mt-6 p-4"
+          style={{ minWidth: '60vw', background: 'rgba(255,255,255,0.9)' }}
+        >
+          <Row>
+            <Col sm={4}>
+              <FormGroup>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  options={categories}
+                  value={selectedCategory}
+                  onChange={setSelectedCategory}
                 />
-              </InputGroup>
-            ))}
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col>
-            <Button variant="primary" onClick={handleSubmit}>
-              Submit Question
-            </Button>
-          </Col>
-        </Row>
-      </div>
-    </section>
+              </FormGroup>
+
+              <FormGroup className="mt-3">
+                <FormLabel>Difficulty</FormLabel>
+                <Select
+                  options={[
+                    { value: 'easy', label: 'Easy' },
+                    { value: 'medium', label: 'Medium' },
+                    { value: 'hard', label: 'Hard' }
+                  ]}
+                  value={difficulty}
+                  onChange={setDifficulty}
+                />
+              </FormGroup>
+
+              <FormGroup className="mt-3">
+                <FormLabel>Language</FormLabel>
+                <Select
+                  options={languages}
+                  value={selectedLanguage}
+                  onChange={setSelectedLanguage}
+                />
+              </FormGroup>
+            </Col>
+            <Col sm={8}>
+              <FormGroup>
+                <FormLabel>Question Text</FormLabel>
+                <FormControl
+                  as="textarea"
+                  rows={3}
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                />
+              </FormGroup>
+
+              <FormLabel className="mt-3">Answers</FormLabel>
+              {answers.map((answer, index) => (
+                <InputGroup className="mb-3" key={index}>
+                  <InputGroup.Text>
+                    <InputGroup.Radio
+                      name="correctAnswer"
+                      checked={correctAnswer === index}
+                      onChange={() => setCorrectAnswer(index)}
+                    />
+                  </InputGroup.Text>
+                  <Form.Control
+                    value={answer}
+                    onChange={(e) => handleAnswerChange(index, e.target.value)}
+                    placeholder={`Answer ${index + 1}`}
+                  />
+                </InputGroup>
+              ))}
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col>
+              <Button variant="primary" onClick={handleSubmit}>
+                Submit Question
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      </section>
+    </div>
   );
-}
+};
 
 export default QuestionSubmissionPage;

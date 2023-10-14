@@ -3,7 +3,23 @@
         "errors": {
             "error": "Error",
             "warning": "Warning",
-            "something_went_wrong": "Something went wrong. Please try again later."
+            "something_went_wrong": "Something went wrong. Please try again later.",
+            "404": {
+                "title": "Page not found",
+                "description": "The page you are looking for does not exist."
+            },
+            "500": {
+                "title": "Internal server error",
+                "description": "An internal server error has occurred."
+            },
+            "unable-to-join-game": {
+                "title": "Unable to join game",
+                "description": "You are unable to join this game."
+            },
+            "other": {
+                "title": "Error",
+                "description": "An error has occurred."
+            }
         },
         "welcome": "Welcome to LLM Trivia!",
         "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia Game. Can you beat the high score?",
@@ -50,8 +66,11 @@
         "no": "No",
         "password": "Password",
         "game_password": "Game Password",
-        "no_lifelines": "No Lifelines"
-        
+        "no_lifelines": "No Lifelines",
+        "waiting": "Waiting...",
+        "finished": "Finished",
+        "game_over": "Game Over",
+        "in_progress": "In Progress"
     },
     "lifelines": {
         "fiftyFifty": {
@@ -77,6 +96,7 @@
     },
     "navigation": {
         "main": {
+            "title": "LLM Trivia Game",
             "home": "Home",
             "leaderboard": "Leaderboard",
             "about_game": "About Game & Rules",
@@ -158,6 +178,8 @@
     },
     "game_join": {
         "title": "Join a Game"
+    },
+    "notifications": {
+        "mark_all_as_read": "Mark as read"
     }
-    
 }

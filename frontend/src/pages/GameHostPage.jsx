@@ -21,8 +21,9 @@ import { GameOptionsStep } from '../components/Host/Steps/GameOptionsStep';
 import { GameModeStep } from '../components/Host/Steps/GameModeStep';
 import { FinalStep } from '../components/Host/Steps/FinalStep';
 
+import { Jumbo } from '../components/Layout/Jumbo';
+
 import config from '../config.json';
-import { all } from 'axios';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState('');
@@ -178,80 +179,77 @@ const GameHostPage = () => {
   };
 
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: '100vh' }}
-      id="host-game-page"
-    >
-      <Row className="w-100">
-        <Col md={{ span: 12 }}>
-          <Card className="p-4">
-            <Card.Body>
-              <h2 className="text-center mb-4">{t('common.host_a_game')}</h2>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <StepWizard>
-                  <GameModeStep
-                    setGameMode={handleSetGameMode}
-                    gameMode={gameMode}
-                    gameModes={gameModes}
+    <div>
+      <Jumbo url="/static/img/jumbotron/host-a-game/1.png">
+        <Card
+          className="p-4"
+          style={{ minWidth: '50vw', background: 'rgba(255,255,255,0.98)' }}
+        >
+          <Card.Body>
+            <h2 className="text-center mb-4">{t('common.host_a_game')}</h2>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <StepWizard>
+                <GameModeStep
+                  setGameMode={handleSetGameMode}
+                  gameMode={gameMode}
+                  gameModes={gameModes}
+                />
+                <LanguageStep
+                  stepName="Language"
+                  setLanguage={setLanguage}
+                  language={language}
+                  languages={languages}
+                />
+                {gameMode && gameMode.label === 'Custom' && (
+                  <CategoryStep
+                    stepName="Category"
+                    setCategory={setCategory}
+                    category={category}
+                    categories={categories}
+                    selectAll={selectAll}
+                    allSelected={allSelected}
                   />
-                  <LanguageStep
-                    stepName="Language"
-                    setLanguage={setLanguage}
-                    language={language}
-                    languages={languages}
+                )}
+                {gameMode && gameMode.label === 'Custom' && (
+                  <QuestionOptionsStep
+                    stepName="Question Options"
+                    maxQuestions={maxQuestions}
+                    timeLimit={timeLimit}
+                    autoStart={autoStart}
+                    setMaxQuestions={setMaxQuestions}
+                    setTimeLimit={setTimeLimit}
+                    setAutoStart={setAutoStart}
+                    lifelines={lifelines}
+                    setSelectedLifeLines={setSelectedLifeLines}
+                    selectedLifelines={selectedLifelines}
                   />
-                  {gameMode && gameMode.label === 'Custom' && (
-                    <CategoryStep
-                      stepName="Category"
-                      setCategory={setCategory}
-                      category={category}
-                      categories={categories}
-                      selectAll={selectAll}
-                      allSelected={allSelected}
-                    />
-                  )}
-                  {gameMode && gameMode.label === 'Custom' && (
-                    <QuestionOptionsStep
-                      stepName="Question Options"
-                      maxQuestions={maxQuestions}
-                      timeLimit={timeLimit}
-                      autoStart={autoStart}
-                      setMaxQuestions={setMaxQuestions}
-                      setTimeLimit={setTimeLimit}
-                      setAutoStart={setAutoStart}
-                      lifelines={lifelines}
-                      setSelectedLifeLines={setSelectedLifeLines}
-                      selectedLifelines={selectedLifelines}
-                    />
-                  )}
-                  <GameOptionsStep
-                    stepName="Game Options"
-                    gamePassword={gamePassword}
-                    setGamePassword={setGamePassword}
-                  />
-                  <FinalStep
-                    stepName="Final Step"
-                    startGame={handleSubmit}
-                    summary={{
-                      gamePassword,
-                      maxQuestions,
-                      timeLimit,
-                      language: language ? language.label : '',
-                      category,
-                      allSelected,
-                      gameMode: gameMode ? gameMode.label : '',
-                      autoStart,
-                      selectedLifelines
-                    }}
-                  />
-                </StepWizard>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                )}
+                <GameOptionsStep
+                  stepName="Game Options"
+                  gamePassword={gamePassword}
+                  setGamePassword={setGamePassword}
+                />
+                <FinalStep
+                  stepName="Final Step"
+                  startGame={handleSubmit}
+                  summary={{
+                    gamePassword,
+                    maxQuestions,
+                    timeLimit,
+                    language: language ? language.label : '',
+                    category,
+                    allSelected,
+                    gameMode: gameMode ? gameMode.label : '',
+                    autoStart,
+                    selectedLifelines
+                  }}
+                />
+              </StepWizard>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Jumbo>
+    </div>
   );
 };
 

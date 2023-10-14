@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { joinGame } from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
+import { useTranslation } from 'react-i18next';
+import { Jumbo } from '../components/Layout/Jumbo';
 
 function GameJoinPage() {
   const [currentGameId, setGameId] = useState('');
@@ -12,6 +14,7 @@ function GameJoinPage() {
   const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
   const { showAlert } = useAlert();
+  const { t } = useTranslation();
 
   const { gameId } = useParams();
 
@@ -57,46 +60,52 @@ function GameJoinPage() {
   };
 
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: '100vh' }}
-    >
-      <Row>
-        <Col md={{ span: 12 }}>
-          <Card className="p-4">
-            <Card.Body>
-              <h2 className="text-center mb-4">Join a Game</h2>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group controlId="formGameId">
-                  <Form.Label>Game ID</Form.Label>
-                  <Form.Control
-                    type="input"
-                    value={currentGameId}
-                    onChange={(e) => setGameId(e.target.value)}
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid game ID.
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group controlId="formPassword">
-                  <Form.Label>Password (Optional)</Form.Label>
-                  <Form.Control
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100 mt-3">
-                  Join Game
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Jumbo
+        url="/static/img/jumbotron/join-game/2.png"
+        scrollToContent={true}
+      />
+      <Container className="d-flex align-items-center justify-content-center">
+        <Row>
+          <Col md={{ span: 12 }}>
+            <Card className="p-4">
+              <Card.Body>
+                <h2 className="text-center mb-4">{t('game_join.title')}</h2>
+                <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                  <Form.Group controlId="formGameId">
+                    <Form.Label>{t('common.game_id')}</Form.Label>
+                    <Form.Control
+                      type="input"
+                      value={currentGameId}
+                      onChange={(e) => setGameId(e.target.value)}
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please provide a valid game ID.
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group controlId="formPassword">
+                    <Form.Label>Password (Optional)</Form.Label>
+                    <Form.Control
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-100 mt-3"
+                  >
+                    {t('common.join_game')}
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

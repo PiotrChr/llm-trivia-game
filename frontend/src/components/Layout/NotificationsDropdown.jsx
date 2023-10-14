@@ -5,10 +5,12 @@ import { useSocketNotifications } from '../../services/hooks/useSocketNotificati
 import { useApiNotifications } from '../../services/hooks/useApiNotifications';
 import { markAllNotificationsAsRead } from '../../services/api';
 import { useAlert } from '../shared/Alert/AlertContext';
+import { useTranslation } from 'react-i18next';
 
 const NotificationDropdown = ({ user }) => {
   const navigate = useNavigate();
   const { showAlert } = useAlert();
+  const { t } = useTranslation();
 
   const {
     notifications: apiNotifications,
@@ -87,25 +89,26 @@ const NotificationDropdown = ({ user }) => {
         ) : (
           <Dropdown.Item>No new notifications</Dropdown.Item>
         )}
-        {hasUnreadNotifications && (
-          <div className="d-flex justify-content-center mt-2">
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              className="mb-1 w-100 ms-2 me-2"
-              onClick={markAllAsRead}
-            >
-              <small>Mark all as read</small>
-            </Button>
-            <Button
-              variant="outline-secondary"
-              className="btn-icon-only mb-1 me-2"
-              onClick={() => navigate('/notifications')}
-            >
-              <i className="bi-box-arrow-up-right"></i>
-            </Button>
-          </div>
-        )}
+        <div className="d-flex justify-content-center mt-2">
+          {hasUnreadNotifications ||
+            (true && (
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                className="mb-1 w-100 ms-2 me-2 px-1 py-1"
+                onClick={markAllAsRead}
+              >
+                <small>{t('notifications.mark_all_as_read')}</small>
+              </Button>
+            ))}
+          <Button
+            variant="outline-secondary"
+            className="btn-icon-only mb-1 me-2"
+            onClick={() => navigate('/notifications')}
+          >
+            <i className="bi-box-arrow-up-right"></i>
+          </Button>
+        </div>
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -542,7 +542,8 @@ class TriviaRepository:
         try:
             Database.get_cursor().execute(query, params)
             game = Database.get_cursor().fetchone()
-            if game:
+            
+            if game and game["id"]:
                 game_dict = TriviaRepository.row_to_dict(game)
                 game_dict["players"] = json.loads(game_dict["players"])
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
@@ -780,6 +781,71 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
         
+
+    @staticmethod
+    def get_player_stats(player_id):
+        query = """
+            WITH player_stats AS (
+                SELECT
+                    strftime('%Y-%m-%d', games.timestamp) AS date,
+                    SUM(CASE WHEN games.won = true THEN 1 ELSE 0 END) AS games_won,
+                    SUM(CASE WHEN games.won = false THEN 1 ELSE 0 END) AS games_lost,
+                    SUM(games.points) AS points,
+                    SUM(CASE WHEN questions.correct = true THEN 1 ELSE 0 END) AS questions_correct,
+                    SUM(CASE WHEN questions.correct = false THEN 1 ELSE 0 END) AS questions_wrong
+                FROM
+                    games
+                LEFT JOIN
+                    questions ON games.id = questions.game_id
+                WHERE
+                    games.player_id = ?
+                GROUP BY
+                    strftime('%Y-%m-%d', games.timestamp)
+            )
+            SELECT
+                (
+                    SELECT json_group_array(
+                        json_object(
+                            'date', date,
+                            'games_won', games_won,
+                            'games_lost', games_lost,
+                            'points', points,
+                            'questions_correct', questions_correct,
+                            'questions_wrong', questions_wrong
+                        )
+                    )
+                FROM player_stats
+                ) AS stats,
+                SUM(player_stats.games_won) AS total_games_won,
+                SUM(player_stats.games_lost) AS total_games_lost,
+                SUM(player_stats.points) AS total_points,
+                SUM(player_stats.questions_correct) AS total_questions_correct,
+                SUM(player_stats.questions_wrong) AS total_questions_wrong,
+                (SELECT COUNT(*) FROM friends WHERE player_id = ?) AS total_friends,
+                (SELECT json_group_array(json_object('id', badges.id, 'name', badges.name)) FROM badges WHERE player_id = ?) AS badges,
+                (SELECT json_object('id', tiers.id, 'name', tiers.name) FROM tiers WHERE tiers.id = (SELECT current_tier FROM players WHERE id = ?)) AS current_tier,
+                (SELECT rank FROM ranks WHERE player_id = ?) AS current_rank
+            FROM
+                player_stats;
+        """
+        params = (player_id, player_id, player_id, player_id, player_id)
+        
+        try:
+            Database.get_cursor().execute(query, params)
+            stats = Database.get_cursor().fetchone()
+            
+            if stats:
+                stats_dict = TriviaRepository.row_to_dict(stats)
+                stats_dict["stats"] = json.loads(stats_dict["stats"])
+                stats_dict["badges"] = json.loads(stats_dict["badges"])
+                stats_dict["current_tier"] = json.loads(stats_dict["current_tier"])
+                return stats_dict
+            else:
+                return None
+
+        except Exception as error:
+            print(f"Failed to generate statistics: {error}")
+            pass
 
     @staticmethod
     def get_languages():
