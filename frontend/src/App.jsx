@@ -26,8 +26,8 @@ import LayoutProvider from './components/shared/Layout/LayoutProvider';
 function App() {
   return (
     <Router>
-      <LayoutProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <LayoutProvider>
           <Layout>
             <Routes>
               <Route exact path="/" element={<HomePage />} />
@@ -144,8 +144,8 @@ function App() {
               <Route path="/error/:errorId" element={<ErrorPage />} />
             </Routes>
           </Layout>
-        </AuthProvider>
-      </LayoutProvider>
+        </LayoutProvider>
+      </AuthProvider>
     </Router>
   );
 }

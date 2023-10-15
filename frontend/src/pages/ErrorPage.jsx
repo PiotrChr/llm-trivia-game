@@ -1,39 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Jumbo } from '../components/Layout/Jumbo';
+import { useTranslation } from 'react-i18next';
 
 function ErrorPage() {
   const { errorId } = useParams();
+  const [background, setBackground] = useState('bg-danger');
+  const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
-  const getErrorMessage = () => {
+  useEffect(() => {
     switch (errorId) {
       case '404':
-        return 'The page you are looking for could not be found.';
+        setBackground('404/1.png');
+        setError(t('common.errors.404.description'));
+        break;
       case '500':
-        return 'There was a server error. Please try again later.';
+        setBackground('500/1.png');
+        setError(t('common.errors.500.description'));
+        break;
       case 'unable-to-join-game':
-        return 'You are unable to join this game.';
+        setBackground('unable-to-join/2.png');
+        setError(t('common.errors.unable-to-join-game.description'));
+        break;
       default:
-        return 'An unknown error occurred.';
+        setBackground('unknown-error/1.png');
+        setError(t('common.errors.other.description'));
+        break;
     }
-  };
+  }, []);
 
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: '100vh' }}
-    >
-      <Row>
-        <Col md={{ span: 8, offset: 2 }}>
-          <Card className="p-4">
-            <Card.Body>
-              <h2 className="text-center mb-4">Error</h2>
-              <p>{getErrorMessage()}</p>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <Jumbo url={`/static/img/jumbotron/${background}`}>
+        <Container className="d-flex align-items-center justify-content-center">
+          <Row>
+            <Col md={{ span: 12 }}>
+              <Card
+                className="p-4"
+                style={{ background: 'rgba(255,255,255,0.98)' }}
+              >
+                <Card.Body>
+                  <h2 className="text-center mb-4">
+                    {t('common.errors.error')}
+                  </h2>
+                  <p>{error}</p>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </Jumbo>
+    </div>
   );
 }
 

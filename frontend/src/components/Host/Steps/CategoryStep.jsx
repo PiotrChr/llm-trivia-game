@@ -48,7 +48,6 @@ export const CategoryStep = ({
 
         <Button
           variant="primary"
-          type="submit"
           className="mt-5 btn w-auto ms-auto me-5"
           onClick={nextStep}
         >

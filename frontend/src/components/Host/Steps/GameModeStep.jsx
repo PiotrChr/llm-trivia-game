@@ -24,7 +24,11 @@ export const GameModeStep = ({
           {t('game_host.select_game_mode')}
         </h3>
         {gameModes.map((mode, index) => (
-          <Col md={4} key={index}>
+          <Col
+            md={4}
+            key={index}
+            className="d-flex align-items-center justify-content-center"
+          >
             <GameModeTile
               mode={mode}
               onSelect={handleSelect}

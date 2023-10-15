@@ -15,6 +15,7 @@ import { useGameSocket } from '../services/hooks/game/useGameSocket';
 import { useFetchGameData } from '../services/hooks/game/useFetchGameData';
 import GameUI from '../components/Game/GameUI';
 import { useTranslation } from 'react-i18next';
+import { getRandomBackground } from '../utils';
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -166,6 +167,13 @@ const GamePage = () => {
   );
 
   useEffect(() => {
+    dispatch({
+      type: 'SET_CURRENT_BACKGROUND',
+      payload: getRandomBackground(state.category.id)
+    });
+  }, [state.category]);
+
+  useEffect(() => {
     return () => {
       clearTimeout(displayResultRef.current);
     };
@@ -216,6 +224,7 @@ const GamePage = () => {
       displayResult={displayResult}
       user={user}
       isReady={isReady}
+      currentBackground={state.currentBackground}
       handleCategoryChange={handleCategoryChange}
       handleLanguageChange={handleLanguageChange}
       handleSendMessage={handleSendMessage}

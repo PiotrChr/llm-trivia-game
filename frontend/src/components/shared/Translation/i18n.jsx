@@ -16,7 +16,7 @@ i18n
     interpolation: {
       escapeValue: false
     },
-    debug: true,
+    // debug: true,
     defaultNS: 'translation'
   });
 

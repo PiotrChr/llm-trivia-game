@@ -21,6 +21,7 @@ import {
   searchUserByString
 } from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
+import { Jumbo } from '../components/Layout/Jumbo';
 
 function FriendsPage() {
   const [friends, setFriends] = useState([]);
@@ -173,118 +174,118 @@ function FriendsPage() {
   };
 
   return (
-    <section className="min-vh-80 mb-8">
-      <div className="page-header min-height-300 align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg">
-        <span className="mask bg-gradient-secondary opacity-6" />
-      </div>
-      <div className="container mt-6">
-        <Row>
-          <Col sm={6}>
-            <FormGroup>
-              <FormLabel>Add a friend</FormLabel>
-              <InputGroup>
-                <Select
-                  className="flex-grow-1"
-                  options={users}
-                  isMulti={true}
-                  placeholder="Search..."
-                  onChange={handleOnChange}
-                  onInputChange={handleSearchChange}
-                  value={selectedOption}
-                  isSearchable
-                />
-                <Button
-                  variant="primary"
-                  onClick={handleFriendInvite}
-                  className="mb-0"
-                >
-                  Invite
-                </Button>
-              </InputGroup>
-            </FormGroup>
-          </Col>
-          <Col sm={6}>
-            <FormGroup>
-              <FormLabel>Invite via Facebook/Email</FormLabel>
-              <InputGroup>
-                <FormControl
-                  placeholder="Enter email or Facebook ID"
-                  value={facebookInvite}
-                  onChange={(e) => setFacebookInvite(e.target.value)}
-                />
-                <Button
-                  variant="primary"
-                  className="mb-0"
-                  onClick={handleFacebookInvite}
-                >
-                  Invite
-                </Button>
-              </InputGroup>
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row className="mt-4">
-          <h3>Friends</h3>
-          {friends.map((friend) => (
-            <Col sm={4} key={friend.id}>
-              <Card className="mb-4">
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title>{friend.name}</Card.Title>
+    <div>
+      <Jumbo url="/static/img/jumbotron/friends/1.png" scrollToContent={true} />
+      <section>
+        <div className="container mt-6">
+          <Row>
+            <Col sm={6}>
+              <FormGroup>
+                <FormLabel>Add a friend</FormLabel>
+                <InputGroup>
+                  <Select
+                    className="flex-grow-1"
+                    options={users}
+                    isMulti={true}
+                    placeholder="Search..."
+                    onChange={handleOnChange}
+                    onInputChange={handleSearchChange}
+                    value={selectedOption}
+                    isSearchable
+                  />
                   <Button
-                    variant="danger"
-                    onClick={() => handleRemove(friend.player_id)}
+                    variant="primary"
+                    onClick={handleFriendInvite}
+                    className="mb-0"
                   >
-                    Remove
+                    Invite
                   </Button>
-                </Card.Body>
-              </Card>
+                </InputGroup>
+              </FormGroup>
             </Col>
-          ))}
-        </Row>
-        <Row className="mt-4">
-          <h3>Invitations received</h3>
-          {invitationsReceived.map((friend, index) => (
-            <Col sm={4} key={index}>
-              <Card className="mb-4">
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title>{friend.name}</Card.Title>
+            <Col sm={6}>
+              <FormGroup>
+                <FormLabel>Invite via Facebook/Email</FormLabel>
+                <InputGroup>
+                  <FormControl
+                    placeholder="Enter email or Facebook ID"
+                    value={facebookInvite}
+                    onChange={(e) => setFacebookInvite(e.target.value)}
+                  />
                   <Button
-                    variant="danger"
-                    onClick={() => handleDecline(friend.player_id)}
+                    variant="primary"
+                    className="mb-0"
+                    onClick={handleFacebookInvite}
                   >
-                    Decline
+                    Invite
                   </Button>
-                  <Button
-                    variant="success"
-                    onClick={() => handleAccept(friend.player_id)}
-                  >
-                    Accept
-                  </Button>
-                </Card.Body>
-              </Card>
+                </InputGroup>
+              </FormGroup>
             </Col>
-          ))}
-        </Row>
-        <Row className="mt-4">
-          <h3>Invitations sent</h3>
-          {invitationsSent.map((friend, index) => (
-            <Col sm={4} key={index}>
-              <Card className="mb-4">
-                <Card.Body className="d-flex flex-column">
-                  <Card.Title>{friend.name}</Card.Title>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleRemoveInvitation(friend.player_id)}
-                  >
-                    Remove
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </div>
-    </section>
+          </Row>
+          <Row className="mt-4">
+            <h3>Friends</h3>
+            {friends.map((friend) => (
+              <Col sm={4} key={friend.id}>
+                <Card className="mb-4">
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title>{friend.name}</Card.Title>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleRemove(friend.player_id)}
+                    >
+                      Remove
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          <Row className="mt-4">
+            <h3>Invitations received</h3>
+            {invitationsReceived.map((friend, index) => (
+              <Col sm={4} key={index}>
+                <Card className="mb-4">
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title>{friend.name}</Card.Title>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDecline(friend.player_id)}
+                    >
+                      Decline
+                    </Button>
+                    <Button
+                      variant="success"
+                      onClick={() => handleAccept(friend.player_id)}
+                    >
+                      Accept
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          <Row className="mt-4">
+            <h3>Invitations sent</h3>
+            {invitationsSent.map((friend, index) => (
+              <Col sm={4} key={index}>
+                <Card className="mb-4">
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title>{friend.name}</Card.Title>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleRemoveInvitation(friend.player_id)}
+                    >
+                      Remove
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </section>
+    </div>
   );
 }
 
