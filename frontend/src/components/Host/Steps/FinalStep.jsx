@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import { useTranslation } from 'react-i18next';
 
 export const FinalStep = ({ startGame, summary }) => {
+  console.log(summary);
+
   const { t } = useTranslation();
 
   const Summary = ({
@@ -18,41 +20,52 @@ export const FinalStep = ({ startGame, summary }) => {
     autoStart,
     selectedLifelines
   }) => {
+    console.log(
+      maxQuestions,
+      timeLimit,
+      language,
+      category,
+      allSelected,
+      gameMode,
+      autoStart,
+      selectedLifelines
+    );
+
     return (
       <div className="final-step">
         <h3>{t('game_host.game_summary')}</h3>
         <div className="mt-3">
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.game_password')}: </span>
             <span className="value">***</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.max_questions')}: </span>
             <span className="value">{maxQuestions}</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.time_limit')}: </span>
             <span className="value">{timeLimit}</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.language')}: </span>
             <span className="value">{language}</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.category')}: </span>
             <span className="value">{category}</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.all_categories')}: </span>
             <span className="value">
               {allSelected ? t('common.yes') : t('common.no')}
             </span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.game_mode')}: </span>
             <span className="value">{gameMode}</span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">
               {t('common.auto_start_round')}:{' '}
             </span>
@@ -60,7 +73,7 @@ export const FinalStep = ({ startGame, summary }) => {
               {autoStart ? t('common.yes') : t('common.no')}
             </span>
           </p>
-          <p className="p-game-option">
+          <p className="p-game-option d-flex">
             <span className="description">{t('common.lifelines')}: </span>
             <span className="value">
               {selectedLifelines
@@ -76,8 +89,6 @@ export const FinalStep = ({ startGame, summary }) => {
       </div>
     );
   };
-
-  console.log(summary);
 
   return (
     <Container className="host-game-step">

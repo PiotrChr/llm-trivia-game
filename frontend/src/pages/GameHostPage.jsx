@@ -40,7 +40,9 @@ const GameHostPage = () => {
   const [autoStart, setAutoStart] = useState(false);
   const [lifelines, setLifeLines] = useState([]);
   const [eliminateOnFail, setEliminateOnFail] = useState(false);
-  const [selectedLifelines, setSelectedLifeLines] = useState([]);
+  const [selectedLifelines, setSelectedLifeLines] = useState(
+    config.game.modes['Classic'].lifelines
+  );
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const { t } = useTranslation();
@@ -237,7 +239,7 @@ const GameHostPage = () => {
                     maxQuestions,
                     timeLimit,
                     language: language ? language.label : '',
-                    category,
+                    category: category ? category.label : '',
                     allSelected,
                     gameMode: gameMode ? gameMode.label : '',
                     autoStart,

@@ -151,7 +151,9 @@ def register_handlers(socketio):
             broadcast=True
         )
 
-        if game['time_limit'] > 0:
+        print('time_limit', game['time_limit'])
+
+        if int(game['time_limit']) > 0:
             emit('start_timer', {"game_id": data['game_id'], "time_limit": game['time_limit']}, room=room, broadcast=True)
 
     @socketio.on('pingx')

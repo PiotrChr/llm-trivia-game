@@ -19,8 +19,6 @@ export function AuthProvider({ children }) {
   async function checkAuthenticated() {
     const token = checkJWT();
 
-    console.log(getJWT());
-
     if (token) {
       setToken(getJWT());
 

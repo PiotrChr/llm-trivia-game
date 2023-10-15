@@ -26,3 +26,4 @@
 - [!] **Extra:** Question submission
 - [ ] **Extra:** Game sounds/music
 - [ ] **Extra:** More game modes
+- [ ] **Visuals:** Game: change background using Crossfade on category change

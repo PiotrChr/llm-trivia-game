@@ -787,28 +787,36 @@ class TriviaRepository:
         query = """
             WITH player_stats AS (
                 SELECT
-                    strftime('%Y-%m-%d', games.timestamp) AS date,
-                    SUM(CASE WHEN games.won = true THEN 1 ELSE 0 END) AS games_won,
-                    SUM(CASE WHEN games.won = false THEN 1 ELSE 0 END) AS games_lost,
-                    SUM(games.points) AS points,
-                    SUM(CASE WHEN questions.correct = true THEN 1 ELSE 0 END) AS questions_correct,
-                    SUM(CASE WHEN questions.correct = false THEN 1 ELSE 0 END) AS questions_wrong
+                    strftime('%Y-%m-%d', games.time_start) AS date,
+                    SUM(CASE WHEN player_games.player_id IS NOT NULL THEN 1 ELSE 0 END) AS games_played,
+                    SUM(
+                        CASE WHEN player_answers.miss = 1 OR answers.is_correct = 0 THEN 1 ELSE 0 END
+                    ) AS questions_wrong,
+                    SUM(
+                        CASE WHEN player_answers.miss = 0 AND answers.is_correct = 1 THEN 1 ELSE 0 END
+                    ) AS questions_correct,
+                    SUM(
+                        CASE WHEN player_answers.miss = 0 AND answers.is_correct = 1 THEN 1 ELSE 0 END
+                    ) AS points
                 FROM
                     games
                 LEFT JOIN
-                    questions ON games.id = questions.game_id
+                    player_games ON games.id = player_games.game_id
+                LEFT JOIN
+                    player_answers ON games.id = player_answers.game_id AND player_games.player_id = player_answers.player_id
+                LEFT JOIN
+                    answers ON player_answers.answer_id = answers.id
                 WHERE
-                    games.player_id = ?
+                    player_games.player_id = ?
                 GROUP BY
-                    strftime('%Y-%m-%d', games.timestamp)
+                    strftime('%Y-%m-%d', games.time_start)
             )
             SELECT
                 (
                     SELECT json_group_array(
                         json_object(
                             'date', date,
-                            'games_won', games_won,
-                            'games_lost', games_lost,
+                            'games_played', games_played,
                             'points', points,
                             'questions_correct', questions_correct,
                             'questions_wrong', questions_wrong
@@ -816,17 +824,39 @@ class TriviaRepository:
                     )
                 FROM player_stats
                 ) AS stats,
-                SUM(player_stats.games_won) AS total_games_won,
-                SUM(player_stats.games_lost) AS total_games_lost,
+                SUM(player_stats.games_played) AS total_games_played,
                 SUM(player_stats.points) AS total_points,
                 SUM(player_stats.questions_correct) AS total_questions_correct,
                 SUM(player_stats.questions_wrong) AS total_questions_wrong,
                 (SELECT COUNT(*) FROM friends WHERE player_id = ?) AS total_friends,
-                (SELECT json_group_array(json_object('id', badges.id, 'name', badges.name)) FROM badges WHERE player_id = ?) AS badges,
-                (SELECT json_object('id', tiers.id, 'name', tiers.name) FROM tiers WHERE tiers.id = (SELECT current_tier FROM players WHERE id = ?)) AS current_tier,
-                (SELECT rank FROM ranks WHERE player_id = ?) AS current_rank
+                (
+                    SELECT json_group_array(
+                        json_object(
+                            'id', player_badges.badge_id,
+                            'name', badges.name
+                        )
+                    )
+                    FROM player_badges
+                    JOIN badges ON player_badges.badge_id = badges.id
+                    WHERE player_badges.player_id = ?
+                ) AS badges,
+                (
+                    SELECT json_object(
+                        'id', tiers.id,
+                        'name', tiers.name
+                    )
+                    FROM tiers
+                    JOIN game_rankings ON tiers.id = game_rankings.rank
+                    WHERE game_rankings.player_id = ? AND game_rankings.rank = (SELECT MAX(rank) FROM game_rankings WHERE player_id = ?)
+                ) AS current_tier,
+                (
+                    SELECT MAX(rank)
+                    FROM game_rankings
+                    WHERE player_id = ?
+                ) AS current_rank
             FROM
                 player_stats;
+
         """
         params = (player_id, player_id, player_id, player_id, player_id)
         
