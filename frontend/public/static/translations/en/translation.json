@@ -142,6 +142,10 @@
         "invite": "Invite",
         "invite_via_facebook": "Invite via Facebook"
     },
+    "game_over": {
+        "game_over_modal_message": "Game Over! Your score is {score}.",
+        "game_won_message": "Congratulations! You won the game with a score of {score}."
+    },
     "game": {
         "title": "Game",
         "current_difficulty": "Current Difficulty",

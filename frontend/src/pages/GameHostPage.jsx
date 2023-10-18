@@ -196,12 +196,6 @@ const GameHostPage = () => {
                   gameMode={gameMode}
                   gameModes={gameModes}
                 />
-                <LanguageStep
-                  stepName="Language"
-                  setLanguage={setLanguage}
-                  language={language}
-                  languages={languages}
-                />
                 {gameMode && gameMode.label === 'Custom' && (
                   <CategoryStep
                     stepName="Category"
@@ -228,6 +222,9 @@ const GameHostPage = () => {
                 )}
                 <GameOptionsStep
                   stepName="Game Options"
+                  setLanguage={setLanguage}
+                  language={language}
+                  languages={languages}
                   gamePassword={gamePassword}
                   setGamePassword={setGamePassword}
                 />

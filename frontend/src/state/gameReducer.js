@@ -226,6 +226,9 @@ const gameReducer = (state = initialState, action) => {
     case 'STOP_GAME':
       return { ...state, gameStarted: false };
 
+    case 'SET_GAME_OVER':
+      return { ...state, gameOver: true };
+
     case 'SET_COUNTDOWN':
       return {
         ...state,

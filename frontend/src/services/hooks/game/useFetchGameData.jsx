@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getGame, getLanguages, getCategories, isPlaying } from '../../api';
+import {
+  getGame,
+  endGame,
+  getLanguages,
+  getCategories,
+  isPlaying
+} from '../../api';
 import { useNavigate } from 'react-router-dom';
 
 export const useFetchGameData = (gameId, user, dispatch) => {
@@ -19,6 +25,20 @@ export const useFetchGameData = (gameId, user, dispatch) => {
         const game = await getGame(gameId);
         if (!game.data) {
           navigate('/error/unable-to-join-game');
+          return;
+        }
+
+        if (game.data.time_end !== null) {
+          dispatch({ type: 'SET_GAME_OVER' });
+          return;
+        }
+
+        if (
+          user.id === game.data.host &&
+          game.data.questions_answered >= game.data.max_questions
+        ) {
+          await endGame(gameId);
+          dispatch({ type: 'SET_GAME_OVER' });
           return;
         }
 

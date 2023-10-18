@@ -48,7 +48,7 @@ CREATE TABLE players (
     google_id TEXT DEFAULT NULL, -- for future Google Authentication
     total_score INTEGER DEFAULT 0,
     password TEXT NOT NULL
-);
+);645
 
 CREATE TABLE category (
     id INTEGER PRIMARY KEY,
@@ -243,10 +243,10 @@ CREATE TABLE game_modes (
 
 CREATE TABLE game_rankings (
     id INTEGER PRIMARY KEY,
-    game_id INTEGER NOT NULL,
     player_id INTEGER NOT NULL,
     mode_id INTEGER NOT NULL,
     score INTEGER NOT NULL,
+    questions_answered INTEGER DEFAULT 0,
     rank INTEGER NOT NULL,
     FOREIGN KEY (game_id) REFERENCES games(id),
     FOREIGN KEY (player_id) REFERENCES players(id),
