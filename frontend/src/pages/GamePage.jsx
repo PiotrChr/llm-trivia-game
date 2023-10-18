@@ -62,7 +62,7 @@ const GamePage = () => {
     state.difficulty,
     state.language,
     state.timer,
-    state.selectedOption
+    state.selectedAnswerId
   );
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
 
@@ -207,7 +207,7 @@ const GamePage = () => {
       state.timeLimit > 0 &&
       state.timer !== null &&
       state.timer === 0 &&
-      !state.selectedOption
+      !state.selectedAnswerId
     ) {
       socket.emit('miss', {
         game_id: gameId,
@@ -215,7 +215,7 @@ const GamePage = () => {
         question_id: state.question.id
       });
     }
-  }, [state.timeLimit, state.timer]);
+  }, [state.timeLimit, state.timer, state.selectedAnswerId]);
 
   return (
     <GameUI

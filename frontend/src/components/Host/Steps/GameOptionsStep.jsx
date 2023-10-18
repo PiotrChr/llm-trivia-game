@@ -4,13 +4,21 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
 
 export const GameOptionsStep = ({
   setGamePassword,
   gamePassword,
-  nextStep
+  nextStep,
+  language,
+  setLanguage,
+  languages
 }) => {
   const { t } = useTranslation();
+
+  const selectLanguage = (language) => {
+    setLanguage(language);
+  };
 
   return (
     <Container className="host-game-step">
@@ -29,6 +37,20 @@ export const GameOptionsStep = ({
             {t('game_host.errors.invalid_game_password')}
           </Form.Control.Feedback>
         </Form.Group>
+
+        <Form.Group controlId="formLanguage" className="mt-3">
+          <Form.Label>{t('common.language')}</Form.Label>
+          <Select
+            value={language}
+            options={languages}
+            onChange={(newValue) => selectLanguage(newValue)}
+            required
+          />
+          <Form.Control.Feedback type="invalid">
+            {t('game_host.select_language')}
+          </Form.Control.Feedback>
+        </Form.Group>
+
         <Button
           variant="primary"
           className="mt-5 btn w-auto ms-auto me-5"

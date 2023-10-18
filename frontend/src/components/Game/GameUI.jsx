@@ -5,7 +5,8 @@ import {
   Container,
   ProgressBar,
   Row,
-  Card
+  Card,
+  Fade
 } from 'react-bootstrap';
 import Select from 'react-select';
 import Countdown from './Countdown';
@@ -16,6 +17,7 @@ import ResultBadge from './ResultBadge';
 import Lifelines from './LifeLines';
 import QuestionTimer from './QuestionTimer';
 import { useTranslation } from 'react-i18next';
+import { GameOverCard } from './GameOverCard';
 
 const GameUI = ({
   state,
@@ -57,7 +59,8 @@ const GameUI = ({
     languages,
     language,
     allReady,
-    currentBackground
+    currentBackground,
+    gameOver
   } = state;
 
   const backgroundStyle = useMemo(
@@ -107,17 +110,11 @@ const GameUI = ({
             >
               <QuestionTimer
                 show={questionReady && timeLimit > 0}
-                // show={true}
                 elapsed={timeLimit - state.timer}
                 timeLimit={timeLimit}
-                // secondsTotal={999}
                 isPlaying={true}
               />
-              <Lifelines
-                show={questionReady}
-                // className={ state.timer > 0 && 'ms-8'}
-                className="ms-lg-8"
-              />
+              <Lifelines show={questionReady} className="ms-lg-8" />
               <Col
                 sm={12}
                 xs={12}
@@ -136,6 +133,18 @@ const GameUI = ({
                 >
                   <ResultBadge won={displayResult} />
                 </FadeInOut>
+                <FadeInOut
+                  show={gameOver}
+                  duration={500}
+                  className="position-relative d-flex w-100"
+                >
+                  <GameOverCard
+                    gameId={state.gameId}
+                    score={state.score}
+                    won={state.won}
+                  />
+                </FadeInOut>
+
                 <FadeInOut
                   show={questionReady}
                   duration={500}

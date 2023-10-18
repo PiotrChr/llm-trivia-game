@@ -151,8 +151,11 @@ def is_playing(game_id):
     return jsonify({"msg": "Player is playing", "player_id": player_id, "game_id": game_id, "playing": is_playing}), 200
     
 
-@game_routes.route('/end', methods=['POST'])
+@game_routes.route('/end_game', methods=['GET'])
+@jwt_required()
 def end_game():
+    player_id = get_jwt_identity()['id']
+
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -160,6 +163,18 @@ def end_game():
 
     if game_id is None:
         return jsonify({"msg": "Missing game_id parameter"}), 400
+
+    game = TriviaRepository.get_game_by_id(game_id)
+    player = TriviaRepository.get_player_by_id(player_id)
+
+    if game is None:
+        return jsonify({"msg": "Game not found", "game_id": game_id}), 404
+    
+    if player is None:
+        return jsonify({"msg": "Player not found", "player_id": player_id}), 404
+    
+    if game['host_id'] != player_id:
+        return jsonify({"msg": "Player is not the host", "player_id": player_id}), 401
 
     game_ended = TriviaRepository.end_game(game_id)
 

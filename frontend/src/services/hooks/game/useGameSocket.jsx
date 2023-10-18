@@ -17,7 +17,7 @@ export const useGameSocket = (
   difficulty,
   language,
   timer,
-  selectedOption
+  selectedAnswerId
 ) => {
   const socket = useSocket();
 
@@ -93,12 +93,13 @@ export const useGameSocket = (
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
     const onStartTimer = (data) => {
+      console.log('start timer', data);
       dispatch({ type: 'SET_TIMER', payload: data.time_limit });
-      console.log(data.time_limit);
 
       intervalRef.current = setInterval(() => {
         console.log('decremeting timer');
         console.log('timer', timer);
+        console.log('timerRef', timerRef.current);
 
         if (timerRef.current === 0) {
           clearInterval(intervalRef.current);
@@ -106,14 +107,17 @@ export const useGameSocket = (
           dispatch({ type: 'DECREMENT_TIMER' });
         }
       }, 1000);
-
-      return () => clearInterval(interval);
     };
     const onMissedQuestion = (data) => {
       const player_id = data.player.id;
       dispatch({ type: 'MISS_ANSWER', payload: player_id });
     };
 
+    const onGameOver = (data) => {
+      dispatch({ type: 'SET_GAME_OVER' });
+    };
+
+    socket.on('gave_over', onGameOver);
     socket.on('answer_missed', onMissedQuestion);
     socket.on('start_timer', onStartTimer);
     socket.on('drawing', onDrawing);
@@ -137,6 +141,7 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
+      socket.off('gave_over', onGameOver);
       socket.off('answer_missed', onMissedQuestion);
       socket.off('start_timer', onStartTimer);
       socket.off('drawing', onDrawing);
@@ -175,11 +180,13 @@ export const useGameSocket = (
   ]);
 
   useEffect(() => {
-    console.log(selectedOption);
-    if (timer === 0 || selectedOption !== null) {
+    console.log(timer, selectedAnswerId);
+
+    if (timer === 0 || selectedAnswerId !== null) {
+      console.log('clearing interval');
       clearInterval(intervalRef.current);
     }
-  }, [timer, selectedOption]);
+  }, [timer, selectedAnswerId]);
 
   return { socket };
 };

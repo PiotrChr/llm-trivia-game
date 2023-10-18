@@ -339,19 +339,95 @@ class TriviaRepository:
     @staticmethod
     def answer_question(game_id, question_id, player_id, answer_id):
         try:
-            Database.execute("BEGIN TRANSACTION", commit=False)
+            game = TriviaRepository.get_game_by_id(game_id)
+            is_correct = Database.get_cursor().execute(
+                "SELECT is_correct FROM answers WHERE id = ?",
+                (answer_id,)
+            ).fetchone()["is_correct"]
 
             player_answer_sql = """
                 INSERT INTO player_answers (player_id, question_id, game_id, answer_id)
                 VALUES (?, ?, ?, ?)
             """
-            Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id), False)
+            Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id), True)
 
-            Database.execute("COMMIT")
+            TriviaRepository.increment_question_by_game_mode(player_id, game['mode']['id'])
+
+            if is_correct:
+                TriviaRepository.increment_score_for_game_mode(player_id, game['mode']['id'])
+
             return True
         except sqlite3.Error as e:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
+            return False
+
+    @staticmethod
+    def increment_score_for_game_mode(player_id, mode_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            ranking_sql = """
+                UPDATE game_rankings SET score = score + 1 WHERE player_id = ? AND mode_id = ?
+            """
+            Database.execute(ranking_sql, (player_id, mode_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except:
+            Database.execute("ROLLBACK")
+            return False
+
+
+    @staticmethod
+    def increment_question_by_game_mode(player_id, mode_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            ranking_sql = """
+                UPDATE game_rankings SET questions_answered = questions_answered + 1 WHERE player_id = ? AND mode_id = ?
+            """
+            Database.execute(ranking_sql, (player_id, mode_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except:
+            Database.execute("ROLLBACK")
+            return False
+
+
+    @staticmethod
+    def get_player_ranking_by_mode(player_id, mode_id):
+        query = """
+            SELECT ranking.*, game_modes.name as mode_name
+            FROM game_rankings
+            JOIN game_modes ON ranking.mode_id = game_modes.id
+            WHERE ranking.player_id = ? AND ranking.mode_id = ?
+        """
+        params = (player_id, mode_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            ranking = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(ranking)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table ranking: {error}")
+            return None
+
+    @staticmethod
+    def create_ranking_for_mode(player_id, mode_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            ranking_sql = """
+                INSERT INTO ranking (player_id, mode_id)
+                VALUES (?, ?)
+            """
+            Database.insert(ranking_sql, (player_id, mode_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except:
+            Database.execute("ROLLBACK")
             return False
 
     @staticmethod
@@ -450,14 +526,14 @@ class TriviaRepository:
             return None
    
     @staticmethod
-    def add_points(player_id, points):
+    def add_points(player_id, mode_id, points):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 
             player_game_sql = """
-                UPDATE players SET total_score = total_score + ? WHERE id = ?
+                UPDATE game_rankings SET score = score + ? WHERE player_id = ? AND mode_id = ?
             """
-            Database.execute(player_game_sql, (points, player_id), False)
+            Database.execute(player_game_sql, (points, player_id, mode_id), False)
 
             Database.execute("COMMIT")
             return True
@@ -524,17 +600,24 @@ class TriviaRepository:
     @staticmethod
     def get_game_by_id(game_id):
         query = """
-            SELECT games.*,
-            json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
-            json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
-            json_object('id', category.id, 'name', category.name) as current_category,
-            json_object('id', game_modes.id, 'name', game_modes.name) as mode
+            SELECT
+                games.*,
+                (
+                    SELECT count(DISTINCT player_answers.question_id)
+                    FROM player_answers
+                    WHERE games.id = player_answers.game_id
+                ) as questions_answered,
+                json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
+                json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
+                json_object('id', category.id, 'name', category.name) as current_category,
+                json_object('id', game_modes.id, 'name', game_modes.name) as mode
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
             LEFT JOIN language ON games.current_language = language.id
             LEFT JOIN game_modes ON games.mode_id = game_modes.id
+            LEFT JOIN player_answers ON games.id = player_answers.game_id
             WHERE games.id = ?
         """
         params = (game_id,)
@@ -592,6 +675,12 @@ class TriviaRepository:
     def player_join(player_id, game_id):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
+            
+            game = TriviaRepository.get_game_by_id(game_id)
+            ranking = TriviaRepository.get_player_ranking_by_mode(player_id, game["mode"]["id"])
+
+            if ranking is None:
+                TriviaRepository.create_ranking_for_mode(player_id, game["mode"]["id"])
 
             player_game_sql = """
                 INSERT INTO player_games (player_id, game_id)
@@ -893,19 +982,9 @@ class TriviaRepository:
     @staticmethod
     def get_leaderboard():
         query = """
-            SELECT players.id, players.name, players.total_score, player_categories.category_name
-            FROM players
-            JOIN (
-                SELECT player_answers.player_id as player_id, category.name as category_name, COUNT(player_answers.question_id) as question_count
-                FROM player_answers
-                JOIN questions ON player_answers.question_id = questions.id
-                JOIN category ON questions.category = category.id
-                GROUP BY player_answers.player_id, category.name
-                ORDER BY question_count DESC
-                LIMIT 1
-            ) as player_categories ON players.id = player_categories.player_id
-            ORDER BY players.total_score DESC
-            LIMIT 10
+            SELECT rankings.*, players.name, players.total_score
+            FROM game_rankings AS rankings
+            LEFT JOIN players ON rankings.player_id = players.id
         """
 
         try:

@@ -55,6 +55,8 @@ def register_handlers(socketio):
 
     @socketio.on('answer')
     def handle_answer(data):
+        game = TriviaRepository.get_game_by_id(data['game_id'])
+
         TriviaRepository.answer_question(
             data['game_id'],
             data['question_id'],
@@ -65,7 +67,7 @@ def register_handlers(socketio):
         answer = TriviaRepository.get_answer_by_id(data['answer_id'])
 
         if answer['is_correct']:
-            TriviaRepository.add_points(data['player']['id'], 1)
+            TriviaRepository.add_points(data['player']['id'], game['mode_id'], 1)
 
         emit('answered', data, broadcast=True, room=data['game_id'])
 
@@ -110,11 +112,28 @@ def register_handlers(socketio):
 
         emit('started', {"player": data['player'], "game_id": data['game_id']}, room=room, broadcast=True)
 
+    @socketio.on('end_game')
+    def handle_end_game(data):
+        room = data['game_id']
+        game = TriviaRepository.get_game_by_id(data['game_id'])
+        if game['host'] != data['player']['id']:
+            return
+
+        TriviaRepository.end_game(data['game_id'])
+
+        emit('game_over', {"game_id": data['game_id']}, room=room, broadcast=True)
+
     @socketio.on('next')
     def handle_next_question(data):
         room = data['game_id']
         game = TriviaRepository.get_game_by_id(data['game_id'])
         if game['host'] != data['player']['id']:
+            return
+        
+        if game['max_questions'] > 0 and game['questions_answered'] >= game['max_questions']:
+            TriviaRepository.end_game(data['game_id'])
+
+            emit('game_over', {"game_id": data['game_id']}, room=room, broadcast=True)
             return
 
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
