@@ -17,7 +17,16 @@ export const MainNav = ({ user }) => {
       className="blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4 px-2"
     >
       <Container fluid className="pe-0">
-        <Navbar.Brand href="/" className="font-weight-bolder ms-lg-0 ms-3">
+        <Navbar.Brand
+          href="/"
+          className="font-weight-bolder ms-lg-0 ms-3 d-flex flex-row align-items-center py-0"
+        >
+          <img
+            src={'/static/img/logo/logo_1.png'}
+            className="d-inline-block align-text-top me-3"
+            alt="logo"
+            height="35"
+          />
           {t('navigation.main.title')}
         </Navbar.Brand>
         <Navbar.Toggle

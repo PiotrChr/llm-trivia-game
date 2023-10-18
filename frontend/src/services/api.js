@@ -182,7 +182,7 @@ export const startGame = async (gameId) => {
 };
 
 export const endGame = async (gameId) => {
-  const response = await api.get(`${BASE_URL}/game/end_game`, { gameId });
+  const response = await api.post(`${BASE_URL}/game/end_game`, { gameId });
   return response;
 };
 

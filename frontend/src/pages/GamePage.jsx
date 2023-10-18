@@ -219,6 +219,7 @@ const GamePage = () => {
 
   return (
     <GameUI
+      gameId={gameId}
       state={state}
       categories={categories}
       displayResult={displayResult}

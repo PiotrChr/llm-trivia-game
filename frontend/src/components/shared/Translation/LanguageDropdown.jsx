@@ -24,7 +24,7 @@ const LanguageDropdown = () => {
       >
         <img
           className="flag-img"
-          src={`static/img/flags/1x1/${currentLanguage}.svg`}
+          src={`/static/img/flags/1x1/${currentLanguage}.svg`}
           onError={handleImageError}
         />
       </Dropdown.Toggle>

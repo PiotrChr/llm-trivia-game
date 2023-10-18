@@ -11,7 +11,11 @@ const Modal = ({
   onClose
 }) => {
   return (
-    <ReactModal show={show} onHide={onClose}>
+    <ReactModal
+      show={show}
+      onHide={onClose}
+      className="d-flex align-items-center"
+    >
       <ReactModal.Header closeButton>
         <ReactModal.Title>{title}</ReactModal.Title>
       </ReactModal.Header>

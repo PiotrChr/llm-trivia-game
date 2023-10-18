@@ -719,37 +719,17 @@ class TriviaRepository:
     @staticmethod
     def end_game(game_id, player_id):
         try:
-            cursor = Database.get_cursor()
+            Database.execute("BEGIN TRANSACTION", commit=False)
 
-            cursor.execute("BEGIN TRANSACTION", commit=False)
-
-            cursor.execute(
-                """
-                SELECT SUM(answers.is_correct) as score 
-                FROM player_answers 
-                JOIN answers ON player_answers.answer_id = answers.id
-                WHERE player_answers.game_id = ? AND player_answers.player_id = ?
-                """,
-                (game_id, player_id),
-                False
-            )
-
-            score = cursor.fetchone()[0] or 0
-
-            cursor.execute(
+            Database.execute(
                 "UPDATE games SET time_end = datetime('now') WHERE id = ?",
                 (game_id,),
                 False
             )
             
-            cursor.execute(
-                "UPDATE players SET total_score = total_score + ? WHERE id = ?",
-                (score, player_id),
-                False
-            )
-
-            Database.commit()
-            return cursor.rowcount > 0
+            Database.execute("COMMIT")
+            
+            return True
         except sqlite3.Error as e:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
