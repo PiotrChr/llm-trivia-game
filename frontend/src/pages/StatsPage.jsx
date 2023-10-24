@@ -4,9 +4,12 @@ import { useParams } from 'react-router-dom';
 import { getGameStats } from '../services/api';
 import { Jumbo } from '../components/Layout/Jumbo';
 
+import { useTranslation } from 'react-i18next';
+
 function StatsPage() {
   const [stats, setStats] = useState({});
   const { gameId } = useParams();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -24,7 +27,7 @@ function StatsPage() {
   return (
     <div>
       <Jumbo
-        url={'/static/img/jumbotron/game-stats/1.png'}
+        url={'/static/img/jumbotron/game-stats/3.png'}
         scrollToContent={true}
       />
       <section className="min-vh-80 mb-8">
@@ -32,11 +35,8 @@ function StatsPage() {
           <Row>
             <Col size="12">
               <div className="stats-page">
-                <h1>Stats Page</h1>
-                <p>
-                  This is the stats page. Game functionality will be added here
-                  later.
-                </p>
+                <h1>{ t('game_stats.title') }</h1>
+                <p>{ t('game_stats.description') }</p>
               </div>
             </Col>
           </Row>

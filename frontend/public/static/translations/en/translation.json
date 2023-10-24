@@ -4,6 +4,7 @@
             "error": "Error",
             "warning": "Warning",
             "something_went_wrong": "Something went wrong. Please try again later.",
+            "error_fetching_data": "Error fetching data. Please try again later.",
             "404": {
                 "title": "Page not found",
                 "description": "The page you are looking for does not exist."
@@ -166,6 +167,10 @@
     "game_list": {
         "title": "Game List"
     },
+    "game_stats": {
+        "title": "Game Stats",
+        "description": "This is the stats page. Game functionality will be added here later."
+    },
     "game_host": {
         "title": "Host a Game",
         "select_language": "Select Language",
@@ -183,6 +188,15 @@
         "errors": {
             "invalid_game_password": "Invalid game password"
         }
+    },
+    "question_submission": {
+        "title": "Submit a Question",
+        "success": "Question submitted successfully!",
+        "fail": "Question submission failed. Please try again later."
+        
+    },
+    "category_submission": {
+        "title": "Submit a Category"
     },
     "game_join": {
         "title": "Join a Game"

@@ -10,8 +10,10 @@ import {
   Button,
   Form
 } from 'react-bootstrap';
-import { getLanguages, getCategories } from '../services/api';
+import { getLanguages, getCategories, submitQuestion } from '../services/api';
 import { Jumbo } from '../components/Layout/Jumbo';
+import { useAlert } from '../components/shared/Alert/AlertContext';
+import { useTranslation } from 'react-i18next';
 
 const QuestionSubmissionPage = () => {
   const [categories, setCategories] = useState([]);
@@ -22,6 +24,8 @@ const QuestionSubmissionPage = () => {
   const [questionText, setQuestionText] = useState('');
   const [answers, setAnswers] = useState(['', '', '', '']);
   const [correctAnswer, setCorrectAnswer] = useState(null);
+  const { showAlert } = useAlert();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchSelectData = async () => {
@@ -36,7 +40,10 @@ const QuestionSubmissionPage = () => {
           fetchedLanguages.map((lang) => ({ value: lang.id, label: lang.name }))
         );
       } catch (error) {
-        console.error('Error fetching data', error);
+        showAlert(t('common.errors.error_fetching_data'), t('common.errors.error_fetching_data'), error.message, {
+          variant: 'danger',
+          position: 'top'
+        });
       }
     };
 
@@ -50,14 +57,28 @@ const QuestionSubmissionPage = () => {
   };
 
   const handleSubmit = () => {
-    console.log({
-      selectedCategory,
-      selectedLanguage,
-      difficulty,
-      questionText,
-      answers,
-      correctAnswer
-    });
+    try {
+      const response = submitQuestion({
+        category: selectedCategory.value,
+        language: selectedLanguage.value,
+        difficulty: difficulty.value,
+        question: questionText,
+        answers,
+        correct_answer: correctAnswer
+      });
+
+      showAlert(t('question_submission.success'), t('question_submission.success'), null, {
+        variant: 'success',
+        position: 'top'
+      });
+
+    } catch (error)  {
+      showAlert(t('question_submission.fail'), t('question_submission.fail'), error.message, {
+        variant: 'danger',
+        position: 'top'
+      });
+    }
+    
   };
 
   return (
@@ -74,7 +95,7 @@ const QuestionSubmissionPage = () => {
           <Row>
             <Col sm={4}>
               <FormGroup>
-                <FormLabel>Category</FormLabel>
+                <FormLabel>{t('common.category')}</FormLabel>
                 <Select
                   options={categories}
                   value={selectedCategory}
@@ -83,7 +104,7 @@ const QuestionSubmissionPage = () => {
               </FormGroup>
 
               <FormGroup className="mt-3">
-                <FormLabel>Difficulty</FormLabel>
+                <FormLabel>{ t('common.difficulty') }</FormLabel>
                 <Select
                   options={[
                     { value: 'easy', label: 'Easy' },
@@ -96,7 +117,7 @@ const QuestionSubmissionPage = () => {
               </FormGroup>
 
               <FormGroup className="mt-3">
-                <FormLabel>Language</FormLabel>
+                <FormLabel>{ t('common.language') }</FormLabel>
                 <Select
                   options={languages}
                   value={selectedLanguage}
@@ -106,7 +127,7 @@ const QuestionSubmissionPage = () => {
             </Col>
             <Col sm={8}>
               <FormGroup>
-                <FormLabel>Question Text</FormLabel>
+                <FormLabel>{ t('common.question_text') }</FormLabel>
                 <FormControl
                   as="textarea"
                   rows={3}
@@ -115,7 +136,7 @@ const QuestionSubmissionPage = () => {
                 />
               </FormGroup>
 
-              <FormLabel className="mt-3">Answers</FormLabel>
+              <FormLabel className="mt-3">{ t('common.answers') }</FormLabel>
               {answers.map((answer, index) => (
                 <InputGroup className="mb-3" key={index}>
                   <InputGroup.Text>
@@ -137,7 +158,7 @@ const QuestionSubmissionPage = () => {
           <Row className="mt-4">
             <Col>
               <Button variant="primary" onClick={handleSubmit}>
-                Submit Question
+                { t('common.submit') }
               </Button>
             </Col>
           </Row>

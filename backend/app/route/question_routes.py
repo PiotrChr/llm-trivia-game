@@ -43,3 +43,28 @@ def report_question(question_id):
     except Exception as error:
         print('Error in report_question:', error)
         return jsonify({"msg": "Error reporting question"}), 500
+    
+
+@question_routes.route('/submit', methods=['POST'])
+@jwt_required()
+def submit_question():
+    try:
+        player_id = get_jwt_identity()['id']
+
+        question_text = request.json.get('question_text', None)
+        answers = request.json.get('question', None)
+        category = request.json.get('category', None)
+        difficulty = request.json.get('difficulty', None)
+        language = request.json.get('language', None)
+
+        TriviaRepository.submit_question(
+            question_text,
+            answers,
+            category,
+            difficulty,
+            language,
+            player_id
+        )
+    except Exception as error:
+        print('Error in submit_question:', error)
+        return jsonify({"msg": "Error submitting question"}), 500
