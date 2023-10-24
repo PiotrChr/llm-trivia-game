@@ -1309,4 +1309,26 @@ class TriviaRepository:
             print(f"Failed to read data from table lifeline_types: {error}")
             return None
         
-    
+
+    @staticmethod
+    def submit_question(question_text, answers, correct_answer, category, language, player_id):
+        pass
+
+    @staticmethod
+    def submit_category(categoryName, language, player_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            category_sql = """
+                INSERT INTO category_submission (name, language, player_id)
+                VALUES (?, ?, ?)
+            """
+            Database.insert(category_sql, (categoryName, language, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
