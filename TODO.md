@@ -1,29 +1,29 @@
-- [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
+Important:
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array
-- [!] **Game Handling:** Category: All
-- [ ] **Game Handling:** Feature: Question streak
-- [ ] **Game Handling:** Send "polling from AI" indicator through socket for better feedback
-- [ ] **Game Handling:** "Challenge a user"
 - [ ] **Game Handling:** Handle finish/stop game
+- [!] **Core:** Create a question hint during inference (drawing)
+- [!] **Core** Fix JSON instead of retrying fetching new question set
+- [!] **Extra:** Add script to auto translate questions
+- [!] **Extra:** Question submission
+- [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
+
+Secondary:
+- [ ] **Game Handling:** Feature: Question streak (badge)
+- [ ] **Game Handling:** Send "polling from AI" indicator through socket for better feedback
 - [ ] **Content:** About Author content
 - [ ] **Content:** About Game/ game rules content
-- [!] **Core** Fix JSON instead of retrying fetching new question set
 - [ ] **Visuals:** Fix fade-in-out in GamePage
-- [ ] **Visuals:** Wizzard for a game creation (as simple as possible) (react-step-wizzard https://github.com/jcmcneal/react-step-wizard)
 - [ ] **Visuals:** Add icons pack (Material || Font Awesome || ...)
-- [!] **Core:** Create a question hint during inference (drawing)
 - [!] **Core:** Script to automatically fix questions based on reporting
 - [!] **Extra:** Refactor/cleanup
-- [!] **Extra:** Add script to auto translate questions
 - [ ] **Core** Connect social media (share score & co.)
 - [ ] **Core:** Personalisation - "my categories" collection/ favourites
-- [!] **Core:** Automatic Backups
 - [ ] **Core:** Achievements/Badges/TItles/Rank
 - [ ] **Core:** SSO (Google or similar)
 - [ ] **Extra:** General game feedback
 - [ ] **Extra:** Tutorial
-- [!] **Extra:** Question submission
 - [ ] **Extra:** Game sounds/music
 - [ ] **Extra:** More game modes
 - [ ] **Visuals:** Game: change background using Crossfade on category change
+- [ ] **Game Handling:** "Challenge a user"

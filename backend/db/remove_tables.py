@@ -18,6 +18,7 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS answer_translations')
     c.execute('DROP TABLE IF EXISTS report')
     c.execute('DROP TABLE IF EXISTS report_types')
+    c.execute('DROP TABLE IF EXISTS player_lifelines')
     c.execute('DROP TABLE IF EXISTS lifeline_types')
     c.execute('DROP TABLE IF EXISTS lifelines')
     c.execute('DROP TABLE IF EXISTS game_lifelines')
@@ -28,6 +29,8 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS notification_types')
     c.execute('DROP TABLE IF EXISTS game_modes')
     c.execute('DROP TABLE IF EXISTS game_rankings')
+    c.execute('DROP TABLE IF EXISTS rank_types')
+    
 
     conn.commit()
 

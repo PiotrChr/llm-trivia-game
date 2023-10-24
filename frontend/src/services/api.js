@@ -149,7 +149,8 @@ export const createGame = async (
   language,
   autoStart,
   eliminateOnFail,
-  selectedLifelines
+  selectedLifelines,
+  isPublic
 ) => {
   const response = await api.post(`${BASE_URL}/game/create`, {
     gameMode,
@@ -161,7 +162,8 @@ export const createGame = async (
     language,
     autoStart,
     eliminateOnFail,
-    selectedLifelines
+    selectedLifelines,
+    isPublic
   });
   return response;
 };

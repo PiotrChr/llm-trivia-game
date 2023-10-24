@@ -478,7 +478,8 @@ class TriviaRepository:
         language='en',
         auto_start=False,
         eliminate_on_fail=False,
-        selected_lifelines=None
+        selected_lifelines=None,
+        is_public=False
     ):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
@@ -491,10 +492,10 @@ class TriviaRepository:
             ).fetchone()["id"]
             
             game_sql = """
-                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start, mode_id, eliminate_on_fail, all_categories)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start, mode_id, eliminate_on_fail, all_categories, is_public)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
-            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories), False)
+            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories, is_public), False)
 
             print(f"Game ID: {game_id}")
 
@@ -557,17 +558,20 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def get_games():
+    def get_games(isPublic=False):
         query = """
             SELECT games.*, 
             json_group_array(
                 json_object('player_id', players.id, 'name', players.name)
             ) as players,
-            json_object('id', category.id, 'name', category.name) as current_category
+            json_object('id', category.id, 'name', category.name) as current_category,
+            json_object('id', game_modes.id, 'name', game_modes.name) as mode
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
+            LEFT JOIN game_modes ON games.mode_id = game_modes.id
+            WHERE games.is_public = ?
             GROUP BY games.id
         """
         try:
@@ -578,6 +582,7 @@ class TriviaRepository:
                 game_dict = TriviaRepository.row_to_dict(game)
                 game_dict["players"] = json.loads(game_dict["players"])
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
+                game_dict["mode"] = json.loads(game_dict["mode"])
                 parsed_games.append(game_dict)
             return parsed_games
         except sqlite3.Error as error:

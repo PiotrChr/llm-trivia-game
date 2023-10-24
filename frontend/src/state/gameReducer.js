@@ -247,6 +247,7 @@ const gameReducer = (state = initialState, action) => {
     case 'MISS_ANSWER':
       state = {
         ...state,
+        selectedAnswerId: 'miss',
         players: state.players.map((player) => {
           if (player.id === action.payload) {
             return { ...player, answer: null, miss: true };

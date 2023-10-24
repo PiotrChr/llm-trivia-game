@@ -12,7 +12,9 @@ export const GameOptionsStep = ({
   nextStep,
   language,
   setLanguage,
-  languages
+  languages,
+  setIsPublic,
+  isPublic
 }) => {
   const { t } = useTranslation();
 
@@ -24,6 +26,20 @@ export const GameOptionsStep = ({
     <Container className="host-game-step">
       <h3 className="text-center w-100 mb-5">{t('game_host.game_options')}</h3>
       <Row>
+        <Form.Group controlId="formGameIsPublic">
+          <Form.Label>{t('game_host.is_public')}</Form.Label>
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchIsPublic"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+            />
+          </div>
+        </Form.Group>
+
         <Form.Group controlId="formGamePassword">
           <Form.Label>{t('game_host.game_password')}</Form.Label>
           <Form.Control

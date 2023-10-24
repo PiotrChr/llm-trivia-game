@@ -22,7 +22,7 @@
             }
         },
         "welcome": "Welcome to LLM Trivia!",
-        "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia Game. Can you beat the high score?",
+        "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia. Can you beat the high score?",
         "play_now": "Play Now",
         "game_mode": "Game Mode",
         "game_modes": {
@@ -72,7 +72,8 @@
         "finished": "Finished",
         "game_over": "Game Over",
         "in_progress": "In Progress",
-        "game_stats": "Game Stats"
+        "game_stats": "Game Stats",
+        "host": "Host"
     },
     "lifelines": {
         "fiftyFifty": {
@@ -93,16 +94,16 @@
         }
     },
     "home": {
-        "title": "Welcome to LLM Trivia Game!",
-        "heading": "The LLM Trivia Game is a fun and challenging quiz game. Players must answer a series of questions on various topics as accurately and quickly as possible. The game features a wide variety of categories, ensuring that players will be tested on a range of knowledge. Get started now and see how much you know!"
+        "title": "Welcome to LLM Trivia!",
+        "heading": "The LLM Trivia is a fun and challenging quiz game. Players must answer a series of questions on various topics as accurately and quickly as possible. The game features a wide variety of categories, ensuring that players will be tested on a range of knowledge. Get started now and see how much you know!"
     },
     "navigation": {
         "main": {
-            "title": "LLM Trivia Game",
+            "title": "LLM Trivia",
             "home": "Home",
             "leaderboard": "Leaderboard",
-            "about_game": "About Game & Rules",
-            "submit_question": "Submit a Question"
+            "about_game": "About Game",
+            "submit_question": "Submit a Question!"
         },
         "footer": {
             "about_game": "About Game",
@@ -178,6 +179,7 @@
         "time_limit_label": "Slide to adjust the time limit for each question. Slide to the minimum for no time limit.",
         "type_your_message": "Type your message...",
         "game_summary": "Game Summary",
+        "is_public": "Public",
         "errors": {
             "invalid_game_password": "Invalid game password"
         }

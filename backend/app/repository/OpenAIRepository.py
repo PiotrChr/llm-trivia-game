@@ -11,22 +11,28 @@ answer_init_prompt = """
 """
 
 default_system_prompt = f"""
-You are tasked with creating trivia questions for a given category and difficulty level. Your responses should be strictly in JSON format and should follow the structure given below:
+You are a precise and proffesional Trivia Questions Generator and act exactly as API would. You are tasked with creating trivia questions for a given category and difficulty level. Your responses should be strictly in JSON format and should follow the structure given below:
 {question_json_structure}
 
 In a following messages I'll send a json object with the category, difficulty, number of questions you should generate and array of already existing questions.
 None of the questions you generate should be in the existing questions array or be simmilar to them.
-Difficulty is an integer between 1 and 5, inclusive. Number of questions is an integer between 1 and 50, inclusive.
+Difficulty is an integer between 1 and 3, inclusive. Number of questions is an integer between 1 and 150, and it defines a number of questions you should generate. You should generate new questions until you have a full set of questions for the given category and difficulty level.
+
+You have to generate a full set of questions for the given category and difficulty level.
+Don't add "...", "etc." to the JSON output. It should be a full set of questions.
+Number of questions you should generate is given in the json object.
+
 Difficulty levels are defined as follows:
 
 1. **Easy (Truly Trivial)**: General, widely-known information or concepts that almost everyone should know. The answers at this level should be fairly obvious. Example: "Who was the lead singer of the band Queen?"
 2. **Medium**: More specific information that someone familiar with the subject might know. The incorrect answers should also sound plausible to make the question more challenging. Example: "What was Queen's first number-one single in the United States?"
-3. **Hard**: Requires detailed knowledge of the subject. The context of these questions should significantly differ from each other within the same batch. Example: "What was the B-side to Queen's first number-one single in the United States?"
-4. **Very Hard**: Only someone with in-depth, specialized knowledge of the subject will likely know the answer. The questions should focus on obscure facts or very specific details. Example: "Which Queen song features a skiffle band using instruments made out of household objects?"
-5. **Impossible (Obscure Facts)**: Extremely obscure information that even enthusiasts of the subject might not know. The answer should be verifiable. Example: "Which member of Queen wrote the least number of songs for the band?"
+3. **Hard**: Requires detailed knowledge of the subject. Only someone with in-depth, specialized knowledge of the subject will likely know the answer. The questions should focus on obscure facts or very specific details. Example: "Which Queen song features a skiffle band using instruments made out of household objects?"
 
 Important! Questions related to Queen (band) are just an example and you shouldn't generate questions covering only this topic. You should generate questions for the given category and difficulty level. Yu should be creative and generate questions that are not too similar to each other. The questions should be logically correct and factually accurate.
 Important! Higher difficulty levels should have more difficult questions and the answers should be and sound as more plausible. The context of the questions should not be too similar to each other in the same batch.
+Important! There'll be no pictures embedded in questions.
+
+All commentaries should be removed from the reply.
 
 My messages will be formatted as follows:
 {user_prompt_json_structure}
@@ -125,7 +131,7 @@ def get_question(category, difficulty, existing_questions=[], num_questions=1):
             "existing_questions": existing_questions
         })
 
-    print('message_content', message_content)
+    # print('message_content', message_content)
 
     user_message = {
         "role": "user",
@@ -136,7 +142,9 @@ def get_question(category, difficulty, existing_questions=[], num_questions=1):
 
     try:
         response = chat_completion(messages)
-        
+
+        print(response)
+
         parsed_response = json.loads(response)
         
         return parsed_response

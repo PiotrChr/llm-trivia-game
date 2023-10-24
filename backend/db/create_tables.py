@@ -35,6 +35,7 @@ def create_tables():
     run_sql_script('backend/db/queries/schema/notification_types.sql')
     run_sql_script('backend/db/queries/schema/game_modes.sql')
     run_sql_script('backend/db/queries/schema/game_rankings.sql')
+    run_sql_script('backend/db/queries/schema/rank_types.sql')
 
 if __name__ == "__main__":
     create_tables()

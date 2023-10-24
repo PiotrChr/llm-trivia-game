@@ -27,6 +27,7 @@ CREATE TABLE games (
     current_language INT DEFAULT NULL,
     max_questions INTEGER DEFAULT 0,
     mode_id INTEGER NOT NULL,
+    public BOOLEAN DEFAULT FALSE,
     password TEXT DEFAULT NULL,
     FOREIGN KEY (host) REFERENCES users(id),
     FOREIGN KEY (current_category) REFERENCES category(id)
@@ -48,7 +49,7 @@ CREATE TABLE players (
     google_id TEXT DEFAULT NULL, -- for future Google Authentication
     total_score INTEGER DEFAULT 0,
     password TEXT NOT NULL
-);645
+);
 
 CREATE TABLE category (
     id INTEGER PRIMARY KEY,
@@ -251,4 +252,21 @@ CREATE TABLE game_rankings (
     FOREIGN KEY (game_id) REFERENCES games(id),
     FOREIGN KEY (player_id) REFERENCES players(id),
     FOREIGN KEY (mode_id) REFERENCES game_modes(id)
+);
+
+CREATE TABLE question_submission (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    question_text TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    difficulty INTEGER NOT NULL,
+    answers TEXT NOT NULL,
+    FOREIGN KEY (player_id) REFERENCES players(id),
+    FOREIGN KEY (category_id) REFERENCES category(id)
+);
+
+CREATE TABLE category_submission (
+    id INTEGER PRIMARY KEY,
+    player_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
 );

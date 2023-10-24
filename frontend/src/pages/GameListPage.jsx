@@ -31,6 +31,7 @@ function GameListPage() {
   };
 
   const handleConnect = (gameId) => {
+    a;
     navigate('/game/' + gameId);
   };
 
@@ -100,6 +101,12 @@ function GameListPage() {
                       {t('common.game_id')}
                     </th>
                     <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
+                      {t('common.host')}
+                    </th>
+                    <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
+                      {t('common.game_mode')}
+                    </th>
+                    <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
                       {t('common.category')}
                     </th>
                     <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
@@ -108,7 +115,6 @@ function GameListPage() {
                     <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 align-middle text-center text-sm">
                       {t('common.status')}
                     </th>
-                    <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                     <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                   </tr>
                 </thead>
@@ -121,7 +127,21 @@ function GameListPage() {
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">
                           <h6 className="mb-0 text-xs">
-                            {game.current_category.name}
+                            {
+                              game.players.filter(
+                                (player) => player.player_id === game.host
+                              )[0].name
+                            }
+                          </h6>
+                        </td>
+                        <td className="align-middle text-center text-sm d-none d-md-table-cell">
+                          <h6 className="mb-0 text-xs">{game.mode.name}</h6>
+                        </td>
+                        <td className="align-middle text-center text-sm d-none d-md-table-cell">
+                          <h6 className="mb-0 text-xs">
+                            {game.all_categories
+                              ? 'All'
+                              : game.current_category.name}
                           </h6>
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">
@@ -145,9 +165,6 @@ function GameListPage() {
                               {t('common.waiting')}
                             </span>
                           )}
-                        </td>
-                        <td className="align-middle text-center text-sm d-none d-md-table-cell">
-                          <BtnViewStats game={game} />
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">
                           <BtnConnect game={game} />
@@ -176,7 +193,6 @@ function GameListPage() {
                             </span>
                           )}
                           <br />
-                          <BtnViewStats game={game} />
                           <BtnConnect game={game} />
                         </td>
                       </tr>

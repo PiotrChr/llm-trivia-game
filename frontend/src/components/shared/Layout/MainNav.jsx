@@ -22,7 +22,7 @@ export const MainNav = ({ user }) => {
           className="font-weight-bolder ms-lg-0 ms-3 d-flex flex-row align-items-center py-0"
         >
           <img
-            src={'/static/img/logo/logo_1.png'}
+            src={'/static/img/logo/logo.png'}
             className="d-inline-block align-text-top me-3"
             alt="logo"
             height="35"
@@ -46,7 +46,7 @@ export const MainNav = ({ user }) => {
             </Nav.Link>
             <Nav.Link
               href="/leaderboard"
-              active={location.pathname === '/leaderboard'}
+              active={'/leaderboard'}
               className="align-items-center me-2"
             >
               {t('navigation.main.leaderboard')}
@@ -61,7 +61,7 @@ export const MainNav = ({ user }) => {
             <Nav.Link
               href="/submit_question"
               active={location.pathname === '/submit_question'}
-              className="align-items-center me-2"
+              className="align-items-center me-2 font-weight-bold"
             >
               {t('navigation.main.submit_question')}
             </Nav.Link>

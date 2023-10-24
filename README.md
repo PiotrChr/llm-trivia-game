@@ -1,6 +1,6 @@
 # LLM Trivia Game :game_die:
 
-Welcome to **LLM Trivia Game**, an exciting real-time trivia challenge that lets you test your knowledge across a range of categories. Compete against others, accumulate points with every correct response, and strive to dominate the leaderboard! What's more? The game utilizes the capabilities of LLM (currently GPT) to generate new questions whenever our database is running low.
+Welcome to **LLM Trivia**, an exciting real-time trivia challenge that lets you test your knowledge across a range of categories. Compete against others, accumulate points with every correct response, and strive to dominate the leaderboard! What's more? The game utilizes the capabilities of LLM (currently GPT) to generate new questions whenever our database is running low.
 
 ## Features & Roadmap
 

@@ -36,9 +36,13 @@ model = prompt_for_data("Enter OpenAI LLM Model Type (default gpt-3.5-turbo): ",
 temperature = prompt_for_data("Enter LLM Model inference temperature (default 0.9): ", 0.9)
 backup_dir = prompt_for_data("Enter backup directory (default /tmp): ", "/tmp")
 project_dir = prompt_for_data("Enter project directory (default /tmp): ", "/tmp")
+aws_backup_bucket_name = prompt_for_data("Enter AWS backup bucket name (default llmtrivia-backups): ", "llmtrivia-backups")
 
 # Write backend .env data
 write_to_env_file(".backend.env", {
+    "LLMTRIVIA_AWS_BUCKET_NAME": aws_backup_bucket_name,
+    "PROJECT_DIR": project_dir,
+    "LLMTRIVIA_BACKUP_DIR": backup_dir,
     "FRONTEND_HOST": frontend_host,
     "BACKEND_PORT": backend_internal_port,
     "OPENAI_KEY": open_ai_key,

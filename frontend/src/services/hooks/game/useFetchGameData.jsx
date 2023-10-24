@@ -35,6 +35,7 @@ export const useFetchGameData = (gameId, user, dispatch) => {
 
         if (
           user.id === game.data.host &&
+          game.data.max_questions !== 0 &&
           game.data.questions_answered >= game.data.max_questions
         ) {
           await endGame(gameId);

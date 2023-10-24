@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import StepWizard from 'react-step-wizard';
 import { useTranslation } from 'react-i18next';
 
@@ -13,8 +13,6 @@ import {
   getLifelineTypes
 } from '../services/api';
 import { useAlert } from '../components/shared/Alert/AlertContext';
-
-import { LanguageStep } from '../components/Host/Steps/LanguageStep';
 import { CategoryStep } from '../components/Host/Steps/CategoryStep';
 import { QuestionOptionsStep } from '../components/Host/Steps/QuestionOptionsStep';
 import { GameOptionsStep } from '../components/Host/Steps/GameOptionsStep';
@@ -43,6 +41,7 @@ const GameHostPage = () => {
   const [selectedLifelines, setSelectedLifeLines] = useState(
     config.game.modes['Classic'].lifelines
   );
+  const [isPublic, setIsPublic] = useState(false);
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const { t } = useTranslation();
@@ -130,7 +129,8 @@ const GameHostPage = () => {
           language ? language.value : null,
           autoStart,
           eliminateOnFail,
-          selectedLifelines
+          selectedLifelines,
+          isPublic
         );
 
         if (!game) {
@@ -227,6 +227,8 @@ const GameHostPage = () => {
                   languages={languages}
                   gamePassword={gamePassword}
                   setGamePassword={setGamePassword}
+                  isPublic={isPublic}
+                  setIsPublic={setIsPublic}
                 />
                 <FinalStep
                   stepName="Final Step"

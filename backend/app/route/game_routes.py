@@ -8,7 +8,7 @@ game_routes = Blueprint('game_routes', __name__)
 
 @game_routes.route('/', methods=['GET'])
 def get_games():
-    games = TriviaRepository.get_games()
+    games = TriviaRepository.get_games(isPublic=True)
     return jsonify(games), 200
 
 
@@ -39,6 +39,7 @@ def create_game():
     game_mode = request.json.get('gameMode', None)
     eliminate_on_fail = request.json.get('eliminateOnFail', False)
     selected_lifelines = request.json.get('selectedLifelines', None)
+    is_public = request.json.get('isPublic', False)
     
     print(f'Creating game with params: {request.json}')
 
@@ -67,7 +68,8 @@ def create_game():
             language,
             auto_start,
             eliminate_on_fail,
-            selected_lifelines
+            selected_lifelines,
+            is_public
         )
     except Exception as e:
         print(e)
