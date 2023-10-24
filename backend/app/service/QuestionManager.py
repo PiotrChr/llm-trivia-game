@@ -25,9 +25,8 @@ class QuestionManager:
         return question
         
     @staticmethod
-    def fill_database_with_new_questions(num_questions, start_category_id=None):
+    def fill_database_with_new_questions(num_questions, start_category_id=None, difficulty=1):
         categories = TriviaRepository.get_categories()
-        difficulty = 1
         
         for category in categories:
             cat_id = category['id']
@@ -41,8 +40,8 @@ class QuestionManager:
             print(f'Generating {num_questions} new questions for {category_name}...')
             try:
                 questions = QuestionManager.generate_new_batch(category_name, difficulty, existing_questions, num_questions)
-                TriviaRepository.add_questions(questions, cat_id, difficulty)
-                print(f'Added {num_questions} new questions for {category_name} to the database')
+                added_questions = TriviaRepository.add_questions(questions, cat_id, difficulty)
+                print(f'Added { len(added_questions) } of { num_questions } new questions for {category_name} to the database')
             except Exception as e:
                 print(f'Error generating or adding questions for {category_name}: {e}')
 

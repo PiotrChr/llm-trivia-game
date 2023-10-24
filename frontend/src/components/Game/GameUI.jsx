@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Button,
   Col,
@@ -36,7 +36,8 @@ const GameUI = ({
   showModal,
   hideModal,
   user,
-  isLoading
+  isLoading,
+  gameId
 }) => {
   const {
     category,
@@ -74,6 +75,20 @@ const GameUI = ({
   );
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (gameOver) {
+      showModal(
+        <GameOverCard
+          gameId={gameId}
+          won={false}
+          score={12}
+          onNavigate={hideModal}
+        />,
+        t('common.game_over')
+      );
+    }
+  }, [gameOver, gameId]);
 
   if (isLoading) return <p>{t('common.loading')}</p>;
 
@@ -132,17 +147,6 @@ const GameUI = ({
                   }}
                 >
                   <ResultBadge won={displayResult} />
-                </FadeInOut>
-                <FadeInOut
-                  show={gameOver}
-                  duration={500}
-                  className="position-relative d-flex w-100"
-                >
-                  <GameOverCard
-                    gameId={state.gameId}
-                    score={state.score}
-                    won={state.won}
-                  />
                 </FadeInOut>
 
                 <FadeInOut

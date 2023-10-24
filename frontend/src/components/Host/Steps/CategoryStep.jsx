@@ -26,7 +26,7 @@ export const CategoryStep = ({
               className="form-check-input"
               type="checkbox"
               role="switch"
-              id="flexSwitchCheckChecked"
+              id="flexSwitchCheckAllCat"
               checked={allSelected}
               onChange={(e) => selectAll(e.target.checked)}
             />

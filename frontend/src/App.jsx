@@ -39,7 +39,6 @@ function App() {
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route
                 path="/submit_question"
-                exact
                 element={
                   <PrivateRoute>
                     <SubmitQuestion />
@@ -48,7 +47,6 @@ function App() {
               />
               <Route
                 path="/profile"
-                exact
                 element={
                   <PrivateRoute>
                     <ProfilePage />
@@ -57,7 +55,6 @@ function App() {
               />
               <Route
                 path="/friends"
-                exact
                 element={
                   <PrivateRoute>
                     <FriendsPage />
@@ -66,7 +63,6 @@ function App() {
               />
               <Route
                 path="/notifications"
-                exact
                 element={
                   <PrivateRoute>
                     <NotificationsPage />
@@ -75,7 +71,6 @@ function App() {
               />
               <Route
                 path="/game/welcome"
-                exact
                 element={
                   <PrivateRoute>
                     <GameWelcomePage />
@@ -84,7 +79,6 @@ function App() {
               />
               <Route
                 path="/game/host"
-                exact
                 element={
                   <PrivateRoute>
                     <GameHostPage />
@@ -109,7 +103,6 @@ function App() {
               />
               <Route
                 path="/game/list"
-                exact
                 element={
                   <PrivateRoute>
                     <GameListPage />
@@ -117,7 +110,7 @@ function App() {
                 }
               />
               <Route
-                path="/game/:gameId/score"
+                path="/game/score/:gameId"
                 element={
                   <PrivateRoute>
                     <ScorePage />
@@ -125,7 +118,7 @@ function App() {
                 }
               />
               <Route
-                path="/game/:gameId/stats"
+                path="/game/stats/:gameId"
                 element={
                   <PrivateRoute>
                     <StatsPage />

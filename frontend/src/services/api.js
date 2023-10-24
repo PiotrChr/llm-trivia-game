@@ -149,7 +149,8 @@ export const createGame = async (
   language,
   autoStart,
   eliminateOnFail,
-  selectedLifelines
+  selectedLifelines,
+  isPublic
 ) => {
   const response = await api.post(`${BASE_URL}/game/create`, {
     gameMode,
@@ -161,7 +162,8 @@ export const createGame = async (
     language,
     autoStart,
     eliminateOnFail,
-    selectedLifelines
+    selectedLifelines,
+    isPublic
   });
   return response;
 };
@@ -182,7 +184,7 @@ export const startGame = async (gameId) => {
 };
 
 export const endGame = async (gameId) => {
-  const response = await api.get(`${BASE_URL}/game/end_game`, { gameId });
+  const response = await api.post(`${BASE_URL}/game/end_game`, { gameId });
   return response;
 };
 

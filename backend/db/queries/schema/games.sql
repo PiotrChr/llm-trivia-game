@@ -13,6 +13,7 @@ CREATE TABLE games (
     current_language INT DEFAULT NULL,
     max_questions INTEGER DEFAULT 0,
     mode_id INTEGER NOT NULL,
+    public BOOLEAN DEFAULT FALSE,
     eliminate_on_fail BOOLEAN DEFAULT FALSE,
     password TEXT DEFAULT NULL,
     FOREIGN KEY (host) REFERENCES users(id),

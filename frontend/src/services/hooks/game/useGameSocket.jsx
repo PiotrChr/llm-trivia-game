@@ -77,7 +77,6 @@ export const useGameSocket = (
       }
     };
     const onIsReady = (data) => {
-      console.log('onIsReady', data);
       dispatch({ type: 'SET_PLAYER_READY', payload: data.player.id });
     };
     const onJoined = (data) => dispatch({ type: 'ADD_PLAYER', payload: data });
@@ -93,14 +92,9 @@ export const useGameSocket = (
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
     const onStartTimer = (data) => {
-      console.log('start timer', data);
       dispatch({ type: 'SET_TIMER', payload: data.time_limit });
 
       intervalRef.current = setInterval(() => {
-        console.log('decremeting timer');
-        console.log('timer', timer);
-        console.log('timerRef', timerRef.current);
-
         if (timerRef.current === 0) {
           clearInterval(intervalRef.current);
         } else {
@@ -180,10 +174,7 @@ export const useGameSocket = (
   ]);
 
   useEffect(() => {
-    console.log(timer, selectedAnswerId);
-
     if (timer === 0 || selectedAnswerId !== null) {
-      console.log('clearing interval');
       clearInterval(intervalRef.current);
     }
   }, [timer, selectedAnswerId]);

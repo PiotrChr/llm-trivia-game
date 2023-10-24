@@ -3,14 +3,14 @@ import os
 import boto3
 import datetime
 
-PROJECT_DIR = os.getenv('WORDPRESS_DIR')
-BACKUP_DIR = os.getenv('BACKUP_DIR')
-S3_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+DB_FILE = os.getenv('PROJECT_DIR') + '/backend/db/db.sqlite'
+BACKUP_DIR = os.getenv('LLMTRIVIA_BACKUP_DIR')
+S3_BUCKET_NAME = os.getenv('LLMTRIVIA_AWS_BUCKET_NAME')
 
 timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-backup_file_name = f'wordpress_backup_{timestamp}.tar.gz'
+backup_file_name = f'llmtrivia_db_backup_{timestamp}.tar.gz'
 
-subprocess.run(['tar', '-zcvf', os.path.join(BACKUP_DIR, backup_file_name), PROJECT_DIR], check=True)
+subprocess.run(['tar', '-zcvf', os.path.join(BACKUP_DIR, backup_file_name), DB_FILE], check=True)
 
 # Upload to S3
 s3 = boto3.client('s3')

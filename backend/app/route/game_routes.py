@@ -8,7 +8,7 @@ game_routes = Blueprint('game_routes', __name__)
 
 @game_routes.route('/', methods=['GET'])
 def get_games():
-    games = TriviaRepository.get_games()
+    games = TriviaRepository.get_games(isPublic=True)
     return jsonify(games), 200
 
 
@@ -39,6 +39,7 @@ def create_game():
     game_mode = request.json.get('gameMode', None)
     eliminate_on_fail = request.json.get('eliminateOnFail', False)
     selected_lifelines = request.json.get('selectedLifelines', None)
+    is_public = request.json.get('isPublic', False)
     
     print(f'Creating game with params: {request.json}')
 
@@ -67,7 +68,8 @@ def create_game():
             language,
             auto_start,
             eliminate_on_fail,
-            selected_lifelines
+            selected_lifelines,
+            is_public
         )
     except Exception as e:
         print(e)
@@ -151,7 +153,7 @@ def is_playing(game_id):
     return jsonify({"msg": "Player is playing", "player_id": player_id, "game_id": game_id, "playing": is_playing}), 200
     
 
-@game_routes.route('/end_game', methods=['GET'])
+@game_routes.route('/end_game', methods=['POST'])
 @jwt_required()
 def end_game():
     player_id = get_jwt_identity()['id']
@@ -159,7 +161,7 @@ def end_game():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
 
-    game_id = request.json.get('game_id', None)
+    game_id = request.json.get('gameId', None)
 
     if game_id is None:
         return jsonify({"msg": "Missing game_id parameter"}), 400
@@ -173,10 +175,10 @@ def end_game():
     if player is None:
         return jsonify({"msg": "Player not found", "player_id": player_id}), 404
     
-    if game['host_id'] != player_id:
+    if game['host'] != player_id:
         return jsonify({"msg": "Player is not the host", "player_id": player_id}), 401
 
-    game_ended = TriviaRepository.end_game(game_id)
+    game_ended = TriviaRepository.end_game(game_id, player_id)
 
     if game_ended:
         return jsonify({"msg": "Game ended successfully", "game_id": game_id}), 200

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../routing/AuthProvider';
 import { MainNav } from './MainNav';
 
 const Layout = ({ children }) => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
