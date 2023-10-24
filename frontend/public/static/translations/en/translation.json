@@ -196,7 +196,8 @@
         
     },
     "category_submission": {
-        "title": "Submit a Category"
+        "title": "Submit a Category",
+        "new_category_name": "New Category Name",
     },
     "game_join": {
         "title": "Join a Game"

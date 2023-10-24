@@ -35,8 +35,8 @@ function StatsPage() {
           <Row>
             <Col size="12">
               <div className="stats-page">
-                <h1>{ t('game_stats.title') }</h1>
-                <p>{ t('game_stats.description') }</p>
+                <h1>{t('game_stats.title')}</h1>
+                <p>{t('game_stats.description')}</p>
               </div>
             </Col>
           </Row>

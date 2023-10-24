@@ -40,10 +40,15 @@ const QuestionSubmissionPage = () => {
           fetchedLanguages.map((lang) => ({ value: lang.id, label: lang.name }))
         );
       } catch (error) {
-        showAlert(t('common.errors.error_fetching_data'), t('common.errors.error_fetching_data'), error.message, {
-          variant: 'danger',
-          position: 'top'
-        });
+        showAlert(
+          t('common.errors.error_fetching_data'),
+          t('common.errors.error_fetching_data'),
+          error.message,
+          {
+            variant: 'danger',
+            position: 'top'
+          }
+        );
       }
     };
 
@@ -67,18 +72,26 @@ const QuestionSubmissionPage = () => {
         correct_answer: correctAnswer
       });
 
-      showAlert(t('question_submission.success'), t('question_submission.success'), null, {
-        variant: 'success',
-        position: 'top'
-      });
-
-    } catch (error)  {
-      showAlert(t('question_submission.fail'), t('question_submission.fail'), error.message, {
-        variant: 'danger',
-        position: 'top'
-      });
+      showAlert(
+        t('question_submission.success'),
+        t('question_submission.success'),
+        null,
+        {
+          variant: 'success',
+          position: 'top'
+        }
+      );
+    } catch (error) {
+      showAlert(
+        t('question_submission.fail'),
+        t('question_submission.fail'),
+        error.message,
+        {
+          variant: 'danger',
+          position: 'top'
+        }
+      );
     }
-    
   };
 
   return (
@@ -104,7 +117,7 @@ const QuestionSubmissionPage = () => {
               </FormGroup>
 
               <FormGroup className="mt-3">
-                <FormLabel>{ t('common.difficulty') }</FormLabel>
+                <FormLabel>{t('common.difficulty')}</FormLabel>
                 <Select
                   options={[
                     { value: 'easy', label: 'Easy' },
@@ -117,7 +130,7 @@ const QuestionSubmissionPage = () => {
               </FormGroup>
 
               <FormGroup className="mt-3">
-                <FormLabel>{ t('common.language') }</FormLabel>
+                <FormLabel>{t('common.language')}</FormLabel>
                 <Select
                   options={languages}
                   value={selectedLanguage}
@@ -127,7 +140,7 @@ const QuestionSubmissionPage = () => {
             </Col>
             <Col sm={8}>
               <FormGroup>
-                <FormLabel>{ t('common.question_text') }</FormLabel>
+                <FormLabel>{t('common.question_text')}</FormLabel>
                 <FormControl
                   as="textarea"
                   rows={3}
@@ -136,7 +149,7 @@ const QuestionSubmissionPage = () => {
                 />
               </FormGroup>
 
-              <FormLabel className="mt-3">{ t('common.answers') }</FormLabel>
+              <FormLabel className="mt-3">{t('common.answers')}</FormLabel>
               {answers.map((answer, index) => (
                 <InputGroup className="mb-3" key={index}>
                   <InputGroup.Text>
@@ -158,7 +171,7 @@ const QuestionSubmissionPage = () => {
           <Row className="mt-4">
             <Col>
               <Button variant="primary" onClick={handleSubmit}>
-                { t('common.submit') }
+                {t('common.submit')}
               </Button>
             </Col>
           </Row>
