@@ -26,24 +26,6 @@
         "sub_heading": "Test your knowledge across a wide range of topics with the LLM Trivia. Can you beat the high score?",
         "play_now": "Play Now",
         "game_mode": "Game Mode",
-        "game_modes": {
-            "classic": {
-                "name": "Classic",
-                "description": "Each question has a time limit. Answer faster to score more points!"
-            },
-            "survival": {
-                "name": "Survival",
-                "description": "Endless stream of questions. How long can you last?"
-            },
-            "marathon": {
-                "name": "Marathon",
-                "description": "Customize game settings to your liking. This mode is unranked."
-            },
-            "custom": {
-                "name": "Custom",
-                "description": "The classic game mode with standard rules and settings."
-            }
-        },
         "home":"Home",
         "select": "Select",
         "language": "Language",
@@ -74,7 +56,26 @@
         "game_over": "Game Over",
         "in_progress": "In Progress",
         "game_stats": "Game Stats",
-        "host": "Host"
+        "host": "Host",
+        "difficulty": "Difficulty"
+    },
+    "game_modes": {
+        "Classic": {
+            "name": "Classic",
+            "description": "Each question has a time limit. Answer faster to score more points!"
+        },
+        "Survival": {
+            "name": "Survival",
+            "description": "You have only one life. Answer incorrectly and you're out!"
+        },
+        "Marathon": {
+            "name": "Marathon",
+            "description": "Answer as many questions as you can. You have selection of lifelines to help you along the way."
+        },
+        "Custom": {
+            "name": "Custom",
+            "description": "Customize game settings to your liking. This mode is unranked."
+        }
     },
     "lifelines": {
         "fiftyFifty": {
@@ -197,7 +198,7 @@
     },
     "category_submission": {
         "title": "Submit a Category",
-        "new_category_name": "New Category Name",
+        "new_category_name": "New Category Name"
     },
     "game_join": {
         "title": "Join a Game"

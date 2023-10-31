@@ -69,7 +69,7 @@ const GameUI = ({
       backgroundImage: `url(${currentBackground})`,
       borderRadius: '0px 0px 24px 24px',
       backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      backgroundPosition: 'center 10%'
     }),
     [currentBackground]
   );
@@ -98,19 +98,22 @@ const GameUI = ({
         className="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg"
         style={backgroundStyle}
       >
-        <span className="mask bg-gradient-dark opacity-6"></span>
+        {/* <span className="mask bg-gradient-dark opacity-6"></span> */}
         <Container>
           <Row className="justify-content-center">
             <Col lg={5} className="text-center mx-auto">
               <h1 className="text-white mb-2 mt-10">{category.name}</h1>
               <p className="text-lead text-white">
-                {t('game.current_difficulty')}: {difficulty}/5
-              </p>
-              <p className="text-lead text-white">
-                {t('game.current_language')}: {language.name}
-              </p>
-              <p className="text-lead text-white">
-                {t('common.game_mode')}: {state.gameMode && state.gameMode.name}
+                <span className="me-3">
+                  <strong>{t('common.difficulty')}:</strong> {difficulty}/3
+                </span>
+                <span className="me-3">
+                  <strong>{t('common.language')}:</strong> {language.name}
+                </span>
+                <span className="">
+                  <strong>{t('common.game_mode')}: </strong>{' '}
+                  {state.gameMode && state.gameMode.name}
+                </span>
               </p>
             </Col>
           </Row>
@@ -258,39 +261,41 @@ const GameUI = ({
                       {t('game.next_question')}
                     </Button>
                   )}
-                  {isHost && (
-                    <>
-                      <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={categories}
-                        value={{ label: category.name, value: category.id }}
-                        onChange={handleCategoryChange}
-                        onCreateOption={handleCategoryChange}
-                        formatCreateLabel={(inputValue) =>
-                          `Add "${inputValue}"`
-                        }
-                        isSearchable
-                        isClearable
-                      />
-                      <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={difficultyOptions}
-                        value={difficultyOptions[difficulty - 1]}
-                        onChange={handleDifficultyChange}
-                      />
-                      <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={languages}
-                        value={{
-                          label: language.name,
-                          value: language.iso_code
-                        }}
-                        onChange={handleLanguageChange}
-                        isSearchable
-                        defaultValue={{ label: 'English', value: 'en' }}
-                      />
-                    </>
-                  )}
+                  {isHost &&
+                    state.gameMode &&
+                    state.gameMode.name === 'Custom' && (
+                      <>
+                        <Select
+                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
+                          options={categories}
+                          value={{ label: category.name, value: category.id }}
+                          onChange={handleCategoryChange}
+                          onCreateOption={handleCategoryChange}
+                          formatCreateLabel={(inputValue) =>
+                            `Add "${inputValue}"`
+                          }
+                          isSearchable
+                          isClearable
+                        />
+                        <Select
+                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
+                          options={difficultyOptions}
+                          value={difficultyOptions[difficulty - 1]}
+                          onChange={handleDifficultyChange}
+                        />
+                        <Select
+                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
+                          options={languages}
+                          value={{
+                            label: language.name,
+                            value: language.iso_code
+                          }}
+                          onChange={handleLanguageChange}
+                          isSearchable
+                          defaultValue={{ label: 'English', value: 'en' }}
+                        />
+                      </>
+                    )}
                 </Col>
               </Row>
             </Card.Footer>

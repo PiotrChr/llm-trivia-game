@@ -61,7 +61,8 @@ def register_handlers(socketio):
             data['game_id'],
             data['question_id'],
             data['player']['id'],
-            data['answer_id']
+            data['answer_id'],
+            data['time']
         )
 
         answer = TriviaRepository.get_answer_by_id(data['answer_id'])

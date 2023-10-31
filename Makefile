@@ -125,7 +125,7 @@ start_gunicorn_backend_live:
 	(cd $(BACKEND_DIR) && gunicorn server:app --bind 0.0.0.0:$(BACKEND_PORT) --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker)
 
 fetch_questions:
-	(cd $(BACKEND_DIR) && python3 fetch_questions.py --num_questions 150 --difficulty 1 --start_cat_id $(START_CAT))
+	(cd $(BACKEND_DIR) && python3 fetch_questions.py --num_questions 20 --difficulty 1 --start_cat_id $(START_CAT))
 
 translate_questions:
 	(cd $(BACKEND_DIR) && python3 translate_questions.py --language $(LANG) --cat $(CAT))

@@ -337,7 +337,7 @@ class TriviaRepository:
             return None
 
     @staticmethod
-    def answer_question(game_id, question_id, player_id, answer_id):
+    def answer_question(game_id, question_id, player_id, answer_id, time=0):
         try:
             game = TriviaRepository.get_game_by_id(game_id)
             is_correct = Database.get_cursor().execute(
@@ -346,10 +346,10 @@ class TriviaRepository:
             ).fetchone()["is_correct"]
 
             player_answer_sql = """
-                INSERT INTO player_answers (player_id, question_id, game_id, answer_id)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO player_answers (player_id, question_id, game_id, answer_id, time)
+                VALUES (?, ?, ?, ?, ?)
             """
-            Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id), True)
+            Database.insert(player_answer_sql, (player_id, question_id, game_id, answer_id, time), True)
 
             TriviaRepository.increment_question_by_game_mode(player_id, game['mode']['id'])
 
@@ -575,7 +575,7 @@ class TriviaRepository:
             GROUP BY games.id
         """
         try:
-            Database.get_cursor().execute(query)
+            Database.get_cursor().execute(query, (isPublic,))
             games = Database.get_cursor().fetchall()
             parsed_games = []
             for game in games:
@@ -1324,6 +1324,30 @@ class TriviaRepository:
                 VALUES (?, ?, ?)
             """
             Database.insert(category_sql, (categoryName, language, player_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+    
+    @staticmethod
+    def add_hint(question_id, hint, language):
+        try:
+            language_id = Database.get_cursor().execute(
+                "SELECT id FROM language WHERE iso_code = ?",
+                (language,)
+            ).fetchone()["id"]
+
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            hint_sql = """
+                INSERT INTO question_hints (question_id, hint, language_id)
+                VALUES (?, ?, ?)
+            """
+            Database.insert(hint_sql, (question_id, hint, language_id), False)
 
             Database.execute("COMMIT")
             return True

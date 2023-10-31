@@ -30,6 +30,7 @@ def remove_tables():
     c.execute('DROP TABLE IF EXISTS game_modes')
     c.execute('DROP TABLE IF EXISTS game_rankings')
     c.execute('DROP TABLE IF EXISTS rank_types')
+    c.execute('DROP TABLE IF EXISTS question_hints')
     
 
     conn.commit()
