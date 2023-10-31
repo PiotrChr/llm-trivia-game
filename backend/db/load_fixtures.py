@@ -7,7 +7,10 @@ def run_sql_script(filename):
         if os.path.isfile(filename):
             with open(filename, 'r') as f:
                 sql = f.read()
-                conn.executescript(sql)
+                try:
+                    conn.executescript(sql)
+                except sqlite3.Error as e:
+                    print(f"An error occurred: {e.args[0]}")
         else:
             print(f"Script file {filename} does not exist")
 
