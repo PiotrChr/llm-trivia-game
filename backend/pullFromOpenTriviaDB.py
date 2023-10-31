@@ -2,7 +2,7 @@ import requests
 import sqlite3
 from app.repository.TriviaRepository import TriviaRepository
 
-API_URL = "https://opentdb.com/api.php?amount=50&token=51254982f86d2367c23faf202bc372de9bdfeb763225a94665b4299a1d662a10"
+API_URL = "https://opentdb.com/api.php?amount=50&token=7da419f8f9feab68fc4cc490b25ff25811cfd26a5f178aabbfe5bc25c6e6b423"
 
 def remap_category(api_category_name):
     mapping_dict = {
@@ -66,12 +66,14 @@ def process_batch(questions):
 def main():
     while True:
         try:
+            print('Requesting a new question batch')
             questions = get_questions(API_URL)
             if questions is None:
                 print('Error, stopping')
                 break  # Stop on error
             categorized_questions = process_batch(questions)
             for category_id, question_difficulty_pairs in categorized_questions.items():
+                print('Adding questions for category', category_id)
                 for question, difficulty in question_difficulty_pairs:
                     TriviaRepository.add_questions([question], category_id, difficulty)  # Single question per DB transaction for varying difficulties within the same category
         except Exception as error:

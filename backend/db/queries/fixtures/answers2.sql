@@ -1,11 +1,4 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
-CREATE TABLE answers (
-    id INTEGER PRIMARY KEY,
-    question_id INTEGER NOT NULL,
-    answer_text TEXT NOT NULL,
-    is_correct BOOLEAN NOT NULL
-);
+
 INSERT INTO answers VALUES(1,1,'Gravity',1);
 INSERT INTO answers VALUES(2,1,'Magnetism',0);
 INSERT INTO answers VALUES(3,1,'Friction',0);

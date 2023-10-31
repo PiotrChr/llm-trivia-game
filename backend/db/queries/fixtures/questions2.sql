@@ -1,12 +1,6 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
-CREATE TABLE questions (
-    id INTEGER PRIMARY KEY,
-    question_text TEXT NOT NULL,
-    category INTEGER NOT NULL,
-    difficulty INTEGER NOT NULL,
-    FOREIGN KEY (category) REFERENCES category(id)
-);
+
 INSERT INTO questions VALUES(1,'What is the force that keeps us on the ground?',1,1);
 INSERT INTO questions VALUES(2,'What is the speed of light?',1,1);
 INSERT INTO questions VALUES(3,'Who is known as the father of modern physics?',1,1);
