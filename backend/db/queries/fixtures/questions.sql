@@ -7815,4 +7815,3 @@ INSERT INTO questions VALUES(7814,'In computing terms, typically what does CLI s
 INSERT INTO questions VALUES(7815,'George W. Bush lost the popular vote in the 2004 United States presidential election.',26,2);
 INSERT INTO questions VALUES(7816,'Which sport is NOT traditionally played during the Mongolian Naadam festival?',16,2);
 INSERT INTO questions VALUES(7817,'Which of the following famous mathematicians died in a duel at the age of 20?',6,3);
-COMMIT;
