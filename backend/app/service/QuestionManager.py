@@ -41,6 +41,10 @@ class QuestionManager:
             try:
                 questions = QuestionManager.generate_new_batch(category_name, difficulty, existing_questions, num_questions)
                 added_questions = TriviaRepository.add_questions(questions, cat_id, difficulty)
+
+                for question in added_questions:
+                    TriviaRepository.add_hint(question['id'], question['hint'], 'en')
+                    
                 print(f'Added { len(added_questions) } of { num_questions } new questions for {category_name} to the database')
             except Exception as e:
                 print(f'Error generating or adding questions for {category_name}: {e}')

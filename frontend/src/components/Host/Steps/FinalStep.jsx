@@ -18,19 +18,9 @@ export const FinalStep = ({ startGame, summary }) => {
     allSelected,
     gameMode,
     autoStart,
-    selectedLifelines
+    selectedLifelines,
+    isPublic
   }) => {
-    console.log(
-      maxQuestions,
-      timeLimit,
-      language,
-      category,
-      allSelected,
-      gameMode,
-      autoStart,
-      selectedLifelines
-    );
-
     return (
       <div className="final-step">
         <h3>{t('game_host.game_summary')}</h3>
@@ -71,6 +61,12 @@ export const FinalStep = ({ startGame, summary }) => {
             </span>
             <span className="value">
               {autoStart ? t('common.yes') : t('common.no')}
+            </span>
+          </p>
+          <p className="p-game-option d-flex">
+            <span className="description">{t('game_host.is_public')}:</span>
+            <span className="value">
+              {isPublic ? t('common.yes') : t('common.no')}
             </span>
           </p>
           <p className="p-game-option d-flex">

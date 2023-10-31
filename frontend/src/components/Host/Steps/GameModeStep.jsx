@@ -31,8 +31,11 @@ export const GameModeStep = ({
           >
             <GameModeTile
               mode={mode}
+              name={t('game_modes.' + mode.label + '.name')}
+              description={t('game_modes.' + mode.label + '.description')}
               onSelect={handleSelect}
               isSelected={mode === gameMode}
+              variant={9}
             />
           </Col>
         ))}

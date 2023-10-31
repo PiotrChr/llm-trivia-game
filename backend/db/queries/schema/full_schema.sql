@@ -27,7 +27,7 @@ CREATE TABLE games (
     current_language INT DEFAULT NULL,
     max_questions INTEGER DEFAULT 0,
     mode_id INTEGER NOT NULL,
-    public BOOLEAN DEFAULT FALSE,
+    is_public BOOLEAN DEFAULT FALSE,
     password TEXT DEFAULT NULL,
     FOREIGN KEY (host) REFERENCES users(id),
     FOREIGN KEY (current_category) REFERENCES category(id)
@@ -87,6 +87,7 @@ CREATE TABLE player_answers (
     answer_id INTEGER,
     game_id INTEGER,
     miss BOOLEAN DEFAULT 0,
+    time INTEGER DEFAULT 0,
     PRIMARY KEY(player_id, question_id, game_id),
     FOREIGN KEY(player_id) REFERENCES players(id),
     FOREIGN KEY(question_id) REFERENCES questions(id),
@@ -150,6 +151,14 @@ CREATE TABLE game_lifelines (
     PRIMARY KEY(game_id, lifeline_id),
     FOREIGN KEY(game_id) REFERENCES games(id),
     FOREIGN KEY(lifeline_id) REFERENCES lifeline_types(id)
+);
+
+CREATE TABLE question_hints (
+    id INTEGER PRIMARY KEY,
+    question_id INTEGER NOT NULL,
+    hint_text TEXT NOT NULL,
+    language INTEGER NOT NULL,
+    FOREIGN KEY(question_id) REFERENCES questions(id)
 );
 
 CREATE TABLE player_lifelines (

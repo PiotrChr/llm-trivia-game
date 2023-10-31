@@ -144,13 +144,16 @@ const GamePage = () => {
 
   const handleAnswerClicked = useCallback(
     (answerId) => {
-      dispatch({ type: 'SELECT_ANSWER', payload: answerId });
       if (!socket) return;
+
+      dispatch({ type: 'SELECT_ANSWER', payload: answerId });
+
       socket.emit('answer', {
         game_id: gameId,
         player: user,
         answer_id: answerId,
-        question_id: state.question.id
+        question_id: state.question.id,
+        time: 0
       });
     },
     [socket, gameId, user, state.question]

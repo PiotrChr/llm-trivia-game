@@ -180,3 +180,40 @@
     background-size: cover;
     background-position: center center;
 }
+
+.nav-container {
+    .navbar-brand {
+        order: 1;
+    }
+    .main-nav {
+        order: 2;
+    }
+    .game-nav {
+        order: 3;
+    }
+    .navbar-toggler {
+        order: 4;
+    }
+
+    @media screen and (max-width: 780px) {
+        .navbar-brand {
+            display: none !important;
+        }
+        .game-nav {
+            order: 1;
+        }
+        .main-nav {
+            order: 3;
+        }
+        .navbar-toggler {
+            order: 2;
+        }
+    }
+}
+
+#main-navbar {
+    .dropdown-menu {
+        position: absolute !important;
+        transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0px, 37px, 0px) !important;
+    }
+}

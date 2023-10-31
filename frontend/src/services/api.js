@@ -211,7 +211,7 @@ export const submitCategory = async (categoryName, language) => {
     language
   });
   return response;
-}
+};
 
 // Languages
 
@@ -233,7 +233,13 @@ export const reportQuestion = async (questionId, reportData) => {
   return response;
 };
 
-export const submitQuestion = async (question, answers, category, difficulty, language) => {
+export const submitQuestion = async (
+  question,
+  answers,
+  category,
+  difficulty,
+  language
+) => {
   const response = await api.post(`${BASE_URL}/questions/submit`, {
     question,
     answers,
@@ -242,7 +248,7 @@ export const submitQuestion = async (question, answers, category, difficulty, la
     language
   });
   return response;
-}
+};
 
 // Notifications
 

@@ -2,7 +2,7 @@ import json
 import openai
 import os
 
-question_json_structure = """[{"question":"Some example question","answers":[{"text":"answer1","is_correct":true},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":false},{"text":"answer4","is_correct":false}]},{"question":"Some other example question","answers":[{"text":"answer1","is_correct":false},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":true},{"text":"answer4","is_correct":false}]}]"""
+question_json_structure = """[{"question":"Some example question", "numberInBatch": 0, "hint": "Some valuable hint regarding the question", "answers":[{"text":"answer1","is_correct":true},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":false},{"text":"answer4","is_correct":false}]},{"question":"Some other example question", "numberInBatch": 1, "hint": "Some valuable hint regarding the question", "answers":[{"text":"answer1","is_correct":false},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":true},{"text":"answer4","is_correct":false}]}]"""
 
 user_prompt_json_structure = """{"category": category, "difficulty": difficulty, "num_questions": num_questions, "existing_questions": ["Some other example question", "Some example question", "Some different example question"]}"""
 
@@ -11,9 +11,11 @@ answer_init_prompt = """
 """
 
 default_system_prompt = f"""
-You are a precise and proffesional Trivia Questions Generator and act exactly as API would. You are tasked with creating trivia questions for a given category and difficulty level. Your responses should be strictly in JSON format and should follow the structure given below:
-{question_json_structure}
+You are a precise and proffesional Trivia Questions Generator and act exactly as API would returning only JSON responses.
+You are tasked with creating trivia questions for a given category and difficulty level. Your responses should be strictly in JSON format and should follow the structure given below:
+\"\"\"{question_json_structure}\"\"\"
 
+You shoyuld enumerate questions using numberInBatch field starting from 0.
 In a following messages I'll send a json object with the category, difficulty, number of questions you should generate and array of already existing questions.
 None of the questions you generate should be in the existing questions array or be simmilar to them.
 Difficulty is an integer between 1 and 3, inclusive. Number of questions is an integer between 1 and 150, and it defines a number of questions you should generate. You should generate new questions until you have a full set of questions for the given category and difficulty level.
@@ -28,14 +30,13 @@ Difficulty levels are defined as follows:
 2. **Medium**: More specific information that someone familiar with the subject might know. The incorrect answers should also sound plausible to make the question more challenging. Example: "What was Queen's first number-one single in the United States?"
 3. **Hard**: Requires detailed knowledge of the subject. Only someone with in-depth, specialized knowledge of the subject will likely know the answer. The questions should focus on obscure facts or very specific details. Example: "Which Queen song features a skiffle band using instruments made out of household objects?"
 
-Important! Questions related to Queen (band) are just an example and you shouldn't generate questions covering only this topic. You should generate questions for the given category and difficulty level. Yu should be creative and generate questions that are not too similar to each other. The questions should be logically correct and factually accurate.
-Important! Higher difficulty levels should have more difficult questions and the answers should be and sound as more plausible. The context of the questions should not be too similar to each other in the same batch.
+Important! Higher difficulty levels should have more difficult questions. The context of the questions should not be too similar to each other in the same batch.
 Important! There'll be no pictures embedded in questions.
 
 All commentaries should be removed from the reply.
 
 My messages will be formatted as follows:
-{user_prompt_json_structure}
+\"\"\"{user_prompt_json_structure}\"\"\"
 
 All questions and answers should be logically correct and factually accurate.
 Questions should not repeat.
@@ -46,32 +47,32 @@ You're tasked with validating json array with trivia questions. Your responses s
 Here is the json array with the trivia questions you generated. Please verify that the questions are logically and factually correct and that the answers are plausible. If there are mistakes in the question set, please correct them and reply with the json array with corrected questions/answers.
 If the questions are correct, send unchanged json array containing questions.
 Questions will be formatted as follows:
-{question_json_structure}
+\"\"\"{question_json_structure}\"\"\"
 
 Your answer should be strictly in JSON format and should follow the structure given above. Do not add any commentary to the reply.
 Example of a correct reply:
-{question_json_structure}
+\"\"\"{question_json_structure}\"\"\"
 
 Important! If you do not reply with a valid JSON array, the system will not be able to process your response and you will not be able to continue.
 """
 
 translation_user_prompt_json_structure = """
-{"language":"en","target_language":"pl","questions":[{"question":"Some example question","id":1,"answers":[{"id":123,"text":"answer1","is_correct":true},{"id":222,"text":"answer2","is_correct":false},{"id":23,"text":"answer3","is_correct":false},{"id":98,"text":"answer4","is_correct":false}]},{"question":"Some other example question","id":23,"answers":[{"id":12,"text":"answer1","is_correct":false},{"id":64,"text":"answer2","is_correct":false},{"id":1252,"text":"answer3","is_correct":true},{"id":998,"text":"answer4","is_correct":false}]}]}
+{"language":"en","target_language":"pl","questions":[{"question":"Some example question","id":1,"numberInBatch": 0, "hint": "Some valuable hint regarding the question","answers":[{"id":123,"text":"answer1","is_correct":true},{"id":222,"text":"answer2","is_correct":false},{"id":23,"text":"answer3","is_correct":false},{"id":98,"text":"answer4","is_correct":false}]},{"question":"Some other example question" "numberInBatch": 1, "hint": "Some valuable hint regarding the question",,"id":23,"answers":[{"id":12,"text":"answer1","is_correct":false},{"id":64,"text":"answer2","is_correct":false},{"id":1252,"text":"answer3","is_correct":true},{"id":998,"text":"answer4","is_correct":false}]}]}
 """
 
 translated_prompt_json_structure = """
-{"language":"en","target_language":"pl","questions":[{"question":"Jakies przykladowe pytanie","id":1,"answers":[{"id":123,"text":"Odpowiedz 1","is_correct":true},{"id":222,"text":"Odpowiedz 2","is_correct":false},{"id":23,"text":"Odpowiedz 3","is_correct":false},{"id":98,"text":"Odpowiedz 4","is_correct":false}]},{"question":"Jakies inne przykladowe pytanie","id":23,"answers":[{"id":12,"text":"Odpowiedz 1","is_correct":false},{"id":64,"text":"Odpowiedz 2","is_correct":false},{"id":1252,"text":"Odpowiedz 3","is_correct":true},{"id":998,"text":"Odpowiedz 4","is_correct":false}]}]}
+{"language":"en","target_language":"pl","questions":[{"question":"Jakies przykladowe pytanie", "numberInBatch": 0, "hint": "Jakas wartosciowa podpowiedz", "id":1,"answers":[{"id":123,"text":"Odpowiedz 1","is_correct":true},{"id":222,"text":"Odpowiedz 2","is_correct":false},{"id":23,"text":"Odpowiedz 3","is_correct":false},{"id":98,"text":"Odpowiedz 4","is_correct":false}]},{"question":"Jakies inne przykladowe pytanie","numberInBatch": 1, "hint": "Jakas podpowiedz", "id":23,"answers":[{"id":12,"text":"Odpowiedz 1","is_correct":false},{"id":64,"text":"Odpowiedz 2","is_correct":false},{"id":1252,"text":"Odpowiedz 3","is_correct":true},{"id":998,"text":"Odpowiedz 4","is_correct":false}]}]}
 """
 
 translation_system_prompt = f"""
 You're tasked with translating json array with trivia questions. Your responses should be strictly in JSON format and should follow the structure given below:
-{translation_user_prompt_json_structure}
+\"\"\"{translation_user_prompt_json_structure}\"\"\"
 Language is a string with the target language name. Questions are an array of questions and answers in the source language. The answers should be translated as well.
 
 In a following messages I'll send a json object with the language, target_language and questions (array) you should translate.
 You should translate the questions and answers to the target language and reply with the json object containing the translated questions and answers.
 Your response should be strictly in JSON format and should follow the structure given below: 
-{translated_prompt_json_structure}
+\"\"\"{translated_prompt_json_structure}\"\"\"
 
 Do not add any commentary to the reply.
 

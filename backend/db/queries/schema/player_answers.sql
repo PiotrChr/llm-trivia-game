@@ -6,6 +6,7 @@ CREATE TABLE player_answers (
     answer_id INTEGER DEFAULT NULL,
     game_id INTEGER,
     miss BOOLEAN DEFAULT 0,
+    time INTEGER DEFAULT 0,
     PRIMARY KEY(player_id, question_id, game_id),
     FOREIGN KEY(player_id) REFERENCES players(id),
     FOREIGN KEY(question_id) REFERENCES questions(id),
