@@ -135,6 +135,9 @@ generate_manifest:
 
 setup: install_all remove_tables setup_db load_fixtures build_frontend_dev generate_manifest 
 
+match-categories:
+	screen -S cat_screen -dm bash -c "docker-compose exec backend python backend/matchCatIds.py backend/db/repaired.json backend/db/categorised.json"
+
 # Help
 help:
 	@echo "Available recipes:"
