@@ -1,0 +1,4072 @@
+[
+    {
+        "question": "_____ of Love' by Frankie Lymon",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "ABC's",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A clip, shaped like a bar to keep a woman's hair in place is a _______.",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Barrette",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A depilatory is a substance used for removing _______.",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Hair",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A device used to change the voltage of alternating currents is a ______.",
+        "category_id": 7,
+        "category_name": "Computer Science",
+        "answers": [
+            {
+                "text": "Transformer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A flat, round hat sometimes worn by soldiers is a _________.",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Beret",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A government in which power is restricted to a few is a(n) __________.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Oligarchy",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A person in his eighties is called a(n) __________.",
+        "category_id": 65,
+        "category_name": "Sociology",
+        "answers": [
+            {
+                "text": "Octogenarian",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A person who starts fires maliciously is a(n) _________.",
+        "category_id": 33,
+        "category_name": "Anime & Manga",
+        "answers": [
+            {
+                "text": "Arsonist",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A person with a strong desire to steal is a(n) ________.",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Kleptomaniac",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A pugilist is a _________.",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Boxer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A receptacle for holy water is a(n) ________.",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Font",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A sun_dried grape is known as a(n) ___________.",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Raisin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A word like 'NASA' formed from the initials of other words is a(n) _________.",
+        "category_id": 37,
+        "category_name": "Languages",
+        "answers": [
+            {
+                "text": "Acronym",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Acrophobia is a fear of ___________.",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Heights",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "An \"omniscient\" person has unlimited __________.",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Knowledge",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "An anemometer measures _________.",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Wind velocity",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "An animal stuffer is a(n) ________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Taxidermist",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "An artist supports his canvas on a(n) _________.",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Easel",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "An instrument on a car to measure the distance travelled is called a(n) _________.",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Odometer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Androphobia is the fear of __________.",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Male",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Animals that once existed but don't exist now are said to be ______.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Extinct",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Any object worn as a charm may be called a(n) _______.",
+        "category_id": 14,
+        "category_name": "Philosophy",
+        "answers": [
+            {
+                "text": "Amulet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Bibliophobia is a fear of __________.",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Books",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Brontophobia is the fear of _________.",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Thunder",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Dendrochronology is better known as _________.",
+        "category_id": 39,
+        "category_name": "Archaeology",
+        "answers": [
+            {
+                "text": "Ring dating",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Doraphobia is the fear of _________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Fur",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Eleutherophobia is a fear of ___________.",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Freedom",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Gymnophobia is the fear of __________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Naked bodies",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Hills and ridges composed of drifting sand are known as ________.",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "Dune",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Ichthyology is the study of ________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Fish",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In 1903 Frank Hanaway was the first US what in The Great Train Robbery",
+        "category_id": 44,
+        "category_name": "Cinema",
+        "answers": [
+            {
+                "text": "Stuntman",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Legal Terms: A crime more serious than a misdemeanor.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Felony",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Legal Terms: A formal agreement enforceable by law.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Contract",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Legal Terms: A supplement to a will.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Codicil",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Legal Terms: The people chosen to render a verdict in a court.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Jury",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Legal Terms: To steal property entrusted to one's care.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Embezzle",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Name the pain_inflicting person you go to to get your teeth fixed",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Dentist",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Name the porceilan chair you sit on at least once a day.",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Toilet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "One who tells fortunes by the stars is a(n)________.",
+        "category_id": 8,
+        "category_name": "Astronomy",
+        "answers": [
+            {
+                "text": "Astrologer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Rats, mice, beavers, and squirrels are all ________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Rodent",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The art of tracing designs and taking impressions of them is _______.",
+        "category_id": 43,
+        "category_name": "Photography",
+        "answers": [
+            {
+                "text": "Lithography",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The covering on the tip of a shoelace is a(n)_________.",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Aglet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The distance around the outside of a circle is its ________.",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "Circumference",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The earth's atmosphere and the space beyond is known as _______.",
+        "category_id": 8,
+        "category_name": "Astronomy",
+        "answers": [
+            {
+                "text": "Aerospace",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The effect produced when sound is reflected back is known as a(n) _______.",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Echo",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The feeling of having experienced something before is known as _______.",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Deja vu",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The science of preparing and dispensing drugs is ________.",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Pharmacy",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The science of providing men, equipment and supplies for military operations is called ___________.",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Logistics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of human behaviour is ________.",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Psychology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of human pre_history is ___________.",
+        "category_id": 39,
+        "category_name": "Archaeology",
+        "answers": [
+            {
+                "text": "Archaeology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of insects is __________.",
+        "category_id": 100,
+        "category_name": "Entomology",
+        "answers": [
+            {
+                "text": "Entomology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of light and its relation to sight is called ________.",
+        "category_id": 1,
+        "category_name": "Physics",
+        "answers": [
+            {
+                "text": "Optics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of man and culture is known as ________.",
+        "category_id": 38,
+        "category_name": "Anthropology",
+        "answers": [
+            {
+                "text": "Anthropology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of natural phenomena: motion, forces, light, sound, etc. is called ______.",
+        "category_id": 1,
+        "category_name": "Physics",
+        "answers": [
+            {
+                "text": "Physics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of plants is _________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Botany",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of religion is _________.",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Theology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of sound is ________.",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Acoustics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of the composition of substances and the changes that they undergo is __________.",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Chemistry",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of the earth's physical divisions into mountains, seas, etc. is ________.",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Geography",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The study of the manner in which organisms carry on their life processes is ________.",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Physiology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The symbols used on a map are explained by the ________.",
+        "category_id": 36,
+        "category_name": "Travel",
+        "answers": [
+            {
+                "text": "Legend",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The treatment of disease by chemical substances which are toxic to the causative micro_organisms is called ________.",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Chemotherapy",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The weight at the end of a pendulum is a(n) ________.",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Bob",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The wide wall built along the banks of rivers to stop flooding is a(n) ________.",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "Levee",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "The word \"cumulus\" refers to a type of ___________.\"",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Cloud",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This instrument is used for measuring the distance between two points, on a curved surface.",
+        "category_id": 40,
+        "category_name": "Architecture",
+        "answers": [
+            {
+                "text": "Calliper",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This instrument measures atmospheric pressure.",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Barometer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This instrument measures the velocity of the wind.",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Anemometer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This is the fear of enclosed spaces.",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Claustrophobia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This word is used as the international radio distress call.",
+        "category_id": 73,
+        "category_name": "Radio Broadcasting",
+        "answers": [
+            {
+                "text": "Mayday",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "This word means \"split personality\".",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Schizophrenia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Throat, foxing, and platform are parts of a(n) ________.",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Shoe",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Toxiphobia is a fear of _________.",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Poison",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What does a brandophile collect",
+        "category_id": 72,
+        "category_name": "Philately",
+        "answers": [
+            {
+                "text": "Cigar bands",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What does a heliologist study",
+        "category_id": 41,
+        "category_name": "Space Exploration",
+        "answers": [
+            {
+                "text": "The sun",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What does an ornithologist study",
+        "category_id": 92,
+        "category_name": "Ornithology",
+        "answers": [
+            {
+                "text": "Birds",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a \"somnambulist\"\"",
+        "category_id": 91,
+        "category_name": "Calligraphy",
+        "answers": [
+            {
+                "text": "A sleepwalk er",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a castrated rooster called",
+        "category_id": 71,
+        "category_name": "Numismatics",
+        "answers": [
+            {
+                "text": "A capon",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a device to stem the flow of blood called",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "A tourniquet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a dried plum called",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Prune",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a female swan called",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Pen",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is a figure with eight equal sides called",
+        "category_id": 40,
+        "category_name": "Architecture",
+        "answers": [
+            {
+                "text": "Octagon",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is measured by a chronometer",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Time",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the common name for a Japanese dwarf tree",
+        "category_id": 98,
+        "category_name": "Bonsai Cultivation",
+        "answers": [
+            {
+                "text": "Bonsai",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the common name for the Aurora Borealis",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Northern lights",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the name for a branch of a river",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Tributary",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the study of heredity called",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Genetics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the study of prehistoric plants and animals called",
+        "category_id": 63,
+        "category_name": "Paleontology",
+        "answers": [
+            {
+                "text": "Paleontology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "What is the tombstone inscription called",
+        "category_id": 48,
+        "category_name": "Sculpture",
+        "answers": [
+            {
+                "text": "Epitaph",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Which science studies weather",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Meteorology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Who or what could win a Golden Clio award",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Advertising Film",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "______ is the brand name of Morphine once marketed by Bayer",
+        "category_id": 94,
+        "category_name": "Cryptocurrency",
+        "answers": [
+            {
+                "text": "Heroin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "______ is the brand name of morphine once marketed by bayer?",
+        "category_id": 94,
+        "category_name": "Cryptocurrency",
+        "answers": [
+            {
+                "text": "Heroin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "________ was the first feature length production which was created by Walt Disney feature Animation, Florida, which is located at Disney/MGM Studios at Walt Disney World.",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Mulan",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "__________ comics were nearly banned in Finland because he doesn't wear pants.",
+        "category_id": 31,
+        "category_name": "Comic Books",
+        "answers": [
+            {
+                "text": "Donald duck",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "__________ Ford is listed as one of 50 people barred from entering Tibet _ apparently, Disney clashed with Chinese officials over the film Kundun (1997). Ford's wife Melissa Mathison wrote the screenplay.",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Harrison",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "____________ dubbed the voice of the Beast in the 1991 Disney version of Beauty and the Beast.",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Robby benson",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "______________________________ tree house in Disneyland has 300,000 fake leaves on it which are changed twice a year to reflect the seasons.",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "The swiss family robinson",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "______, the first felt-tip pen, is introduced to the market",
+        "category_id": 58,
+        "category_name": "Graphic Design",
+        "answers": [
+            {
+                "text": "Pentel",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "______, the story of prize fighter Jake Lamotta, packs a real punch",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Raging Bull",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "__isms:  Exalting one's country above all others.",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Nationalism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-ism: The belief in the existence of a god or gods.",
+        "category_id": 52,
+        "category_name": "Mythology",
+        "answers": [
+            {
+                "text": "Theism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-isms: A painful stiffness of the muscles and joints",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Rheumatism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-isms: An economic system characterized by private ownership and competition.",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Capitalism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Greek philosophical system following the teachings of Zeno?\"",
+        "category_id": 14,
+        "category_name": "Philosophy",
+        "answers": [
+            {
+                "text": "Stoicism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-isms: Public ownership of the basic means of production, distribution, and exchange.",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Socialism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-isms: The social and philosophic creedo of Irish playwright George Bernard Shaw is called:",
+        "category_id": 14,
+        "category_name": "Philosophy",
+        "answers": [
+            {
+                "text": "Shavianism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-isms: This 20th century pihlosophical movement with thinkers and writers such as Sartre and Camus is responsible for the Theatre of the Absurd",
+        "category_id": 14,
+        "category_name": "Philosophy",
+        "answers": [
+            {
+                "text": "Existentialism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "-ologies: Study of the history and development of words?",
+        "category_id": 37,
+        "category_name": "Languages",
+        "answers": [
+            {
+                "text": "Etymology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "the analysis and classification of phenomes\"",
+        "category_id": 37,
+        "category_name": "Languages",
+        "answers": [
+            {
+                "text": "Phonology",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"7x\" was used to refer to the secret ingredient of what drink\"",
+        "category_id": 47,
+        "category_name": "Painting",
+        "answers": [
+            {
+                "text": "Coca cola",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"7X\" was used to refer to the secret ingredient of which drink?\"",
+        "category_id": 47,
+        "category_name": "Painting",
+        "answers": [
+            {
+                "text": "Coca Cola",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Albuquerque\" International Airport Is In Which US State\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "New Mexico",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"All human life is there\" - a quotation from Henry James - was used to promote which British Sunday newspaper in the 1950s\"",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "News of the world",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"And the big wheel keep on turning neon burning up above and I'm just high on the world come on and take the low ride with me girl on the_____\" What's the Dire Straits song title\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Tunnel of love",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Antananarivo\" Is The Capital City Of Which Country\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Madagascar",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"As free as the wind blows, as free as the grass grows'. What is the song title\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Born Free",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Baby It's You\" was just one of the many hits of the early 60's for this girl group\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "The Shirelles",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Beverly Hills Cop\", when Axel Foley enters the hotel, he uses an alias. Who does he say he works for, and who does he say he's going to interview?\"",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Rolling Stone,Michael Jackson",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Boy\", as in Tallboy and Lowboy, is derived from the French word for what\"",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Wood",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Broom\" Bromden an Indian narrates which famous book\"",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "One Flew over the Cuckoos Nest",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"But touch my tears with your lips, touch my world with your fingertips\" what is the queen song title\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Who Wants to Live Forever",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Carmine\" is a shade of which color?\"",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Red",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"City Lights\" was the name of a film by whom\"",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Charlie Chaplin Chaplin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Do unto others as you would have others do unto you\" is also called what\"",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Golden rule",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Don't worry, unless they're strange, your kids will eat them!\"\"",
+        "category_id": 85,
+        "category_name": "Agriculture",
+        "answers": [
+            {
+                "text": "Life",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Don't You Feel Like Cryin', Don't You Feel Like Cryin'\" what is the song name\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Cry to me",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Dragon Whiskers\" is a type of tea from what country\"",
+        "category_id": 85,
+        "category_name": "Agriculture",
+        "answers": [
+            {
+                "text": "China",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Earth has not anything to show more fair\" is the first line of a poem by whom\"",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Wordworth",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Erse\" is another name for which language\"",
+        "category_id": 37,
+        "category_name": "Languages",
+        "answers": [
+            {
+                "text": "Gaelic",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Faux pas\" means ___________\"",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Mistake",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Fruit smack flavored syrup\" was the original name of\"",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Kool aid",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Gherkins\" are a type of ______\"",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Pickle",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Gotta have 'em\" is this cereal's slogan\"",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Corn pops",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Harry Wayne Casey\" A Record Store Worker In Miami Florida Formed Which Group In 1973\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "KC And The Sunshine Band",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"I Melt With You\" was this band's signature hit, released on their after the snow album in 1982\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Modern English",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"I'm a soldier of fortune, I'm a dog of war ___\" What's the Dire Straits song title\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Ride Across the River",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"It only takes a _____ to get a fire going\"\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Spark",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"It's a Shame About Ray\" was released in 1992 and rereleased later with a cover of Simon and Garfunkel's Mrs Robinson. which band was it\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Lemonheads",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Its all Greek to me\" comes from what Shakespeare play\"",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Julius Caesar",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Janie's Got a Gun\" was on their 1989 album \"Pump\"\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Aerosmith",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Little Boy\" & \"Fat Man\" were the first\"",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Atomic bombs",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Louis, 1 think this is the beginning of a beautiful friendship\" are the last words of which film\"",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Casablanca",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Mageirocophobia\" Is The Fear Of What\"",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Cooking",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Mr Boddy\" is the murder victim in what board game\"",
+        "category_id": 34,
+        "category_name": "Board Games",
+        "answers": [
+            {
+                "text": "Clue",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Mr. Mojo Risin\" is an anagram for___\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Jim Morrison.",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Myosotis\" Is The Latin Name For Which Type Of Flower\"",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Forget Me Not",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Night of he Hunter' was the only film directed by which actor\"",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Charles laughton",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Nuuk\" Is The Capital City Of Which European Country\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Greenland",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"NUUK\" Is The Capital Of Which Country\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Greenland",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Oliver's Story\" was the sequel to which best-seller by Erich Segal\"",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Love story",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"One shaft of light that shows the way, no mortal man can win this day\" what is the Queen song title\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "A Kind of Magic",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Open Road\" Was The Debut Album For Which Well Known Singer / Songwriter\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Gary Barlow",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Poppy Field\" and \"Water Lilies\" were painted by which artist\"",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Claude monet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"retro\" is latin for what\"",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Backward",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Sindinology\" Is A Well Known Historical Debate Concerning The Origins Of What\"",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "The Holy Shroud Of Turin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Slow Ride\" was Foghats biggest hit from this album released in 1975?\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Fool for the city",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Tashkent\" Is The Capital City Of Which Country\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Uzbekistan",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The Althing\" Is The Parliament Of Which Country\"",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Iceland",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The Beach Boys\" First UK No.1 Hit Was \"Good Vibrations\" But Who Actually Wrote The Song\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Neil Diamond",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The Coffee Cantata\" was written by who?\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Johann Sebastian Bach",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The curfew tolls the knell of parting day.\" which poems start\"",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Elegy written in a country churchyard",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The Death Car of Sarajevo\", killed 15 people over 12 years, including him.\"",
+        "category_id": 3,
+        "category_name": "History",
+        "answers": [
+            {
+                "text": "Archduke ferdinand",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"The Voyage of The Beagle\" told of which scientist's discoveries\"",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Charles Darwin Darwin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"There and back Again\" is an alternative title of which novel\"",
+        "category_id": 42,
+        "category_name": "Fantasy Literature",
+        "answers": [
+            {
+                "text": "The Hobbit",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"They're gr_r_r_r_eat!\" is this this cereal's slogan.\"",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Frosted flakes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Victor Willis, Felipe Rose, Randy Jones, David Hodo, Glenn Hughes, & Alex Briley\" Are All Members Of Which Chart Topping Group\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "The Village People",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Vissi D'Arte\" is a famous aria from a Puccini opera in which the eponymous heroine is an opera singer. Name the opera\"",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "Tosca",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\"Who\" is in every episode of the tv series 'Seinfeld'\"",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Superman",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\u201c Fornebu \u201d International Airport Is In Which European Country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Norway",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\u201c Gracie Fields \u201d Was Born In A Fish N Chip Shop On January 9 th 1898 In Which North West Town",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Rochdale",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\u201c St Georges Day \u201d Who We All Know Is Patron Saint Of England But Where Was He Born.",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Turkey",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\u201cOh What A Beautiful Morning\u201d Is The Opening Song To Which Famous Musical",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Oklahoma",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "\u201cRight From The Start\u201d & \u201cTalking Point\u201d Are Autobiographies By Whom ?",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Gareth Gates",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "0191 is the telephone dialling code of which British region?",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Tyne and Wear",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1 in 20 children born in US today will do what",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Serve time in prison",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1 in 20 women say they have never touched what",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Shovel",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1 pm In military time is how many hours",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "1300",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "10% (by weight) of the worlds land animals are what species",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Ants",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "10% of men claim to do this regularly \u2013 what",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Shave their pubic hair",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "100 zeros after the number 1 is a very very large number called what",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "Googol",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "11 am In military time is how many hours",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "1100",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "11:37 pm In military time is how many hours",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "2337",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "12 is the atomic number of which metal",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Magnesium",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "12 letter word: fancy name for fireworks",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Pyrotechnics",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1200 in Roman numerals gives what sporting body",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "MCC",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1300 to 1500 it was illegal for Englishmen to have 3 what a day",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Meals",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "13th century Paris brothels were the first to have what",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Red Lights",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "14% of Americans could not identify which country on a map",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "America",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "15% of American males are what - so are bulls",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Colour Blind",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1500 paces was what Roman measurement",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "League",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1579 the Netherlands achieved independence from what country",
+        "category_id": 3,
+        "category_name": "History",
+        "answers": [
+            {
+                "text": "Spain",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "16th century husband had to stop doing what to wives after 10pm",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Beating Them",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "16th century where the most fashionable place to wear a ribbon",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Pomaded grown female pubic hair",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1727 Helen Morris put in asylum for putting what in a newspaper",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Lonely Hearts Advert",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1777 George Macintosh created a red dye cudbear what is it",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Litmus \u2013 Ammonia and lichens",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "18% of Americans mention who in their will",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Their pet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "18% of animal owners do what with their pets",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Share beds",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "18% of USA coins 7% of notes have what on them",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Dangerous Bacteria",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1804 J M Jacquard invented first programmable device - what",
+        "category_id": 7,
+        "category_name": "Computer Science",
+        "answers": [
+            {
+                "text": "Loom (programmed punch cards)",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1836 Mr Gray a gasfitter 10 years penal servitude stealing what",
+        "category_id": 100,
+        "category_name": "Entomology",
+        "answers": [
+            {
+                "text": "One Rabbit",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1838 Los Angeles man needed a licence to do what to a woman",
+        "category_id": 71,
+        "category_name": "Numismatics",
+        "answers": [
+            {
+                "text": "Serenade her",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1858 Queen Victoria sent the first transatlantic telegram to who",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "President James Buchanan",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1878 Wanamaker's of Philadelphia first US store to install what",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Electric Lights",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1894 Orville Gibson started worlds oldest company make what",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Electric Guitars",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1899 what first was installed Palace Royal hotel San Francisco",
+        "category_id": 30,
+        "category_name": "Video Games",
+        "answers": [
+            {
+                "text": "Jukebox",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "18th century French dance",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Gavotte",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "19-19-19 who's vital statistics",
+        "category_id": 50,
+        "category_name": "Classical Music",
+        "answers": [
+            {
+                "text": "Olive Oyl",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1910 act illegal to transport woman state line immoral purposes",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Mann Act",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1936 film started with world war and ended with space flight",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Things to Come HG Wells",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1937 saw the first BBC TV broadcast of which event",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Wimbledon Tennis",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1938 marked the introduction of this Volkswagen car.",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Beetle",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1949 Popular Mechanics said that future ones less 1.5 tons?",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Computers",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1960 Orange bowl was first appearance of which sporting giant",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Goodyear Blimp",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1961 who was first actress to win Oscar for a non English film",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Sophia Loren",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1964 Iowa City had one Tokyo the other only ones in world what",
+        "category_id": null,
+        "suggestion": "Geography",
+        "answers": [
+            {
+                "text": "Sperm Banks",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1970 who announced he was entering a clinic for a sex change",
+        "category_id": 27,
+        "category_name": "Celebrities",
+        "answers": [
+            {
+                "text": "John Lennon (April  fool joke)",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1978 a 100 yard long queue outside Peeking bookstore selling?",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Works of Shakespeare 25 cents",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1979 at Clifton suspension bridge Britain's first what happened",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Bungee Jump",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1980 Pac Man was released arcade version by which company",
+        "category_id": 30,
+        "category_name": "Video Games",
+        "answers": [
+            {
+                "text": "Midway",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1987 A Philadelphia Councillor bill banned carrying what in public",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Snakes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1990s slang for very short cutoff jeans.",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Daisy dukes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1991 Gulf War: What missiles did the Allies use to intercept Iraqi SCUDS",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Patriots",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1994 Christies sold what piece of Elvis memorabilia for $41400",
+        "category_id": 44,
+        "category_name": "Cinema",
+        "answers": [
+            {
+                "text": "Amex credit card",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1994 what's the most registered dog by American Kennel Club",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Labrador retriever",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1996 3 highest earning sportsman Michael's Jordan, Tyson and who",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Schumacher",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1B.In the Roman Catholic church, what is a devotion of prayers or services on nine consecutive days called",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "A novena",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1k equals how many bytes",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "1024",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "1n the 1960s, what was the name of the Wolseley version of the Austin Mini",
+        "category_id": 28,
+        "category_name": "Automobiles",
+        "answers": [
+            {
+                "text": "Hornet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2 Bands Signed Their Very First Recording Contracts On The Day Elvis Died Name Either",
+        "category_id": 44,
+        "category_name": "Cinema",
+        "answers": [
+            {
+                "text": "Kiss / The Buzzcocks",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2 categories of ballroom dance are used in competition Latin and",
+        "category_id": 76,
+        "category_name": "Ballet",
+        "answers": [
+            {
+                "text": "Smooth",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2 Gentleman Verona, 12th Night, Merchant Venice name links",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Characters called Antonio",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2.47105 acres is equal to what SI unit",
+        "category_id": 86,
+        "category_name": "Medieval History",
+        "answers": [
+            {
+                "text": "Hectare",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2% of Americans admit to doing what",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Affair with Postman",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "20% of Japanese publications are what",
+        "category_id": 31,
+        "category_name": "Comic Books",
+        "answers": [
+            {
+                "text": "Comic Books",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "20% of women first look at a mans what",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Butt not face",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "200 years ago all white people knew what were deadly poison",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Tomatoes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "209 Popes have been Italian which country has the 2nd highest",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "France",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "20s Robert 50s Robert 70s Michael what US top boys name 90s",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Michael",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "21% Americans don\u2019t do it every day 5% never do it - what",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Make their bed",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "2112' was the first in a long line of gold and platinum albums for which canadian trio",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Rush",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "220 yards equals one",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Furlong",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "23 29 31 first 3 impossible numbers in what pub game",
+        "category_id": 34,
+        "category_name": "Board Games",
+        "answers": [
+            {
+                "text": "Darts - cant score 1 dart",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "24-karat gold has to have a small amount of _____ in it to keep it from being too soft",
+        "category_id": 11,
+        "category_name": "Chemistry",
+        "answers": [
+            {
+                "text": "Copper",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "24% of American adults admitted to participating in what",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Illegal Gambling",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "24% of British men have no what",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Real teeth",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25 points were given to a laff-alympics team for placing first in a given event. How many for placing second",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Fifteen",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25 years after first playing James Bond Sean Connery won an Oscar for his part in which film",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "The untouchables",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25% of Americans believe which fictional character is real",
+        "category_id": 32,
+        "category_name": "Science Fiction",
+        "answers": [
+            {
+                "text": "Sherlock Holmes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25% of sexually active people have tried what",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Anal Sex",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25% of the adult male population of the UK are what",
+        "category_id": 65,
+        "category_name": "Sociology",
+        "answers": [
+            {
+                "text": "Over 6 feet tall",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25% of women regularly do what",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Shave off pubic hair",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "25th anniversary is silver, what's the 6th",
+        "category_id": 48,
+        "category_name": "Sculpture",
+        "answers": [
+            {
+                "text": "Iron",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "26% of McDonalds Ontario employees admit doing what",
+        "category_id": 77,
+        "category_name": "Modern Art",
+        "answers": [
+            {
+                "text": "Putting bodily fluids in food",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "264,000 bottles of what were recalled after 7 people died",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Tylenol",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "3 chemical elements most % human body O 65% C 18% and ?",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Hydrogen 10%",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "3 countries on 2 continents Russia Turkey (Asia Europe) and ?",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Egypt - Africa and Asia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "3-D that can be seen without glasses is also known as this",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Stereoscopic",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "3.26 light years equals one___.",
+        "category_id": 8,
+        "category_name": "Astronomy",
+        "answers": [
+            {
+                "text": "Parsec",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "30 million people in the USA have diasima - what is it",
+        "category_id": null,
+        "suggestion": "Dentistry",
+        "answers": [
+            {
+                "text": "Gap in front teeth",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "30% of people quit this job in USA each year - what job",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "School Bus Driver",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "30% of women have done it but only 10% do it regularly - what",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Multiple Orgasms",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "300000 American teenagers get what every year",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Venereal disease",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "31% of people said what was the most disgusting personal habit",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Spitting",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "33% of American women lie about what",
+        "category_id": 66,
+        "category_name": "Ethics",
+        "answers": [
+            {
+                "text": "Their Weight",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "33% of what are fake in the USA",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Blondes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "33% of worlds population can't do what apparently simple thing",
+        "category_id": 56,
+        "category_name": "Quantum Mechanics",
+        "answers": [
+            {
+                "text": "Snap their fingers",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "34-40 knots wind speed signifies what weather condition",
+        "category_id": 61,
+        "category_name": "Meteorology",
+        "answers": [
+            {
+                "text": "Gale",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "34% of Californian Male students 10% of Female lied to get what",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Sexual Partner",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "357 UK roads are specially marked to protect what",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "Toads during mating season",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "36-inch tall Charles Sherwood was better known as __________",
+        "category_id": 77,
+        "category_name": "Modern Art",
+        "answers": [
+            {
+                "text": "General tom thumb",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "37% of women prefer what to sex",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Shoe shopping",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "38 million Americans one in five don\u2019t like what",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Sex",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "39% of women admit doing this to their boyfriend",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Throwing a shoe at him",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "4% of women never do what according to survey",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "Wear Underwear",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "40% of Americans have never been where",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "To a Dentist",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "40% of MacDonald's profits come from selling what",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Happy Meals",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "400 what per week permanently close in the USA",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Churches",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "4000 patents for a variation of what issued since first 1838",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Mousetrap",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "4000 people each year are injured by what household item",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Tea Pots",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "40000 Americans are injured each year where",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "In the toilet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "41% of American women believe what nationality best husbands",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Canadian",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "43% of Americans regularly do what",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "Attend church",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "43% of women want to try sadomasochism after smelling what",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Vanilla extract",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "45 is the International Telephone dialling code for what country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Denmark",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "45% of Americans use what each day",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Mouthwash",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "45% of wives say husbands do it 5% husbands admit it - what",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Snoring",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "46% of women say this is better than sex  - what",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "A good nights sleep",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "47 people worked on a committee to produce what work",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Authorised version of Bible",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "48 Extra's Died That Appeared In What Oscar Making Movie Within A Year Of It's Release Name The Film",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Babe",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "48 extras from what Oscar win film died within a year making it",
+        "category_id": 44,
+        "category_name": "Cinema",
+        "answers": [
+            {
+                "text": "Babe - all pigs",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "49% of Americans go out to dinner on what day",
+        "category_id": null,
+        "suggestion": "Food & Drink",
+        "answers": [
+            {
+                "text": "Their Birthday",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "5 African Mediterranean countries share what language",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Arabic",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "5 items a Sikh must have Comb Dagger Hair Metal Bracelet and",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Knee length undershorts 5Ks",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "5:45 pm In military time is how many hours",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "1745",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "5% of Canadians don't know the first seven words of the Canadian anthem, but know the first nine words of which anthem?",
+        "category_id": 20,
+        "category_name": "Pop Culture",
+        "answers": [
+            {
+                "text": "The American anthem",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "50 years ago Texas giving advice on what was prison sentence",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Birth Control",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "50% of 17 year old Americans can't do what according 700 club",
+        "category_id": 10,
+        "category_name": "Literature",
+        "answers": [
+            {
+                "text": "Read",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "50% of Dutch men have never done what",
+        "category_id": 36,
+        "category_name": "Travel",
+        "answers": [
+            {
+                "text": "Flown in a plane 28% fear it",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "50% of the US annual rainfall falls in what month",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "April",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "51 what were destroyed by the Great fire of London",
+        "category_id": 40,
+        "category_name": "Architecture",
+        "answers": [
+            {
+                "text": "Churches",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "52% of Americans would rather spend a week in jail than What",
+        "category_id": 26,
+        "category_name": "Politics",
+        "answers": [
+            {
+                "text": "Be President",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "53 is the international dialling code for what country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Cuba",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "56% of Americans believe there is what in heaven",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Baseball",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "56% of men cannot tell you the colour of what in their house",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Vacuum Cleaner",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "56% of men have had sex where",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "At Work",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "58% of people like what during sex",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Dirty Talk",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "60's tv: who lived at 000 cemetery lane",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Addams Family",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "60% of English women cannot orgasm without what",
+        "category_id": 21,
+        "category_name": "Television",
+        "answers": [
+            {
+                "text": "Vibrator",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "60% of women experience what",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Menstrual Cramps",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "60% of women say they have eleven a day - 11 what",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Emails",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "6000 American teenagers do it daily - what",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Lose their virginity",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "61 is the international telephone dialling code for what country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Australia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "63% of Americans spend five minutes a day looking for what",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "TV remote control",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "6300 was the biggest cast in a commercial for what company",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "British Airways",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "64% of American teenagers have what in their bedrooms",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Television",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "66% of Americans reading on the toilet read what",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Readers Digest",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "67% of dog owners do what at holiday time",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Buy a present for dog",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "67% of the worlds population have never done what",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Make a phone call",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "68% of Americans do what (Trying to be punctual)",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Set their watches ahead",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "7:25 pm In military time is how many hours",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "1925",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "7% of Americans don't know the first nine words of the American anthem, but know the first seven words of which anthem?",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Canadian anthem",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "7% of Irelands annual barley crop is used for what",
+        "category_id": 85,
+        "category_name": "Agriculture",
+        "answers": [
+            {
+                "text": "Making Guinness",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "70% of Americans have done what",
+        "category_id": 5,
+        "category_name": "Movies",
+        "answers": [
+            {
+                "text": "Visited Disneyland / world",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "70% people would stamp barefoot broken glass that watch what",
+        "category_id": 76,
+        "category_name": "Ballet",
+        "answers": [
+            {
+                "text": "Riverdance for 24 hours",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "72% of what country is covered by forest",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Finland",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "73% of what is produced and consumed in the USA",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "Internet Pornography",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "74 year old Margaret Weldon FL 2 hole in one 2 days - unusual",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "She was totally blind aided hubby",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "74% of American women say what is biggest dating turn off",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Swearing \u2013 Foul Language",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "75% industrial accidents happen to people who ain't done what",
+        "category_id": 25,
+        "category_name": "Current Affairs",
+        "answers": [
+            {
+                "text": "Eaten Breakfast",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "8% of people in the world have an extra what",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Rib",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "80% of Americans say they believe in what",
+        "category_id": 14,
+        "category_name": "Philosophy",
+        "answers": [
+            {
+                "text": "Miracles",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "80% of household dust is actually what material",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "Dead skin",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "80% of restaurant diners don\u2019t do what",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Eat dessert",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "80% of the worlds population wears shoes made in what country",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "China",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "80% of vibrator using English women don\u2019t do what with it",
+        "category_id": 69,
+        "category_name": "Cryptology",
+        "answers": [
+            {
+                "text": "Insert it",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "83% of all Americans purchase what product",
+        "category_id": 19,
+        "category_name": "Business & Finance",
+        "answers": [
+            {
+                "text": "Peanut Butter",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "85% of American people will eat what this year",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Spam",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "85% of women do what",
+        "category_id": 18,
+        "category_name": "Fashion",
+        "answers": [
+            {
+                "text": "Wear wrong bra size",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "9 p.m. In military time is how many hours",
+        "category_id": 24,
+        "category_name": "Environment",
+        "answers": [
+            {
+                "text": "2100",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "9% of divorced people say they still do what",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Have sex together",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "90 is the International Telephone dialling code what country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Turkey",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "90% of all thoroughbreds are descended from what horse",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Eclipse",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "90% of Americans consider themselves what",
+        "category_id": 65,
+        "category_name": "Sociology",
+        "answers": [
+            {
+                "text": "Shy",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "90% of bird species are what",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Monogamous",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "90% of New York cabbies are what",
+        "category_id": 29,
+        "category_name": "Technology",
+        "answers": [
+            {
+                "text": "New immigrants",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "91% of Americans do what regularly",
+        "category_id": 13,
+        "category_name": "Psychology",
+        "answers": [
+            {
+                "text": "Lie",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "93 percent of U.S. homes have at least one, & the Thomas Nelson Company sells 8 million of them a year. What are they",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Bibles",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "96% of all what are purchased by women",
+        "category_id": 15,
+        "category_name": "Art",
+        "answers": [
+            {
+                "text": "Candles",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "96% of American children can recognise - who",
+        "category_id": 27,
+        "category_name": "Celebrities",
+        "answers": [
+            {
+                "text": "Ronald MacDonald",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "97% of all paper money in the USA has traces of what on it",
+        "category_id": 95,
+        "category_name": "Agriculture",
+        "answers": [
+            {
+                "text": "Cocaine",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "98% of Americans feel better about themselves after doing what",
+        "category_id": 67,
+        "category_name": "Neuroscience",
+        "answers": [
+            {
+                "text": "Flushing Toilets",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "98% of Japanese citizens are what",
+        "category_id": 86,
+        "category_name": "Medieval History",
+        "answers": [
+            {
+                "text": "Cremated",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "99% of American households have at least one what",
+        "category_id": 4,
+        "category_name": "Music",
+        "answers": [
+            {
+                "text": "TV",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "99% of India's Truck Drivers can't do what",
+        "category_id": 37,
+        "category_name": "Languages",
+        "answers": [
+            {
+                "text": "Read Road Signs",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A ___ can not move it's jaw side to side",
+        "category_id": 12,
+        "category_name": "Biology",
+        "answers": [
+            {
+                "text": "Cat",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A _______ is a pact between a secular authority & the church.",
+        "category_id": 22,
+        "category_name": "Religion",
+        "answers": [
+            {
+                "text": "Concordat",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A _______ is the only standard international unit of measure still defined by a physical object, a bar composed of two elements",
+        "category_id": 6,
+        "category_name": "Mathematics",
+        "answers": [
+            {
+                "text": "Kilogram",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A ________ can eat only when its head is upside down",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Flamingo",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A __________________ measures blood pressure",
+        "category_id": 23,
+        "category_name": "Health & Medicine",
+        "answers": [
+            {
+                "text": "Sphygmomanometer",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A 'bunya-bunya' tree is native to which country",
+        "category_id": 9,
+        "category_name": "Geography",
+        "answers": [
+            {
+                "text": "Australia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A 'featherie' was an early form of' which piece of sports equipment",
+        "category_id": 16,
+        "category_name": "Sport",
+        "answers": [
+            {
+                "text": "Golf ball",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A 'gam' is a collection of which creatures",
+        "category_id": 46,
+        "category_name": "Cuisine",
+        "answers": [
+            {
+                "text": "Whales",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A 'morel' is what type of vegetable",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Mushroom",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A 'roux' is produced when making which food",
+        "category_id": 17,
+        "category_name": "Cooking",
+        "answers": [
+            {
+                "text": "Sauce",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A \"cameleopard\" is an archaic term for what animal\"",
+        "category_id": 45,
+        "category_name": "Wildlife",
+        "answers": [
+            {
+                "text": "Giraffe",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A \"double sheet bend\" is a type of what\"",
+        "category_id": 34,
+        "category_name": "Board Games",
+        "answers": [
+            {
+                "text": "Knot",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A \"gyre\" is another term for what shape?\"",
+        "category_id": 64,
+        "category_name": "Geology",
+        "answers": [
+            {
+                "text": "Coil",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A \"Howards Lancer\" Is A Variety Of Which Type Of Fruit\"",
+        "category_id": 85,
+        "category_name": "Agriculture",
+        "answers": [
+            {
+                "text": "Gooseberry",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "A \"light year\" measures\"",
+        "category_id": 41,
+        "category_name": "Space Exploration",
+        "answers": [
+            {
+                "text": "Distance",
+                "is_correct": true
+            }
+        ]
+    }
+]

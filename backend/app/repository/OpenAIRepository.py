@@ -96,6 +96,60 @@ Example of a correct reply:
 {question_json_structure}
 """
 
+complete_question_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","answers":[{"text":"ABC's","is_correct":true}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","answers":[{"text":"Barrette","is_correct":true}]},{"question":"A depilatory is a substance used for removing _______.","answers":[{"text":"Hair","is_correct":true}]},{"question":"A device used to change the voltage of alternating currents is a ______.","answers":[{"text":"Transformer","is_correct":true}]},{"question":"A flat, round hat sometimes worn by soldiers is a _________.","answers":[{"text":"Beret","is_correct":true}]}]"""
+
+complete_question_answer_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","hint":"Some creative hint","answers":[{"text":"ABC's","is_correct":true},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","hint":"Some creative hint","answers":[{"text":"Barrette","is_correct":true},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false}]},{"question":"A depilatory is a substance used for removing _______.","hint":"Some creative hint","answers":[{"text":"Hair","is_correct":true},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false}]},{"question":"A device used to change the voltage of alternating currents is a ______.","hint":"Some creative hint","answers":[{"text":"Transformer","is_correct":true},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false}]},{"question":"A flat, round hat sometimes worn by soldiers is a _________.","hint":"Some creative hint","answers":[{"text":"Beret","is_correct":true},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false},{"text":"Some other answer","is_correct":false}]}]"""
+
+complete_questions_system_prompt = f"""
+Your're a very prrecise and creative Trvia AI, and respond only in JSON format.
+You are tasked with:
+    - Generating a set of 3 complimentary answers to the existing questions in multiple-choice quiz.
+    - Generating a hint to each question.
+
+Messages from the user will be formatted as follows:
+\"\"\"{complete_question_json_structure}\"\"\"
+
+Your responses should be formatted as follows (example of a correctly structured reply):
+\"\"\"{complete_question_answer_json_structure}\"\"\"
+
+Important!: Your response should be strictly in JSON format. Do not add any commentary to the reply.
+Important!: There may be a lot of questions in a batch to fix (even over 100). Remember to always output a fix for each question in a batch and provide a full output.
+"""
+
+
+complete_category_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","answers":[{"text":"ABC's","is_correct":true}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","answers":[{"text":"Barrette","is_correct":true}]},{"question":"A depilatory is a substance used for removing _______.","answers":[{"text":"Hair","is_correct":true}]},{"question":"A device used to change the voltage of alternating currents is a ______.","answers":[{"text":"Transformer","is_correct":true}]},{"question":"A flat, round hat sometimes worn by soldiers is a _________.","answers":[{"text":"Beret","is_correct":true}]},{"question":"A government in which power is restricted to a few is a(n) __________.","answers":[{"text":"Oligarchy","is_correct":true}]}]"""
+
+complete_category_answer_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","category_id":1,"category_name":"category name","answers":[{"text":"ABC's","is_correct":true}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","category_id":1211,"category_name":"category name","answers":[{"text":"Barrette","is_correct":true}]},{"question":"A depilatory is a substance used for removing _______.","category_id":61,"category_name":"category name","answers":[{"text":"Hair","is_correct":true}]},{"question":"A device used to change the voltage of alternating currents is a ______.","category_id":987,"category_name":"category name","answers":[{"text":"Transformer","is_correct":true}]},{"question":"A flat, round hat sometimes worn by soldiers is a _________.","category_id":1234,"category_name":"category name","answers":[{"text":"Beret","is_correct":true}]},{"question":"A government in which power is restricted to a few is a(n) __________.","category_id":54321,"category_name":"category name","answers":[{"text":"Oligarchy","is_correct":true}]}]"""
+
+complete_category_categories_json_structure = """
+[{"id":1,"name":"Physics"},{"id":2,"name":"Types of Barbie dolls"},{"id":3,"name":"History"},{"id":4,"name":"Music"},{"id":5,"name":"Movies"},{"id":6,"name":"Mathematics"},{"id":7,"name":"Computer Science"},{"id":8,"name":"Astronomy"},{"id":9,"name":"Geography"},{"id":10,"name":"Literature"},{"id":11,"name":"Chemistry"},{"id":12,"name":"Biology"},{"id":13,"name":"Psychology"},{"id":14,"name":"Philosophy"},{"id":15,"name":"Art"},{"id":16,"name":"Sport"},{"id":17,"name":"Cooking"},{"id":18,"name":"Fashion"},{"id":19,"name":"Business & Finance"},{"id":20,"name":"Pop Culture"},{"id":21,"name":"Television"},{"id":22,"name":"Religion"},{"id":23,"name":"Health & Medicine"},{"id":24,"name":"Environment"},{"id":25,"name":"Current Affairs"},{"id":26,"name":"Politics"},{"id":27,"name":"Celebrities"},{"id":28,"name":"Automobiles"},{"id":29,"name":"Technology"},{"id":30,"name":"Video Games"},{"id":31,"name":"Comic Books"},{"id":32,"name":"Science Fiction"},{"id":33,"name":"Anime & Manga"},{"id":34,"name":"Board Games"},{"id":35,"name":"Card Games"},{"id":36,"name":"Travel"},{"id":37,"name":"Languages"},{"id":38,"name":"Anthropology"},{"id":39,"name":"Archaeology"},{"id":40,"name":"Architecture"},{"id":41,"name":"Space Exploration"},{"id":42,"name":"Fantasy Literature"},{"id":43,"name":"Photography"},{"id":44,"name":"Cinema"},{"id":45,"name":"Wildlife"},{"id":46,"name":"Cuisine"},{"id":47,"name":"Painting"},{"id":48,"name":"Sculpture"},{"id":49,"name":"Dance"},{"id":50,"name":"Classical Music"},{"id":51,"name":"Classical Literature"},{"id":52,"name":"Mythology"},{"id":53,"name":"Astrophysics"},{"id":54,"name":"Horticulture"},{"id":55,"name":"Viticulture"},{"id":56,"name":"Quantum Mechanics"},{"id":57,"name":"Robotics"},{"id":58,"name":"Graphic Design"},{"id":59,"name":"Jazz Music"},{"id":60,"name":"Opera"},{"id":61,"name":"Meteorology"},{"id":62,"name":"Marine Biology"},{"id":63,"name":"Paleontology"},{"id":64,"name":"Geology"},{"id":65,"name":"Sociology"},{"id":66,"name":"Ethics"},{"id":67,"name":"Neuroscience"},{"id":68,"name":"Cartography"},{"id":69,"name":"Cryptology"},{"id":70,"name":"Archery"},{"id":71,"name":"Numismatics"},{"id":72,"name":"Philately"},{"id":73,"name":"Radio Broadcasting"},{"id":74,"name":"Tea Culture"},{"id":75,"name":"Coffee Culture"},{"id":76,"name":"Ballet"},{"id":77,"name":"Modern Art"},{"id":78,"name":"Cryptozoology"},{"id":79,"name":"Ufology"},{"id":80,"name":"Kinesiology"},{"id":81,"name":"Gemology"},{"id":82,"name":"Esports"},{"id":83,"name":"Forestry"},{"id":84,"name":"Astrology"},{"id":85,"name":"Agriculture"},{"id":86,"name":"Medieval History"},{"id":87,"name":"Microbiology"},{"id":88,"name":"Stand-Up Comedy"},{"id":89,"name":"Folk Music"},{"id":90,"name":"Musical Theatre"},{"id":91,"name":"Calligraphy"},{"id":92,"name":"Ornithology"},{"id":93,"name":"Futurology"},{"id":94,"name":"Cryptocurrency"},{"id":95,"name":"Podcasts"},{"id":96,"name":"Origami"},{"id":97,"name":"Fencing"},{"id":98,"name":"Bonsai Cultivation"},{"id":99,"name":"Brewing"},{"id":100,"name":"Entomology"}]
+"""
+
+complete_category_suggestion_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","category_id":null,"suggestion":"Music","answers":[{"text":"ABC's","is_correct":true}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","category_id":"XXX","answers":[{"text":"Barrette","is_correct":true}]}]"""
+
+complete_category_system_prompt = f"""
+Your're a very prrecise and creative Trvia AI, and respond only in JSON format.
+You are tasked with matching a set of questions to a most fitting category ID and name in following (category name->category ID) mapping (in JSON):
+\"\"\"{complete_category_categories_json_structure}\"\"\"
+
+And then outputting a full set of questions with category ID assigned to each question.
+
+Messages from the user will be formatted as follows:
+\"\"\"{complete_category_json_structure}\"\"\"
+
+Your responses should be formatted as follows (example of a correctly structured reply):
+\"\"\"{complete_category_answer_json_structure}\"\"\"
+
+Sometimes there're won't be a perfect match, but you should try to find the best fitting category. If there's no fitting category, you should assign null to the category ID and create a new key 'suggestion' in the question json object called "category" with the suggested category name as a value.
+Like this:
+\"\"\"{complete_category_suggestion_json_structure}\"\"\"
+
+Important!: Your response should be strictly in JSON format. Do not add any commentary to the reply. I will not be able to process your response if it's not in JSON format.
+Important!: There may be a lot of questions in a batch to compliment with category id (even over 100). Remember to always output a fix for each question in a batch and provide a full output.
+"""
+
+
+
 openai.api_key = os.getenv('OPENAI_KEY')
 MODEL = os.getenv('MODEL')
 TEMPERATURE = float(os.getenv('TEMPERATURE'))
@@ -204,6 +258,30 @@ def translate_questions(questions, taget_language, current_language = 'en'):
         print('Error in verify_question:', error)
         raise error
     
+def match_category_ids(questions):
+    init_system_prompt = {
+        "role": "system",
+        "content": complete_category_system_prompt
+    }
+
+    user_message = {
+        "role": "user",
+        "content": json.dumps({
+            "questions": questions,
+        })
+    }
+
+    messages = [init_system_prompt, user_message]
+
+    try:
+        response = chat_completion(messages)
+        
+        parsed_response = json.loads(response)
+        print('parsed_response', parsed_response)
+        return parsed_response
+    except Exception as error:
+        print('Error in match_category_ids:', error)
+        raise error
 
 def fix_question_json(questions_json):
     init_system_prompt = {
