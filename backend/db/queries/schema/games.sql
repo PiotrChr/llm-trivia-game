@@ -12,6 +12,7 @@ CREATE TABLE games (
     all_categories BOOLEAN DEFAULT FALSE,
     current_language INT DEFAULT NULL,
     max_questions INTEGER DEFAULT 0,
+    max_players INTEGER DEFAULT 0,
     mode_id INTEGER NOT NULL,
     is_public BOOLEAN DEFAULT FALSE,
     eliminate_on_fail BOOLEAN DEFAULT FALSE,

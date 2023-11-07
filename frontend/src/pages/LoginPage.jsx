@@ -5,6 +5,7 @@ import { Form, Row, Col, Card, Button, Container } from 'react-bootstrap';
 import { useAuth } from '../routing/AuthProvider';
 import { login } from '../services/api';
 import { decode } from '../utils';
+import { GoogleSSOButton } from '../components/shared/GoogleSSOButton';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -118,12 +119,13 @@ function LoginPage() {
                     >
                       Log in
                     </Button>
+                    <GoogleSSOButton />
                   </div>
                 </Form>
                 {error && <p>{error}</p>}
               </Row>
               <Card.Footer className="text-center pt-0 px-lg-2 px-1">
-                <p className="mb-4 text-sm mx-auto">
+                <p className="mb-4 mt-4 text-sm mx-auto">
                   Don't have an account?
                   <a
                     onClick={() => {

@@ -10,9 +10,11 @@ from app.repository.OpenAIRepository import match_category_ids
 def verify_questions(original_batch, updated_batch):
     # Assuming each question has a unique 'id' and 'content' fields for comparison
     if len(original_batch) != len(updated_batch):
+        print(f"Batch size mismatch: Original batch size: {len(original_batch)} \n Updated batch size: {len(updated_batch)}")
         return False
     for original, updated in zip(original_batch, updated_batch):
         if original.get('question') != updated.get('question'):
+            print(f"Question didn't match: Original question: {original.get('question')} \n Updated question: {updated.get('question')}")
             return False
     return True
 
@@ -20,7 +22,11 @@ def process_batch_with_retry(batch, retries=3, delay=5):
     attempt = 0
     while attempt < retries:
         try:
-            updated_batch = match_category_ids(batch)
+            if attempt > 0:
+                updated_batch = match_category_ids(batch, model='gpt-4')
+            else:
+                updated_batch = match_category_ids(batch)
+            
             if verify_questions(batch, updated_batch):
                 return updated_batch
             else:

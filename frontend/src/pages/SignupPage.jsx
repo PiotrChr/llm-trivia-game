@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { signup } from '../services/api';
 import { Row } from 'react-bootstrap';
 import { useAuth } from '../routing/AuthProvider';
+import { GoogleSSOButton } from '../components/shared/GoogleSSOButton';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -150,6 +151,7 @@ function SignupPage() {
                     >
                       Signup
                     </Button>
+                    <GoogleSSOButton />
                   </div>
                   <p className="text-sm mt-3 mb-3">
                     Already have an account?{' '}
