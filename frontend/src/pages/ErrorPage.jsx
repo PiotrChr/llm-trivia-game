@@ -13,19 +13,19 @@ function ErrorPage() {
   useEffect(() => {
     switch (errorId) {
       case '404':
-        setBackground('404/1.png');
+        setBackground('404/1.jpg');
         setError(t('common.errors.404.description'));
         break;
       case '500':
-        setBackground('500/1.png');
+        setBackground('500/1.jpg');
         setError(t('common.errors.500.description'));
         break;
       case 'unable-to-join-game':
-        setBackground('unable-to-join/2.png');
+        setBackground('unable-to-join/2.jpg');
         setError(t('common.errors.unable-to-join-game.description'));
         break;
       default:
-        setBackground('unknown-error/1.png');
+        setBackground('unknown-error/1.jpg');
         setError(t('common.errors.other.description'));
         break;
     }

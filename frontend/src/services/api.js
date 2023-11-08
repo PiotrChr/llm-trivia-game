@@ -53,6 +53,14 @@ export const checkAuth = async () => {
   return response;
 };
 
+export const authGoogle = async (token, auth_code) => {
+  const response = await api.post(`${BASE_URL}/auth/google`, {
+    token,
+    auth_code
+  });
+  return response;
+};
+
 // Players
 
 export const getUsers = async () => {

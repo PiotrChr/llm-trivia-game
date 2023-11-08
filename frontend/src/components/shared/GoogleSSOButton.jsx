@@ -1,23 +1,33 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { authGoogle } from '../../services/api';
 
-export const GoogleSSOButton = ({ onClick }) => {
+export const GoogleSSOButton = ({ callback }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.log(process.env.APP_GOOGLE_CLIENT_ID);
+    const onSignIn = async (googleUser) => {
+      const id_token = googleUser.credential;
+      const response = await authGoogle(id_token);
 
-    console.log(process.env.GOOGLE_SSO_CALLBACK_URL);
+      if (response.status === 200) {
+        console.log(response.data);
+
+        callback(response.data.access_token, response.data.refresh_token);
+      }
+    };
 
     window.google?.accounts.id.initialize({
       client_id: process.env.APP_GOOGLE_CLIENT_ID,
-      ux_mode: 'redirect',
-      login_uri: process.env.GOOGLE_SSO_CALLBACK_URL
+      callback: onSignIn
     });
 
     window.google?.accounts.id.renderButton(
       document.getElementById('signInDiv'),
-      { theme: 'outline', size: 'large' }
+      {
+        theme: 'outline',
+        size: 'large'
+      }
     );
   }, []);
 
@@ -25,5 +35,5 @@ export const GoogleSSOButton = ({ onClick }) => {
 };
 
 GoogleSSOButton.defaultProps = {
-  onClick: () => {}
+  callback: () => {}
 };

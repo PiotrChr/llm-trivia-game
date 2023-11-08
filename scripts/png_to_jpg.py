@@ -18,7 +18,7 @@ def convert_png_to_jpg_in_subdir(directory: str) -> None:
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python script_name.py <directory_path>")
+        print("Usage: python png_to_jpg.py <directory_path>")
         sys.exit(1)
 
     root_directory = sys.argv[1]

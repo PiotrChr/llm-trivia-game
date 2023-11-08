@@ -80,7 +80,7 @@ const CategorySubmissionPage = () => {
   return (
     <div>
       <Jumbo
-        url="static/img/jumbotron/category-submission/3.png"
+        url="static/img/jumbotron/category-submission/3.jpg"
         scrollToContent={true}
       ></Jumbo>
       <section>

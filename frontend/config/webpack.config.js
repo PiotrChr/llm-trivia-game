@@ -73,8 +73,7 @@ module.exports = (env, argv) => {
             new webpack.DefinePlugin({
                 'process.env.BACKEND_HOST': getEnvVar('BACKEND_HOST'),
                 'process.env.BACKEND_PORT_PUBLIC': getEnvVar('BACKEND_PORT_PUBLIC'),
-                'process.env.APP_GOOGLE_CLIENT_ID': getEnvVar('APP_GOOGLE_CLIENT_ID'),
-                'process.env.GOOGLE_SSO_CALLBACK_URL': getEnvVar('GOOGLE_SSO_CALLBACK_URL'),
+                'process.env.APP_GOOGLE_CLIENT_ID': getEnvVar('APP_GOOGLE_CLIENT_ID')
             }),
         ],
         resolve: {
