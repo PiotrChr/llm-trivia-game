@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import GoogleSSOCallbackPage from './pages/GoogleSSOCallbackPage';
 import GamePage from './pages/GamePage';
 import GameWelcomePage from './pages/GameWelcomePage';
 import GameHostPage from './pages/GameHostPage';
@@ -34,6 +35,10 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/logout" element={<LogoutPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route
+                path="/auth/google/callback"
+                element={<GoogleSSOCallbackPage />}
+              />
               <Route path="/about_game" element={<AboutGamePage />} />
               <Route path="/about_author" element={<AboutAuthorPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />

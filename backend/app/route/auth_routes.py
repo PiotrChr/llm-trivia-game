@@ -20,8 +20,7 @@ def login():
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
     
-    trivia_repository = TriviaRepository()
-    player = trivia_repository.get_player_by_name(username)
+    player = TriviaRepository.get_player_by_name(username)
 
     if player is None or not TriviaRepository.check_hash(player['password'], password):
         return jsonify({"msg": "Bad username or password"}), 401
@@ -55,14 +54,44 @@ def signup():
 
     hashed_password = TriviaRepository.generate_hash(password)
 
-    trivia_repository = TriviaRepository()
-
-    if trivia_repository.get_player_by_name(username) is not None:
+    if TriviaRepository.get_player_by_name(username) is not None:
         return jsonify({"msg": "Username already exists"}), 400
 
-    trivia_repository.create_player(username, email, hashed_password)
+    TriviaRepository.create_player(username, email, hashed_password)
     
     return jsonify({"msg": "User created successfully"}), 201
+
+@auth_routes.route('/google/callback', methods=['POST'])
+def google_callback():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    id_token = request.json.get('id_token', None)
+    authorization_code = request.json.get('authorization_code', None)
+
+    if not authorization_code:
+        return jsonify({"msg": "Missing authorization_code parameter"}), 400
+    
+    if not id_token:
+        return jsonify({"msg": "Missing id_token parameter"}), 400
+    
+    user = TriviaRepository.get_player_by_email(id_token['email'])
+
+    if user is None:
+        print('creating player')
+        user = TriviaRepository.create_player(id_token['name'], id_token['email'], 'google')
+
+    identity = {
+        "id": user.id,
+        "name": user.username
+    }
+
+    print(identity)
+
+    access_token = create_access_token(identity=identity)
+    refresh_token = create_refresh_token(identity=identity)
+
+    return jsonify(access_token=access_token, refresh_token=refresh_token), 200
 
 
 @auth_routes.route('/check', methods=['GET'])

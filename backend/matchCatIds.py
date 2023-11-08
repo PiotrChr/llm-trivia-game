@@ -48,7 +48,7 @@ def read_output_file(output_file):
     except FileNotFoundError:
         return []
 
-def process_questions_in_batches(input_file, output_file, batch_size=20):
+def process_questions_in_batches(input_file, output_file, batch_size=40):
     try:
         with open(input_file, 'r') as file:
             questions = json.load(file)
@@ -89,12 +89,12 @@ def process_questions_in_batches(input_file, output_file, batch_size=20):
         print(f"An unrecoverable error occurred: {e}")
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: script.py <input_json_file> <output_json_file>")
+    if len(sys.argv) != 4:
+        print("Usage: matchCatIds.py <batch_size> <input_json_file> <output_json_file>")
         sys.exit(1)
     
-    input_json_file, output_json_file = sys.argv[1], sys.argv[2]
-    process_questions_in_batches(input_json_file, output_json_file)
+    batch_size, input_json_file, output_json_file = int(sys.argv[1]), sys.argv[2], sys.argv[3]
+    process_questions_in_batches(input_json_file, output_json_file, batch_size)
 
 if __name__ == "__main__":
     main()
