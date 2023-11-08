@@ -143,9 +143,13 @@ Your responses should be formatted as follows (example of a correctly structured
 Sometimes there're won't be a perfect match, but you should try to find the best fitting category. If there's no fitting category, you should assign null to the category ID and create a new key 'suggestion' in the question json object called "category" with the suggested category name as a value.
 Like this:
 \"\"\"{complete_category_suggestion_json_structure}\"\"\"
+It's important that the response is exampled as above, your response should be an array of objects in JSON format.
 
 Important!: Your response should be strictly in JSON format. Do not add any commentary to the reply. I will not be able to process your response if it's not in JSON format.
-Important!: There may be a lot of questions in a batch to compliment with category id (even over 100). Remember to always output a fix for each question in a batch and provide a full output.
+Important!: There may be a lot of questions in a batch to compliment with category id (even over 100). Remember to always provide a full output with a number of questions matching the original set.\
+Important!: Remember to very correctly copy over the original question json object and only add the category ID and name to it. The spelling of the question and answers should be exactly the same as in the original question json object, evem if it sounds wrong.
+
+You must 100% comply with the above rules. If you do not comply with the rules, the system will not be able to process your response and you will not be able to continue.
 """
 
 
@@ -156,9 +160,10 @@ TEMPERATURE = float(os.getenv('TEMPERATURE'))
 
 # openai.organization = os.getenv('OPENAI_ORG_ID')
 
-def chat_completion(messages, temperature = TEMPERATURE):
+def chat_completion(messages, temperature = TEMPERATURE, model = MODEL):
+    print('model', model)
     data = {
-        "model": MODEL,
+        "model": model,
         "messages": messages,
         "temperature": temperature,
     }
@@ -258,7 +263,7 @@ def translate_questions(questions, taget_language, current_language = 'en'):
         print('Error in verify_question:', error)
         raise error
     
-def match_category_ids(questions):
+def match_category_ids(questions, model = MODEL):
     init_system_prompt = {
         "role": "system",
         "content": complete_category_system_prompt
@@ -274,7 +279,7 @@ def match_category_ids(questions):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages)
+        response = chat_completion(messages, model=model)
         
         parsed_response = json.loads(response)
         print('parsed_response', parsed_response)

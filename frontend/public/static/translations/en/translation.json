@@ -134,6 +134,9 @@
             "signup": "Signup"
         }
     },
+    "login": {
+        "google": "Continue with Google"
+    },
     "profile": {
         "title": "Profile"
     },

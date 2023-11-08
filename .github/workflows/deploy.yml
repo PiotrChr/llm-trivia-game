@@ -24,7 +24,8 @@ jobs:
         OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
         OPENAI_SECRET: ${{ secrets.OPENAI_SECRET }}
         BACKEND_HOST: ${{ secrets.BACKEND_HOST }}
-        BACKEND_PORT_PUBLIC: ${{ secrets.BACKEND_PORT_PUBLIC }}
+        APP_GOOGLE_CLIENT_ID: ${{ secrets.APP_GOOGLE_CLIENT_ID }}
+        GOOGLE_SSO_CALLBACK_URL: ${{ secrets.GOOGLE_SSO_CALLBACK_URL }}
       run: |
         docker-compose -f docker-compose.yml -f docker-compose.prod.yml build --no-cache
         docker push piotrchrusciel/llmtrivia-frontend:latest
@@ -46,6 +47,7 @@ jobs:
           export OPENAI_KEY=${{ secrets.OPENAI_KEY }}
           export OPENAI_SECRET=${{ secrets.OPENAI_SECRET }}
           export FRONTEND_HOST=${{ secrets.FRONTEND_HOST }}
+          export APP_GOOGLE_CLIENT_ID=${{ secrets.APP_GOOGLE_CLIENT_ID }}
           export SECRET_KEY=${{ secrets.SECRET_KEY }}
           docker-compose down --remove-orphans
           docker pull piotrchrusciel/llmtrivia-frontend:latest

@@ -294,6 +294,19 @@ class TriviaRepository:
             print(f"Failed to read data from table players: {error}")
             return None
 
+    @staticmethod
+    def get_player_by_email(email):
+        query = """
+            SELECT * FROM players WHERE email = ?
+        """
+        params = (email,)
+        try:
+            Database.get_cursor().execute(query, params)
+            player = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(player)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table players: {error}")
+            return None
     
     @staticmethod
     def get_player_by_id(player_id):
