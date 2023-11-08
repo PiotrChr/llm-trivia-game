@@ -5,6 +5,8 @@
             "warning": "Warning",
             "something_went_wrong": "Something went wrong. Please try again later.",
             "error_fetching_data": "Error fetching data. Please try again later.",
+            "invalid_credentials": "Invalid credentials.",
+            "signup_failed": "Signup failed. Please try again later.",
             "404": {
                 "title": "Page not found",
                 "description": "The page you are looking for does not exist."
@@ -57,7 +59,15 @@
         "in_progress": "In Progress",
         "game_stats": "Game Stats",
         "host": "Host",
-        "difficulty": "Difficulty"
+        "difficulty": "Difficulty",
+        "or": "or",
+        "email": "Email",
+        "i_agree_to_the": "I agree to the",
+        "terms_and_conditions": "Terms and Conditions",
+        "sign_in": "Sign In",
+        "sign_up": "Sign Up",
+        "username": "Username",
+        "login": "Login"
     },
     "game_modes": {
         "Classic": {
@@ -135,7 +145,15 @@
         }
     },
     "login": {
-        "google": "Continue with Google"
+        "google": "Continue with Google",
+        "choose_username": "Choose a username",
+        "no_account_q": "Don't have an account?",
+        "login_with": "Login with",
+        "signup_with": "Signup with",
+        "provide_valid_email": "Please provide a valid email address.",
+        "provide_valid_password": "Please provide a valid password.",
+        "allready_have_an_account": "Already have an account?"
+        
     },
     "profile": {
         "title": "Profile"

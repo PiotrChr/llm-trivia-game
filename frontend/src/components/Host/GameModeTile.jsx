@@ -31,7 +31,7 @@ const GameModeTile = ({
         </div>
 
         <img
-          src={`/static/img/game-modes/${name.toLowerCase()}_${variant}.png`}
+          src={`/static/img/game-modes/${name.toLowerCase()}_${variant}.jpg`}
           style={{
             objectFit: 'cover',
             width: '100%',

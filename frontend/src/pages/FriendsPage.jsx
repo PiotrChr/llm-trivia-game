@@ -175,7 +175,7 @@ function FriendsPage() {
 
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/friends/1.png" scrollToContent={true} />
+      <Jumbo url="/static/img/jumbotron/friends/1.jpg" scrollToContent={true} />
       <section>
         <div className="container mt-6">
           <Row>

@@ -62,7 +62,7 @@ function GameJoinPage() {
   return (
     <div>
       <Jumbo
-        url="/static/img/jumbotron/join-game/2.png"
+        url="/static/img/jumbotron/join-game/2.jpg"
         scrollToContent={true}
       />
       <Container className="d-flex align-items-center justify-content-center">

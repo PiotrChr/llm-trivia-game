@@ -27,7 +27,7 @@ function GameListPage() {
   return (
     <div>
       <Jumbo
-        url="static/img/jumbotron/leaderboard/3.png"
+        url="static/img/jumbotron/leaderboard/3.jpg"
         scrollToContent={true}
       ></Jumbo>
 

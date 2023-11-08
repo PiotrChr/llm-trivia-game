@@ -27,7 +27,7 @@ function StatsPage() {
   return (
     <div>
       <Jumbo
-        url={'/static/img/jumbotron/game-stats/3.png'}
+        url={'/static/img/jumbotron/game-stats/3.jpg'}
         scrollToContent={true}
       />
       <section className="min-vh-80 mb-8">

@@ -10,7 +10,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/5.png" maskClasses="home-page-mask">
+      <Jumbo url="/static/img/jumbotron/5.jpg" maskClasses="home-page-mask">
         <div className="text-white">
           <h1 className="mb-3">{t('home.title')}</h1>
           <h4 className="mb-3">Subheading</h4>

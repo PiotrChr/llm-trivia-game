@@ -23,7 +23,7 @@ function ProfilePage() {
 
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/profile/1.png" scrollToContent={true} />
+      <Jumbo url="/static/img/jumbotron/profile/1.jpg" scrollToContent={true} />
       <section className="min-vh-80 mb-8">
         <Container className="mt-6">
           <Row>

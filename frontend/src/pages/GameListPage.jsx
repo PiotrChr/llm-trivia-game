@@ -82,7 +82,7 @@ function GameListPage() {
   return (
     <div>
       <Jumbo
-        url="/static/img/jumbotron/list-games/1.png"
+        url="/static/img/jumbotron/list-games/1.jpg"
         scrollToContent={true}
       ></Jumbo>
       <section className="min-vh-80 mb-8">

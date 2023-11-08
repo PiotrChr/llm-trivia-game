@@ -182,7 +182,7 @@ const GameHostPage = () => {
 
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/host-a-game/1.png">
+      <Jumbo url="/static/img/jumbotron/host-a-game/1.jpg">
         <Card
           className="p-4"
           style={{ minWidth: '50vw', background: 'rgba(255,255,255,0.98)' }}

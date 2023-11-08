@@ -15,7 +15,7 @@ function AboutGamePage() {
   return (
     <div>
       <Jumbo
-        url="static/img/jumbotron/about-game-and-rules/3.png"
+        url="static/img/jumbotron/about-game-and-rules/3.jpg"
         scrollToContent={true}
       ></Jumbo>
 
