@@ -23,7 +23,7 @@ def process_batch_with_retry(batch, retries=3, delay=5):
     while attempt < retries:
         try:
             if attempt > 0:
-                updated_batch = match_category_ids(batch, model='gpt-4')
+                updated_batch = match_category_ids(batch, model='gpt-4-1106-preview')
             else:
                 updated_batch = match_category_ids(batch)
             
