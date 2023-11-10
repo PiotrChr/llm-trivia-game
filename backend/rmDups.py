@@ -1,6 +1,8 @@
 import json
 import argparse
 import difflib
+import numpy as np
+import time
 
 def load_json(file_path):
     with open(file_path, 'r') as file:
@@ -11,43 +13,50 @@ def save_json(data, file_path):
         json.dump(data, file, indent=4)
 
 def similar(a, b):
+    length_difference_threshold = 5
+    if abs(len(a) - len(b)) > length_difference_threshold:
+        return 0
+
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 def remove_duplicates(data, threshold):
     data = sorted(data, key=lambda x: x['question'].lower())
-    unique_data = []
-    seen_questions = []
-    duplicate_count = 0
+    data_array = np.array(data)
+    to_delete = []
+    total_time = 0
 
-    for item in data:
-        question = item['question'].strip().lower()
-        is_duplicate = False
+    for i in range(len(data_array)):
+        start_time = time.time()
+        if i in to_delete:
+            continue
 
-        for seen_question in seen_questions:
-            if similar(question, seen_question) > threshold:
-                is_duplicate = True
-                duplicate_count += 1
-                print(f"Duplicate found and removed: {item['question']} with similarity {similar(question, seen_question)}")
-                print (f"to {seen_question} \n")
+        question = data_array[i]['question'].strip().lower()
+
+        for j in range(i + 1, len(data_array)):
+            if j in to_delete:
+                continue
+
+            next_question = data_array[j]['question'].strip().lower()
+            similarity = similar(question, next_question)
+            if similarity > threshold:
+                print(f"Duplicate found and removed: {data_array[j]['question']}")
+                to_delete.append(j)
+            elif similarity < 0.8:
                 break
 
-        if not is_duplicate:
-            unique_data.append(item)
-            seen_questions.append(question)
+        iteration_time = time.time() - start_time
+        total_time += iteration_time
+        average_time_per_iteration = total_time / (i + 1)
+        remaining_iterations = len(data_array) - i - 1
+        estimated_time_remaining = average_time_per_iteration * remaining_iterations
 
-    return unique_data, duplicate_count
+        print(f"Remaining questions: {remaining_iterations}")
+        print(f"Questions to remove: {len(to_delete)}")
+        print(f"Estimated time to end: {estimated_time_remaining / 60:.2f} minutes")
 
+    unique_data = np.delete(data_array, to_delete)
 
-def print_usage():
-    print("""
-    Usage: script.py <input_file> <output_file> [--threshold <similarity_threshold>]
-    Where:
-        <input_file> is the path to the JSON file containing the questions.
-        <output_file> is the path where the processed JSON file will be saved.
-        --threshold is the optional similarity threshold for detecting duplicates (default is 0.95).
-    Example:
-        python script.py questions.json cleaned_questions.json --threshold 0.85
-    """)
+    return unique_data.tolist(), len(to_delete)
 
 def main():
     parser = argparse.ArgumentParser(description='Process and clean JSON data.')
@@ -56,10 +65,6 @@ def main():
     parser.add_argument('--threshold', type=float, default=0.95, help='Similarity threshold for detecting duplicates')
 
     args = parser.parse_args()
-
-    if not args.input_file or not args.output_file:
-        print_usage()
-        return
 
     data = load_json(args.input_file)
     cleaned_data, duplicate_count = remove_duplicates(data, args.threshold)

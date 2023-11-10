@@ -238,6 +238,15 @@
     .blur.blur-rounded {
         border-radius: 25px;
     }
+
+    @media screen and (max-width: 780px) {
+        .btn-player {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 120px;
+        }
+    }
 }
 
 .gsi-material-button {
