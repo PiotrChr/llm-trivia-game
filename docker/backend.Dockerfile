@@ -35,6 +35,6 @@ COPY --from=builder /app/backend/db/db.sqlite ./backend/db/db.sqlite
 
 RUN sqlite3 backend/db/db.sqlite .tables
 
-CMD sh -c "cd backend && gunicorn server:app --bind 0.0.0.0:5000 --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker"
+CMD sh -c "cd backend && gunicorn server:app --bind 0.0.0.0:5000 --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --access-logfile access.log --error-logfile error.log"
 
 EXPOSE 5000
