@@ -6,6 +6,7 @@ services:
     build:
       args:
         - BACKEND_HOST=${BACKEND_HOST}
+        - APP_GOOGLE_CLIENT_ID=${APP_GOOGLE_CLIENT_ID}
   nginx-backend:
     ports:
       - "8082:80"
