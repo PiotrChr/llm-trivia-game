@@ -23,7 +23,7 @@ export const MainNav = ({ user }) => {
             <Dropdown.Toggle
               variant="none"
               id="dropdown-basic"
-              className="btn-round btn-sm mb-0 btn-outline-primary me-2"
+              className="btn-round btn-sm mb-0 btn-outline-primary"
             >
               <i className="bi-joystick me-2"></i> {t('navigation.play.play')}
             </Dropdown.Toggle>
@@ -72,7 +72,7 @@ export const MainNav = ({ user }) => {
           <Nav.Item className="d-flex align-items-center">
             <a
               href="/login"
-              className="btn btn-round btn-sm mb-0 btn-outline-primary me-2"
+              className="btn btn-round btn-sm mb-0 btn-outline-primary me-1"
             >
               {t('navigation.user.login')}
             </a>
@@ -87,7 +87,7 @@ export const MainNav = ({ user }) => {
           </Nav.Item>
         </>
       )}
-      <LanguageDropdown />
+      <LanguageDropdown className="ms-2" />
     </Nav>
   );
 
@@ -96,9 +96,9 @@ export const MainNav = ({ user }) => {
       variant="none"
       expand="lg"
       id="main-navbar"
-      className="blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4 px-2"
+      className="blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-2 px-1"
     >
-      <Container fluid className="pe-0 nav-container">
+      <Container fluid className="px-2 nav-container">
         <Navbar.Brand
           href="/"
           className="font-weight-bolder ms-lg-0 ms-3 d-flex flex-row align-items-center py-0"
@@ -114,7 +114,7 @@ export const MainNav = ({ user }) => {
         <GameNav />
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          className="shadow-none ms-2 border-0"
+          className="shadow-none ms-2 border-0 px-1"
         >
           <i className="bi-list"></i>{' '}
         </Navbar.Toggle>

@@ -77,8 +77,6 @@
                 margin-bottom: 6px;
             }
         }
-
-        
     }
     
     .lifeline-btn:hover {
@@ -102,6 +100,15 @@
     .dropdown-menu {
         right: -14px !important;
         left: auto !important;
+
+        @media screen and (max-width: 780px) {
+            left: -13px !important;
+            
+            &::before {
+                right: auto !important;
+                left: 18px !important;
+            }
+        }
     }
 }
 
@@ -136,6 +143,16 @@
         .scrollable-area {
             max-height: 300px;
             overflow-y: auto;
+        }
+        
+        @media screen and (max-width: 780px) {
+            left: auto !important;
+            right: 0px !important;
+
+            &::before {
+                right: 22px !important;
+                left: auto !important;
+            }
         }
     }
 
@@ -213,8 +230,13 @@
 
 #main-navbar {
     .dropdown-menu {
+        z-index: 4;
         position: absolute !important;
         transform: perspective(999px) rotateX(-10deg) translateZ(0) translate3d(0px, 37px, 0px) !important;
+    }
+
+    .blur.blur-rounded {
+        border-radius: 25px;
     }
 }
 
@@ -323,4 +345,13 @@
   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
     background-color: #001d35;
     opacity: 8%;
+  }
+
+  .btn-sm {
+    @media screen and (max-width: 780px) {
+        --bs-btn-padding-x: 17px;
+        --bs-btn-padding-y: 5px;
+
+        font-size: 0.7rem;
+    }
   }

@@ -182,7 +182,11 @@ const GameHostPage = () => {
 
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/host-a-game/1.jpg">
+      <Jumbo
+        url="/static/img/jumbotron/host-a-game/1.jpg"
+        scrollToContent={true}
+      />
+      <section>
         <Card
           className="p-4"
           style={{ minWidth: '50vw', background: 'rgba(255,255,255,0.98)' }}
@@ -249,7 +253,7 @@ const GameHostPage = () => {
             </Form>
           </Card.Body>
         </Card>
-      </Jumbo>
+      </section>
     </div>
   );
 };
