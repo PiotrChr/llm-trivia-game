@@ -6,8 +6,8 @@ Important:
 - [!] **Extra:** Add script to auto translate questions
 - [!] **Extra:** Question submission
 - [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
-- [!] **Extra:** Privacy Page
-- [!] **Extra:** Terms of service page
+- [ ] **Extra:** Privacy Page
+- [ ] **Extra:** Terms of service page
 
 Secondary:
 - [ ] **Game Handling:** Feature: Question streak (badge)
@@ -21,7 +21,6 @@ Secondary:
 - [ ] **Core** Connect social media (share score & co.)
 - [ ] **Core:** Personalisation - "my categories" collection/ favourites
 - [ ] **Core:** Achievements/Badges/TItles/Rank
-- [ ] **Core:** SSO (Google or similar)
 - [ ] **Extra:** General game feedback
 - [ ] **Extra:** Tutorial
 - [ ] **Extra:** Game sounds/music
