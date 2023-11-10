@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-export const Jumbo = ({ children, url, maskClasses, scrollToContent }) => {
+export const Jumbo = ({
+  children,
+  url,
+  maskClasses,
+  scrollToContent,
+  className
+}) => {
   useEffect(() => {
     setTimeout(() => {
       if (scrollToContent) {
@@ -15,7 +21,10 @@ export const Jumbo = ({ children, url, maskClasses, scrollToContent }) => {
 
   return (
     <div
-      className="jumbo-background p-5 text-center bg-image rounded-3 position-relative"
+      className={classNames(
+        'jumbo-background p-5 text-center bg-image rounded-3 position-relative',
+        className
+      )}
       style={{
         backgroundImage: `url(${url})`,
         height: '100vh',

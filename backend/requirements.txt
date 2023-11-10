@@ -11,4 +11,4 @@ gevent==23.7.0
 gevent-websocket==0.10.
 gunicorn
 boto3
-google-auth==0.5.0
+google-auth

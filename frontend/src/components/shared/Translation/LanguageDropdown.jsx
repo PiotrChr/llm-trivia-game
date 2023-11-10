@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslationContext } from './TranslationProvider';
 import { Dropdown } from 'react-bootstrap';
+import classNames from 'classnames';
 
-const LanguageDropdown = () => {
+const LanguageDropdown = ({ className }) => {
   const { languages, currentLanguage, changeLanguage } =
     useTranslationContext();
   const [filter, setFilter] = useState('');
@@ -16,11 +17,11 @@ const LanguageDropdown = () => {
   );
 
   return (
-    <Dropdown id="language-dropdown-menu">
+    <Dropdown id="language-dropdown-menu" className={classNames(className)}>
       <Dropdown.Toggle
         variant="primary"
         id="language-dropdown"
-        className="btn-sm btn-round mb-0 me-2 ms-2"
+        className="btn-sm btn-round mb-0"
       >
         <img
           className="flag-img"
