@@ -14,7 +14,9 @@ export const GameOptionsStep = ({
   setLanguage,
   languages,
   setIsPublic,
-  isPublic
+  isPublic,
+  maxPlayers,
+  setMaxPlayers
 }) => {
   const { t } = useTranslation();
 
@@ -38,6 +40,23 @@ export const GameOptionsStep = ({
               onChange={(e) => setIsPublic(e.target.checked)}
             />
           </div>
+        </Form.Group>
+
+        <Form.Group controlId="formMaxPlayers">
+          <Form.Label>
+            {t('common.max_players')}:{' '}
+            {maxPlayers !== 0 ? `${maxPlayers} players` : 'No limit'}
+          </Form.Label>
+          <Form.Control
+            type="range"
+            min="0"
+            max="100"
+            value={maxPlayers}
+            onChange={(e) => setMaxPlayers(e.target.value)}
+          />
+          <Form.Text className="text-muted">
+            {t('game_host.max_players_label')}
+          </Form.Text>
         </Form.Group>
 
         <Form.Group controlId="formGamePassword">

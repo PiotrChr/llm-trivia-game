@@ -22,8 +22,6 @@ export function useSocket() {
         query: `token=${token}`
       });
 
-      console.log('connected to socket');
-
       setSocket(newSocket);
 
       return () => newSocket.disconnect();

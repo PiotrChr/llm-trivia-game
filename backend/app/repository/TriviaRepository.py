@@ -492,7 +492,8 @@ class TriviaRepository:
         auto_start=False,
         eliminate_on_fail=False,
         selected_lifelines=None,
-        is_public=False
+        is_public=False,
+        max_players=10
     ):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
@@ -505,10 +506,10 @@ class TriviaRepository:
             ).fetchone()["id"]
             
             game_sql = """
-                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start, mode_id, eliminate_on_fail, all_categories, is_public)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO games (password, max_questions, host, current_category, time_limit, current_language, auto_start, mode_id, eliminate_on_fail, all_categories, is_public, max_players)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
-            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories, is_public), False)
+            game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories, is_public, max_players), False)
 
             print(f"Game ID: {game_id}")
 
@@ -635,7 +636,6 @@ class TriviaRepository:
             LEFT JOIN category ON games.current_category = category.id
             LEFT JOIN language ON games.current_language = language.id
             LEFT JOIN game_modes ON games.mode_id = game_modes.id
-            LEFT JOIN player_answers ON games.id = player_answers.game_id
             WHERE games.id = ?
         """
         params = (game_id,)
@@ -735,7 +735,7 @@ class TriviaRepository:
             return None
         
     @staticmethod
-    def end_game(game_id, player_id):
+    def end_game(game_id):
         try:
             Database.execute("BEGIN TRANSACTION", commit=False)
 

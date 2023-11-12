@@ -1,13 +1,18 @@
 Important:
+- [!!!] **Test and release playable version**
+- [ ] **Core** Add "Pause Game"
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array
 - [ ] **Game Handling:** Handle finish/stop game
 - [!] **Core** Fix JSON instead of retrying fetching new question set
+- [!] **Core** Image questions - GPT-4V
 - [!] **Extra:** Add script to auto translate questions
 - [!] **Extra:** Question submission
 - [ ] **Player Profile Page:** Add Profile page with stats (charts pls)
 - [ ] **Extra:** Privacy Page
 - [ ] **Extra:** Terms of service page
+- [ ] **Core:** Max players
+
 
 Secondary:
 - [ ] **Game Handling:** Feature: Question streak (badge)

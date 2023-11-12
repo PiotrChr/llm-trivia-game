@@ -62,7 +62,8 @@ const GamePage = () => {
     state.difficulty,
     state.language,
     state.timer,
-    state.selectedAnswerId
+    state.selectedAnswerId,
+    state.pause
   );
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
 
@@ -123,6 +124,24 @@ const GamePage = () => {
     if (!socket) return;
     socket.emit('ready', { player: user, game_id: gameId });
   }, [socket, gameId, user]);
+
+  const handleStopGame = useCallback(() => {}, []);
+
+  const handlePauseGame = useCallback(() => {
+    if (!socket) return;
+
+    if (state.isHost) {
+      socket.emit('pause', { player: user, game_id: gameId });
+    }
+  }, []);
+
+  const handleResumeGame = useCallback(() => {
+    if (!socket) return;
+
+    if (state.isHost) {
+      socket.emit('resume', { player: user, game_id: gameId });
+    }
+  }, []);
 
   const handleStartGame = useCallback(() => {
     if (!state.allPresent) {
@@ -186,6 +205,7 @@ const GamePage = () => {
     if (!socket || !user || !gameId) return;
 
     socket.emit('join', { player: user, game_id: gameId });
+    socket.emit('pingx', { player: user, game_id: gameId });
 
     return () => {
       socket.emit('leave', { player: user, game_id: gameId });
@@ -236,6 +256,9 @@ const GamePage = () => {
       handleDifficultyChange={handleDifficultyChange}
       handleReady={handleReady}
       handleStartGame={handleStartGame}
+      handleStopGame={handleStopGame}
+      handlePauseGame={handlePauseGame}
+      handleResumeGame={handleResumeGame}
       handleAnswerClicked={handleAnswerClicked}
       handleNextQuestionClick={handleNextQuestionClick}
       showModal={showModal}

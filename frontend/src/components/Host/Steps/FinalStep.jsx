@@ -6,8 +6,6 @@ import Col from 'react-bootstrap/Col';
 import { useTranslation } from 'react-i18next';
 
 export const FinalStep = ({ startGame, summary }) => {
-  console.log(summary);
-
   const { t } = useTranslation();
 
   const Summary = ({

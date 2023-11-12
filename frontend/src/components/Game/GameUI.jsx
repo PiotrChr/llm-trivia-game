@@ -18,6 +18,7 @@ import Lifelines from './LifeLines';
 import QuestionTimer from './QuestionTimer';
 import { useTranslation } from 'react-i18next';
 import { GameOverCard } from './GameOverCard';
+import ReportQuestion from './ReportQuestion';
 
 const GameUI = ({
   state,
@@ -33,6 +34,9 @@ const GameUI = ({
   handleStartGame,
   handleAnswerClicked,
   handleNextQuestionClick,
+  handleStopGame,
+  handlePauseGame,
+  handleResumeGame,
   showModal,
   hideModal,
   user,
@@ -249,9 +253,30 @@ const GameUI = ({
                     </Button>
                   )}
                   {gameStarted && isHost && (
-                    <Button className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0">
-                      {t('game.stop_game')}
-                    </Button>
+                    <>
+                      {state.paused ? (
+                        <Button
+                          className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
+                          onClick={handleResumeGame}
+                        >
+                          {t('game.resume_game')}
+                        </Button>
+                      ) : (
+                        <Button
+                          className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
+                          onClick={handlePauseGame}
+                        >
+                          {t('game.pause_game')}
+                        </Button>
+                      )}
+
+                      <Button
+                        className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
+                        onClick={handleStopGame}
+                      >
+                        {t('game.stop_game')}
+                      </Button>
+                    </>
                   )}
                   {gameStarted && allAnswered && !autoStart && (
                     <Button
