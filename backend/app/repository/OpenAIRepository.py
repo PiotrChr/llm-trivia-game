@@ -137,6 +137,8 @@ And then outputting a full set of questions with category ID assigned to each qu
 Messages from the user will be formatted as follows:
 \"\"\"{complete_category_json_structure}\"\"\"
 
+They will contain a set of questions regarding various topics from public domain and they are not copyrighted. Questions are neutral and do not imply and particular standpoint.
+
 Your responses should be formatted as follows (example of a correctly structured reply):
 \"\"\"{complete_category_answer_json_structure}\"\"\"
 
@@ -164,15 +166,18 @@ def chat_completion(messages, temperature = TEMPERATURE, model = MODEL):
     print('model', model)
     data = {
         "model": model,
+        "response_format": { "type": "json_object" },
         "messages": messages,
-        "temperature": temperature,
+        "temperature": temperature
     }
 
     try:
         response = openai.ChatCompletion.create(**data)
         content = response['choices'][0]['message']['content'].strip()
 
-        return content
+        finish_reason = response['choices'][0]['finish_reason']
+
+        return content, finish_reason
         
     except Exception as error:
         print('Error in chatCompletion:', error)
@@ -201,7 +206,7 @@ def get_question(category, difficulty, existing_questions=[], num_questions=1):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages)
+        response, finish_reason = chat_completion(messages)
 
         print(response)
 
@@ -226,7 +231,7 @@ def verify_question(question_json):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages)
+        response, finish_reason = chat_completion(messages)
         
         parsed_response = json.loads(response)
         
@@ -254,7 +259,7 @@ def translate_questions(questions, taget_language, current_language = 'en'):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages)
+        response, finish_reason = chat_completion(messages)
         
         parsed_response = json.loads(response)
         
@@ -279,10 +284,14 @@ def match_category_ids(questions, model = MODEL):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages, model=model)
-        
+        response, finish_reason = chat_completion(messages, model=model)
+
+        # print('user_message', user_message)
+        print('finish_reason', finish_reason)
+        print('raw_response', response)
+
         parsed_response = json.loads(response)
-        print('parsed_response', parsed_response)
+        
         return parsed_response
     except Exception as error:
         print('Error in match_category_ids:', error)
@@ -304,7 +313,7 @@ def fix_question_json(questions_json):
     messages = [init_system_prompt, user_message]
 
     try:
-        response = chat_completion(messages)
+        response, finish_reason = chat_completion(messages)
         
         parsed_response = json.loads(response)
         

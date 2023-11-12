@@ -14,6 +14,7 @@ const initialState = {
   questionReady: false,
   gameMode: null,
   languages: [],
+  pause: false,
   language: {
     iso_code: 'en',
     name: 'English'
@@ -126,6 +127,9 @@ const gameReducer = (state = initialState, action) => {
         };
       }
       return state;
+
+    case 'SET_PAUSE':
+      return { ...state, pause: action.payload };
 
     case 'SET_AUTO_START':
       return { ...state, autoStart: action.payload };

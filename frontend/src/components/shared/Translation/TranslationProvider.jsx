@@ -27,8 +27,6 @@ export const TranslationProvider = ({ children }) => {
     i18n.changeLanguage(lang);
   };
 
-  console.log(currentLanguage);
-
   return (
     <TranslationContext.Provider
       value={{ languages, currentLanguage, changeLanguage }}

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { Card } from 'react-bootstrap';
 import StepWizard from 'react-step-wizard';
 import { useTranslation } from 'react-i18next';
+import { TranslationContext } from '../components/shared/Translation/TranslationProvider';
 
 import {
   createGame,
@@ -18,15 +19,14 @@ import { QuestionOptionsStep } from '../components/Host/Steps/QuestionOptionsSte
 import { GameOptionsStep } from '../components/Host/Steps/GameOptionsStep';
 import { GameModeStep } from '../components/Host/Steps/GameModeStep';
 import { FinalStep } from '../components/Host/Steps/FinalStep';
-
 import { Jumbo } from '../components/Layout/Jumbo';
 
 import config from '../config.json';
 
 const GameHostPage = () => {
   const [gamePassword, setGamePassword] = useState('');
-  const [maxQuestions, setMaxQuestions] = useState('');
-  const [timeLimit, setTimeLimit] = useState('');
+  const [maxQuestions, setMaxQuestions] = useState(10);
+  const [timeLimit, setTimeLimit] = useState(10);
   const [language, setLanguage] = useState(null);
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
@@ -37,6 +37,7 @@ const GameHostPage = () => {
   const [validated, setValidated] = useState(false);
   const [autoStart, setAutoStart] = useState(false);
   const [lifelines, setLifeLines] = useState([]);
+  const [maxPlayers, setMaxPlayers] = useState(10);
   const [eliminateOnFail, setEliminateOnFail] = useState(false);
   const [selectedLifelines, setSelectedLifeLines] = useState(
     config.game.modes['Classic'].lifelines
@@ -45,6 +46,7 @@ const GameHostPage = () => {
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const { t } = useTranslation();
+  const { currentLanguage } = React.useContext(TranslationContext);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -94,6 +96,12 @@ const GameHostPage = () => {
     fetchLanguages();
   }, []);
 
+  useEffect(() => {
+    setLanguage(
+      languages.find((language) => language.value === currentLanguage)
+    );
+  }, [languages, currentLanguage]);
+
   const handleCategoryChange = (newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
       setCategories([...categories, newValue]);
@@ -126,6 +134,7 @@ const GameHostPage = () => {
           allSelected,
           timeLimit,
           maxQuestions,
+          maxPlayers,
           language ? language.value : null,
           autoStart,
           eliminateOnFail,
@@ -230,6 +239,8 @@ const GameHostPage = () => {
                   language={language}
                   languages={languages}
                   gamePassword={gamePassword}
+                  maxPlayers={maxPlayers}
+                  setMaxPlayers={setMaxPlayers}
                   setGamePassword={setGamePassword}
                   isPublic={isPublic}
                   setIsPublic={setIsPublic}

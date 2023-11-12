@@ -131,7 +131,7 @@ function GameListPage() {
                               game.players.filter(
                                 (player) => player.player_id === game.host
                               )[0].name
-                            }
+                            }{' '}
                           </h6>
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">
@@ -146,7 +146,8 @@ function GameListPage() {
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">
                           <h6 className="mb-0 text-xs">
-                            {game.players.length}
+                            {game.players.length}{' '}
+                            <strong>({game.max_players})</strong>
                           </h6>
                         </td>
                         <td className="align-middle text-center text-sm d-none d-md-table-cell">

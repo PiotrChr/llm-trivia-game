@@ -17,7 +17,8 @@ export const useGameSocket = (
   difficulty,
   language,
   timer,
-  selectedAnswerId
+  selectedAnswerId,
+  pause
 ) => {
   const socket = useSocket();
 
@@ -91,9 +92,8 @@ export const useGameSocket = (
     const onAnswered = (data) => {
       dispatch({ type: 'SET_PLAYER_ANSWER', payload: data });
     };
-    const onStartTimer = (data) => {
-      dispatch({ type: 'SET_TIMER', payload: data.time_limit });
 
+    const resumeTimer = () => {
       intervalRef.current = setInterval(() => {
         if (timerRef.current === 0) {
           clearInterval(intervalRef.current);
@@ -101,6 +101,11 @@ export const useGameSocket = (
           dispatch({ type: 'DECREMENT_TIMER' });
         }
       }, 1000);
+    };
+    const onStartTimer = (data) => {
+      dispatch({ type: 'SET_TIMER', payload: data.time_limit });
+
+      resumeTimer();
     };
     const onMissedQuestion = (data) => {
       const player_id = data.player.id;
@@ -111,6 +116,24 @@ export const useGameSocket = (
       dispatch({ type: 'SET_GAME_OVER' });
     };
 
+    const onPause = () => {
+      dispatch({ type: 'SET_PAUSE', payload: true });
+
+      console.log('pausing')
+
+      clearInterval(intervalRef.current);
+    };
+
+    const onResume = () => {
+      dispatch({ type: 'SET_PAUSE', payload: false });
+
+      console.log('resuming')
+
+      resumeTimer();
+    };
+
+    socket.on('pause', onPause);
+    socket.on('resume', onResume);
     socket.on('gave_over', onGameOver);
     socket.on('answer_missed', onMissedQuestion);
     socket.on('start_timer', onStartTimer);
@@ -135,6 +158,8 @@ export const useGameSocket = (
     socket.on('winners', onWinners);
 
     return () => {
+      socket.off('resume', onResume);
+      socket.off('pause', onPause);
       socket.off('gave_over', onGameOver);
       socket.off('answer_missed', onMissedQuestion);
       socket.off('start_timer', onStartTimer);
@@ -170,7 +195,8 @@ export const useGameSocket = (
     showModal,
     hideModal,
     question,
-    timer
+    timer,
+    pause
   ]);
 
   useEffect(() => {

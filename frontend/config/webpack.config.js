@@ -8,19 +8,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, argv) => {
     const isDevMode = argv.mode === 'development';
-    
+
     const getEnvVar = (key) => {
         if (process.env[key]) {
             return JSON.stringify(process.env[key]);
         }
 
         const dotenv = require('dotenv').config({ path: '../.frontend.env' });
-    
+
         if (!dotenv.parsed || typeof dotenv.parsed !== 'object' || !dotenv.parsed[key]) {
             console.warn(`Environment variable ${key} is not set or .frontend.env file is missing.`);
             return JSON.stringify('');
         }
-    
+
         return JSON.stringify(dotenv.parsed[key]);
     };
 
@@ -37,8 +37,8 @@ module.exports = (env, argv) => {
                     test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
                     use: {
-                            loader: 'babel-loader',
-                            options: {
+                        loader: 'babel-loader',
+                        options: {
                             presets: ['@babel/preset-env', '@babel/preset-react']
                         }
                     }
@@ -84,4 +84,4 @@ module.exports = (env, argv) => {
         },
         devtool: isDevMode ? 'eval-source-map' : 'source-map'
     }
-  };
+};

@@ -67,7 +67,9 @@
         "sign_in": "Sign In",
         "sign_up": "Sign Up",
         "username": "Username",
-        "login": "Login"
+        "login": "Login",
+        "max_players": "Player limit",
+        "join_game": "Join Game"
     },
     "game_modes": {
         "Classic": {
@@ -182,6 +184,8 @@
         "next_question": "Next Question",
         "report_question": "Report Question",
         "type_your_message": "Type your message...",
+        "pause_game": "Pause Game",
+        "resume_game": "Resume Game",
         "error": {
             "not_all_player_present": "Not all players are present"
         }
@@ -203,6 +207,7 @@
         "game_options": "Game Options",
         "game_password": "Game Password",
         "max_questions_label": "Slide to the right to increase the number of questions, or slide to the left to decrease. Leave it at the minimum for an infinite number of questions.",
+        "max_players_label": "Slide to the right to increase the number of players, or slide to the left to decrease. Leave it at the minimum for an infinite number of players.",
         "time_limit_label": "Slide to adjust the time limit for each question. Slide to the minimum for no time limit.",
         "type_your_message": "Type your message...",
         "game_summary": "Game Summary",

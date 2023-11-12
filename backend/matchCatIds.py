@@ -18,14 +18,20 @@ def verify_questions(original_batch, updated_batch):
             return False
     return True
 
+def extract_batch(batch):
+    if 'questions' in batch.keys():
+        return batch['questions']
+    
+    return batch
+
 def process_batch_with_retry(batch, retries=3, delay=5):
     attempt = 0
     while attempt < retries:
         try:
             if attempt > 0:
-                updated_batch = match_category_ids(batch, model='gpt-4-1106-preview')
+                updated_batch = extract_batch(match_category_ids(batch, model='gpt-4-1106-preview'))
             else:
-                updated_batch = match_category_ids(batch)
+                updated_batch = extract_batch(match_category_ids(batch))
             
             if verify_questions(batch, updated_batch):
                 return updated_batch
@@ -34,7 +40,8 @@ def process_batch_with_retry(batch, retries=3, delay=5):
                 attempt += 1
                 time.sleep(delay)
         except Exception as e:
-            print(f"An error occurred during matching: {e}")
+            print(f"An error occurred during matching: {e} for the following batch:")
+            print(json.dumps(batch))
             print(f"Attempting retry {attempt+1}/{retries}...")
             attempt += 1
             time.sleep(delay)

@@ -30,7 +30,7 @@ def register_handlers(socketio):
     @socketio.on('disconnect')
     def handle_disconnect():
         print('Client disconnected')
-        emit('ping', broadcast=True)
+        emit('pingx', broadcast=True)
 
     @socketio.on('ready')
     def handle_ready(data):
@@ -128,8 +128,23 @@ def register_handlers(socketio):
     def handle_next_question(data):
         room = data['game_id']
         game = TriviaRepository.get_game_by_id(data['game_id'])
+
         if game['host'] != data['player']['id']:
             return
+
+        category = data['category']
+
+        if game['all_categories'] and game['questions_answered'] > 0 :
+            TriviaRepository.set_current_category(data['game_id'], category['id'])
+            new_category = TriviaRepository.get_random_category()
+            emit('category_changed', {
+                "category": {
+                    "id": new_category['id'],
+                    "name": new_category['name']
+                }
+            }, broadcast=True, room=data['game_id'])
+
+            category = new_category['id']
         
         if game['max_questions'] > 0 and game['questions_answered'] >= game['max_questions']:
             TriviaRepository.end_game(data['game_id'])
@@ -175,6 +190,24 @@ def register_handlers(socketio):
 
         if int(game['time_limit']) > 0:
             emit('start_timer', {"game_id": data['game_id'], "time_limit": game['time_limit']}, room=room, broadcast=True)
+
+    @socketio.on('pause')
+    def handle_pause(data):
+        room = data['game_id']
+        game = TriviaRepository.get_game_by_id(data['game_id'])
+        if game['host'] != data['player']['id']:
+            return
+
+        emit('pause', {"game_id": data['game_id']}, room=room, broadcast=True)
+
+    @socketio.on('resume')
+    def handle_resume(data):
+        room = data['game_id']
+        game = TriviaRepository.get_game_by_id(data['game_id'])
+        if game['host'] != data['player']['id']:
+            return
+
+        emit('resume', {"game_id": data['game_id']}, room=room, broadcast=True)
 
     @socketio.on('pingx')
     def handle_ping(data):

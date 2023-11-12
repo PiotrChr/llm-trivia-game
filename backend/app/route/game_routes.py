@@ -40,7 +40,8 @@ def create_game():
     eliminate_on_fail = request.json.get('eliminateOnFail', False)
     selected_lifelines = request.json.get('selectedLifelines', None)
     is_public = request.json.get('isPublic', False)
-    
+    max_players = request.json.get('maxPlayers', 10)
+
     print(f'Creating game with params: {request.json}')
 
     if all_categories is True:
@@ -69,7 +70,8 @@ def create_game():
             auto_start,
             eliminate_on_fail,
             selected_lifelines,
-            is_public
+            is_public,
+            max_players
         )
     except Exception as e:
         print(e)
@@ -178,7 +180,7 @@ def end_game():
     if game['host'] != player_id:
         return jsonify({"msg": "Player is not the host", "player_id": player_id}), 401
 
-    game_ended = TriviaRepository.end_game(game_id, player_id)
+    game_ended = TriviaRepository.end_game(game_id)
 
     if game_ended:
         return jsonify({"msg": "Game ended successfully", "game_id": game_id}), 200

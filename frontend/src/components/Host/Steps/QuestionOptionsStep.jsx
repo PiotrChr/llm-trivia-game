@@ -41,7 +41,8 @@ export const QuestionOptionsStep = ({
           <Form.Control
             type="range"
             min="0"
-            max="1000"
+            max="100
+"
             value={maxQuestions}
             onChange={(e) => setMaxQuestions(e.target.value)}
           />
