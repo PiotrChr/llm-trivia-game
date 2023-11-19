@@ -1,20 +1,20 @@
 import React, {
-  useReducer,
-  useState,
   useCallback,
-  useMemo,
   useEffect,
-  useRef
+  useMemo,
+  useReducer,
+  useRef,
+  useState
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../routing/AuthProvider';
+import GameUI from '../components/Game/GameUI';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 import { useModal } from '../components/shared/Modal/ModalContext';
-import { initialState, gameReducer } from '../state/gameReducer';
-import { useGameSocket } from '../services/hooks/game/useGameSocket';
+import { useAuth } from '../routing/AuthProvider';
 import { useFetchGameData } from '../services/hooks/game/useFetchGameData';
-import GameUI from '../components/Game/GameUI';
-import { useTranslation } from 'react-i18next';
+import { useGameSocket } from '../services/hooks/game/useGameSocket';
+import { gameReducer, initialState } from '../state/gameReducer';
 import { getRandomBackground } from '../utils';
 
 const GamePage = () => {
