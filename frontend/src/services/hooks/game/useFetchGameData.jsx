@@ -4,7 +4,8 @@ import {
   endGame,
   getLanguages,
   getCategories,
-  isPlaying
+  isPlaying,
+  getUsedLifelines
 } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
@@ -52,6 +53,7 @@ export const useFetchGameData = (gameId, user, dispatch) => {
         });
         dispatch({ type: 'SET_AUTO_START', payload: game.data.auto_start });
         dispatch({ type: 'SET_GAME_MODE', payload: game.data.mode });
+        dispatch({ type: 'SET_LIFELINES', payload: game.data.lifelines });
         // dispatch({ type: 'SET_DIFFICULTY', payload: game.data.difficulty });
         dispatch({ type: 'SET_TIME_LIMIT', payload: game.data.time_limit });
       } catch (error) {
@@ -89,9 +91,26 @@ export const useFetchGameData = (gameId, user, dispatch) => {
       }
     };
 
+    const fetchUsedLifelines = async () => {
+      try {
+        const lifelines = (await getUsedLifelines(gameId)).data;
+        console.log(lifelines);
+        dispatch({
+          type: 'SET_USED_LIFELINES',
+          payload: lifelines.map((lifeline) => ({
+            label: lifeline.name,
+            value: lifeline.id
+          }))
+        });
+      } catch (error) {
+        console.error('Failed to fetch lifelines:', error);
+      }
+    };
+
     fetchGame();
     fetchLanguages();
     fetchCategories();
+    fetchUsedLifelines();
     setIsLoading(false);
   }, [gameId, user.id, navigate, dispatch]);
 

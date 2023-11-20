@@ -25,11 +25,11 @@ def split_batch(batch):
     mid_index = len(batch) // 2
     return batch[:mid_index], batch[mid_index:]
 
-def handle_content_filter(batch, retries, delay):
-    first_half, second_half = split_batch(batch)
-    first_half_result, first_half_failed = retry_process_batch(first_half, retries, delay)
-    second_half_result, second_half_failed = retry_process_batch(second_half, retries, delay)
-    return first_half_result + second_half_result, first_half_failed + second_half_failed
+# def handle_content_filter(batch, retries, delay):
+#     first_half, second_half = split_batch(batch)
+#     first_half_result, first_half_failed = retry_process_batch(first_half, retries, delay)
+#     second_half_result, second_half_failed = retry_process_batch(second_half, retries, delay)
+#     return first_half_result + second_half_result, first_half_failed + second_half_failed
 
 def retry_process_batch(batch, retries, delay):
     for attempt in range(retries):
@@ -50,7 +50,7 @@ def process_single_attempt(batch, attempt, delay):
             return None, mismatched_questions, finish_reason
     except Exception as e:
         print(f"An error occurred: {e}")
-        return None, batch
+        return None, batch, 'unknown'
 
 def process_batch_with_retry(batch, retries=3, delay=5):
     finish_reason = None
@@ -58,14 +58,13 @@ def process_batch_with_retry(batch, retries=3, delay=5):
 
     for attempt in range(retries):
         result, failed_questions, finish_reason = process_single_attempt(batch, attempt, delay)
-        if result is not None:
-            return result, failed_questions
+        if len(failed_questions) == 0:
+            return result, [], False
 
         if finish_reason == 'content_filter':
             content_filter_triggered += 1
-            if content_filter_triggered < retries:
-                # TODO: We should update batch and generaly clean this up
-                return handle_content_filter(batch, retries, delay), True
+            # if content_filter_triggered < retries:
+            #     return handle_content_filter(batch, retries, delay), True
 
     if content_filter_triggered == retries:
         print(f"Batch failed due to content filter {retries} times. Saving to separate file.")
@@ -80,12 +79,13 @@ def read_output_file(output_file):
     except FileNotFoundError:
         return []
     except Exception as e:
-        print(' Couldn\'t read output file: ', e)
+        print(' Couldn\'t read output file: ', e, output_file)
         return []
 
 def process_questions_in_batches(input_file, output_file, failed_batch_file, content_filter_file, batch_size=40):
     try:
         with open(input_file, 'r') as file:
+            print(f"Reading questions from {input_file}...")
             questions = json.load(file)
             
         failed_questions = read_output_file(failed_batch_file)

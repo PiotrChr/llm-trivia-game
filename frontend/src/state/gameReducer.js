@@ -13,6 +13,7 @@ const initialState = {
   answerMissed: false,
   questionReady: false,
   gameMode: null,
+  lifelines: [],
   languages: [],
   pause: false,
   language: {
@@ -205,6 +206,8 @@ const gameReducer = (state = initialState, action) => {
 
     case 'SET_TIME_ELAPSED':
       return { ...state, timeElapsed: action.payload };
+    case 'SET_LIFELINES':
+      return { ...state, lifelines: action.payload };
 
     case 'SET_TIME_LIMIT':
       return { ...state, timeLimit: action.payload };

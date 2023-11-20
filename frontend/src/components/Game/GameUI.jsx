@@ -136,7 +136,11 @@ const GameUI = ({
                 timeLimit={timeLimit}
                 isPlaying={true}
               />
-              <Lifelines show={questionReady} className="ms-lg-8" />
+              <Lifelines
+                show={questionReady}
+                className="ms-lg-8"
+                lifelines={state.lifelines}
+              />
               <Col
                 sm={12}
                 xs={12}

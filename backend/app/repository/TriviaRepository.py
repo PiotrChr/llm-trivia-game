@@ -629,13 +629,16 @@ class TriviaRepository:
                 json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
                 json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
                 json_object('id', category.id, 'name', category.name) as current_category,
-                json_object('id', game_modes.id, 'name', game_modes.name) as mode
+                json_object('id', game_modes.id, 'name', game_modes.name) as mode,
+                json_group_array(json_object('id', lifeline_types.id, 'name', lifeline_types.name, 'count', game_lifelines.count)) as lifelines
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
             LEFT JOIN language ON games.current_language = language.id
             LEFT JOIN game_modes ON games.mode_id = game_modes.id
+            LEFT JOIN game_lifelines ON games.id = game_lifelines.game_id
+            LEFT JOIN lifeline_types ON game_lifelines.lifeline_id = lifeline_types.id
             WHERE games.id = ?
         """
         params = (game_id,)
@@ -650,6 +653,7 @@ class TriviaRepository:
                 game_dict["current_category"] = json.loads(game_dict["current_category"])
                 game_dict["language"] = json.loads(game_dict["language"])
                 game_dict["mode"] = json.loads(game_dict["mode"])
+                game_dict["lifelines"] = json.loads(game_dict["lifelines"])
                 return game_dict
             else:
                 return None
@@ -1322,6 +1326,20 @@ class TriviaRepository:
             print(f"Failed to read data from table lifeline_types: {error}")
             return None
         
+    @staticmethod
+    def get_used_lifelines_for_game(player_id, game_id):
+        query = """
+            SELECT * FROM player_lifelines WHERE player_id = ? AND game_id = ?
+        """
+        params = (player_id, game_id)
+        try:
+            Database.get_cursor().execute(query, params)
+            lifelines = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(lifeline) for lifeline in lifelines]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table player_lifelines: {error}")
+            return None
+
 
     @staticmethod
     def submit_question(question_text, answers, correct_answer, category, language, player_id):

@@ -31,7 +31,6 @@ function GameListPage() {
   };
 
   const handleConnect = (gameId) => {
-    a;
     navigate('/game/' + gameId);
   };
 

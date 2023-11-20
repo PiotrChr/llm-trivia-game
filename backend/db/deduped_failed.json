@@ -1,0 +1,488 @@
+[
+    {
+        "question": "From 1994 What Was \"All For Ones\" Biggest Hit",
+        "answers": [
+            {
+                "text": "I Swear",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From A Distance Was A Hit In 1990 & 1991 For Whom",
+        "answers": [
+            {
+                "text": "Bette Midler",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From crocodile farms, Australia exports about 5,000 crocodile skins a year. Most go to Paris, where a crocodile purse can sell for more than __________",
+        "answers": [
+            {
+                "text": "10000",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From Guyana, Which 80's Reggae Icon Recorded His Three Greatest Hits On The Ice Label",
+        "answers": [
+            {
+                "text": "Eddy Grant",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From Her 1994 Hit When did Sheryl Crow \"Like A Good Beer Buzz",
+        "answers": [
+            {
+                "text": "Early In The Morning",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1830s to 1960s, the Lehigh River in eastern _____________, was owned by the Lehigh Coal and Navigation Co., making it the only privately owned river in the United States.",
+        "answers": [
+            {
+                "text": "Pennsylvania",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1970's which song and artist \"You're a rhapsody, a comedy, you're a symphony and a play. You're every love song ever written, but honey what do you see in me\" ?",
+        "answers": [
+            {
+                "text": "Rod Stewart / You're In My Heart",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1970's, which song and which group \"Listen to the ground: there is movement all around, There is something goin' down and I can feel it, On the waves of the air, there is dancin' out there\"?",
+        "answers": [
+            {
+                "text": "The Bee Gees / Night Fever",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1980's name the song and artist \"Cowboy No. 1, A born-again poor man's son, On the air America, I modelled shirts by Van Heusen-yeah\"",
+        "answers": [
+            {
+                "text": "Frankie / Two Tribes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1980's which artists and song \"So strike a pose on a Cadillac, If you want to find all the cops, They're hanging out in the donut shop, They sing and dance\"?",
+        "answers": [
+            {
+                "text": "The Bangles / Walk Like An Egyptian",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1980's \" Let's hope you never leave old friend, Like all good things on you we depend\"?",
+        "answers": [
+            {
+                "text": "Queen / Radio GaGa",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the 1980\u2019s, which song and which artist \"Her weapons were her crystal eyes, Making every man a man, Black as the dark night she was, Got what no-one else had, Wa!\"?",
+        "answers": [
+            {
+                "text": "Bananarama / Venus",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the Christmas Carol \"Good King Wenceslas\", where was Good King Wenceslas the King of?\"?",
+        "answers": [
+            {
+                "text": "Bogemia",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the french word \"fauve\", meaning \"wild beast\". A style adopted by artists associated with Matisse, c. 1905-1908. They painted in a spontaneous manner, using bold colors.",
+        "answers": [
+            {
+                "text": "Fauvism",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From the Hebrew word for \"prophet\". A group of French painters active in the 1890s who worked in a subjective, sometimes mystical style, stressing flat areas of color and pattern.",
+        "answers": [
+            {
+                "text": "Nabis",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what animal do we get venison",
+        "answers": [
+            {
+                "text": "Deer ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what animal is \"ambergis\" obtained",
+        "answers": [
+            {
+                "text": "Sperm whale",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Country Did The Band Black Box Originate",
+        "answers": [
+            {
+                "text": "Italy",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what country did the U.S. buy the Virgin Islands",
+        "answers": [
+            {
+                "text": "Denmark",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Country Do The Dance Band Cascada Come From",
+        "answers": [
+            {
+                "text": "Germany",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Country Does Advocaat Originate",
+        "answers": [
+            {
+                "text": "Holland ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what country does Sangria originate?",
+        "answers": [
+            {
+                "text": "Spain ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Do The Doobie Bros Take Their Name",
+        "answers": [
+            {
+                "text": "A Marijuana Joint Known As Doobie",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what German region do Hock wines come?",
+        "answers": [
+            {
+                "text": "The Rhine ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what Irish words is 'Dublin' derived?",
+        "answers": [
+            {
+                "text": "Dubh linn",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what is American Bourbon distilled?",
+        "answers": [
+            {
+                "text": "Corn mash and malted barley ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what is mead made?",
+        "answers": [
+            {
+                "text": "Honey ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Is Sake Made",
+        "answers": [
+            {
+                "text": "Rice ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From What Is The Heart Drug Digitalis Obtained",
+        "answers": [
+            {
+                "text": "Foxgloves",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From what is the Mexican dish huevos rancheros made?",
+        "answers": [
+            {
+                "text": "Baked Eggs ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "From which musical did \u2018One Night in Bangkok\u2019 & \u2018I Know Him So Well\u2019 come?",
+        "answers": [
+            {
+                "text": "Chess",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "How Many Countries are There In South America",
+        "answers": [
+            {
+                "text": "Thirteen ",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game might you collect a pung of East Winds",
+        "answers": [
+            {
+                "text": "Mahjongg",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In What Game Might You Get A Cannon",
+        "answers": [
+            {
+                "text": "Billiards Pool Or Snooker",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game might you use a flat stick called a kip",
+        "answers": [
+            {
+                "text": "Two Up",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game would you nurdle scrunge or carnovsky",
+        "answers": [
+            {
+                "text": "Tiddlywinks",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game would you see Stamen, Blackwood and Gerber",
+        "answers": [
+            {
+                "text": "Bridge",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game would you use a baguette",
+        "answers": [
+            {
+                "text": "Boule - measuring / marking",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game would you use a squidger",
+        "answers": [
+            {
+                "text": "Tiddlywinks \u2013 Big disc",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game/sport is the McRobinson shield played for",
+        "answers": [
+            {
+                "text": "Croquet",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what game/sport terms Bobble Boom Drop Giraffe Pique Twist",
+        "answers": [
+            {
+                "text": "Real Tennis types of service",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In what George Bizet opera do Zugra and Nbadir appear",
+        "answers": [
+            {
+                "text": "The Pearl Fishers",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical is the song, 'Hey Big Spender' featured",
+        "answers": [
+            {
+                "text": "Sweet charity",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical was the song \"I remember it well",
+        "answers": [
+            {
+                "text": "Gigi",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical was the song \"The Girl that I Marry",
+        "answers": [
+            {
+                "text": "Annie get your gun",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In Which Musical Was There A Dance Routine Set At A Barn Raising",
+        "answers": [
+            {
+                "text": "7 Brides For 7 Brothers",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical work is there a jester called Jack Point",
+        "answers": [
+            {
+                "text": "Yeomen of the guard",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical work of 1925 would you hear the song Summertime",
+        "answers": [
+            {
+                "text": "Porgy and bess",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which musical work would you hear the song As Long As He Needs Me",
+        "answers": [
+            {
+                "text": "Oliver",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In Which Musical Would You Hear The Song \"Edelweiss",
+        "answers": [
+            {
+                "text": "The Sound Of Music",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In which national park is the mauna loa volcano located",
+        "answers": [
+            {
+                "text": "Hawaii volcanoes",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "In Which song did Procal Harem Sing About 16 vestal virgins",
+        "answers": [
+            {
+                "text": "A Whiter shade of pale",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Married men do it twice as often as single men \u2013 what",
+        "answers": [
+            {
+                "text": "Change Underwear",
+                "is_correct": true
+            }
+        ]
+    },
+    {
+        "question": "Napoleons life was saved by a dog what breed \u2013 and he hated dogs",
+        "answers": [
+            {
+                "text": "Newfoundland \u2013 saved from drowning",
+                "is_correct": true
+            }
+        ]
+    }
+]

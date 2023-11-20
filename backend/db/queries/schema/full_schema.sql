@@ -54,7 +54,8 @@ CREATE TABLE players (
 
 CREATE TABLE category (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    time_added INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE questions (

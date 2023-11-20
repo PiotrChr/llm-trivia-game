@@ -297,3 +297,8 @@ export const getLifelineTypes = async () => {
   const response = await api.get(`${BASE_URL}/lifelines/types`);
   return response;
 };
+
+export const getUsedLifelines = async (gameId) => {
+  const response = await api.get(`${BASE_URL}/lifelines/${gameId}/used`);
+  return response;
+};

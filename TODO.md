@@ -1,5 +1,6 @@
 Important:
 - [!!!] **Test and release playable version**
+- [!!] **Lifelines** Missing db methods, add label with number of remaining, remove intactive
 - [ ] **Core** Add "Pause Game"
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array
