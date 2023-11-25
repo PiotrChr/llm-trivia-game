@@ -16,7 +16,7 @@ from app.route.auth_routes import auth_routes
 from app.route.language_routes import language_routes
 from app.route.category_routes import category_routes
 from app.route.notifications_routes import notifications_routes
-from app.route.lifeline_rotes import lifeline_routes
+from app.route.lifeline_routes import lifeline_routes
 from app.route.game_socket import register_handlers
 from utils.Database import Database
 

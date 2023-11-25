@@ -148,12 +148,12 @@ class TriviaRepository:
     @staticmethod
     def get_random_category():
         query = """
-            SELECT id FROM category ORDER BY RANDOM() LIMIT 1
+            SELECT id, name FROM category ORDER BY RANDOM() LIMIT 1
         """
         try:
             Database.get_cursor().execute(query)
             category = Database.get_cursor().fetchone()
-            return category["id"]
+            return category
         except sqlite3.Error as error:
             print(f"Failed to read data from table category: {error}")
             return None
@@ -1315,6 +1315,79 @@ class TriviaRepository:
         return generate_password_hash(password)
     
     # Lifelines
+
+    @staticmethod
+    def get_hint(question_id, language):
+        query = """
+            SELECT hint FROM question_hints
+            JOIN language ON question_hints.language_id = language.id 
+            WHERE question_id = ? AND language.iso_code = ?
+        """
+        params = (question_id, language)
+        try:
+            Database.get_cursor().execute(query, params)
+            hint = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(hint)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table question_hints: {error}")
+            return None
+
+    @staticmethod
+    def get_lifeline_id_by_name(lifeline_name):
+        query = """
+            SELECT id FROM lifeline_types WHERE name = ?
+        """
+        params = (lifeline_name,)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            lifeline = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(lifeline)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table lifeline_types: {error}")
+            return None
+
+    @staticmethod
+    def get_remaining_lifelines(player_id, game_id, lifeline_type):
+        print('here')
+        print (player_id, game_id, lifeline_type)
+        query = """
+            SELECT
+                (SELECT gl.count FROM game_lifelines as gl where game_id=? and lifeline_id=?)
+                -
+                (SELECT count(*)
+                FROM player_lifelines as pl
+                JOIN game_lifelines as gl ON gl.lifeline_id = pl.lifeline_id
+                WHERE pl.player_id = ? AND pl.game_id = ? AND pl.lifeline_id = ?)
+            
+        """
+        params = (game_id, lifeline_type, player_id, game_id, lifeline_type)
+
+        try:
+            Database.get_cursor().execute(query, params)
+            lifelines = Database.get_cursor().fetchone()
+            return TriviaRepository.row_to_dict(lifelines)
+        except sqlite3.Error as error:
+            print(f"Failed to read data from table game_lifelines: {error}")
+            return None
+
+    @staticmethod
+    def use_lifeline(player_id, game_id, lifeline_id):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            lifeline_sql = """
+                INSERT INTO player_lifelines (player_id, game_id, lifeline_id)
+                VALUES (?, ?, ?)
+            """
+            Database.insert(lifeline_sql, (player_id, game_id, lifeline_id), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
 
     @staticmethod
     def get_lifeline_types():

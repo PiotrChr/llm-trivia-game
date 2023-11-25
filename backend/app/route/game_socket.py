@@ -93,7 +93,7 @@ def register_handlers(socketio):
         room = data['game_id']
         leave_room(room)
         emit('left', {"player": data['player'], "game_id": data['game_id']}, room=room, broadcast=True)
-
+    
     @socketio.on('start')
     def handle_start(data):
         room = data['game_id']
@@ -132,20 +132,22 @@ def register_handlers(socketio):
         if game['host'] != data['player']['id']:
             return
 
-        category = data['category']
+        category_id = data['category']
 
         if game['all_categories'] and game['questions_answered'] > 0 :
-            TriviaRepository.set_current_category(data['game_id'], category['id'])
-            new_category = TriviaRepository.get_random_category()
+            random_cat = TriviaRepository.get_random_category()
+            TriviaRepository.set_current_category(data['game_id'], random_cat)
+
+            print('random_cat', random_cat['id'], random_cat['name'])
+
             emit('category_changed', {
                 "category": {
-                    "id": new_category['id'],
-                    "name": new_category['name']
+                    "id": random_cat['id'],
+                    "name": random_cat['name']
                 }
             }, broadcast=True, room=data['game_id'])
+            category_id = random_cat['id']
 
-            category = new_category['id']
-        
         if game['max_questions'] > 0 and game['questions_answered'] >= game['max_questions']:
             TriviaRepository.end_game(data['game_id'])
 
@@ -155,12 +157,12 @@ def register_handlers(socketio):
         emit('drawing', {"game_id": data['game_id']}, room=room, broadcast=True)
         socketio.sleep(1)
 
-        print('drawing', data['game_id'], data['category'], data['difficulty'], data['language'])
+        print('drawing', data['game_id'], category_id, data['difficulty'], data['language'])
 
         try:
             question = QuestionManager.next_question(
                 data['game_id'],
-                data['category'],
+                category_id,
                 data['difficulty'],
                 data['language']
             )

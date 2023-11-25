@@ -4,6 +4,15 @@ import Form from 'react-bootstrap/Form';
 import Select from 'react-select';
 import { getCategories, reportQuestion } from '../../services/api';
 import { useAlert } from '../shared/Alert/AlertContext';
+import { useTranslation } from 'react-i18next';
+
+const feedbackTypes = {
+  incorrectAnswer: 1,
+  tooEasy: 2,
+  tooHard: 3,
+  wrongCategory: 4,
+  other: 5
+};
 
 function ReportQuestion({ question, onSubmit }) {
   const [feedbackType, setFeedbackType] = useState(null);
@@ -12,6 +21,7 @@ function ReportQuestion({ question, onSubmit }) {
   const [correctAnswer, setCorrectAnswer] = useState(null);
   const [otherProblem, setOtherProblem] = useState('');
   const { showAlert } = useAlert();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -63,16 +73,16 @@ function ReportQuestion({ question, onSubmit }) {
   return (
     <div className="d-flex flex-column" id="report-question">
       <Button className="mb-1" onClick={() => setFeedbackType(2)}>
-        Too easy
+        {t('report_question.too_easy')}
       </Button>
       <Button className="mb-1" onClick={() => setFeedbackType(3)}>
-        Too hard
+        {t('report_question.too_hard')}
       </Button>
       <Button className="mb-1" onClick={() => setFeedbackType(1)}>
-        Incorrect Answer
+        {t('report_question.incorrect_answer')}
       </Button>
 
-      {feedbackType === 'incorrect-answer' && (
+      {feedbackType === 1 && (
         <div className="d-flex flex-column p-2 mt-1 mb-2">
           {question.answers.map((answer) => (
             <Button
@@ -88,10 +98,10 @@ function ReportQuestion({ question, onSubmit }) {
       )}
 
       <Button className="mb-1" onClick={() => setFeedbackType(4)}>
-        Wrong Category
+        {t('report_question.wrong_category')}
       </Button>
 
-      {feedbackType === 'wrong-category' && (
+      {feedbackType === 4 && (
         <div className="mb-2 mt-1">
           <Select
             options={categories}
@@ -104,10 +114,10 @@ function ReportQuestion({ question, onSubmit }) {
       )}
 
       <Button className="mb-1" onClick={() => setFeedbackType(5)}>
-        Other Problem
+        {t('report_question.other')}
       </Button>
 
-      {feedbackType === 'other' && (
+      {feedbackType === 5 && (
         <div className="mb-2 mt-1">
           <Form.Control
             as="textarea"
@@ -120,7 +130,7 @@ function ReportQuestion({ question, onSubmit }) {
       )}
 
       <Button variant="success" className="mt-5" onClick={submitFeedback}>
-        Submit Feedback
+        {t('report_question.submit')}
       </Button>
     </div>
   );

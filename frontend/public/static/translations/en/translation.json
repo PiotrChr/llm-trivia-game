@@ -231,5 +231,12 @@
     },
     "notifications": {
         "mark_all_as_read": "Mark as read"
+    },
+    "report_question": {
+        "too_easy": "Too easy",
+        "too_hard": "Too hard",
+        "incorrect_answer": "Incorrect answer",
+        "wrong_category": "Wrong category",
+        "other": "Other"
     }
 }

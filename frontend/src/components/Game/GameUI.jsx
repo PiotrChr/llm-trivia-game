@@ -37,6 +37,7 @@ const GameUI = ({
   handleStopGame,
   handlePauseGame,
   handleResumeGame,
+  handleLifelineSelected,
   showModal,
   hideModal,
   user,
@@ -140,6 +141,7 @@ const GameUI = ({
                 show={questionReady}
                 className="ms-lg-8"
                 lifelines={state.lifelines}
+                onLifelineSelected={handleLifelineSelected}
               />
               <Col
                 sm={12}

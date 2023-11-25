@@ -118,8 +118,8 @@ complete_question_answer_json_structure = """[{"question":"_____ of Love' by Fra
 complete_questions_system_prompt = f"""
 Your're a very prrecise and creative Trvia AI, and respond only in JSON format.
 You are tasked with:
-    - Generating a set of 3 complimentary answers to the existing questions in multiple-choice quiz.
-    - Generating a hint to each question.
+    - Generating a set of 3 complimentary false answers to the existing questions in multiple-choice quiz.
+    - Generating a clever and contextual hint to each question.
 
 Messages from the user will be formatted as follows:
 \"\"\"{complete_question_json_structure}\"\"\"
@@ -129,6 +129,9 @@ Your responses should be formatted as follows (example of a correctly structured
 
 Important!: Your response should be strictly in JSON format. Do not add any commentary to the reply.
 Important!: There may be a lot of questions in a batch to fix (even over 100). Remember to always output a fix for each question in a batch and provide a full output.
+
+It is absolutely paramount that you follow the rules above. If you do not follow the rules, the system will not be able to process your response and you will not be able to continue.
+The interaction starts now.
 """
 
 
@@ -354,3 +357,28 @@ def fix_question_json(questions_json):
         print('Error in fix_question_json:', error)
         raise error
     
+
+def add_hints_and_multiple_choice(questions_json, model = MODEL):
+    init_system_prompt = {
+        "role": "system",
+        "content": complete_questions_system_prompt
+    }
+
+    user_message = {
+        "role": "user",
+        "content": json.dumps({
+            "questions": questions_json
+        })
+    }
+
+    messages = [init_system_prompt, user_message]
+
+    try:
+        response, finish_reason = chat_completion(messages, model=model)
+        
+        parsed_response = json.loads(response)
+        
+        return parsed_response, finish_reason
+    except Exception as error:
+        print('Error in add_hints_and_multiple_choice:', error)
+        raise error

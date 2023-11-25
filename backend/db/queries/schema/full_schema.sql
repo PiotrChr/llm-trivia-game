@@ -281,3 +281,6 @@ CREATE TABLE category_submission (
     player_id INTEGER NOT NULL,
     name TEXT NOT NULL,
 );
+
+
+-- SELECT (SELECT gl.count FROM game_lifelines as gl where game_id=xxx and lifeline_id=1) - (SELECT count(pl.id) FROM player_lifelines as pl JOIN game_lifelines as gl ON pl.lifeline_id = gl.lifeline_id WHERE pl.player_id = ? AND pl.game_id = ? AND pl.lifeline_id = ?)

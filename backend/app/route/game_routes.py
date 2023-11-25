@@ -46,7 +46,7 @@ def create_game():
 
     if all_categories is True:
         print('Getting random category')
-        cat_id = TriviaRepository.get_random_category()
+        cat_id = TriviaRepository.get_random_category()['id']
     else:
         if not isinstance(current_category, str):
             cat_id = current_category

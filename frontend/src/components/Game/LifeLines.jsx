@@ -23,12 +23,18 @@ const matchIcon = (name) => {
   }
 };
 
-const Lifelines = ({ show, lifelines, className, style }) => {
+const Lifelines = ({
+  show,
+  lifelines,
+  className,
+  style,
+  onLifelineSelected
+}) => {
   if (!show) {
     return null;
   }
   const handleLifeline = (name) => {
-    console.log(name);
+    onLifelineSelected(name);
   };
 
   return (
@@ -59,6 +65,12 @@ const Lifelines = ({ show, lifelines, className, style }) => {
       })}
     </div>
   );
+};
+
+Lifelines.defaultProps = {
+  lifelines: [],
+  show: false,
+  onLifelineSelected: () => {}
 };
 
 export default Lifelines;

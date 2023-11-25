@@ -16,6 +16,7 @@ import { useFetchGameData } from '../services/hooks/game/useFetchGameData';
 import { useGameSocket } from '../services/hooks/game/useGameSocket';
 import { gameReducer, initialState } from '../state/gameReducer';
 import { getRandomBackground } from '../utils';
+import { useLifeline } from '../services/api';
 
 const GamePage = () => {
   const { user } = useAuth();
@@ -66,6 +67,23 @@ const GamePage = () => {
     state.pause
   );
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
+
+  const handleLifelineSelected = useCallback(
+    async (lifeline) => {
+      if (!socket) return;
+      if (state.question?.id === null) return;
+
+      const { data } = await useLifeline(gameId, state.question.id, lifeline);
+      if (data) {
+        socket.emit('lifeline', {
+          game_id: gameId,
+          player: user,
+          lifeline: lifeline
+        });
+      }
+    },
+    [socket, gameId, user, state.question]
+  );
 
   const handleCategoryChange = useCallback(
     (newValue, actionMeta) => {
@@ -261,6 +279,7 @@ const GamePage = () => {
       handleResumeGame={handleResumeGame}
       handleAnswerClicked={handleAnswerClicked}
       handleNextQuestionClick={handleNextQuestionClick}
+      handleLifelineSelected={handleLifelineSelected}
       showModal={showModal}
       hideModal={hideModal}
       isLoading={isLoading}

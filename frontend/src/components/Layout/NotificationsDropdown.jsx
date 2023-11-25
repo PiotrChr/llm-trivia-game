@@ -57,7 +57,7 @@ const NotificationDropdown = ({ user }) => {
             : 'outline-primary'
         }
         id="notifications-dropdown-btn"
-        className="btn-sm btn-round btn-icon-only mb-0 me-2 mt-0 mt-lg-1"
+        className="btn-sm btn-round btn-icon-only mb-0 me-2 mt-0"
       >
         <i className="bi-bell-fill"></i>
       </Dropdown.Toggle>

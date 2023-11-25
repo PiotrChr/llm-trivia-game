@@ -112,6 +112,7 @@ def process_questions_in_batches(input_file, output_file, failed_batch_file, con
 
             batch_start_time = time.time()
             updated_batch, batch_failed_questions, content_filter_triggered = process_batch_with_retry(batch)
+            time.sleep(1)
 
             if updated_batch is not None:
                 updated_questions.extend(updated_batch)

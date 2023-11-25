@@ -6,8 +6,8 @@ def remove_tables():
     c = conn.cursor()
 
     c.execute('DROP TABLE IF EXISTS player_answers')
-    c.execute('DROP TABLE IF EXISTS answers')
-    c.execute('DROP TABLE IF EXISTS questions')
+    # c.execute('DROP TABLE IF EXISTS answers')
+    # c.execute('DROP TABLE IF EXISTS questions')
     c.execute('DROP TABLE IF EXISTS language')
     c.execute('DROP TABLE IF EXISTS category')
     c.execute('DROP TABLE IF EXISTS players')
