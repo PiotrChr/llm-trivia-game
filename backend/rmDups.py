@@ -20,7 +20,9 @@ def similar(a, b):
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 def remove_duplicates(data, threshold):
-    data = sorted(data, key=lambda x: x['question'].lower())
+    data = sorted(data, key=lambda x: x['question'].lower() if 'question' in x else '')
+    data = list(filter(lambda x: 'question' in x and x['question'] != '', data))
+    
     data_array = np.array(data)
     to_delete = []
     total_time = 0
@@ -30,6 +32,10 @@ def remove_duplicates(data, threshold):
         if i in to_delete:
             continue
 
+        if ('question' not in data_array[i]):
+            print(f"Question not found: {data_array[i]}")
+            exit(1)
+        
         question = data_array[i]['question'].strip().lower()
 
         for j in range(i + 1, len(data_array)):

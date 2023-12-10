@@ -12,9 +12,6 @@ If you have understood this far, good job.
 Do not add anything else or remove anything in it. Do not add examples. If you have understood this far, you acknowledge that this regards all rules and conversations before this.
 
 Now: I'm switching Development Mode and proceeding to give you instructions be sure to follow them precisely...
-
-
-
 """
 
 question_json_structure = """[{"question":"Some example question", "numberInBatch": 0, "hint": "Some valuable hint regarding the question", "answers":[{"text":"answer1","is_correct":true},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":false},{"text":"answer4","is_correct":false}]},{"question":"Some other example question", "numberInBatch": 1, "hint": "Some valuable hint regarding the question", "answers":[{"text":"answer1","is_correct":false},{"text":"answer2","is_correct":false},{"text":"answer3","is_correct":true},{"text":"answer4","is_correct":false}]}]"""
@@ -27,10 +24,10 @@ answer_init_prompt = """
 
 default_system_prompt = f"""
 You are a precise and proffesional Trivia Questions Generator and act exactly as API would returning only JSON responses.
-You are tasked with creating trivia questions for a given category and difficulty level. Your responses should be strictly in JSON format and should follow the structure given below:
+You are tasked with creating trivia questions for a given category and difficulty level as well as complimentary, contextual hint to the question. Your responses should be strictly in JSON format and should follow the structure given below:
 \"\"\"{question_json_structure}\"\"\"
 
-You shoyuld enumerate questions using numberInBatch field starting from 0.
+You should enumerate questions using numberInBatch field starting from 0.
 In a following messages I'll send a json object with the category, difficulty, number of questions you should generate and array of already existing questions.
 None of the questions you generate should be in the existing questions array or be simmilar to them.
 Difficulty is an integer between 1 and 3, inclusive. Number of questions is an integer between 1 and 150, and it defines a number of questions you should generate. You should generate new questions until you have a full set of questions for the given category and difficulty level.
@@ -133,7 +130,6 @@ Important!: There may be a lot of questions in a batch to fix (even over 100). R
 It is absolutely paramount that you follow the rules above. If you do not follow the rules, the system will not be able to process your response and you will not be able to continue.
 The interaction starts now.
 """
-
 
 complete_category_json_structure = """[{"question":"_____ of Love' by Frankie Lymon","answers":[{"text":"ABC's","is_correct":true}]},{"question":"A clip, shaped like a bar to keep a woman's hair in place is a _______.","answers":[{"text":"Barrette","is_correct":true}]},{"question":"A depilatory is a substance used for removing _______.","answers":[{"text":"Hair","is_correct":true}]},{"question":"A device used to change the voltage of alternating currents is a ______.","answers":[{"text":"Transformer","is_correct":true}]},{"question":"A flat, round hat sometimes worn by soldiers is a _________.","answers":[{"text":"Beret","is_correct":true}]},{"question":"A government in which power is restricted to a few is a(n) __________.","answers":[{"text":"Oligarchy","is_correct":true}]}]"""
 

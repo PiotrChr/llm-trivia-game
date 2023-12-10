@@ -1,3 +1,5 @@
+import { produce } from 'immer';
+
 const initialState = {
   category: {
     id: 0,
@@ -13,7 +15,13 @@ const initialState = {
   answerMissed: false,
   questionReady: false,
   gameMode: null,
-  lifelines: [],
+  lifelines: [
+    {
+      count: 1,
+      id: 1,
+      name: 'fiftyFifty'
+    }
+  ],
   languages: [],
   pause: false,
   language: {
@@ -36,269 +44,251 @@ const initialState = {
   messages: []
 };
 
-const gameReducer = (state = initialState, action) => {
+const gameReducer = produce((draft, action) => {
   switch (action.type) {
     case 'SET_CATEGORY':
-      return { ...state, category: action.payload };
+      draft.category = action.payload;
+      break;
 
     case 'SET_DIFFICULTY':
-      return { ...state, difficulty: action.payload };
+      draft.difficulty = action.payload;
+      break;
 
     case 'SET_QUESTION':
-      return { ...state, question: action.payload };
+      draft.question = action.payload;
+      break;
 
-    case 'ADD_PLAYER':
-      if (
-        state.players.some((player) => player.id === action.payload.player.id)
-      ) {
-        state = {
-          ...state,
-          players: state.players.map((player) => {
-            if (player.id === action.payload.player.id) {
-              return {
-                ...player,
-                points: action.payload.player_points || 0,
-                ready: false,
-                answer: null,
-                miss: false
-              };
-            }
-            return player;
-          })
-        };
-      } else {
-        state = {
-          ...state,
-          players: [
-            ...state.players,
-            {
-              id: action.payload.player.id,
-              name: action.payload.player.name,
-              points: action.payload.player_points || 0,
-              ready: false,
-              answer: null,
-              miss: false
-            }
-          ]
-        };
+    case 'ADD_PLAYER': {
+      const playerExists = draft.players.some(
+        (player) => player.id === action.payload.player.id
+      );
+      if (!playerExists) {
+        draft.players.push({
+          ...action.payload.player,
+          points: action.payload.player_points || 0,
+          ready: false,
+          answer: null,
+          miss: false
+        });
       }
 
-      state = {
-        ...state,
-        allPresent: state.requiredPlayers.every((player) =>
-          state.players.some((p) => p.id === player)
-        )
-      };
-
-      return state;
+      draft.allPresent = draft.players.length === draft.requiredPlayers.length;
+      break;
+    }
 
     case 'REMOVE_PLAYER':
-      state = {
-        ...state,
-        players: state.players
-          .filter((player) => player.id !== action.payload.id)
-          .map((player) => {
-            return { ...player, answer: null };
-          })
-      };
+      draft.players = draft.players.filter(
+        (player) => player.id !== action.payload.id
+      );
 
-      state = {
-        ...state,
-        allPresent: state.requiredPlayers.every((player) =>
-          state.players.some((p) => p.id === player)
-        ),
-        allReady: false,
-        allAnswered: false,
-        questionReady: false,
-        gameStarted: false,
-        timeElapsed: 0,
-        selectedAnswerId: null
-      };
-
-      return state;
+      draft.allPresent = false;
+      break;
 
     case 'SET_REQUIRED_PLAYERS':
-      return { ...state, requiredPlayers: action.payload };
+      draft.requiredPlayers = action.payload;
+      break;
 
     case 'ADD_REQUIRED_PLAYER':
-      if (!state.requiredPlayers.includes(action.payload)) {
-        return {
-          ...state,
-          requiredPlayers: [...state.requiredPlayers, action.payload]
-        };
+      if (!draft.requiredPlayers.includes(action.payload)) {
+        draft.requiredPlayers.push(action.payload);
       }
-      return state;
+      break;
 
     case 'SET_PAUSE':
-      return { ...state, pause: action.payload };
+      draft.pause = action.payload;
+      break;
 
     case 'SET_AUTO_START':
-      return { ...state, autoStart: action.payload };
+      draft.autoStart = action.payload;
+      break;
 
     case 'SET_ALL_READY':
-      return { ...state, allReady: action.payload };
+      draft.allReady = action.payload;
+      break;
 
     case 'SET_ALL_ANSWERED':
-      return { ...state, allAnswered: action.payload };
+      draft.allAnswered = action.payload;
+      break;
 
     case 'SET_QUESTION_READY':
-      return { ...state, questionReady: true };
+      draft.questionReady = true;
+      break;
 
     case 'SET_LANGUAGES':
-      return { ...state, languages: action.payload };
+      draft.languages = action.payload;
+      break;
 
     case 'SET_GAME_MODE':
-      return { ...state, gameMode: action.payload };
+      draft.gameMode = action.payload;
+      break;
 
     case 'SET_LANGUAGE':
-      return {
-        ...state,
-        language: action.payload
-      };
+      draft.language = action.payload;
+      break;
+
+    case 'REMOVE_N_WRONG_QUESTION_ANSWERS': {
+      const correctAnswer = draft.answers.find(
+        (answer) => answer.is_correct === 1
+      );
+      const wrongAnswers = draft.answers.filter(
+        (answer) => answer.is_correct === 0
+      );
+
+      // Randomly pick 'n' wrong answers
+      let newAnswers = [];
+      for (let i = 0; i < Math.min(action.payload, wrongAnswers.length); i++) {
+        let randomIndex = Math.floor(Math.random() * wrongAnswers.length);
+        wrongAnswers.splice(randomIndex, 1);
+      }
+
+      newAnswers.push(correctAnswer);
+      newAnswers.push(...wrongAnswers);
+
+      newAnswers = newAnswers.sort(() => Math.random() - 0.5);
+
+      draft.answers = newAnswers;
+      break;
+    }
 
     case 'SET_PLAYER_READY':
-      state = {
-        ...state,
-        players: state.players.map((player) => {
-          if (player.id === action.payload) {
-            return { ...player, ready: true };
-          }
-          return player;
-        })
-      };
-
-      return {
-        ...state,
-        allReady: state.players.every((player) => player.ready)
-      };
+      draft.players.forEach((player) => {
+        if (player.id === action.payload) {
+          player.ready = true;
+        }
+      });
+      draft.allReady = draft.players.every((player) => player.ready);
+      break;
 
     case 'SET_PLAYER_ANSWER':
-      state = {
-        ...state,
-        players: state.players.map((player) => {
-          if (player.id === action.payload.player.id) {
-            return { ...player, answer: action.payload.answer_id };
-          }
-          return player;
-        })
-      };
-
-      return {
-        ...state,
-        allAnswered: state.players.every(
-          (player) => player.answer || player.miss
-        )
-      };
+      draft.players.forEach((player) => {
+        if (player.id === action.payload.player.id) {
+          player.answer = action.payload.answer_id;
+        }
+      });
+      draft.allAnswered = draft.players.every(
+        (player) => player.answer || player.miss
+      );
+      break;
 
     case 'SET_PLAYER_SCORE':
-      return {
-        ...state,
-        players: state.players.map((player) => {
-          if (action.payload.some((winner) => winner.id === player.id)) {
-            return { ...player, points: player.points + 1 };
-          }
-          return player;
-        })
-      };
+      action.payload.forEach((winner) => {
+        const player = draft.players.find((p) => p.id === winner.id);
+        if (player) {
+          player.points += 1;
+        }
+      });
+      break;
 
     case 'SET_IS_TIMED':
-      return { ...state, isTimed: action.payload };
+      draft.isTimed = action.payload;
+      break;
 
     case 'SET_TIME_ELAPSED':
-      return { ...state, timeElapsed: action.payload };
+      draft.timeElapsed = action.payload;
+      break;
+
     case 'SET_LIFELINES':
-      return { ...state, lifelines: action.payload };
+      draft.lifelines = action.payload;
+      break;
+
+    case 'USE_LIFELINE':
+      draft.lifelines = draft.lifelines.map((lifeline) => {
+        if (lifeline.name === action.payload) {
+          lifeline.count -= 1;
+        }
+        return lifeline;
+      });
+      break;
 
     case 'SET_TIME_LIMIT':
-      return { ...state, timeLimit: action.payload };
+      draft.timeLimit = action.payload;
+      break;
 
     case 'SET_TIMER':
-      return { ...state, timer: action.payload };
+      draft.timer = action.payload;
+      break;
 
     case 'DECREMENT_TIMER':
-      return { ...state, timer: state.timer - 1 };
+      draft.timer -= 1;
+      break;
 
     case 'SET_IS_HOST':
-      return { ...state, isHost: action.payload };
+      draft.isHost = action.payload;
+      break;
 
     case 'SET_DRAWING':
-      return { ...state, drawing: action.payload };
+      draft.drawing = action.payload;
+      break;
 
     case 'SET_GAME':
-      return { ...state, game: action.payload };
+      draft.game = action.payload;
+      break;
 
     case 'START_GAME':
-      return { ...state, gameStarted: true };
+      draft.gameStarted = true;
+      break;
 
     case 'STOP_GAME':
-      return { ...state, gameStarted: false };
+      draft.gameStarted = false;
+      break;
 
     case 'SET_GAME_OVER':
-      return { ...state, gameOver: true };
+      draft.gameOver = true;
+      break;
 
     case 'SET_COUNTDOWN':
-      return {
-        ...state,
-        countdown: {
-          remaining_time: action.payload.remaining_time,
-          total_time: action.payload.total_time
-        }
-      };
+      draft.countdown = action.payload;
+      break;
 
     case 'SET_ANSWERS':
-      return { ...state, answers: action.payload };
+      draft.answers = action.payload;
+      break;
 
     case 'SELECT_ANSWER':
-      return { ...state, selectedAnswerId: action.payload };
+      draft.selectedAnswerId = action.payload;
+      break;
 
     case 'MISS_ANSWER':
-      state = {
-        ...state,
-        selectedAnswerId: 'miss',
-        players: state.players.map((player) => {
-          if (player.id === action.payload) {
-            return { ...player, answer: null, miss: true };
-          }
-          return player;
-        })
-      };
-
-      return {
-        ...state,
-        allAnswered: state.players.every(
-          (player) => player.answer || player.miss
-        )
-      };
+      draft.selectedAnswerId = 'miss';
+      draft.players.forEach((player) => {
+        if (player.id === action.payload) {
+          player.answer = null;
+          player.miss = true;
+        }
+      });
+      draft.allAnswered = draft.players.every(
+        (player) => player.answer || player.miss
+      );
+      break;
 
     case 'SET_CURRENT_BACKGROUND':
-      return { ...state, currentBackground: action.payload };
+      draft.currentBackground = action.payload;
+      break;
 
     case 'ADD_MESSAGE':
-      if (state.messages.length < 10) {
-        return { ...state, messages: [...state.messages, action.payload] };
+      if (draft.messages.length < 10) {
+        draft.messages.push(action.payload);
+      } else {
+        draft.messages = [...draft.messages.slice(1), action.payload];
       }
-      return {
-        ...state,
-        messages: [...state.messages.slice(1), action.payload]
-      };
+      break;
 
     case 'RESET_ROUND':
-      return {
-        ...state,
-        allAnswered: false,
-        questionReady: false,
-        timeElapsed: 0,
-        answers: [],
-        timer: null,
-        selectedAnswerId: null,
-        players: state.players.map((player) => {
-          return { ...player, answer: null, miss: false };
-        })
-      };
+      draft.allAnswered = false;
+      draft.questionReady = false;
+      draft.timeElapsed = 0;
+      draft.answers = [];
+      draft.timer = null;
+      draft.selectedAnswerId = null;
+      draft.players.forEach((player) => {
+        player.answer = null;
+        player.miss = false;
+      });
+      break;
 
     default:
-      return state;
+      break;
   }
-};
+}, initialState);
 
-export { initialState, gameReducer };
+export { gameReducer, initialState };

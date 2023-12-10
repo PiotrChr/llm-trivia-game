@@ -18,7 +18,7 @@ import { gameReducer, initialState } from '../state/gameReducer';
 import { getRandomBackground } from '../utils';
 import { useLifeline } from '../services/api';
 
-const GamePage = () => {
+const GamePage = (props) => {
   const { user } = useAuth();
   const gameId = useParams().gameId;
   const { showModal, hideModal } = useModal();
@@ -66,6 +66,8 @@ const GamePage = () => {
     state.selectedAnswerId,
     state.pause
   );
+
+  console.log('rerender', state);
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
 
   const handleLifelineSelected = useCallback(
@@ -73,14 +75,31 @@ const GamePage = () => {
       if (!socket) return;
       if (state.question?.id === null) return;
 
-      const { data } = await useLifeline(gameId, state.question.id, lifeline);
-      if (data) {
-        socket.emit('lifeline', {
-          game_id: gameId,
-          player: user,
-          lifeline: lifeline
+      const response = await useLifeline(gameId, state.question.id, lifeline);
+      if (response.status !== 200) {
+        // TODO: Handle error
+        return;
+      }
+
+      socket.emit('lifeline_selected', {
+        game_id: gameId,
+        player: user,
+        lifeline: lifeline
+      });
+
+      if (lifeline === 'fiftyFifty') {
+        dispatch({
+          type: 'REMOVE_N_WRONG_QUESTION_ANSWERS',
+          payload: 2
+        });
+      } else if (lifeline === 'eliminateOne') {
+        dispatch({
+          type: 'REMOVE_N_WRONG_QUESTION_ANSWERS',
+          payload: 1
         });
       }
+
+      dispatch({ type: 'USE_LIFELINE', payload: lifeline });
     },
     [socket, gameId, user, state.question]
   );

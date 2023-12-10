@@ -626,7 +626,7 @@ class TriviaRepository:
                     FROM player_answers
                     WHERE games.id = player_answers.game_id
                 ) as questions_answered,
-                json_group_array(json_object('player_id', players.id, 'name', players.name)) as players,
+                json_group_array(DISTINCT json_object('player_id', players.id, 'name', players.name)) as players,
                 json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
                 json_object('id', category.id, 'name', category.name) as current_category,
                 json_object('id', game_modes.id, 'name', game_modes.name) as mode,
@@ -640,6 +640,8 @@ class TriviaRepository:
             LEFT JOIN game_lifelines ON games.id = game_lifelines.game_id
             LEFT JOIN lifeline_types ON game_lifelines.lifeline_id = lifeline_types.id
             WHERE games.id = ?
+            GROUP BY games.id;
+
         """
         params = (game_id,)
 

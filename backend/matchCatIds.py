@@ -96,6 +96,7 @@ def process_questions_in_batches(input_file, output_file, failed_batch_file, con
         
         processed_questions = read_output_file(output_file)
         processed_ids = {q['question'] for q in processed_questions}
+        
         questions_to_process = [q for q in questions if q['question'] not in processed_ids and q['question'] not in failed_ids and q['question'] not in content_filtered_ids]
 
         if not questions_to_process:

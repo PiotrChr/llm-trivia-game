@@ -167,9 +167,8 @@ def register_handlers(socketio):
                 data['language']
             )
         except Exception as e:
-            print(e)
             emit('error', {"msg": "No questions found", "context": "next"}, room=room, broadcast=True)
-            return
+            raise e
 
         print('done drawing')
         emit('drawn', {"game_id": data['game_id']}, room=room, broadcast=True)
