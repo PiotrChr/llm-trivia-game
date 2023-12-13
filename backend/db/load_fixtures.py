@@ -20,13 +20,13 @@ def create_tables():
     run_sql_script('backend/db/queries/fixtures/players.sql')
     run_sql_script('backend/db/queries/fixtures/report_types.sql')
     run_sql_script('backend/db/queries/fixtures/questions.sql')
-    # run_sql_script('backend/db/queries/fixtures/questions2.sql')
     run_sql_script('backend/db/queries/fixtures/answers.sql')
-    # run_sql_script('backend/db/queries/fixtures/answers2.sql')
     run_sql_script('backend/db/queries/fixtures/lifeline_types.sql')
     run_sql_script('backend/db/queries/fixtures/notification_types.sql')
     run_sql_script('backend/db/queries/fixtures/game_modes.sql')
     run_sql_script('backend/db/queries/fixtures/rank_types.sql')
+    run_sql_script('backend/db/queries/fixtures/tiers.sql')
+    run_sql_script('backend/db/queries/fixtures/badges.sql')
 
 if __name__ == "__main__":
     create_tables()
