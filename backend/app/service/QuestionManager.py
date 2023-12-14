@@ -40,6 +40,9 @@ class QuestionManager:
             print(f'Generating {num_questions} new questions for {category_name}...')
             try:
                 questions = QuestionManager.generate_new_batch(category_name, difficulty, existing_questions, num_questions)
+
+                print(f'Adding { len(questions) } new questions for {category_name} to the database')
+                print('questions:', questions)
                 added_questions = TriviaRepository.add_questions(questions, cat_id, difficulty)
 
                 for question in added_questions:

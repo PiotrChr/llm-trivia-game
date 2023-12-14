@@ -1,23 +1,24 @@
 import React, {
-  useReducer,
-  useState,
   useCallback,
-  useMemo,
   useEffect,
-  useRef
+  useMemo,
+  useReducer,
+  useRef,
+  useState
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../routing/AuthProvider';
+import GameUI from '../components/Game/GameUI';
 import { useAlert } from '../components/shared/Alert/AlertContext';
 import { useModal } from '../components/shared/Modal/ModalContext';
-import { initialState, gameReducer } from '../state/gameReducer';
-import { useGameSocket } from '../services/hooks/game/useGameSocket';
+import { useAuth } from '../routing/AuthProvider';
 import { useFetchGameData } from '../services/hooks/game/useFetchGameData';
-import GameUI from '../components/Game/GameUI';
-import { useTranslation } from 'react-i18next';
+import { useGameSocket } from '../services/hooks/game/useGameSocket';
+import { gameReducer, initialState } from '../state/gameReducer';
 import { getRandomBackground } from '../utils';
+import { useLifeline } from '../services/api';
 
-const GamePage = () => {
+const GamePage = (props) => {
   const { user } = useAuth();
   const gameId = useParams().gameId;
   const { showModal, hideModal } = useModal();
@@ -65,7 +66,43 @@ const GamePage = () => {
     state.selectedAnswerId,
     state.pause
   );
+
+  console.log('rerender', state);
   const { categories, isLoading } = useFetchGameData(gameId, user, dispatch);
+
+  const handleLifelineSelected = useCallback(
+    async (lifeline) => {
+      if (!socket) return;
+      if (state.question?.id === null) return;
+
+      const response = await useLifeline(gameId, state.question.id, lifeline);
+      if (response.status !== 200) {
+        // TODO: Handle error
+        return;
+      }
+
+      socket.emit('lifeline_selected', {
+        game_id: gameId,
+        player: user,
+        lifeline: lifeline
+      });
+
+      if (lifeline === 'fiftyFifty') {
+        dispatch({
+          type: 'REMOVE_N_WRONG_QUESTION_ANSWERS',
+          payload: 2
+        });
+      } else if (lifeline === 'eliminateOne') {
+        dispatch({
+          type: 'REMOVE_N_WRONG_QUESTION_ANSWERS',
+          payload: 1
+        });
+      }
+
+      dispatch({ type: 'USE_LIFELINE', payload: lifeline });
+    },
+    [socket, gameId, user, state.question]
+  );
 
   const handleCategoryChange = useCallback(
     (newValue, actionMeta) => {
@@ -261,6 +298,7 @@ const GamePage = () => {
       handleResumeGame={handleResumeGame}
       handleAnswerClicked={handleAnswerClicked}
       handleNextQuestionClick={handleNextQuestionClick}
+      handleLifelineSelected={handleLifelineSelected}
       showModal={showModal}
       hideModal={hideModal}
       isLoading={isLoading}

@@ -6,7 +6,8 @@ export const Jumbo = ({
   url,
   maskClasses,
   scrollToContent,
-  className
+  className,
+  scrollToDelay
 }) => {
   useEffect(() => {
     setTimeout(() => {
@@ -16,8 +17,8 @@ export const Jumbo = ({
           behavior: 'smooth'
         });
       }
-    }, 1000);
-  }, []);
+    }, scrollToDelay);
+  }, [scrollToDelay]);
 
   return (
     <div
@@ -44,5 +45,6 @@ export const Jumbo = ({
 Jumbo.defaultProps = {
   url: '',
   maskClasses: '',
-  srollTOContent: false
+  srollToContent: false,
+  scrollToDelay: 500
 };

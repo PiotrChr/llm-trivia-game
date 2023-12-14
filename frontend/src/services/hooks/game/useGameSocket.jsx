@@ -119,7 +119,7 @@ export const useGameSocket = (
     const onPause = () => {
       dispatch({ type: 'SET_PAUSE', payload: true });
 
-      console.log('pausing')
+      console.log('pausing');
 
       clearInterval(intervalRef.current);
     };
@@ -127,7 +127,7 @@ export const useGameSocket = (
     const onResume = () => {
       dispatch({ type: 'SET_PAUSE', payload: false });
 
-      console.log('resuming')
+      console.log('resuming');
 
       resumeTimer();
     };

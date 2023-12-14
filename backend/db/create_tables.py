@@ -37,6 +37,9 @@ def create_tables():
     run_sql_script('backend/db/queries/schema/game_rankings.sql')
     run_sql_script('backend/db/queries/schema/rank_types.sql')
     run_sql_script('backend/db/queries/schema/question_hints.sql')
+    run_sql_script('backend/db/queries/schema/tiers.sql')
+    run_sql_script('backend/db/queries/schema/badges.sql')
+    run_sql_script('backend/db/queries/schema/question_submission.sql')
 
 if __name__ == "__main__":
     create_tables()

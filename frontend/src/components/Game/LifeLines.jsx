@@ -8,25 +8,33 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 
-const Lifelines = ({ show, lifelines, className, style }) => {
+const matchIcon = (name) => {
+  switch (name) {
+    case 'fiftyFifty':
+      return faBalanceScale;
+    case 'eliminateOne':
+      return faTimes;
+    case 'hint':
+      return faLightbulb;
+    case 'askStats':
+      return faChartBar;
+    default:
+      return null;
+  }
+};
+
+const Lifelines = ({
+  show,
+  lifelines,
+  className,
+  style,
+  onLifelineSelected
+}) => {
   if (!show) {
     return null;
   }
-
-  const handle5050 = () => {
-    console.log('5050');
-  };
-
-  const handleRemoveOne = () => {
-    console.log('remove one');
-  };
-
-  const handleHint = () => {
-    console.log('hint');
-  };
-
-  const handleStatsLookup = () => {
-    console.log('stats lookup');
+  const handleLifeline = (name) => {
+    onLifelineSelected(name);
   };
 
   return (
@@ -37,23 +45,32 @@ const Lifelines = ({ show, lifelines, className, style }) => {
       )}
       style={style}
     >
-      <button className="lifeline-btn" onClick={handle5050}>
-        <FontAwesomeIcon icon={faBalanceScale} />
-      </button>
-
-      <button className="lifeline-btn" onClick={handleRemoveOne}>
-        <strong>-1</strong>
-      </button>
-
-      <button className="lifeline-btn" onClick={handleHint}>
-        <FontAwesomeIcon icon={faLightbulb} />
-      </button>
-
-      <button className="lifeline-btn" onClick={handleStatsLookup}>
-        <FontAwesomeIcon icon={faChartBar} />
-      </button>
+      {lifelines.map((lifeline) => {
+        console.log(lifeline);
+        return (
+          <button
+            className={classNames(
+              'lifeline-btn',
+              lifeline.count === 0 ? 'inactive' : ''
+            )}
+            key={lifeline.id}
+            onClick={
+              lifeline.count > 0 ? () => handleLifeline(lifeline.name) : null
+            }
+          >
+            <FontAwesomeIcon icon={matchIcon(lifeline.name)} />
+            <span className="lifeline-amount">{lifeline.count}</span>
+          </button>
+        );
+      })}
     </div>
   );
+};
+
+Lifelines.defaultProps = {
+  lifelines: [],
+  show: false,
+  onLifelineSelected: () => {}
 };
 
 export default Lifelines;

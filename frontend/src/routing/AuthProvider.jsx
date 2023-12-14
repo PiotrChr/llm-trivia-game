@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import jwt_decode from 'jwt-decode';
 import { Route, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -22,10 +22,14 @@ export function AuthProvider({ children }) {
     if (token) {
       setToken(getJWT());
 
-      setUser({
+      const newUser = {
         id: token.sub.id,
         name: token.sub.name
-      });
+      };
+
+      if (JSON.stringify(user) !== JSON.stringify(newUser)) {
+        setUser(newUser);
+      }
     }
 
     setLoading(false);
@@ -35,14 +39,18 @@ export function AuthProvider({ children }) {
     checkAuthenticated();
   }, []);
 
-  const value = {
-    user,
-    setUser,
-    token
-  };
+  const userValue = useMemo(() => user, [user]);
+  const contextValue = useMemo(
+    () => ({
+      user: userValue,
+      setUser,
+      token
+    }),
+    [userValue, token]
+  );
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={contextValue}>
       {!loading && children}
     </AuthContext.Provider>
   );

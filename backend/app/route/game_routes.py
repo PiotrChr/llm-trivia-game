@@ -46,7 +46,7 @@ def create_game():
 
     if all_categories is True:
         print('Getting random category')
-        cat_id = TriviaRepository.get_random_category()
+        cat_id = TriviaRepository.get_random_category()['id']
     else:
         if not isinstance(current_category, str):
             cat_id = current_category
@@ -134,6 +134,10 @@ def player_join():
     if game['password'] != password:
         return jsonify({"msg": "Incorrect password", "game_id": game_id}), 401
     
+    for player in game['players']:
+        if player['id'] == player_id:
+            return jsonify({"msg": "Player is already in game", "player_id": player_id, "game_id": game_id}), 400
+
     print(f'Player {player_id} joining game {game_id}')
     player_joined = TriviaRepository.player_join(player_id, game_id)
 

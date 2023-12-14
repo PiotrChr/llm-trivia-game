@@ -9,8 +9,10 @@ import '../styles/App.scss';
 
 const root = createRoot(document.getElementById('root'));
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
+
+root.render(<App />);

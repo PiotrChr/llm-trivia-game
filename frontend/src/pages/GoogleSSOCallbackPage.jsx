@@ -4,8 +4,6 @@ const GoogleSSOCallbackPage = ({}) => {
   useEffect(() => {
     const handleSSOCallback = async () => {
       const credentials = await window.google.accounts.id.getAuthResponse();
-
-      console.log(credentials);
     };
 
     window.google?.accounts.id.initialize({

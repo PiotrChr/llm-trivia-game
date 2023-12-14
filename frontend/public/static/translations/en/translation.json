@@ -69,7 +69,8 @@
         "username": "Username",
         "login": "Login",
         "max_players": "Player limit",
-        "join_game": "Join Game"
+        "join_game": "Join Game",
+        "warning": "Warning"
     },
     "game_modes": {
         "Classic": {
@@ -186,8 +187,8 @@
         "type_your_message": "Type your message...",
         "pause_game": "Pause Game",
         "resume_game": "Resume Game",
-        "error": {
-            "not_all_player_present": "Not all players are present"
+        "errors": {
+            "not_all_players_present": "Not all players are present"
         }
     },
     "game_list": {
@@ -231,5 +232,12 @@
     },
     "notifications": {
         "mark_all_as_read": "Mark as read"
+    },
+    "report_question": {
+        "too_easy": "Too easy",
+        "too_hard": "Too hard",
+        "incorrect_answer": "Incorrect answer",
+        "wrong_category": "Wrong category",
+        "other": "Other"
     }
 }

@@ -1,5 +1,7 @@
 Important:
 - [!!!] **Test and release playable version**
+- [!!] **Lifelines** Missing db methods, add label with number of remaining, remove intactive
+- [!!] **Core** Create InsertFromJson.py script
 - [ ] **Core** Add "Pause Game"
 - [ ] **Game Handling:** If Host left -> stop/pause game
 - [ ] **Game Handling:** If someone joins to the running game, we have to update requiredPlayers array
@@ -12,6 +14,7 @@ Important:
 - [ ] **Extra:** Privacy Page
 - [ ] **Extra:** Terms of service page
 - [ ] **Core:** Max players
+- [ ] **Game Visuals:** Report question - should be simpler (exclamation mark)
 
 
 Secondary:
