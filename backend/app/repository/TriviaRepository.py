@@ -224,7 +224,10 @@ class TriviaRepository:
     @staticmethod
     def get_categories():
         query = """
-            SELECT * FROM category
+            SELECT category.*, COUNT(questions.id) as question_count
+            FROM category
+            LEFT JOIN questions ON category.id = questions.category
+            GROUP BY category.id
         """
         try:
             Database.get_cursor().execute(query)
@@ -233,6 +236,7 @@ class TriviaRepository:
         except sqlite3.Error as error:
             print(f"Failed to read data from table category: {error}")
             return None
+
 
     @staticmethod
     def get_category_by_name(category):
