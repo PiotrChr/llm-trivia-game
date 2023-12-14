@@ -2,9 +2,19 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+
+const CustomOption = (props) => {
+  const { label, count } = props.data;
+  return (
+    <components.Option {...props}>
+      <span className="me-3">{label}</span>
+      <small>{count}</small>
+    </components.Option>
+  );
+};
 
 export const CategoryStep = ({
   setCategory,
@@ -35,6 +45,7 @@ export const CategoryStep = ({
         <Form.Group controlId="formLanguage">
           <Form.Label>{t('common.category')}</Form.Label>
           <Select
+            components={{ Option: CustomOption }}
             value={category}
             options={categories}
             isDisabled={allSelected}

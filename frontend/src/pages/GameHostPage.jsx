@@ -54,7 +54,8 @@ const GameHostPage = () => {
       setCategories(
         result.data.map((category) => ({
           label: category.name,
-          value: category.id
+          value: category.id,
+          count: category.question_count
         }))
       );
     };
