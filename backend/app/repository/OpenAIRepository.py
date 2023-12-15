@@ -69,7 +69,7 @@ Important! If you do not reply with a valid JSON array, the system will not be a
 """
 
 translation_user_prompt_json_structure = """
-{"language":"en","target_language":"pl","questions":[{"question":"Some example question","id":1,"numberInBatch": 0, "hint": "Some valuable hint regarding the question","answers":[{"id":123,"text":"answer1","is_correct":true},{"id":222,"text":"answer2","is_correct":false},{"id":23,"text":"answer3","is_correct":false},{"id":98,"text":"answer4","is_correct":false}]},{"question":"Some other example question" "numberInBatch": 1, "hint": "Some valuable hint regarding the question",,"id":23,"answers":[{"id":12,"text":"answer1","is_correct":false},{"id":64,"text":"answer2","is_correct":false},{"id":1252,"text":"answer3","is_correct":true},{"id":998,"text":"answer4","is_correct":false}]}]}
+{"language":"en","target_language":"pl","questions":[{"question":"Some example question","id":1,"hint":"Some valuable hint regarding the question","answers":[{"id":123,"text":"answer1","is_correct":true},{"id":222,"text":"answer2","is_correct":false},{"id":23,"text":"answer3","is_correct":false},{"id":98,"text":"answer4","is_correct":false}]},{"question":"Some other example question","hint":"Some valuable hint regarding the question","id":23,"answers":[{"id":12,"text":"answer1","is_correct":false},{"id":64,"text":"answer2","is_correct":false},{"id":1252,"text":"answer3","is_correct":true},{"id":998,"text":"answer4","is_correct":false}]}]}
 """
 
 translated_prompt_json_structure = """
@@ -267,7 +267,7 @@ def verify_question(question_json):
         raise error
     
 
-def translate_questions(questions, taget_language, current_language = 'en'):
+def translate_questions(questions, taget_language, model = MODEL, current_language = 'en'):
     init_system_prompt = {
         "role": "system",
         "content": translation_system_prompt
@@ -283,16 +283,12 @@ def translate_questions(questions, taget_language, current_language = 'en'):
     }
 
     messages = [init_system_prompt, user_message]
-
-    try:
-        response, finish_reason = chat_completion(messages)
-        
-        parsed_response = json.loads(response)
-        
-        return parsed_response
-    except Exception as error:
-        print('Error in verify_question:', error)
-        raise error
+    
+    response, finish_reason = chat_completion(messages)
+    
+    parsed_response = json.loads(response)
+    
+    return parsed_response, finish_reason
     
 def match_category_ids(questions, model = MODEL, master_prompt_override = False):
     content = complete_category_system_prompt

@@ -1,14 +1,22 @@
 import React from 'react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import classNames from 'classnames';
 
-const QuestionTimer = ({ show, timeLimit, elapsed }) => {
+const QuestionTimer = ({ show, timeLimit, elapsed, disabled }) => {
   if (!show) {
     return null;
   }
 
   return (
     <div className="position-absolute d-flex lifelines justify-content-start">
-      <button className="lifeline-btn question-counter p-0" onClick={() => {}}>
+      <button
+        className={classNames(
+          'lifeline-btn question-counter p-0',
+          disabled ? 'inactive' : ''
+        )}
+        onClick={() => {}}
+        disabled={disabled}
+      >
         <CountdownCircleTimer
           colors={['#82d616', '#eace25']}
           colorsTime={[timeLimit, 0]}
@@ -21,7 +29,7 @@ const QuestionTimer = ({ show, timeLimit, elapsed }) => {
           {({ remainingTime }) => (
             <>
               <p className="mb-0" style={{ fontSize: '0.8rem' }}>
-                {remainingTime}
+                {disabled ? '∞' : remainingTime}
               </p>
             </>
           )}

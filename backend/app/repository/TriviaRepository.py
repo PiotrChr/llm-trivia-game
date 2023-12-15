@@ -76,9 +76,52 @@ class TriviaRepository:
             print(f"Failed to read data from table questions: {error}")
             return None
 
-    def get_untraslated_questions(target_language, category=None, limit=100):
-        pass
-        # TODO
+    @staticmethod
+    def get_untranslated_questions(target_language, category=None):
+        language_id_query = "SELECT id FROM language WHERE iso_code = ?"
+        language_id_result = Database.get_cursor().execute(language_id_query, (target_language,)).fetchone()
+        if not language_id_result:
+            print(f"No language found for {target_language}")
+            return []
+        
+        language_id = language_id_result['id']
+        
+        query = """
+            SELECT q.id, q.question_text, 
+                json_group_array(
+                    json_object('id', a.id, 'text', a.answer_text, 'is_correct', a.is_correct)
+                ) as answers,
+                h.hint as hint
+            FROM questions q
+            LEFT JOIN answers a ON q.id = a.question_id
+            LEFT JOIN question_hints h ON q.id = h.question_id
+            WHERE q.id NOT IN (
+                SELECT question_id FROM question_translations WHERE language_id = ?
+            )
+            AND (a.id NOT IN (
+                SELECT answer_id FROM answer_translations WHERE language_id = ?
+            ) OR a.id IS NULL)
+            AND (h.id NOT IN (
+                SELECT hint_id FROM question_hint_translations WHERE language_id = ?
+            ) OR h.id IS NULL)
+        """
+
+        params = [language_id, language_id, language_id]
+
+        if category:
+            query += " AND q.category = ?"
+            params.append(category)
+
+        query += " GROUP BY q.id"
+
+        try:
+            Database.get_cursor().execute(query, params)
+            untranslated_questions = Database.get_cursor().fetchall()
+            return [TriviaRepository.row_to_dict(question) for question in untranslated_questions]
+        except sqlite3.Error as error:
+            print(f"Failed to read data from tables: {error}")
+            return []
+
 
     @staticmethod
     def get_questions():
