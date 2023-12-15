@@ -132,7 +132,8 @@ const GameUI = ({
               style={{ borderBottom: '1px solid #eee' }}
             >
               <QuestionTimer
-                show={questionReady && timeLimit > 0}
+                disabled={!questionReady || !isTimed}
+                show={questionReady}
                 elapsed={timeLimit - state.timer}
                 timeLimit={timeLimit}
                 isPlaying={true}

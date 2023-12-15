@@ -115,6 +115,15 @@ CREATE TABLE answer_translations (
     FOREIGN KEY(language_id) REFERENCES language(id)
 );
 
+CREATE TABLE question_hint_translations (
+    hint_id INTEGER,
+    language_id INTEGER,
+    hint_text TEXT NOT NULL,
+    PRIMARY KEY(hint_id, language_id),
+    FOREIGN KEY(hint_id) REFERENCES question_hints(id),
+    FOREIGN KEY(language_id) REFERENCES language(id)
+);
+
 CREATE TABLE category_translations (
     category_id INTEGER,
     language_id INTEGER,
@@ -282,5 +291,3 @@ CREATE TABLE category_submission (
     name TEXT NOT NULL,
 );
 
-
--- SELECT (SELECT gl.count FROM game_lifelines as gl where game_id=xxx and lifeline_id=1) - (SELECT count(pl.id) FROM player_lifelines as pl JOIN game_lifelines as gl ON pl.lifeline_id = gl.lifeline_id WHERE pl.player_id = ? AND pl.game_id = ? AND pl.lifeline_id = ?)

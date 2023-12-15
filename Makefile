@@ -9,7 +9,7 @@ DEFAULT_LANG:=pl
 LANG:=$(DEFAULT_LANG)
 
 .PHONY: help install_all install_common_deps install_backend install_frontend \
-        recreate_db setup_db clear_db remove_tables load_fixtures \
+        recreate_db setup_db remove_tables load_fixtures \
         build_and_start build_frontend build_frontend_dev start_backend_server \
         start_frontend_server_dev start_frontend_server lint_js format \
         frontend_dev tree build up down logs bash_frontend bash_backend \
@@ -42,9 +42,6 @@ setup_db:
 
 setup_env:
 	python3 scripts/setup_env.py
-
-clear_db:
-	python3 $(BACKEND_DIR)/db/clear_tables.py
 
 remove_tables:
 	python3 $(BACKEND_DIR)/db/remove_tables.py
@@ -149,7 +146,6 @@ help:
 	@echo "  recreate_db             - Remove tables and set up the database again"
 	@echo "  start_gunicorn_backend_live - Start the gunicorn backend for live environment"
 	@echo "  setup_db                - Set up the database"
-	@echo "  clear_db                - Clear the database tables"
 	@echo "  remove_tables           - Remove database tables"
 	@echo "  load_fixtures           - Load fixtures into the database"
 	@echo "  fetch_questions         - Fetch questions"
