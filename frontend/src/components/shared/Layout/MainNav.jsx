@@ -29,8 +29,8 @@ export const MainNav = ({ user }) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="/game/list">
-                <i className="bi-list-ul me-2"></i> {t('navigation.play.list')}
+              <Dropdown.Item href="/game/browse">
+                <i className="bi-list-ul me-2"></i> {t('navigation.play.browse')}
               </Dropdown.Item>
               <Dropdown.Item href="/game/join">
                 <i className="bi-person-fill-add me-2"></i>{' '}

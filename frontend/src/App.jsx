@@ -116,7 +116,7 @@ function App() {
                 }
               />
               <Route
-                path="/game/list"
+                path="/game/browse"
                 element={
                   <PrivateRoute>
                     <GameListPage />

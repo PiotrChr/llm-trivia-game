@@ -131,7 +131,7 @@
             "submit_question": "Submit a Question"
         },
         "play": {
-            "list": "List games",
+            "browse": "Browse games",
             "create": "Create a game",
             "join": "Join a game",
             "play": "Play"
@@ -197,7 +197,7 @@
         }
     },
     "game_list": {
-        "title": "Game List"
+        "title": "Browse games"
     },
     "game_stats": {
         "title": "Game Stats",
