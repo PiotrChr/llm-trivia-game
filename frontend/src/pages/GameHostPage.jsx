@@ -202,7 +202,7 @@ const GameHostPage = () => {
           style={{ minWidth: '50vw', background: 'rgba(255,255,255,0.98)' }}
         >
           <Card.Body>
-            <h2 className="text-center mb-4">{t('common.host_a_game')}</h2>
+            <h2 className="text-center mb-4">{t('common.create_a_game')}</h2>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <StepWizard>
                 <GameModeStep

@@ -4,7 +4,7 @@ import time
 import os
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='../.backend.env')
+load_dotenv(dotenv_path='.backend.env')
 
 from app.repository.OpenAIRepository import match_category_ids
 

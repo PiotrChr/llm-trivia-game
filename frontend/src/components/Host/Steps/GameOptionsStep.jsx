@@ -5,11 +5,13 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
+import { StepControls } from '../StepControls';
 
 export const GameOptionsStep = ({
   setGamePassword,
   gamePassword,
   nextStep,
+  previousStep,
   language,
   setLanguage,
   languages,
@@ -85,14 +87,7 @@ export const GameOptionsStep = ({
             {t('game_host.select_language')}
           </Form.Control.Feedback>
         </Form.Group>
-
-        <Button
-          variant="primary"
-          className="mt-5 btn w-auto ms-auto me-5"
-          onClick={nextStep}
-        >
-          {t('common.next')}
-        </Button>
+        <StepControls nextStep={nextStep} previousStep={previousStep} t={t} />
       </Row>
     </Container>
   );

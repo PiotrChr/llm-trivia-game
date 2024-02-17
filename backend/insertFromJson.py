@@ -6,7 +6,7 @@ from app.repository.TriviaRepository import TriviaRepository
 from collections import defaultdict
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='../.backend.env')
+load_dotenv(dotenv_path='.backend.env')
 
 def load_json_data(file_path):
     with open(file_path, 'r') as file:

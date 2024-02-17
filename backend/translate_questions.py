@@ -3,7 +3,7 @@ import json
 import logging
 
 import dotenv
-dotenv.load_dotenv('../.backend.env')
+dotenv.load_dotenv('.backend.env')
 
 from app.repository.TriviaRepository import TriviaRepository
 from app.repository.OpenAIRepository import translate_questions

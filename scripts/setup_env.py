@@ -22,7 +22,7 @@ google_client_id = prompt_for_data("Enter Google client ID (default xxx): ", "xx
 google_sso_callback_url = prompt_for_data("Enter Google SSO callback URL (default http://localhost:8000/google/callback): ", "http://localhost:8000/google/callback")
 
 # Write frontend .env data
-write_to_env_file(".frontend.env", {
+write_to_env_file("./frontend/.frontend.env", {
     "FRONTEND_PORT": frontend_port,
     "BACKEND_HOST": backend_host,
     "BACKEND_PORT_PUBLIC": backend_public_port,
@@ -44,7 +44,7 @@ aws_backup_bucket_name = prompt_for_data("Enter AWS backup bucket name (default 
 
 
 # Write backend .env data
-write_to_env_file(".backend.env", {
+write_to_env_file("./backend/.backend.env", {
     "LLMTRIVIA_AWS_BUCKET_NAME": aws_backup_bucket_name,
     "PROJECT_DIR": project_dir,
     "LLMTRIVIA_BACKUP_DIR": backup_dir,

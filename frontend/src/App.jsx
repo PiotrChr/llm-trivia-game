@@ -14,6 +14,7 @@ import StatsPage from './pages/StatsPage';
 import ErrorPage from './pages/ErrorPage';
 import LogoutPage from './pages/LogoutPage';
 import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage'
 import LeaderboardPage from './pages/LeaderboardPage';
 import AboutGamePage from './pages/AboutGamePage';
 import AboutAuthorPage from './pages/AboutAuthorPage';
@@ -67,6 +68,14 @@ function App() {
                 }
               />
               <Route
+                path="/settings"
+                element={
+                  <PrivateRoute>
+                    <SettingsPage />
+                  </PrivateRoute>
+                }
+              />
+              <Route
                 path="/notifications"
                 element={
                   <PrivateRoute>
@@ -83,7 +92,7 @@ function App() {
                 }
               />
               <Route
-                path="/game/host"
+                path="/game/create"
                 element={
                   <PrivateRoute>
                     <GameHostPage />

@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, join_room
 from gevent.pywsgi import WSGIServer
 from geventwebsocket.handler import WebSocketHandler
 
-load_dotenv(dotenv_path='../.backend.env')
+load_dotenv(dotenv_path='.backend.env')
 
 from app.route.player_routes import player_routes
 from app.route.game_routes import game_routes

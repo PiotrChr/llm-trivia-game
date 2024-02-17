@@ -1,7 +1,7 @@
 import argparse
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path='../.backend.env')
+load_dotenv(dotenv_path='.backend.env')
 
 from app.service.QuestionManager import QuestionManager
 

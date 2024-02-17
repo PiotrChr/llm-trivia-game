@@ -6,17 +6,12 @@ services:
       context: .
       dockerfile: ./docker/backend.Dockerfile
     image: piotrchrusciel/llmtrivia-backend:latest
-    environment:
-      - BACKEND_PORT=5000
-      - FRONTEND_HOST=nginx-frontend
-      - MODEL=gpt-3.5-turbo
-      - TEMPERATURE=0.9
-      - OPENAI_KEY=secret
-      - SECRET_KEY=secret
-    expose:
-      - "5000"
+    env_file:
+      - ./backend/.backend.env
     networks:
       - llm_network
+    volumes:
+      - ./backend:/app/backend
 
   nginx-backend:
     image: nginx:latest
@@ -33,9 +28,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/frontend.Dockerfile
-      args:
-        - API_HOST=nginx-backend
-        - API_PORT=8080
     image: piotrchrusciel/llmtrivia-frontend:latest
     depends_on:
       - backend
@@ -43,8 +35,8 @@ services:
       - llm_network
     ports:
       - "8001:8001"
-    expose:
-      - "8001"
+    volumes:
+      - ./frontend/public:/usr/share/nginx/html:ro
     
 networks:
   llm_network:

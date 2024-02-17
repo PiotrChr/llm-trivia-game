@@ -12,9 +12,11 @@ COPY ./backend/ ./backend/
 COPY ./Makefile ./
 COPY ./scripts/ ./scripts/
 
-RUN make remove_tables
-RUN make setup_db
-RUN make load_fixtures
+# RUN make remove_tables
+# RUN make setup_db
+# RUN make load_fixtures
+
+COPY ./backend/db.sqlite.init .backend/db/db.sqlite
 
 RUN sqlite3 backend/db/db.sqlite .tables
 
