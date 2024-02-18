@@ -3,12 +3,17 @@ version: '3'
 services:
   backend:
     env_file:
-        - '.backend.env'
+        - './backend/.backend.env'
     volumes:
       - ./backend:/app/backend
+      - ./docker/entrypoint.dev.sh:/app/entrypoint.dev.sh
+    entrypoint: /app/entrypoint.dev.sh
+
+    ports:
+     - "5678:5678" # Debug port
 
   frontend:
     env_file:
-      - '.frontend.env'
+      - './frontend/.frontend.env'
     volumes:
-      - ./frontend:/app/frontend:ro
+      - ./frontend/public:/usr/share/nginx/html:ro

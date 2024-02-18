@@ -16,7 +16,10 @@ COPY ./scripts/ ./scripts/
 # RUN make setup_db
 # RUN make load_fixtures
 
-COPY ./backend/db.sqlite.init .backend/db/db.sqlite
+COPY ./backend/db/db.sqlite.init .backend/db/db.sqlite
+COPY ./docker/entrypoint.dev.sh /app/entrypoint.dev.sh
+COPY ./docker/entrypoint.prod.sh /app/entrypoint.prod.sh
+RUN chmod +x /app/entrypoint.dev.sh /app/entrypoint.prod.sh
 
 RUN sqlite3 backend/db/db.sqlite .tables
 
@@ -34,9 +37,3 @@ COPY --from=builder /app/backend/ ./backend/
 COPY --from=builder /app/scripts/ ./scripts/
 COPY --from=builder /app/Makefile ./
 COPY --from=builder /app/backend/db/db.sqlite ./backend/db/db.sqlite
-
-RUN sqlite3 backend/db/db.sqlite .tables
-
-CMD sh -c "cd backend && gunicorn server:app --bind 0.0.0.0:5000 --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --access-logfile access.log --error-logfile error.log"
-
-EXPOSE 5000

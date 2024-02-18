@@ -20,3 +20,4 @@ services:
       - OPENAI_SECRET=${OPENAI_SECRET}
       - FRONTEND_HOST=${FRONTEND_HOST}
       - SECRET_KEY=${SECRET_KEY}
+    entrypoint: /app/entrypoint.prod.sh

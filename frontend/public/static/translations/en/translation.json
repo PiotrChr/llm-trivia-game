@@ -204,7 +204,7 @@
         "description": "This is the stats page. Game functionality will be added here later."
     },
     "game_host": {
-        "title": "Host a Game",
+        "title": "Create a Game",
         "select_language": "Select Language",
         "select_game_mode": "Select Game Mode",
         "select_category": "Select Category",
@@ -221,6 +221,9 @@
         "errors": {
             "invalid_game_password": "Invalid game password"
         }
+    },
+    "game_welcome": {
+        "title": "Welcome to the Trivia Game"
     },
     "question_submission": {
         "title": "Submit a Question",

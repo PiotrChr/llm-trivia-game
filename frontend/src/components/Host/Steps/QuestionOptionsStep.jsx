@@ -21,7 +21,6 @@ export const QuestionOptionsStep = ({
   const { t } = useTranslation();
 
   const setSelectedLifelineNumber = (lifelineName, count) => {
-    console.log(lifelineName, count);
     setSelectedLifeLines([
       ...selectedLifelines.filter((lifeline) => lifeline.name !== lifelineName),
       { name: lifelineName, count: count }

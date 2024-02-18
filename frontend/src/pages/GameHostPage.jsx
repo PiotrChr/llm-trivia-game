@@ -258,7 +258,8 @@ const GameHostPage = () => {
                     allSelected,
                     gameMode: gameMode ? gameMode.label : '',
                     autoStart,
-                    selectedLifelines
+                    selectedLifelines,
+                    isPublic
                   }}
                 />
               </StepWizard>

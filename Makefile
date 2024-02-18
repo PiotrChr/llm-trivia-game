@@ -112,8 +112,11 @@ stop_service:
 status_service:
 	sudo systemctl status llmtrivia-backend.service
 
-deploy_dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d
+docker_dev:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+docker_dev_build:
+	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 deploy_prod:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
