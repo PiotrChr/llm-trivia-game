@@ -1,14 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
 import {
-  Button,
   Col,
   Container,
   ProgressBar,
   Row,
   Card,
-  Fade
 } from 'react-bootstrap';
-import Select from 'react-select';
 import Countdown from './Countdown';
 import QuestionCard from './QuestionCard';
 import Sidebar from './SideBar';
@@ -18,7 +15,7 @@ import Lifelines from './LifeLines';
 import QuestionTimer from './QuestionTimer';
 import { useTranslation } from 'react-i18next';
 import { GameOverCard } from './GameOverCard';
-import ReportQuestion from './ReportQuestion';
+import { GameControls } from './GameControls';
 
 const GameUI = ({
   state,
@@ -44,45 +41,20 @@ const GameUI = ({
   isLoading,
   gameId
 }) => {
-  const {
-    category,
-    difficulty,
-    question,
-    players,
-    messages,
-    answers,
-    countdown,
-    timeElapsed,
-    isTimed,
-    autoStart,
-    timeLimit,
-    allAnswered,
-    selectedAnswerId,
-    isHost,
-    gameStarted,
-    questionReady,
-    drawing,
-    languages,
-    language,
-    allReady,
-    currentBackground,
-    gameOver
-  } = state;
-
   const backgroundStyle = useMemo(
     () => ({
-      backgroundImage: `url(${currentBackground})`,
+      backgroundImage: `url(${state.currentBackground})`,
       borderRadius: '0px 0px 24px 24px',
       backgroundSize: 'cover',
       backgroundPosition: 'center 10%'
     }),
-    [currentBackground]
+    [state.currentBackground]
   );
 
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (gameOver) {
+    if (state.gameOver) {
       showModal(
         <GameOverCard
           gameId={gameId}
@@ -93,7 +65,7 @@ const GameUI = ({
         t('common.game_over')
       );
     }
-  }, [gameOver, gameId]);
+  }, [state.gameOver, gameId]);
 
   if (isLoading) return <p>{t('common.loading')}</p>;
 
@@ -107,13 +79,13 @@ const GameUI = ({
         <Container>
           <Row className="justify-content-center">
             <Col lg={5} className="text-center mx-auto">
-              <h1 className="text-white mb-2 mt-10">{category.name}</h1>
+              <h1 className="text-white mb-2 mt-10">{state.category.name}</h1>
               <p className="text-lead text-white">
                 <span className="me-3">
-                  <strong>{t('common.difficulty')}:</strong> {difficulty}/3
+                  <strong>{t('common.difficulty')}:</strong> {state.difficulty}/3
                 </span>
                 <span className="me-3">
-                  <strong>{t('common.language')}:</strong> {language.name}
+                  <strong>{t('common.language')}:</strong> {state.language.name}
                 </span>
                 <span className="">
                   <strong>{t('common.game_mode')}: </strong>{' '}
@@ -132,13 +104,14 @@ const GameUI = ({
               style={{ borderBottom: '1px solid #eee' }}
             >
               <QuestionTimer
-                show={questionReady && timeLimit > 0}
-                elapsed={timeLimit - state.timer}
-                timeLimit={timeLimit}
+                disabled={!state.questionReady || !state.isTimed}
+                show={state.questionReady}
+                elapsed={state.timeLimit - state.timer}
+                timeLimit={state.timeLimit}
                 isPlaying={true}
               />
               <Lifelines
-                show={questionReady}
+                show={state.questionReady}
                 className="ms-lg-8"
                 lifelines={state.lifelines}
                 onLifelineSelected={handleLifelineSelected}
@@ -163,18 +136,18 @@ const GameUI = ({
                 </FadeInOut>
 
                 <FadeInOut
-                  show={questionReady}
+                  show={state.questionReady}
                   duration={500}
                   className="position-relative d-flex w-100"
                 >
                   <QuestionCard
-                    question={question}
-                    answers={answers}
+                    question={state.question}
+                    answers={state.answers}
                     handleAnswerClicked={handleAnswerClicked}
-                    selectedAnswerId={selectedAnswerId}
+                    selectedAnswerId={state.selectedAnswerId}
                     player_answers={
-                      allAnswered
-                        ? players
+                      state.allAnswered
+                        ? state.players
                             .map(
                               (player) =>
                                 player.answer && {
@@ -189,7 +162,7 @@ const GameUI = ({
                 </FadeInOut>
                 <FadeInOut
                   show={
-                    !questionReady && (countdown.remaining_time > 0 || drawing)
+                    !state.questionReady && (state.countdown.remaining_time > 0 || state.drawing)
                   }
                   duration={500}
                   className="position-relative align-items-center justify-content-center d-flex"
@@ -201,8 +174,8 @@ const GameUI = ({
                   }}
                 >
                   <Countdown
-                    secondsLeft={countdown.remaining_time}
-                    secondsTotal={drawing ? 1 : countdown.total_time}
+                    secondsLeft={state.countdown.remaining_time}
+                    secondsTotal={state.drawing ? 1 : state.countdown.total_time}
                     title={null}
                     showProgressBar={true}
                   />
@@ -210,125 +183,44 @@ const GameUI = ({
               </Col>
               <Col xs={12} sm={12} lg={4} className="mt-5 mt-lg-0">
                 <Sidebar
-                  players={players}
+                  players={state.players}
                   playerId={user.id}
-                  messages={messages}
+                  messages={state.messages}
                   sendMessage={handleSendMessage}
                 />
-                {isTimed && <ProgressBar now={timeElapsed} max={timeLimit} />}
+                {state.isTimed && <ProgressBar now={state.timeElapsed} max={state.timeLimit} />}
               </Col>
             </Card.Body>
             <Card.Footer>
-              <Row>
-                <Col size={12} className="d-flex flex-column flex-lg-row">
-                  <Button
-                    variant="none"
-                    onClick={handleReady}
-                    className={
-                      'btn-sm btn-round mb-0 me-2 mt-2 mt-lg-0 ' +
-                      (isReady(user)
-                        ? 'disabled btn-success'
-                        : 'btn-outline-success')
-                    }
-                  >
-                    {t('game.ready')}
-                  </Button>
-                  {questionReady && (
-                    <Button
-                      variant="danger"
-                      className="btn-sm btn-round mb-0 me-2 mt-2 mt-lg-0"
-                      onClick={() =>
-                        showModal(
-                          <ReportQuestion
-                            question={question}
-                            onSubmit={hideModal}
-                          />,
-                          t('game.report_question')
-                        )
-                      }
-                    >
-                      {t('game.report_question')}
-                    </Button>
-                  )}
-                  {isHost && !gameStarted && allReady && (
-                    <Button
-                      className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
-                      onClick={handleStartGame}
-                    >
-                      {t('game.start_game')}
-                    </Button>
-                  )}
-                  {gameStarted && isHost && (
-                    <>
-                      {state.paused ? (
-                        <Button
-                          className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
-                          onClick={handleResumeGame}
-                        >
-                          {t('game.resume_game')}
-                        </Button>
-                      ) : (
-                        <Button
-                          className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
-                          onClick={handlePauseGame}
-                        >
-                          {t('game.pause_game')}
-                        </Button>
-                      )}
-
-                      <Button
-                        className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
-                        onClick={handleStopGame}
-                      >
-                        {t('game.stop_game')}
-                      </Button>
-                    </>
-                  )}
-                  {gameStarted && allAnswered && !autoStart && (
-                    <Button
-                      className="btn-sm btn-round mb-0 me-3 mt-2 mt-lg-0"
-                      onClick={handleNextQuestionClick}
-                    >
-                      {t('game.next_question')}
-                    </Button>
-                  )}
-                  {isHost &&
-                    state.gameMode &&
-                    state.gameMode.name === 'Custom' && (
-                      <>
-                        <Select
-                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                          options={categories}
-                          value={{ label: category.name, value: category.id }}
-                          onChange={handleCategoryChange}
-                          onCreateOption={handleCategoryChange}
-                          formatCreateLabel={(inputValue) =>
-                            `Add "${inputValue}"`
-                          }
-                          isSearchable
-                          isClearable
-                        />
-                        <Select
-                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                          options={difficultyOptions}
-                          value={difficultyOptions[difficulty - 1]}
-                          onChange={handleDifficultyChange}
-                        />
-                        <Select
-                          className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                          options={languages}
-                          value={{
-                            label: language.name,
-                            value: language.iso_code
-                          }}
-                          onChange={handleLanguageChange}
-                          isSearchable
-                          defaultValue={{ label: 'English', value: 'en' }}
-                        />
-                      </>
-                    )}
-                </Col>
-              </Row>
+              <GameControls
+                handleReady={handleReady}
+                handleStartGame={handleStartGame}
+                handleResumeGame={handleResumeGame}
+                handlePauseGame={handlePauseGame}
+                handleStopGame={handleStopGame}
+                handleNextQuestionClick={handleNextQuestionClick}
+                handleCategoryChange={handleCategoryChange}
+                handleDifficultyChange={handleDifficultyChange}
+                handleLanguageChange={handleLanguageChange}
+                questionReady={state.questionReady}
+                question={state.question}
+                onReport={hideModal}
+                user={user}
+                isHost={state.isHost}
+                gameStarted={state.gameStarted}
+                allReady={state.allReady}
+                isReady={isReady}
+                allAnswered={state.allAnswered}
+                paused={state.paused}
+                autoStart={state.autoStart}
+                languages={state.languages}
+                language={state.language}
+                gameMode={state.gameMode}
+                categories={categories}
+                category={state.category}
+                difficulty={state.difficulty}
+                difficultyOptions={difficultyOptions}
+              />
             </Card.Footer>
           </Card>
         </Row>

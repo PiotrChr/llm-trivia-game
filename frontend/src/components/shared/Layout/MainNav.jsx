@@ -29,16 +29,16 @@ export const MainNav = ({ user }) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="/game/list">
-                <i className="bi-list-ul me-2"></i> {t('navigation.play.list')}
+              <Dropdown.Item href="/game/browse">
+                <i className="bi-list-ul me-2"></i> {t('navigation.play.browse')}
               </Dropdown.Item>
               <Dropdown.Item href="/game/join">
                 <i className="bi-person-fill-add me-2"></i>{' '}
                 {t('navigation.play.join')}
               </Dropdown.Item>
-              <Dropdown.Item href="/game/host">
+              <Dropdown.Item href="/game/create">
                 <i className="bi-file-plus-fill me-2"></i>{' '}
-                {t('navigation.play.host')}
+                {t('navigation.play.create')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -59,6 +59,10 @@ export const MainNav = ({ user }) => {
               <Dropdown.Item onClick={() => navigate('/friends')}>
                 <i className="bi-people-fill me-2"></i>{' '}
                 {t('navigation.user.friends')}
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/settings')}>
+                <i className="bi-gear-fill me-2"></i>{' '}
+                {t('navigation.user.settings')}
               </Dropdown.Item>
               <Dropdown.Item onClick={() => navigate('/logout')}>
                 <i className="bi-door-closed me-2"></i>{' '}
@@ -104,12 +108,12 @@ export const MainNav = ({ user }) => {
           className="font-weight-bolder ms-lg-0 ms-3 d-flex flex-row align-items-center py-0"
         >
           <img
-            src={'/static/img/logo/logo.png'}
-            className="d-inline-block align-text-top me-3"
+            src={'/static/img/logo/logo_3.png'}
+            className="d-inline-block align-text-top me-3 ms-3"
             alt="logo"
-            height="35"
+            height="30"
           />
-          <span>{t('navigation.main.title')}</span>
+          <span><small>{t('navigation.main.title')}</small></span>
         </Navbar.Brand>
         <GameNav />
         <Navbar.Toggle

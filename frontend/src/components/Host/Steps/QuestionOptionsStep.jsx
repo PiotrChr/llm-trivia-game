@@ -2,8 +2,8 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
+import { StepControls } from '../StepControls';
 
 export const QuestionOptionsStep = ({
   setMaxQuestions,
@@ -15,12 +15,12 @@ export const QuestionOptionsStep = ({
   lifelines,
   setSelectedLifeLines,
   selectedLifelines,
-  nextStep
+  nextStep,
+  previousStep
 }) => {
   const { t } = useTranslation();
 
   const setSelectedLifelineNumber = (lifelineName, count) => {
-    console.log(lifelineName, count);
     setSelectedLifeLines([
       ...selectedLifelines.filter((lifeline) => lifeline.name !== lifelineName),
       { name: lifelineName, count: count }
@@ -116,13 +116,7 @@ export const QuestionOptionsStep = ({
             onChange={(e) => setAutoStart(e.target.checked)}
           />
         </Form.Group>
-        <Button
-          variant="primary"
-          className="mt-5 btn w-auto ms-auto me-5"
-          onClick={nextStep}
-        >
-          {t('common.next')}
-        </Button>
+        <StepControls nextStep={nextStep} previousStep={previousStep} t={t} />
       </Row>
     </Container>
   );

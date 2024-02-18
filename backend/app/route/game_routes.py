@@ -74,10 +74,12 @@ def create_game():
             max_players
         )
     except Exception as e:
+        print('Error inserting game to DB')
         print(e)
-        return jsonify({"msg": "Error creating game"}), 500
+        return jsonify({"msg": "Error creating game", "details": e}), 500
 
     if game_id is None:
+        print('Error inserting game to DB')
         return jsonify({"msg": "Error creating game"}), 500
 
     return jsonify({"msg": "Game created successfully", "id": game_id}), 201

@@ -4,8 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useTranslation } from 'react-i18next';
+import { StepControls } from '../StepControls';
 
-export const FinalStep = ({ startGame, summary }) => {
+export const FinalStep = ({ startGame, summary, previousStep }) => {
   const { t } = useTranslation();
 
   const Summary = ({
@@ -93,13 +94,7 @@ export const FinalStep = ({ startGame, summary }) => {
       </Row>
       <Row>
         <Col size={12}>
-          <Button
-            variant="primary"
-            type="submit"
-            className="mt-5 btn w-auto ms-auto me-5"
-          >
-            {t('game_host.create_game')}
-          </Button>
+          <StepControls previousStep={previousStep} submit={true} t={t}/>
         </Col>
       </Row>
     </Container>

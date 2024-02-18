@@ -7,6 +7,7 @@
         "start": "webpack-dev-server --config ./config/webpack.config.js --open --mode development",
         "build": "webpack --config ./config/webpack.config.js --mode production",
         "build_dev": "webpack --config ./config/webpack.config.js --mode development",
+        "build_dev_watch": "webpack --config ./config/webpack.config.js --mode development --watch",
         "lint": "eslint ./src",
         "format": "prettier --write \"src/**/*.{js,jsx}\""
     },
@@ -71,4 +72,4 @@
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^4.15.0"
     }
-}
+    }

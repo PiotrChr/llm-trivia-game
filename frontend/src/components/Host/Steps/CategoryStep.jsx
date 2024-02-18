@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Select, { components } from 'react-select';
 import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { StepControls } from '../StepControls';
 
 const CustomOption = (props) => {
   const { label, count } = props.data;
@@ -22,7 +23,8 @@ export const CategoryStep = ({
   allSelected,
   category,
   categories,
-  nextStep
+  nextStep,
+  previousStep
 }) => {
   const { t } = useTranslation();
 
@@ -56,14 +58,7 @@ export const CategoryStep = ({
             {t('game_host.select_category')}
           </Form.Control.Feedback>
         </Form.Group>
-
-        <Button
-          variant="primary"
-          className="mt-5 btn w-auto ms-auto me-5"
-          onClick={nextStep}
-        >
-          {t('common.next')}
-        </Button>
+      <StepControls nextStep={nextStep} previousStep={previousStep} t={t}/>
       </Row>
     </Container>
   );

@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
             return JSON.stringify(process.env[key]);
         }
 
-        const dotenv = require('dotenv').config({ path: '../.frontend.env' });
+        const dotenv = require('dotenv').config({ path: '.frontend.env' });
 
         if (!dotenv.parsed || typeof dotenv.parsed !== 'object' || !dotenv.parsed[key]) {
             console.warn(`Environment variable ${key} is not set or .frontend.env file is missing.`);

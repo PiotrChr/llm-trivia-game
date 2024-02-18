@@ -29,9 +29,17 @@
     }
 }
 
+#game-controls {
+    button {
+        padding: 0px 20px;
+    }
+
+    button.btn-icon i {
+        font-size: 1.5rem;
+    }
+}
 
 #report-question {
-
     .btn-close {
         background-color: black;
         font-size: 10px;
@@ -119,10 +127,9 @@
 
 #notifications-dropdown {
     button {
-        width: 2.1rem;
-        height: 2.1rem;
-        padding: 0.5rem 0.5rem;
-
+        width: 2.05rem;
+        height: 2.05rem;
+        
         @media screen and (max-width: 780px) {
             width: 1.5rem;
             height: 1.5rem;
@@ -271,6 +278,16 @@
 }
 
 #main-navbar {
+    border-radius: 21px;
+
+    .btn:not(#notifications-dropdown-btn) {
+        padding: 7px 25px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+    }
+
     .dropdown-menu {
         z-index: 4;
         position: absolute !important;

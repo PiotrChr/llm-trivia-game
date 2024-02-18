@@ -3,14 +3,15 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Select from 'react-select';
-import { Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { StepControls } from '../StepControls';
 
 export const LanguageStep = ({
   setLanguage,
   language,
   languages,
-  nextStep
+  nextStep,
+  previousStep
 }) => {
   const { t } = useTranslation();
 
@@ -36,13 +37,7 @@ export const LanguageStep = ({
             {t('game_host.select_language')}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button
-          variant="primary"
-          className="mt-5 btn w-auto ms-auto me-5"
-          onClick={nextStep}
-        >
-          {t('common.next')}
-        </Button>
+        <StepControls nextStep={nextStep} previousStep={previousStep} t={t} />
       </Row>
     </Container>
   );
