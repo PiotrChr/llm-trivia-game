@@ -38,10 +38,11 @@ const GamePage = (props) => {
 
   const handleNextQuestionClick = useCallback(() => {
     if (!socket) return;
+
     socket.emit('next', {
       game_id: gameId,
       player: user,
-      category: state.category.id,
+      category: state.categories[Math.floor(Math.random() * state.categories.length)].id,
       difficulty: state.difficulty,
       language: state.language.iso_code
     });

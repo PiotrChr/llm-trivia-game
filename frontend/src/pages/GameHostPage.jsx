@@ -30,7 +30,7 @@ const GameHostPage = () => {
   const [language, setLanguage] = useState(null);
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
-  const [category, setCategory] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [allSelected, selectAll] = useState(true);
   const [gameMode, setGameMode] = useState(null);
   const [gameModes, setGameModes] = useState([]);
@@ -105,9 +105,9 @@ const GameHostPage = () => {
 
   const handleCategoryChange = (newValue, actionMeta) => {
     if (actionMeta.action === 'create-option') {
-      setCategories([...categories, newValue]);
+      setSelectedCategories([...selectedCategories, newValue]);
     }
-    setCategory(newValue);
+    setSelectedCategories(newValue);
   };
 
   const handleSubmit = async (event) => {
@@ -117,21 +117,21 @@ const GameHostPage = () => {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      console.log('gameData', {
-        gamePassword,
-        category,
-        language,
-        maxQuestions,
-        timeLimit,
-        autoStart,
-        selectedLifelines
-      });
+      // console.log('gameData', {
+      //   gamePassword,
+      //   categories: selectedCategories,
+      //   language,
+      //   maxQuestions,
+      //   timeLimit,
+      //   autoStart,
+      //   selectedLifelines
+      // });
 
       try {
         const game = await createGame(
           gameMode ? gameMode.value : null,
           gamePassword,
-          category ? category.value : null,
+          selectedCategories.map((c) => c.value),
           allSelected,
           timeLimit,
           maxQuestions,
@@ -213,8 +213,8 @@ const GameHostPage = () => {
                 {gameMode && gameMode.label === 'Custom' && (
                   <CategoryStep
                     stepName="Category"
-                    setCategory={setCategory}
-                    category={category}
+                    setCategories={setSelectedCategories}
+                    category={selectedCategories}
                     categories={categories}
                     selectAll={selectAll}
                     allSelected={allSelected}
@@ -254,7 +254,7 @@ const GameHostPage = () => {
                     maxQuestions,
                     timeLimit,
                     language: language ? language.label : '',
-                    category: category ? category.label : '',
+                    categories: selectedCategories.map(c => c.label),
                     allSelected,
                     gameMode: gameMode ? gameMode.label : '',
                     autoStart,

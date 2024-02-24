@@ -191,7 +191,7 @@ const GameUI = ({
                 {state.isTimed && <ProgressBar now={state.timeElapsed} max={state.timeLimit} />}
               </Col>
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer className="py-3">
               <GameControls
                 handleReady={handleReady}
                 handleStartGame={handleStartGame}

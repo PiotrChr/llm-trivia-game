@@ -150,7 +150,7 @@ export const getGameStats = async (id) => {
 export const createGame = async (
   gameMode,
   password,
-  currentCategory,
+  categories,
   allCategories,
   timeLimit,
   maxQuestions,
@@ -164,7 +164,7 @@ export const createGame = async (
   const response = await api.post(`${BASE_URL}/game/create`, {
     gameMode,
     password,
-    currentCategory,
+    categories,
     allCategories,
     timeLimit,
     maxQuestions,

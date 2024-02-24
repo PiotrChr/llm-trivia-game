@@ -5,10 +5,11 @@ import {
     Col,
     Row,
   } from 'react-bootstrap';
-import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 
-import ReportQuestion from './ReportQuestion';
+import { ReadyButton } from './GameControls/ReadyButton';
+import { HostControls } from './GameControls/HostControls';
+import { ReportQuestionButton } from './GameControls/ReportQuestionButton';
 
 
 export const GameControls = (props) => {
@@ -17,120 +18,41 @@ export const GameControls = (props) => {
     return (
         <Row id="game-controls">
             <Col size={12} className="d-flex flex-column flex-lg-row">
-                <Button
-                variant="none"
-                onClick={props.handleReady}
-                className={
-                    'btn-sm mb-0 me-2 mt-2 mt-lg-0 ' +
-                    (props.isReady(props.user)
-                    ? 'disabled btn-success'
-                    : 'btn-outline-success')
-                }
-                >
-                {t('game.ready')}
-                </Button>
-                {props.isHost && !props.gameStarted && props.allReady && (
-                <Button
-                    className="btn-sm mb-0 me-2 mt-2 mt-lg-0 btn-icon"
-                    onClick={props.handleStartGame}
-                >
-                    {/* {t('game.start_game')} */}
-                    <i className="bi-play-fill"></i>
-                </Button>
-                )}
-                {props.gameStarted && props.isHost && (
-                <>
-                    {props.paused ? (
-                    <Button
-                        className="btn-sm mb-0 me-2 mt-2 mt-lg-0 btn-icon"
-                        onClick={props.handleResumeGame}
-                    >
-                        {/* {t('game.resume_game')} */}
-                        <i className="bi-play-fill"></i>
-                    </Button>
-                    ) : (
-                    <Button
-                        className="btn-sm mb-0 me-2 mt-2 mt-lg-0 btn-icon"
-                        onClick={props.handlePauseGame}
-                    >
-                        {/* {t('game.pause_game')} */}
-                        <i className="bi-pause-fill"></i>
-                    </Button>
-                    )}
-
-                    <Button
-                        className="btn-sm mb-0 me-2 mt-2 mt-lg-0 btn-icon"
-                        onClick={props.handleStopGame}
-                    >
-                        {/* {t('game.stop_game')} */}
-                        <i className="bi-stop-fill"></i>
-                    </Button>
-                </>
-                )}
+                <ReadyButton
+                    handleReady={props.handleReady}
+                    isReady={props.isReady}
+                />
                 {props.gameStarted && props.allAnswered && !props.autoStart && (
-                <Button
-                    className="btn-sm mb-0 me-3 mt-2 mt-lg-0 btn-icon"
-                    onClick={props.handleNextQuestionClick}
-                >
-                    {/* {t('game.next_question')} */}
-                    <i className="bi-fast-forward-fill"></i>
-                </Button>
+                    <Button
+                        className="btn-sm mb-0 me-3 mt-2 mt-lg-0 btn-icon"
+                        onClick={props.handleNextQuestionClick}
+                    >
+                        {/* {t('game.next_question')} */}
+                        <i className="bi-fast-forward-fill"></i>
+                    </Button>
                 )}
                 {props.questionReady && (
-                <Button
-                    variant="danger"
-                    className="btn-sm mb-0 me-2 mt-2 mt-lg-0"
-                    onClick={() =>
-                    showModal(
-                        <ReportQuestion
+                    <ReportQuestionButton
                         question={props.question}
-                        onSubmit={props.onReport}
-                        />,
-                        t('game.report_question')
-                    )
-                    }
-                >
-                    {t('game.report_question')}
-                </Button>
+                        onReport={props.onReport}
+                    />
                 )}
                 {props.isHost &&
-                props.gameMode &&
-                props.gameMode.name === 'Custom' && (
-                    <>
-                    <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={props.categories}
-                        value={{ label: props.category.name, value: props.category.id }}
-                        onChange={props.handleCategoryChange}
-                        onCreateOption={props.handleCategoryChange}
-                        formatCreateLabel={(inputValue) =>
-                        `Add "${inputValue}"`
-                        }
-                        isSearchable
-                        isClearable
+                    <HostControls 
+                        paused={props.paused}
+                        gameStarted={props.gameStarted}
+                        allReady={props.allReady}
+                        language={props.language}
+                        languages={props.languages}
+                        handlePauseGame={props.handlePauseGame}
+                        handleResumeGame={props.handleResumeGame}
+                        handleStartGame={props.handleStartGame}
+                        handleStopGame={props.handleStopGame}
+                        handleLanguageChange={props.handleLanguageChange}
                     />
-                    <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={props.difficultyOptions}
-                        value={props.difficultyOptions[props.difficulty - 1]}
-                        onChange={props.handleDifficultyChange}
-                    />
-                    <Select
-                        className="mx-2 flex-grow-1 mt-2 mt-lg-0"
-                        options={props.languages}
-                        value={{
-                        label: props.language.name,
-                        value: props.language.iso_code
-                        }}
-                        onChange={props.handleLanguageChange}
-                        isSearchable
-                        defaultValue={{ label: 'English', value: 'en' }}
-                    />
-                    </>
-                )}
-                
+                }
             </Col>
-            </Row>
+        </Row>
     )
 }
 
