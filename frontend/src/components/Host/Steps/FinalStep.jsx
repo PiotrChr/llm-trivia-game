@@ -43,9 +43,7 @@ export const FinalStep = ({ startGame, summary, previousStep }) => {
           <p className="p-game-option d-flex">
             <span className="description">{t('common.category')}: </span>
             <span className="value">
-              {
-                categories.reduce((acc, category) => acc + category + ', ', '')
-              }
+              {categories.reduce((acc, category) => acc + category + ', ', '')}
             </span>
           </p>
           <p className="p-game-option d-flex">
@@ -98,7 +96,7 @@ export const FinalStep = ({ startGame, summary, previousStep }) => {
       </Row>
       <Row>
         <Col size={12}>
-          <StepControls previousStep={previousStep} submit={true} t={t}/>
+          <StepControls previousStep={previousStep} submit={true} t={t} />
         </Col>
       </Row>
     </Container>

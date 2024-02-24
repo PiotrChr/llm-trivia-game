@@ -254,7 +254,7 @@ const GameHostPage = () => {
                     maxQuestions,
                     timeLimit,
                     language: language ? language.label : '',
-                    categories: selectedCategories.map(c => c.label),
+                    categories: selectedCategories.map((c) => c.label),
                     allSelected,
                     gameMode: gameMode ? gameMode.label : '',
                     autoStart,

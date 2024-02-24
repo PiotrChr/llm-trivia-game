@@ -42,7 +42,9 @@ const GamePage = (props) => {
     socket.emit('next', {
       game_id: gameId,
       player: user,
-      category: state.categories[Math.floor(Math.random() * state.categories.length)].id,
+      category:
+        state.categories[Math.floor(Math.random() * state.categories.length)]
+          .id,
       difficulty: state.difficulty,
       language: state.language.iso_code
     });

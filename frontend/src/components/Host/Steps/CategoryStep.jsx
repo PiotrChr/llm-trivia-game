@@ -60,7 +60,7 @@ export const CategoryStep = ({
             {t('game_host.select_category')}
           </Form.Control.Feedback>
         </Form.Group>
-      <StepControls nextStep={nextStep} previousStep={previousStep} t={t}/>
+        <StepControls nextStep={nextStep} previousStep={previousStep} t={t} />
       </Row>
     </Container>
   );
