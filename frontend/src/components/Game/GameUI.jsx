@@ -1,11 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import {
-  Col,
-  Container,
-  ProgressBar,
-  Row,
-  Card,
-} from 'react-bootstrap';
+import { Col, Container, ProgressBar, Row, Card } from 'react-bootstrap';
 import Countdown from './Countdown';
 import QuestionCard from './QuestionCard';
 import Sidebar from './SideBar';
@@ -82,7 +76,8 @@ const GameUI = ({
               <h1 className="text-white mb-2 mt-10">{state.category.name}</h1>
               <p className="text-lead text-white">
                 <span className="me-3">
-                  <strong>{t('common.difficulty')}:</strong> {state.difficulty}/3
+                  <strong>{t('common.difficulty')}:</strong> {state.difficulty}
+                  /3
                 </span>
                 <span className="me-3">
                   <strong>{t('common.language')}:</strong> {state.language.name}
@@ -162,7 +157,8 @@ const GameUI = ({
                 </FadeInOut>
                 <FadeInOut
                   show={
-                    !state.questionReady && (state.countdown.remaining_time > 0 || state.drawing)
+                    !state.questionReady &&
+                    (state.countdown.remaining_time > 0 || state.drawing)
                   }
                   duration={500}
                   className="position-relative align-items-center justify-content-center d-flex"
@@ -175,7 +171,9 @@ const GameUI = ({
                 >
                   <Countdown
                     secondsLeft={state.countdown.remaining_time}
-                    secondsTotal={state.drawing ? 1 : state.countdown.total_time}
+                    secondsTotal={
+                      state.drawing ? 1 : state.countdown.total_time
+                    }
                     title={null}
                     showProgressBar={true}
                   />
@@ -188,10 +186,12 @@ const GameUI = ({
                   messages={state.messages}
                   sendMessage={handleSendMessage}
                 />
-                {state.isTimed && <ProgressBar now={state.timeElapsed} max={state.timeLimit} />}
+                {state.isTimed && (
+                  <ProgressBar now={state.timeElapsed} max={state.timeLimit} />
+                )}
               </Col>
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer className="py-3">
               <GameControls
                 handleReady={handleReady}
                 handleStartGame={handleStartGame}

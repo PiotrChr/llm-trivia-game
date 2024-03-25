@@ -3,11 +3,9 @@ import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-
 function GameWelcomePage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
 
   return (
     <Container
@@ -18,7 +16,7 @@ function GameWelcomePage() {
         <Col md={{ span: 12 }}>
           <Card className="p-4">
             <Card.Body>
-              <h2 className="text-center mb-4">{ t('game_welcome.title') }</h2>
+              <h2 className="text-center mb-4">{t('game_welcome.title')}</h2>
               <div className="game-actions">
                 <Button
                   className="w-100 mt-3"
@@ -28,7 +26,7 @@ function GameWelcomePage() {
                     navigate('/game/host');
                   }}
                 >
-                  { t('navigation.play.create') }
+                  {t('navigation.play.create')}
                 </Button>
                 <Button
                   className="w-100 mt-3"
@@ -38,7 +36,7 @@ function GameWelcomePage() {
                     navigate('/game/join');
                   }}
                 >
-                  { t('navigation.play.join') }
+                  {t('navigation.play.join')}
                 </Button>
                 <Button
                   className="w-100 mt-3"
@@ -48,7 +46,7 @@ function GameWelcomePage() {
                     navigate('/game/list');
                   }}
                 >
-                  { t('navigation.play.browse') }
+                  {t('navigation.play.browse')}
                 </Button>
               </div>
             </Card.Body>

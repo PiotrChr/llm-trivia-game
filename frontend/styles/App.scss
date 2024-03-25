@@ -31,7 +31,7 @@
 
 #game-controls {
     button {
-        padding: 0px 20px;
+        padding: 8px 20px;
     }
 
     button.btn-icon i {
@@ -173,49 +173,6 @@
     }
 }
 
-#language-dropdown-menu {
-    #language-dropdown {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .dropdown-menu {
-        .language-filter-input {
-            border: 0px;
-
-            &:focus-visible {
-                outline: none;
-                border: 0px;
-            }
-        }
-
-        .scrollable-area {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        @media screen and (max-width: 780px) {
-            left: auto !important;
-            right: 0px !important;
-
-            &::before {
-                right: 22px !important;
-                left: auto !important;
-            }
-        }
-    }
-
-    .flag-img {
-        width: 15px;
-        border-radius: 50%;
-    }
-
-    .language-label {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-}
 
 .host-game-step {
     .final-step {
@@ -286,6 +243,54 @@
 
     .nav-link {
         font-size: 0.75rem;
+    }
+
+    #language-dropdown-menu {
+        button {
+            padding: 7px 10px;
+        }
+    
+        #language-dropdown {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    
+        .dropdown-menu {
+            .language-filter-input {
+                border: 0px;
+    
+                &:focus-visible {
+                    outline: none;
+                    border: 0px;
+                }
+            }
+    
+            .scrollable-area {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            
+            @media screen and (max-width: 780px) {
+                left: auto !important;
+                right: 0px !important;
+    
+                &::before {
+                    right: 22px !important;
+                    left: auto !important;
+                }
+            }
+        }
+    
+        .flag-img {
+            width: 15px;
+            border-radius: 50%;
+        }
+    
+        .language-label {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    
     }
 
     .dropdown-menu {

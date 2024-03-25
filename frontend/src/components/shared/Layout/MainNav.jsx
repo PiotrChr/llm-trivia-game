@@ -30,7 +30,8 @@ export const MainNav = ({ user }) => {
 
             <Dropdown.Menu>
               <Dropdown.Item href="/game/browse">
-                <i className="bi-list-ul me-2"></i> {t('navigation.play.browse')}
+                <i className="bi-list-ul me-2"></i>{' '}
+                {t('navigation.play.browse')}
               </Dropdown.Item>
               <Dropdown.Item href="/game/join">
                 <i className="bi-person-fill-add me-2"></i>{' '}
@@ -113,7 +114,9 @@ export const MainNav = ({ user }) => {
             alt="logo"
             height="30"
           />
-          <span><small>{t('navigation.main.title')}</small></span>
+          <span>
+            <small>{t('navigation.main.title')}</small>
+          </span>
         </Navbar.Brand>
         <GameNav />
         <Navbar.Toggle

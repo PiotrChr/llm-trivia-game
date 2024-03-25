@@ -18,7 +18,7 @@ const CustomOption = (props) => {
 };
 
 export const CategoryStep = ({
-  setCategory,
+  setCategories,
   selectAll,
   allSelected,
   category,
@@ -45,20 +45,22 @@ export const CategoryStep = ({
           </div>
         </Form.Group>
         <Form.Group controlId="formLanguage">
-          <Form.Label>{t('common.category')}</Form.Label>
+          <Form.Label>{t('common.categories')}</Form.Label>
           <Select
+            isMulti={true}
+            placeholder="Select categories..."
             components={{ Option: CustomOption }}
             value={category}
             options={categories}
             isDisabled={allSelected}
-            onChange={(newValue) => setCategory(newValue)}
+            onChange={(newValue) => setCategories(newValue)}
             required
           />
           <Form.Control.Feedback type="invalid">
             {t('game_host.select_category')}
           </Form.Control.Feedback>
         </Form.Group>
-      <StepControls nextStep={nextStep} previousStep={previousStep} t={t}/>
+        <StepControls nextStep={nextStep} previousStep={previousStep} t={t} />
       </Row>
     </Container>
   );

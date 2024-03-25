@@ -7,10 +7,12 @@ import { useTranslation } from 'react-i18next';
 const SettingsPage = () => {
   const { t } = useTranslation();
 
-
   return (
     <div>
-      <Jumbo url="/static/img/jumbotron/settings/1.jpg" scrollToContent={true} />
+      <Jumbo
+        url="/static/img/jumbotron/settings/1.jpg"
+        scrollToContent={true}
+      />
       <section className="min-vh-80 mb-8">
         <Container className="mt-6">
           <Row>
@@ -28,6 +30,6 @@ const SettingsPage = () => {
       </section>
     </div>
   );
-}
+};
 
 export default SettingsPage;

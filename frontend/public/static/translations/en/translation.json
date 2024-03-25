@@ -71,8 +71,10 @@
         "login": "Login",
         "max_players": "Player limit",
         "join_game": "Join Game",
-        "warning": "Warning"
-    },
+        "warning": "Warning",
+        "categories": "categories",
+        "add": "Add"
+    },  
     "game_modes": {
         "Classic": {
             "name": "Classic",

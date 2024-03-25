@@ -533,6 +533,7 @@ class TriviaRepository:
         max_questions,
         host,
         current_category,
+        categories,
         all_categories,
         time_limit,
         language='en',
@@ -559,7 +560,7 @@ class TriviaRepository:
             game_id = Database.insert(game_sql, (password, max_questions, host, current_category, time_limit, language_id, auto_start, game_mode, eliminate_on_fail, all_categories, is_public, max_players), False)
 
             print(f"Game ID: {game_id}")
-
+            
             player_game_sql = """
                 INSERT INTO player_games (player_id, game_id)
                 VALUES (?, ?)
@@ -581,12 +582,34 @@ class TriviaRepository:
                     
             Database.execute("COMMIT")
 
+            if categories:
+                TriviaRepository.add_game_categories(game_id, categories)
+
             return game_id
         except sqlite3.Error as e:
             Database.execute("ROLLBACK")
             print(f"An error occurred: {e}")
             return None
    
+    @staticmethod
+    def add_game_categories(game_id, categories):
+        try:
+            Database.execute("BEGIN TRANSACTION", commit=False)
+
+            for category in categories:
+                category_sql = """
+                    INSERT INTO game_categories (game_id, category_id)
+                    VALUES (?, ?)
+                """
+                Database.insert(category_sql, (game_id, category), False)
+
+            Database.execute("COMMIT")
+            return True
+        except sqlite3.Error as e:
+            Database.execute("ROLLBACK")
+            print(f"An error occurred: {e}")
+            return False
+
     @staticmethod
     def add_points(player_id, mode_id, points):
         try:
@@ -626,12 +649,14 @@ class TriviaRepository:
                 json_object('player_id', players.id, 'name', players.name)
             ) as players,
             json_object('id', category.id, 'name', category.name) as current_category,
-            json_object('id', game_modes.id, 'name', game_modes.name) as mode
+            json_object('id', game_modes.id, 'name', game_modes.name) as mode,
+            json_object('id', game_categories.category_id) as categories
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
             LEFT JOIN players ON player_games.player_id = players.id
             LEFT JOIN category ON games.current_category = category.id
             LEFT JOIN game_modes ON games.mode_id = game_modes.id
+            LEFT JOIN game_categories ON games.id = game_categories.game_id
             WHERE games.is_public = ?
             GROUP BY games.id
         """
@@ -677,6 +702,7 @@ class TriviaRepository:
                 json_object('id', language.id, 'name', language.name, 'iso_code', language.iso_code) as language,
                 json_object('id', category.id, 'name', category.name) as current_category,
                 json_object('id', game_modes.id, 'name', game_modes.name) as mode,
+                json_object('id', game_categories.category_id) as categories,
                 json_group_array(json_object('id', lifeline_types.id, 'name', lifeline_types.name, 'count', game_lifelines.count)) as lifelines
             FROM games
             LEFT JOIN player_games ON games.id = player_games.game_id
@@ -686,6 +712,7 @@ class TriviaRepository:
             LEFT JOIN game_modes ON games.mode_id = game_modes.id
             LEFT JOIN game_lifelines ON games.id = game_lifelines.game_id
             LEFT JOIN lifeline_types ON game_lifelines.lifeline_id = lifeline_types.id
+            LEFT JOIN game_categories ON games.id = game_categories.game_id
             WHERE games.id = ?
             GROUP BY games.id;
 
@@ -703,6 +730,7 @@ class TriviaRepository:
                 game_dict["language"] = json.loads(game_dict["language"])
                 game_dict["mode"] = json.loads(game_dict["mode"])
                 game_dict["lifelines"] = json.loads(game_dict["lifelines"])
+                game_dict["categories"] = json.loads(game_dict["categories"])
                 return game_dict
             else:
                 return None

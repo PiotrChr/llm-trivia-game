@@ -13,7 +13,7 @@ export const FinalStep = ({ startGame, summary, previousStep }) => {
     maxQuestions,
     timeLimit,
     language,
-    category,
+    categories,
     allSelected,
     gameMode,
     autoStart,
@@ -42,7 +42,9 @@ export const FinalStep = ({ startGame, summary, previousStep }) => {
           </p>
           <p className="p-game-option d-flex">
             <span className="description">{t('common.category')}: </span>
-            <span className="value">{category}</span>
+            <span className="value">
+              {categories.reduce((acc, category) => acc + category + ', ', '')}
+            </span>
           </p>
           <p className="p-game-option d-flex">
             <span className="description">{t('common.all_categories')}: </span>
@@ -94,7 +96,7 @@ export const FinalStep = ({ startGame, summary, previousStep }) => {
       </Row>
       <Row>
         <Col size={12}>
-          <StepControls previousStep={previousStep} submit={true} t={t}/>
+          <StepControls previousStep={previousStep} submit={true} t={t} />
         </Col>
       </Row>
     </Container>
